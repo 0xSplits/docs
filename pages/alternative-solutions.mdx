@@ -1,0 +1,37 @@
+# Alternative Solutions
+
+We drew considerable inspiration from Mirror and a few others in this space. We focused on 3 key differentiating areas when designing this protocol: composability, gas efficiency & fairness, and onchain-ness.
+
+## Mirror
+
+### Composability
+
+- Splits can receive from solidity's `send` / `transfer` or from `call` with capped gas
+- Splits handles ERC20s & recursive Splits
+- Splits can withdraw to contracts that use more than 30k gas in `receive()`
+- Splits can withdraw to contracts/accounts that don't have direct access to the private keys using `withdrawFor`
+
+### Gas-efficiency
+
+- Splits is ~5x for more efficient for Splits < 500; ~2.5x for > 500 (2-layer Split) [add data]
+- Splits is significantly more gas efficient for users in multiple Splits, since each Mirror split must be claimed individually
+
+### Gas-fairness
+
+- Splits are progressive or flat depending on the Splitter Fee, whereas Mirror splits are regressive
+- Splits generates significantly less dust (e.g. funds trapped because of gas costs to distribute)
+
+### Onchain-ness
+
+- Mirror posts a merkle root onchain but owners & ownerships live offchain
+
+## OZ PaymentSplitter
+
+### Gas-efficiency
+
+- Splits costs **significantly** less to deploy [add data]
+- Splits is more gas efficient to distribute [add data]
+
+### Gas-fairness
+
+- OZ PaymentSplitter splits are regressive

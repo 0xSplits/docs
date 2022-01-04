@@ -1,0 +1,27 @@
+# Flow of Funds
+
+The below diagram illustrates the key components of the protocol and highlights the different methods for moving funds between the components. As an Owner, you don't actually have to worry about any of this! Splits allows you to set a Splitter Fee to incentivize third parties to call functions (e.g. `splitBalanceFor`) on your behalf.
+
+![Flow of Funds Diagram](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/5061a00c-b2b2-40e3-8a4e-b39def42444c/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220104%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220104T214335Z&X-Amz-Expires=86400&X-Amz-Signature=fe018c1a86756f549b26adc0b64b27a80c4165dd366d805f67406bffba93e5be&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+
+## How Splits Receive Funds
+
+Splits may receive funds via three paths:
+
+1. The more gas efficient but less composable method is by calling `receiveFor(address)` on `SplitMain`. The funds will be directly deposited into the Split's account on `SplitMain`.
+2. The less gas efficient but more composable method is to simply send funds to the Split's address via `send`, `transfer`, or `call`. These funds will be held in the proxy until they're flushed to `SplitMain` the next time `splitBalanceFor(address)` is called on that Split.
+3. If the Split is itself an Owner of another Split, it will receive funds when `splitFundsFor(address)` is called on the upstream Split.
+
+## How Splits Distribute Funds
+
+Once funds have arrived at `SplitMain`, whether deposited directly or sent via proxy, funds may be split by any third party willing to pay the gas to call `splitBalanceFor(address)`. This function only needs to be called once in order for all owners to [withdraw](https://www.notion.so/Splits-Documentation-1-0-d0f572e8633f47da8ce41ab8da17ce48) their [balance](https://www.notion.so/Splits-Documentation-1-0-d0f572e8633f47da8ce41ab8da17ce48). The party who calls this function will receive the [Splitter Fee](https://www.notion.so/Splits-Documentation-1-0-d0f572e8633f47da8ce41ab8da17ce48) as compensation for paying the gas needed to execute the function.
+
+## How To Withdraw Funds
+
+Once funds have been split, they are now able to be withdrawn by end users by calling withdrawFor(address). A user can call this function via the UI, or any third party can call this on the account's behalf. This is necessary, since owners can be smart contracts to which nobody holds the private keys.
+
+## Summary
+
+1. Funds flow into the Split, either via the `SplitProxy` or directly to `SplitMain`, and increase it's [balance](https://www.notion.so/Splits-Documentation-1-0-d0f572e8633f47da8ce41ab8da17ce48).
+2. As the balance increases, any third party can earn the [Splitter Fee](https://www.notion.so/Splits-Documentation-1-0-d0f572e8633f47da8ce41ab8da17ce48) by distributing the balance, which zeros the balance on the Split and increases the balance for each Owner.
+3. Once an Owner's account has a balance, they can [withdraw](https://www.notion.so/Splits-Documentation-1-0-d0f572e8633f47da8ce41ab8da17ce48) that balance thus collecting from all of their Splits in a single transaction.

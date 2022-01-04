@@ -1,7 +1,8 @@
 {
   "index": "Introduction",
+  "when-to-use": "When To Use",
   "get-started": "Get Started",
-  "features": "Features",
-  "themes": "Themes",
-  "advanced": "Advanced"
+  "flow-of-funds": "Flow of Funds",
+  "smart-contracts": "Smart Contracts",
+  "alternative-solutions": "Alternative Solutions"
 }
