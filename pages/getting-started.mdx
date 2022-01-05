@@ -1,5 +1,3 @@
-import Bleed from 'nextra-theme-docs/bleed'
-
 # Getting Started
 
 ## Using the App
@@ -7,12 +5,14 @@ import Bleed from 'nextra-theme-docs/bleed'
 Once you've connected to the app, navigate to the [New Split](https://app.0xsplits.xyz/split/) page and add each [Owner](/core-concepts#owner)'s address (using ENS or hex) and the portion of the Split's income they'll receive.
 Owners can be any externally owned account (EOA) or smart contract (SC), including other Splits.
 
-<Bleed full>![New Split Owners](/new-split-owners.png)</Bleed>
+![New Split Owners](/new-split-owners.png)
 
 If you want, you can change the [Splitter Fee](/core-concepts#splitter-fee) from the default 0.5%.
 You can also make your Split [mutable](/core-concepts#mutable-split).
 To do this, just toggle the Mutable swtich and specify the account that can modify it.
 This account defaults to your own address, but can be any EOA or SC.
+
+![New Mutable Split](/new-split-mutable.png)
 
 That's it!
 Once your Split has been created, any ETH or ERC20s sent to its address will be split among the Owners, forever, without you having to do anything.
