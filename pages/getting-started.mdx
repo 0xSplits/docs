@@ -4,28 +4,38 @@ import Bleed from 'nextra-theme-docs/bleed'
 
 ## Using the App
 
-Navigate to the [New Split](https://app.0xsplits.xyz/split/) page and add each [Owner](/core-concepts#owner)'s address (using ENS or hex) and the portion of the Split's income they'll receive.
-Since Owners are just other accounts, they can be any EOA or SC, including other Splits!
+Creating a Split only takes a few seconds. Just navigate to the
+[New Split](https://app.0xsplits.xyz/split/) page, and add each
+[Owner](/core-concepts#owner)'s address (using ENS or hex) and the portion of
+the income they'll receive. Because each Owner is just an address, Splits can
+send funds to any EOA or other SC, including other Splits. Make sure ownership
+adds to 100%, confirm the transaction, and you're done! 🎉
 
 <Bleed>![New Split Owners](/new-split-owners.png)</Bleed>
 
-**Confirm the transaction and you're done!** Once your Split has been created, any ETH or ERC20s sent to its address
-will be split among the Owners, forever, without you having to do anything.
+Once your Split has been created, any ETH or ERC20s sent to its address will be
+split among the Owners, forever, without you having to do anything. There are
+two optional parameters:
 
-There are two optional parameters:
+1. You can change the [Splitter Fee](/core-concepts#splitter-fee). The Splitter
+   Fee incentivizes third parties to split the [balance](/core-concepts#balance)
+   on behalf of the Owners. The fee can be 0-10%. A higher fee leads to more
+   frequent distributions, but it reduces the amount each Owner receives since
+   it's deducted from the balance.
 
-1. You can change the [Splitter Fee](/core-concepts#splitter-fee).
-   The Splitter Fee incentivizes third parties to split the [balance](/core-concepts#balance) on behalf of the Owners.
-   A higher fee leads to more frequent distributions, but is a tax on the Owners.
-
-2. You can make this a [Mutable Split](/core-concepts#mutable-split).
-   To do this, just toggle the Mutable switch and specify which account can modify it.
-   This account defaults to your own address, and can be any EOA or SC.
+2. You can make this a [Mutable Split](/core-concepts#mutable-split). To do
+   this, just toggle the Mutable switch and specify the address that can control
+   the Split. This address defaults to your own address, and can be any EOA or
+   SC.
 
 <Bleed>![New Mutable Split](/new-split-mutable.png)</Bleed>
 
 ## Calling the Contracts
 
-You can call the contracts directly if you want to integrate Splits into your own app.
-All you have to do is call [`createSplit`](/smart-contracts#createsplit) on [`Split-Main`](/smart-contracts#splitmain) and pass through the hash of Owners, ownership percentages, the splitter fee, and if the Split is mutable, a controlling address.
-You can read more in the [Smart Contracts](/smart-contracts) section.
+You can call the contracts directly if you want to integrate Splits into your
+own app. All you have to do is call
+[`createSplit`](/smart-contracts#createsplit) on
+[`Split-Main`](/smart-contracts#splitmain) and pass through the hash of Owners,
+ownership percentages, the splitter fee, and if the Split is mutable, a
+controlling address. You can read more in the
+[Smart Contracts](/smart-contracts) section.

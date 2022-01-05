@@ -1,28 +1,38 @@
 # Alternative Solutions
 
-We drew considerable inspiration from [Mirror](https://dev.mirror.xyz/V_7Jp1hy_g8bz-J1B4Wb5KYSmj5Lt4W7q7cw0noxJsU) and a few others in this space.
-We focused on 3 key differentiating areas when designing this protocol: composability, gas efficiency & fairness, and onchain-ness.
+We drew considerable inspiration from
+[Mirror](https://dev.mirror.xyz/V_7Jp1hy_g8bz-J1B4Wb5KYSmj5Lt4W7q7cw0noxJsU) and
+a few others in this space. We focused on 3 key differentiating areas when
+designing this protocol: composability, gas efficiency & fairness, and
+onchain-ness.
 
-Below we highlight some key differences between Splits and other implementations of splitter contracts.
+Below we highlight some key differences between Splits and other implementations
+of splitter contracts.
 
 ## Mirror
 
 ### Composability
 
-- Splits can receive from solidity's `send` / `transfer` or from `call` with capped gas
+- Splits can receive from solidity's `send` / `transfer` or from `call` with
+  capped gas
 - Splits handles ERC20s & recursive Splits
 - Splits can withdraw to contracts that use more than 30k gas in `receive()`
-- Splits can withdraw to contracts/accounts that don't have direct access to the private keys using [`withdrawFor`](/smart-contracts#withdrawforaddress)
+- Splits can withdraw to contracts/accounts that don't have direct access to the
+  private keys using [`withdrawFor`](/smart-contracts#withdrawforaddress)
 
 ### Gas-efficiency
 
-- Splits is ~5x for more efficient for Splits < 500; ~2.5x for > 500 (2-layer Split)
-- Splits is significantly more gas efficient for users in multiple Splits, since each Mirror split must be claimed individually
+- Splits is ~5x for more efficient for Splits < 500; ~2.5x for > 500 (2-layer
+  Split)
+- Splits is significantly more gas efficient for users in multiple Splits, since
+  each Mirror split must be claimed individually
 
 ### Gas-fairness
 
-- Splits are progressive or flat depending on the Splitter Fee, whereas Mirror splits are regressive
-- Splits generates significantly less dust (e.g. funds trapped because of gas costs to distribute)
+- Splits are progressive or flat depending on the Splitter Fee, whereas Mirror
+  splits are regressive
+- Splits generates significantly less dust (e.g. funds trapped because of gas
+  costs to distribute)
 
 ### Onchain-ness
 

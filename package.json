@@ -22,11 +22,6 @@
   "devDependencies": {
     "eslint": "^8.6.0",
     "eslint-plugin-react": "^7.28.0",
-    "prettier": "^2.0.5"
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "printWidth": 80
+    "prettier": "2.5.1"
   }
 }

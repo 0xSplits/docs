@@ -4,27 +4,44 @@ import Callout from 'nextra-theme-docs/callout'
 
 ## Split
 
-A Split is a smart contract that receives and splits incoming funds. Each Split has an address, a set of Owners, a balance, and a splitter fee. Just like any other payable smart contract, funds can be sent to the Split's address from any other EOA or smart contract
+A Split is a smart contract that receives and splits incoming funds. Each Split
+has an address, a set of Owners, a balance, and a splitter fee. Just like any
+other payable smart contract, funds can be sent to the Split's address from any
+other EOA or smart contract
 
 ## Owner
 
-An Owner is an externally owned account (EOA) or smart contract (SC) that earns a portion of the Split's income. Owners do not need direct control of the account, since funds can be withdrawn to the Owner's wallet by a third party.
+An Owner is an externally owned account (EOA) or smart contract (SC) that earns
+a portion of the Split's income. Owners do not need direct control of the
+account, since funds can be withdrawn to the Owner's wallet by a third party.
 
 ## Balance
 
-Each Split has a balance that increases whenever income is received. This balance must be distributed to the Owners before it can be withdrawn by the Owners.
+Each Split has a balance that increases whenever income is received. This
+balance must be distributed to the Owners before it can be withdrawn by the
+Owners.
 
 ## Splitter Fee
 
-The Splitter Fee is the percentage of the balance earned by a splitter when they pay the gas needed to split a balance. This fee incentivizes third parties to split balances on behalf of the Owners, and makes the gas cost needed to split funds borne by ownership percentage. This fee may be set to 0 for manual or progressive distributions.
+The Splitter Fee is the percentage of the balance earned by a splitter when they
+pay the gas needed to split a balance. This fee incentivizes third parties to
+split balances on behalf of the Owners, and makes the gas cost needed to split
+funds borne by ownership percentage. This fee may be set to 0 for manual or
+progressive distributions.
 
 ## Splitter
 
-The Splitter is any third party who pays the gas to split a balance amongst Owners, in return for a splitter fee. This architecture allows the gas cost needed to split the funds to be borne in a flat or progressive manner, making it in aggregate more gas efficient for the Owners.
+The Splitter is any third party who pays the gas to split a balance amongst
+Owners, in return for a splitter fee. This architecture allows the gas cost
+needed to split the funds to be borne in a flat or progressive manner, making it
+in aggregate more gas efficient for the Owners.
 
 ## Withdraw
 
-Accounts with a positive balance can withdraw their funds across all of the splits they receive from in a single transaction. A third party can withdraw for any account, enabling smart contracts who have no user-controlled private keys to still receive their funds.
+Accounts with a positive balance can withdraw their funds across all of the
+splits they receive from in a single transaction. A third party can withdraw for
+any account, enabling smart contracts who have no user-controlled private keys
+to still receive their funds.
 
 ## Mutable Split
 
@@ -32,8 +49,9 @@ Accounts with a positive balance can withdraw their funds across all of the spli
   Mutability increases flexibility at the expense of trust.
 </Callout>
 
-A Mutable Split operates just like a normal Split, with the only difference being that it can be modified in the
-future. Only one account, which is set during Split creation, can modify the Split.
-The account that can modify the Split may at any time change the owners & splitter
-fee, transfer control to a different account, or make the Split immutable. A Mutable
-Split can be made immutable, but once a Split is immutable it can never become mutable.
+A Mutable Split operates just like a normal Split, with the only difference
+being that it can be modified in the future. Only one account, which is set
+during Split creation, can modify the Split. The account that can modify the
+Split may at any time change the owners & splitter fee, transfer control to a
+different account, or make the Split immutable. A Mutable Split can be made
+immutable, but once a Split is immutable it can never become mutable.

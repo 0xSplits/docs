@@ -10,7 +10,8 @@ Create a new [`SplitProxy`](#split-proxy)
 
 ### `receiveFor(address)`
 
-Receive ETH for Split `address`. See also `receive` under [`SplitProxy`](/smart-contracts#split-proxy)
+Receive ETH for Split `address`. See also `receive` under
+[`SplitProxy`](/smart-contracts#split-proxy)
 
 ### `receiveERC20For(address, IERC20, amount)`
 
@@ -34,11 +35,15 @@ Withdraw `IERC20` for EOA/SC `address`
 
 ### `multiSend(address[], amount[])`
 
-One time ETH [Multisend](https://www.notion.so/Splits-Documentation-1-0-d0f572e8633f47da8ce41ab8da17ce48) inside `SplitMain` (gas-efficient if recipients are members of at least one other with ETH or are Splits themselves)
+One time ETH
+[Multisend](https://www.notion.so/Splits-Documentation-1-0-d0f572e8633f47da8ce41ab8da17ce48)
+inside `SplitMain` (gas-efficient if recipients are members of at least one
+other with ETH or are Splits themselves)
 
 ### `multiSendERC20(IERC20, address[], amount[])`
 
-One time `IERC20` Multisend inside `SplitMain` (gas-efficient if recipients are members of at least one other Split with `IERC20` or are Splits themselves)
+One time `IERC20` Multisend inside `SplitMain` (gas-efficient if recipients are
+members of at least one other Split with `IERC20` or are Splits themselves)
 
 ## Split Wallet
 

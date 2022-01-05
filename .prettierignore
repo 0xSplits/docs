@@ -1,8 +1,8 @@
-node_modules
-.vscode
+# Ignore artifacts:
+artifacts
+cache
+lib
+typechain
 .next
-.DS_Store
-yarn-error.log
-dist
-examples
-packages
+.vscode
+node_modules
