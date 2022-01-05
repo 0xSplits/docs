@@ -1,2 +1,8 @@
-.next
 node_modules
+.vscode
+.next
+.DS_Store
+yarn-error.log
+dist
+examples
+packages

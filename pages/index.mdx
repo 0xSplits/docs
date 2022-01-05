@@ -2,14 +2,23 @@ import Bleed from 'nextra-theme-docs/bleed'
 
 # 0xSplits
 
-**0xSplits** is an easy-to-use, composable, and gas-efficient way to split onchain income with multiple parties.
+0xSplits is an easy-to-use, composable, and gas-efficient way to split onchain income with multiple parties.
 It is [live for testing](https://app.0xsplits.xyz/) on Ropsten & coming shortly to Ethereum and other EVM-compatible chains.
 
-At the core of the protocol are [Splits](/core-concepts/#split) and [Owners](/core-concepts/#owner). A Split is a smart contract that receives and splits incoming funds to the Owners. An Owner is any account (EOA or SC) that earns a portion of the Split's income.
+At the core of the protocol are [Splits](/core-concepts/#split) and [Owners](/core-concepts/#owner).
+A Split is a smart contract that receives and splits incoming funds to the Owners.
+An Owner is any account (EOA or SC) that earns a portion of the Split's income.
+
+After a Split has been created (either [via the app](/getting-started#using-the-app) or [calling the contracts](/getting-started#calling-the-contracts) directly), all you have to do is send ETH or ERC20s to the Split’s address.
+Each Owner is guaranteed to receive their share.
 
 <Bleed full>![Basic Overview Flow](/intro-flow.png)</Bleed>
+### Features
 
-After a Split has been created (either via the app or calling the smart contracts directly), all you have to do is send ETH or ERC20s to the Split’s address. Each Owner is guaranteed to receive their portion. Since everything lives onchain, Owners don’t need to trust each other or any third party to receive their share.
+- Splits are **fully composable** on both input & output. Each Split is a payable smart contract that can directly receive ETH & ERC20s from any EOA or SC. Each Owner is also just an Ethereum address (EOA or SC) for which third-parties may execute withdrawals. With full composability on both ends, Splits is an effective routing layer within any workflow.
+- Splits maximize **gas efficiency** by batching expensive operations & commingling funds. The gas to split funds is borne by ownership or covered by a third party, eliminating dust and allowing even the smallest Owner to withdraw their funds.
+- Each Split exists **entirely onchain** and the actions necessary for the protocol to operate are incentivized & fully decentralized. With no trusted third party to rely on, you can be sure each Split will continue to operate for as long as Ethereum exists.
 
-Splits is a public good and earns no fee for using the protocol. If you'd like to support development, you can add the Splits treasury (0xsplits.eth) as an Owner in the Splits you create.
+**Splits is a public good and takes no fee when using the protocol.**
+If you'd like to support development, you can add the Splits treasury (0xsplits.eth) as an Owner in the Splits you create.
 Please [join us on Discord](https://twitter.com/0xSplits) or reach out [@0xsplits](https://twitter.com/0xSplits) with any feedback, questions, or suggestions.

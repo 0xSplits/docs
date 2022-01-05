@@ -28,9 +28,12 @@ Accounts with a positive balance can withdraw their funds across all of the spli
 
 ## Mutable Split
 
-A Mutable Split operates just like a normal Split, but it can be modified in the future. Only one account, which is set during Split creation, can modify the Split. The account that can modify the Split may at any time change the owners & splitter fee, transfer control to a different account, or make the Split immutable. A Mutable Split can be made immutable, but once a Split is immutable it can never become mutable.
-
 <Callout type="warning" emoji="⚠️">
-  Mutability provides more flexibility but requires more trust, since the Split
-  can be changed at any time.
+  Mutability increases flexibility at the expense of trust.
 </Callout>
+
+A Mutable Split operates just like a normal Split, with the only difference being that it can be modified in the
+future. Only one account, which is set during Split creation, can modify the Split.
+The account that can modify the Split may at any time change the owners & splitter
+fee, transfer control to a different account, or make the Split immutable. A Mutable
+Split can be made immutable, but once a Split is immutable it can never become mutable.

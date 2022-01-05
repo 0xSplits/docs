@@ -16,9 +16,18 @@ export default {
       <meta name="theme-color" content="#ffffff" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Language" content="en" />
-      <meta name="description" content="Trustlessly split onchain income - 0xSplits" />
-      <meta name="og:description" content="Trustlessly split onchain income - 0xSplits" />
-      <meta name="og:title" content="Trustlessly split onchain income - 0xSplits" />
+      <meta
+        name="description"
+        content="Trustlessly split onchain income - 0xSplits"
+      />
+      <meta
+        name="og:description"
+        content="Trustlessly split onchain income - 0xSplits"
+      />
+      <meta
+        name="og:title"
+        content="Trustlessly split onchain income - 0xSplits"
+      />
       <meta name="og:image" content="/cover_docs.jpg" />
       <meta name="apple-mobile-web-app-title" content="0xSplits" />
       <link
