@@ -1,0 +1,25 @@
+# Usage
+
+## When To Use
+
+Splits are valuable whenever you want to allocate percentages of onchain income to different parties.
+DAOs are incredibly powerful coordination tools, but we believe they can be too heavy for many smaller project & forms of cooperation.
+We want to see onchain collaboration flourish and believe a composable, recursive, gas-optimized splitter with a simple UI is an important missing primitive in the space.
+
+A project that would benefit from using Splits is a group working together to launch an NFT.
+The proceeds from minting—and later royalties from secondary trades—can be pointed to a Split’s address.
+From then on, each Owner will receive their portion of all future income without any of the group members needing to distribute funds manually.
+If the team's work was inspired by another project, they may choose to make that project a small Owner in their Split as a way of giving back & saying thanks.
+
+Another example might be a group of open source contributors who wish to receive onchain tips and donations.
+Rather than listing a single donation address and trusting one of the contributors to disperse the proceeds, they may simply create a Split and have it receive the donations.
+All future donations will be automatically distributed amongst the contributors, without anyone having to manage it or trust one another.
+
+Each Split is just a smart contract and can interact with other smart contracts on both the inflow and outflow.
+And since [Mutable Splits](/core-concepts#mutable-splits) can be modified by EOAs or other smart contracts, we’re excited to see what interesting use cases emerge within the community over time.
+
+## When Not To Use
+
+- **Very large groups:** Splits are designed for groups of people less than ~500. While you can stack Splits multiple layers deep (i.e. Splits that point to other Splits), you should make sure enough funds will flow through the Split, otherwise a large percent of earnings will be lost to gas. The larger the group, the more you should consider some kind of rebasing token or a DAO.
+
+- **Single-use:** Splits are designed to be gas-optimized when receiving income over time. If the payout is expected to arrive in a single lump sum, a [multisend](https://disperse.app/) via a multisig may be more efficient.

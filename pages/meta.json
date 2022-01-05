@@ -1,8 +1,9 @@
 {
   "index": "Introduction",
-  "when-to-use": "When To Use",
-  "get-started": "Get Started",
+  "getting-started": "Getting Started",
+  "usage": "Usage",
   "flow-of-funds": "Flow of Funds",
   "smart-contracts": "Smart Contracts",
+  "core-concepts": "Core Concepts",
   "alternative-solutions": "Alternative Solutions"
 }
