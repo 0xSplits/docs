@@ -4,7 +4,6 @@ export default {
   titleSuffix: ' – 0xSplits',
   logo: (
     <>
-      <img src="/logo.png" width="30" height="30" />
       <span className="ml-2 mr-2 font-semibold hidden md:inline">0xSplits</span>
       <span className="text-gray-600 font-normal hidden md:inline">
         Trustlessly share onchain income
