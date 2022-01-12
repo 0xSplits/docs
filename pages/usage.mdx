@@ -32,12 +32,11 @@ the community over time.
 
 ## When Not To Use
 
-- **Very large groups:** Splits are designed for groups of people less than
-  ~500. While you can stack Splits multiple layers deep (i.e. Splits that point
-  to other Splits), you should make sure enough funds will flow through the
-  Split, otherwise a large percent of earnings will be lost to gas. The larger
-  the group, the more you should consider some kind of rebasing token or a DAO.
+- **Very large groups:**
+  Splits are designed for groups of people less than ~500 (see [gas estimates](/gas-estimates)).
+  While you can stack Splits multiple layers deep (i.e. Splits that point to other Splits), you should make sure enough funds will flow through the Split, otherwise a large percent of earnings will be lost to gas.
+  The larger the group, the more you should consider some kind of rebasing token or a DAO.
 
-- **Single-use:** Splits are designed to be gas-optimized when receiving income
-  over time. If the payout is expected to arrive in a single lump sum, a
-  [multisend](https://disperse.app/) via a multisig may be more efficient.
+- **Single-use:** 
+  Splits are most gas-efficient when reused multiple times.
+  If the payout is expected to arrive in a single lump sum, a [multisend](https://disperse.app/) via a multisig or trusted party may be more efficient.

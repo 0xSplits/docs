@@ -2,24 +2,15 @@ import Callout from 'nextra-theme-docs/callout'
 
 # Smart Contracts
 
-The procotol consists of 3 contracts.
+The procotol consists of 3 contracts: [`SplitMain`](#splitmain), [`SplitProxy`](#splitproxy), and [`SplitWallet`](#splitwallet).
+This section provides a high-level overview of the contracts & functions involved.
+For more details, check out [Natspec Comments](/natspec/SplitMain) or the [github](https://github.com/0xSplits/splits).
 
-<Callout type="warning">Function specific documentation coming soon</Callout>
-
-## Split Main
+## SplitMain
 
 ### `createSplit()`
 
-Create a new [`SplitProxy`](#split-proxy)
-
-### `receiveFor(address)`
-
-Receive ETH for Split `address`. See also `receive` under
-[`SplitProxy`](/smart-contracts#split-proxy)
-
-### `receiveERC20For(address, IERC20, amount)`
-
-Receive `IERC20` for Split `address`
+Create a new [`SplitProxy`](#splitproxy)
 
 ### `splitBalanceFor(address)`
 
@@ -31,35 +22,9 @@ Split `IERC20` for Split `address` which allows Owners to withdraw
 
 ### `withdrawFor(address)`
 
-Withdraw ETH for EOA/SC `address`
+Withdraw ETH & ERC20s for EOA/SC `address`
 
-### `withdrawERC20For(address, IERC20)`
-
-Withdraw `IERC20` for EOA/SC `address`
-
-### `multiSend(address[], amount[])`
-
-One time ETH
-[Multisend](https://www.notion.so/Splits-Documentation-1-0-d0f572e8633f47da8ce41ab8da17ce48)
-inside `SplitMain` (gas-efficient if recipients are members of at least one
-other with ETH or are Splits themselves)
-
-### `multiSendERC20(IERC20, address[], amount[])`
-
-One time `IERC20` Multisend inside `SplitMain` (gas-efficient if recipients are
-members of at least one other Split with `IERC20` or are Splits themselves)
-
-## Split Wallet
-
-### `sendBalanceToMain`
-
-Sends the contract's balance to `SplitMain`
-
-### `sendERC20BalanceToMain(IERC20)`
-
-Sends the contract's `IERC20` balance to `SplitMain`
-
-## Split Proxy
+## SplitProxy
 
 ### `receive()`
 
@@ -67,4 +32,14 @@ Emit an event when funds are received at the proxy
 
 ### `fallback()`
 
-Delegates all other calls to the implementation `SplitWallet`
+Delegates all other calls to the implementation [`SplitWallet`](#splitwallet)
+
+## SplitWallet
+
+### `sendETHToMain`
+
+Sends the contract's ETH to `SplitMain`
+
+### `sendERC20ToMain(IERC20)`
+
+Sends the contract's `IERC20` to `SplitMain`

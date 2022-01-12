@@ -5,5 +5,7 @@
   "flow-of-funds": "Flow of Funds",
   "smart-contracts": "Smart Contracts",
   "core-concepts": "Core Concepts",
-  "alternative-solutions": "Alternative Solutions"
+  "alternative-solutions": "Alternative Solutions",
+  "natspec": "Natspec Comments",
+  "appendices": "Appendices"
 }

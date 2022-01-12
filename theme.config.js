@@ -1,6 +1,6 @@
 export default {
   github: 'https://github.com/0xSplits/splits',
-  docsRepositoryBase: 'https://github.com/0xSplits/splits',
+  docsRepositoryBase: 'https://github.com/0xSplits/docs',
   titleSuffix: ' – 0xSplits',
   logo: (
     <>
