@@ -82,15 +82,15 @@ Creates a new split with recipients `accounts` with ownerships `percentAllocatio
 
 | Name | Type | Description |
 |---|---|---|
-| split | address | undefined
+| split | address | Address of newly created split
 
 ### getERC20Balance
 
 ```solidity
-function getERC20Balance(address split, contract ERC20 token) external view returns (uint256)
+function getERC20Balance(address account, contract ERC20 token) external view returns (uint256)
 ```
 
-Returns the current erc20Balance of split `split` and erc20 token `token`
+Returns the ERC20 balance of token `token` for account `account`
 
 
 
@@ -98,22 +98,22 @@ Returns the current erc20Balance of split `split` and erc20 token `token`
 
 | Name | Type | Description |
 |---|---|---|
-| split | address | Split to return balance for
+| account | address | Account to return ERC20 `token` balance for
 | token | contract ERC20 | Token to return balance for
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined
+| _0 | uint256 | Account&#39;s balance of `token`
 
 ### getETHBalance
 
 ```solidity
-function getETHBalance(address split) external view returns (uint256)
+function getETHBalance(address account) external view returns (uint256)
 ```
 
-Returns the current eth balance of split `split`
+Returns the current ETH balance of account `account`
 
 
 
@@ -121,13 +121,13 @@ Returns the current eth balance of split `split`
 
 | Name | Type | Description |
 |---|---|---|
-| split | address | Split to return eth balance for
+| account | address | Account to return ETH balance for
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | uint256 | undefined
+| _0 | uint256 | Account&#39;s balance of ETH
 
 ### getHash
 
@@ -149,7 +149,7 @@ Returns the current hash of split `split`
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | bytes32 | undefined
+| _0 | bytes32 | Split&#39;s hash
 
 ### getNewPotentialOwner
 
@@ -171,7 +171,7 @@ Returns the current newPotentialOwner of split `split`
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined
+| _0 | address | Split&#39;s newPotentialOwner
 
 ### getOwner
 
@@ -193,7 +193,7 @@ Returns the current owner of split `split`
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | undefined
+| _0 | address | Split&#39;s owner
 
 ### makeSplitImmutable
 
@@ -241,7 +241,7 @@ Predicts the address for an immutable split created with recipients `accounts` w
 function splitBalanceFor(address split, address[] accounts, uint32[] percentAllocations, uint32 splitterFee) external nonpayable
 ```
 
-Splits the eth balance for split `split`
+Splits the ETH balance for split `split`
 
 *`accounts`, `percentAllocations`, and `splitterFee` are verified by hashing &amp; comparing to the hash in storage associated with split `split`*
 
@@ -262,7 +262,7 @@ function splitERC20BalanceFor(address split, contract ERC20 token, address[] acc
 
 Splits the ERC20 `token` balance for split `split`
 
-*`accounts`, `percentAllocations`, and `splitterFee` are verified by hashing &amp; comparing to the hash in storage associated with split `split`*
+*`accounts`, `percentAllocations`, and `splitterFee` are verified by hashing &amp; comparing to the hash in storage associated with split `split`pernicious ERC20s may cause overflow in this function, but results do not affect ETH &amp; other ERC20 balances*
 
 #### Parameters
 
@@ -333,7 +333,7 @@ address of wallet implementation for split proxies
 function withdrawFor(address account, bool eth, contract ERC20[] tokens) external nonpayable
 ```
 
-Withdraw eth &amp;/ ERC20 balances for account `account`
+Withdraw ETH &amp;/ ERC20 balances for account `account`
 
 
 
@@ -341,8 +341,8 @@ Withdraw eth &amp;/ ERC20 balances for account `account`
 
 | Name | Type | Description |
 |---|---|---|
-| account | address | undefined
-| eth | bool | Bool of whether to withdraw eth
+| account | address | Address to withdraw on behalf of
+| eth | bool | Bool of whether to withdraw ETH
 | tokens | contract ERC20[] | Addresses of ERC20s to withdraw for
 
 
@@ -457,21 +457,27 @@ emitted after each successful withdrawal
 
 ## Errors
 
-### ETHWithdrawalFailed
+### Create2Error
 
 ```solidity
-error ETHWithdrawalFailed(uint256 amount)
+error Create2Error()
 ```
 
-ETH withdrawal of `amount` failed
+create2 opcode failed
 
 
 
-#### Parameters
 
-| Name | Type | Description |
-|---|---|---|
-| amount | uint256 | undefined |
+### CreateError
+
+```solidity
+error CreateError()
+```
+
+create opcode failed
+
+
+
 
 ### InvalidNewOwner
 

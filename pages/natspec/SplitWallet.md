@@ -16,7 +16,7 @@ The implementation logic for `SplitProxy`.
 function sendERC20ToMain(contract ERC20 token, uint256 amount) external payable
 ```
 
-Sends erc20 in proxy to SplitMain
+Sends amount `amount` of ERC20 `token` in proxy to SplitMain
 
 
 
@@ -33,7 +33,7 @@ Sends erc20 in proxy to SplitMain
 function sendETHToMain(uint256 amount) external payable
 ```
 
-Sends eth in proxy to SplitMain
+Sends amount `amount` of ETH in proxy to SplitMain
 
 
 
