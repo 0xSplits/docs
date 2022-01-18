@@ -4,17 +4,18 @@ The below diagram illustrates the key components of the protocol and highlights
 the different methods for moving funds between the components. As an
 [Owner](/core-concepts#owner), you don't actually have to worry about any of
 this, since the [Splitter Fee](/core-concepts#splitter-fee) incentivizes third
-parties to call functions (e.g. `splitBalanceFor`) on your behalf.
-You will still occasionally wish to withdraw, however!
+parties to call functions (e.g. `splitBalanceFor`) on your behalf. You will
+still occasionally wish to withdraw, however!
 
-![Flow of Funds Diagram](/flow-of-funds.png)
+![Flow of Funds Diagram](/flow-of-funds.svg)
 
 ## How Splits Receive Funds
 
 Splits may receive funds via two paths:
 
 1. Simply send funds to the Split's address via `send`, `transfer`, or `call`.
-   These funds will be flushed to `SplitMain` the next time `splitBalanceFor(address)` is called.
+   These funds will be flushed to `SplitMain` the next time
+   `splitBalanceFor(address)` is called.
 1. If the Split is itself an Owner of another Split, it will receive funds when
    `splitFundsFor(address)` is called on the upstream Split.
 
@@ -23,22 +24,26 @@ Splits may receive funds via two paths:
 Once funds have arrived at `SplitMain`, funds may be split by any third party
 willing to pay the gas to call `splitBalanceFor(address)`. This function only
 needs to be called once in order for all owners to
-[withdraw](/core-concepts#withdraw) their share of the [balance](/core-concepts#balance).
-The party who calls this function will receive the [Splitter Fee](/core-concepts#splitter-fee)
-as compensation for paying the gas needed to execute the function.
+[withdraw](/core-concepts#withdraw) their share of the
+[balance](/core-concepts#balance). The party who calls this function will
+receive the [Splitter Fee](/core-concepts#splitter-fee) as compensation for
+paying the gas needed to execute the function.
 
 ## How Users Withdraw Funds
 
 Once funds have been split, they are now able to be withdrawn by users by
-calling `withdrawFor(address)`. A user can call this function via our web app, or any
-third party can call this on the account's behalf. This is necessary, since
-Owners can be smart contracts which can't execute the `withdrawFor` function themselves (they must, however, still be able to receive funds).
+calling `withdrawFor(address)`. A user can call this function via our web app,
+or any third party can call this on the account's behalf. This is necessary,
+since Owners can be smart contracts which can't execute the `withdrawFor`
+function themselves (they must, however, still be able to receive funds).
 
 ## Summary
 
-1. Funds flow into the Split and increase it's [balance](/core-concepts#balance).
-2. As the balance increases, any third party can earn the [Splitter Fee](/core-concepts#splitter-fee)
-   by distributing the balance to the Owners.
-3. Owners may then [withdraw](/core-concepts#withdraw) their balance,
-   thus collecting from all of their Splits in a single transaction 
-   (steps 1 & 2 may happen dozens or hundreds of times per Owner withdrawal).
+1. Funds flow into the Split and increase it's
+   [balance](/core-concepts#balance).
+2. As the balance increases, any third party can earn the
+   [Splitter Fee](/core-concepts#splitter-fee) by distributing the balance to
+   the Owners.
+3. Owners may then [withdraw](/core-concepts#withdraw) their balance, thus
+   collecting from all of their Splits in a single transaction (steps 1 & 2 may
+   happen dozens or hundreds of times per Owner withdrawal).
