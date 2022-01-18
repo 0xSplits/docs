@@ -233,7 +233,7 @@ Predicts the address for an immutable split created with recipients `accounts` w
 
 | Name | Type | Description |
 |---|---|---|
-| split | address | undefined
+| split | address | Predicted address of such an immutable split
 
 ### splitBalanceFor
 
@@ -305,7 +305,7 @@ Updates an existing split with recipients `accounts` with ownerships `percentAll
 
 | Name | Type | Description |
 |---|---|---|
-| split | address | undefined
+| split | address | Address of mutable split to update
 | accounts | address[] | Ordered, unique list of addresses with ownership in the split
 | percentAllocations | uint32[] | Percent allocations associated with each address
 | splitterFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
@@ -346,7 +346,6 @@ Withdraw ETH &amp;/ ERC20 balances for account `account`
 | tokens | contract ERC20[] | Addresses of ERC20s to withdraw for
 
 
-
 ## Events
 
 ### CreateSplit
@@ -363,7 +362,7 @@ emitted after each successful split creation
 
 | Name | Type | Description |
 |---|---|---|
-| split `indexed` | address | undefined |
+| split `indexed` | address | Address of the created split |
 
 ### OwnershipTransfer
 
@@ -379,9 +378,9 @@ emitted after each successful split ownership transfer
 
 | Name | Type | Description |
 |---|---|---|
-| split `indexed` | address | undefined |
-| previousOwner `indexed` | address | undefined |
-| newOwner `indexed` | address | undefined |
+| split `indexed` | address | Address of the split ownership was transferred for |
+| previousOwner `indexed` | address | Address of the split&#39;s previous owner |
+| newOwner `indexed` | address | Address of the split&#39;s new owner |
 
 ### SplitBalance
 
@@ -397,8 +396,8 @@ emitted after each successful ETH balance split
 
 | Name | Type | Description |
 |---|---|---|
-| split `indexed` | address | undefined |
-| amount  | uint256 | undefined |
+| split `indexed` | address | Address of the split that distributed its balance |
+| amount  | uint256 | Amount of ETH distributed |
 
 ### SplitERC20Balance
 
@@ -414,9 +413,9 @@ emitted after each successful ERC20 balance split
 
 | Name | Type | Description |
 |---|---|---|
-| split `indexed` | address | undefined |
-| token  | contract ERC20 | undefined |
-| amount  | uint256 | undefined |
+| split `indexed` | address | Address of the split that distributed its balance |
+| token  | contract ERC20 | Address of ERC20 distributed |
+| amount  | uint256 | Amount of ERC20 distributed |
 
 ### UpdateSplit
 
@@ -432,7 +431,7 @@ emitted after each successful split update
 
 | Name | Type | Description |
 |---|---|---|
-| split `indexed` | address | undefined |
+| split `indexed` | address | Address of the updated split |
 
 ### Withdrawal
 
@@ -448,10 +447,10 @@ emitted after each successful withdrawal
 
 | Name | Type | Description |
 |---|---|---|
-| account `indexed` | address | undefined |
-| eth  | bool | undefined |
-| tokens  | contract ERC20[] | undefined |
-| amounts  | uint256[] | undefined |
+| account `indexed` | address | Address that funds were withdrawn to |
+| eth  | bool | Boolean for whether ETH was distributed |
+| tokens  | contract ERC20[] | Addresses of ERC20s distributed |
+| amounts  | uint256[] | Amounts of ETH/ERC20 distributed (if ETH was distributed (`eth`),  will be first in the array Remaining array matches order of `tokens`) |
 
 
 
@@ -493,7 +492,7 @@ Invalid new controlling address `newOwner` for mutable split
 
 | Name | Type | Description |
 |---|---|---|
-| newOwner | address | undefined |
+| newOwner | address | Invalid new owner |
 
 ### InvalidSplit__AccountsAndAllocationsMismatch
 
@@ -509,8 +508,8 @@ Array lengths of accounts &amp; percentAllocations don&#39;t match (`accountsLen
 
 | Name | Type | Description |
 |---|---|---|
-| accountsLength | uint256 | undefined |
-| allocationsLength | uint256 | undefined |
+| accountsLength | uint256 | Length of accounts array |
+| allocationsLength | uint256 | Length of percentAllocations array |
 
 ### InvalidSplit__AccountsOutOfOrder
 
@@ -526,7 +525,7 @@ Invalid accounts ordering at `index`
 
 | Name | Type | Description |
 |---|---|---|
-| index | uint256 | undefined |
+| index | uint256 | Index of out-of-order account |
 
 ### InvalidSplit__AllocationMustBePositive
 
@@ -542,7 +541,7 @@ Invalid percentAllocation of zero at `index`
 
 | Name | Type | Description |
 |---|---|---|
-| index | uint256 | undefined |
+| index | uint256 | Index of zero percentAllocation |
 
 ### InvalidSplit__InvalidAllocationsSum
 
@@ -558,7 +557,7 @@ Invalid percentAllocations sum `allocationsSum` must equal `PERCENTAGE_SCALE`
 
 | Name | Type | Description |
 |---|---|---|
-| allocationsSum | uint32 | undefined |
+| allocationsSum | uint32 | Sum of percentAllocations array |
 
 ### InvalidSplit__InvalidHash
 
@@ -574,7 +573,7 @@ Invalid hash `hash` from split data (accounts, percentAllocations, splitterFee)
 
 | Name | Type | Description |
 |---|---|---|
-| hash | bytes32 | undefined |
+| hash | bytes32 | Invalid hash |
 
 ### InvalidSplit__InvalidSplitterFee
 
@@ -590,7 +589,7 @@ Invalid splitterFee `splitterFee` cannot be greater than 10% (1e5)
 
 | Name | Type | Description |
 |---|---|---|
-| splitterFee | uint32 | undefined |
+| splitterFee | uint32 | Invalid splitterFee amount |
 
 ### InvalidSplit__TooFewAccounts
 
@@ -606,7 +605,7 @@ Invalid number of accounts `accountsLength`, must have at least 2
 
 | Name | Type | Description |
 |---|---|---|
-| accountsLength | uint256 | undefined |
+| accountsLength | uint256 | Length of accounts array |
 
 ### Unauthorized
 
@@ -622,6 +621,6 @@ Unauthorized sender `sender`
 
 | Name | Type | Description |
 |---|---|---|
-| sender | address | undefined |
+| sender | address | Transaction sender |
 
 
