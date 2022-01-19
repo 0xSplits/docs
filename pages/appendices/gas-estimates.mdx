@@ -1,6 +1,20 @@
-# 0xSplits
+# Gas Estimates
 
-Total Gas
+The below tables outline gas estimates for
+[`createSplit`](/natspec/SplitMain#createsplit) and
+[`splitBalanceFor`](/natspec/SplitMain#splitbalancefor).
+
+Note that `splitBalanceFor1st` is an **upper bound estimate**, since it assumes
+none of the Owners have been
+[initialized](https://ethereum.org/en/developers/docs/smart-contracts/anatomy/#storage)
+within the protocol. Each account only needs to be initialized once for the
+entire protocol, so as the network grows this first distribution cost to
+decrease.
+
+### Total Gas
+
+  <div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
+
 | Size | CreateSplit Immutable | CreateSplit Mutable | splitBalanceFor 1st | splitBalanceFor Nth |
 | ---: | --------------------: | ------------------: | ------------------: | ------------------: |
 |    2 |               100_727 |             123_172 |             110_907 |              56_807 |
@@ -12,7 +26,12 @@ Total Gas
 |  200 |               351_873 |             374_318 |           4_853_673 |           1_413_773 |
 |  500 |               742_918 |             765_363 |          12_044_365 |           3_474_465 |
 
-Gas per Owner
+  </div>
+
+### Gas Per Owner
+
+<div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
+
 | Size | CreateSplit Immutable | CreateSplit Mutable | splitBalanceFor 1st | splitBalanceFor Nth |
 | ---: | --------------------: | ------------------: | ------------------: | ------------------: |
 |    2 |                50_363 |              61_586 |              55_453 |              28_403 |
@@ -24,7 +43,14 @@ Gas per Owner
 |  200 |                 1_759 |               1_871 |              24_268 |               7_068 |
 |  500 |                 1_485 |               1_530 |              24_088 |               6_948 |
 
-Total Gas (in USD assuming 100 gwei gas & $3000 ETH)
+</div>
+
+### Total Gas in USD
+
+Assuming 100 gwei gas and $3000 ETH
+
+<div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
+
 | Size | CreateSplit Immutable | CreateSplit Mutable | splitBalanceFor 1st | splitBalanceFor Nth |
 | ---: | --------------------: | ------------------: | ------------------: | ------------------: |
 |    2 |                   $30 |                 $37 |                 $33 |                 $17 |
@@ -36,7 +62,14 @@ Total Gas (in USD assuming 100 gwei gas & $3000 ETH)
 |  200 |                  $110 |                $110 |              $1,500 |                $420 |
 |  500 |                  $220 |                $230 |              $3,600 |              $1,000 |
 
-Gas per Owner (in USD assuming 100 gwei gas & $3000 ETH)
+</div>
+
+### Gas Per Owner in USD
+
+Assuming 100 gwei gas and $3000 ETH
+
+<div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
+
 | Size | CreateSplit Immutable | CreateSplit Mutable | splitBalanceFor 1st | splitBalanceFor Nth |
 | ---: | --------------------: | ------------------: | ------------------: | ------------------: |
 |    2 |                $15.11 |              $18.48 |              $16.64 |               $8.52 |
@@ -47,3 +80,5 @@ Gas per Owner (in USD assuming 100 gwei gas & $3000 ETH)
 |  100 |                 $0.67 |               $0.74 |               $7.37 |               $2.18 |
 |  200 |                 $0.53 |               $0.56 |               $7.28 |               $2.12 |
 |  500 |                 $0.45 |               $0.46 |               $7.23 |               $2.08 |
+
+</div>
