@@ -348,6 +348,22 @@ Withdraw ETH &amp;/ ERC20 balances for account `account`
 
 ## Events
 
+### CancelOwnershipTransfer
+
+```solidity
+event CancelOwnershipTransfer(address indexed split)
+```
+
+emitted after each canceled split ownership transfer
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| split `indexed` | address | Address of the split ownership transfer was canceled for |
+
 ### CreateSplit
 
 ```solidity
@@ -363,6 +379,23 @@ emitted after each successful split creation
 | Name | Type | Description |
 |---|---|---|
 | split `indexed` | address | Address of the created split |
+
+### InitiateOwnershipTransfer
+
+```solidity
+event InitiateOwnershipTransfer(address indexed split, address newPotentialOwner)
+```
+
+emitted after each initiated split ownership transfer
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| split `indexed` | address | Address of the split ownership transfer was initiated for |
+| newPotentialOwner  | address | Address of the split&#39;s new potential owner |
 
 ### OwnershipTransfer
 
