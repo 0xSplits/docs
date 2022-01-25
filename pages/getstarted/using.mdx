@@ -1,0 +1,76 @@
+# Using A Split
+
+Just like any other payable smart contract, each Split has a unique address to
+which funds can be sent. Navigate to the Split's detail page, copy the Split’s
+address, and paste it wherever you want. You can send funds from any exchange
+(Coinbase, Gemini, etc), marketplace (OpenSea, Foundation, etc), user owned
+account/wallet (MetaMask, Rainbow, etc), or smart contract (Mirror, Zora, etc).
+
+![Copy Split Address](/copy-address.png)
+
+Here's how you can integrate Splits into a few common platforms:
+
+## OpenSea
+
+When creating a collection on OpenSea, you can add a creator fee and specify the
+address to which the creator fee will be sent. OpenSea’s instructions are
+[here](https://support.opensea.io/hc/en-us/articles/1500009575482-How-do-creator-fees-work-on-OpenSea).
+In the final step, just paste your Split’s address into the “payout address”
+field. All future creator fees will automatically be sent to the Split, and then
+distributed among the Owners.
+
+At this time, OpenSea does not allow for a user to set a payout address on an
+individual item. Creator fees, and the associated payout address (ie a Split),
+can
+[only be added](https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-OpenSea-s-fees-#:~:text=%C2%A0-,Splitting%20Revenue,-If%20you%20are)
+at the Collection level. In the future, we hope to see more platforms follow
+[Zora’s approach](https://zine.zora.co/zora-v3) in letting creators specify a
+“funds recipient” field on a per-item basis.
+
+## Foundation
+
+While creating a NFT on Foundation, creators can optionally split earnings for
+that NFT with up to 3 other recipients. Foundation’s native splits feature can
+be a bit limiting, but extending it using 0xSplits is very easy. All you have to
+do is paste your Split’s address into the recipient field while
+[creating a split](https://help.foundation.app/en/articles/5305276-how-can-i-create-a-split-on-foundation)
+in Foundation.
+
+Whenever a work is sold on Foundation, your Split owners will receive their
+share. There are a number of benefits to using 0xSplits within Foundation
+instead of the native split feature.
+
+- The Splits created on 0xSplits are interoperable and can be used on any
+  marketplace or platform. The exact same Split can be used on Foundation,
+  OpenSea, Zora, and anywhere else, simultaneously. Decoupling the Split from
+  the NFT allows for a higher level of interopability and massive gas-savings.
+- You can include far more recipients using 0xSplits. Foundation limits you to 4
+  total recipients, including yourself. On 0xSplits, the upper limit is ~500
+  recipients.
+- 0xSplits gives you the option of making your Splits mutable. This means that
+  you can change the recipients & percentages without needing to burn your NFT
+  and mint the piece again.
+- 0xSplits exist entirely onchain, meaning they’re permissionless and censorship
+  resistant. The only way your Split will stop running is if Ethereum stops
+  operating. There are no third parties to rely on when using 0xSplits.
+- Finally, Foundation splits are coupled with the NFT minting process, meaning
+  each additional recipient increases gas costs for both minting and claiming an
+  NFT. This is why Foundation has limited their splits to including only 4
+  recipients.
+
+You can learn all about Foundation's splits
+[here](https://help.foundation.app/en/collections/3010288-splits).
+
+## Zora
+
+Zora’s [V3 contracts](https://zine.zora.co/zora-v3) allow for developers to
+specify a “seller funds recipient”. This is the address that funds are sent to
+once the NFT is sold. As of now, Zora
+[does not allow](https://support.zora.co/en/articles/5577498-revenue-splits) a
+user to specify this address through their app/interface directly, but hopefully
+this is coming soon.
+
+That said, it's very easy to integrate 0xSplits if you're a developer using
+Zora's contracts. All you have to do is set the
+[`sellerFundsRecipient`](https://docs.zora.co/docs/smart-contracts/modules/Asks/zora-v3-asks-v1.1#ask-structure)
+to the Split's address.

@@ -1,22 +1,16 @@
 import Callout from 'nextra-theme-docs/callout'
 
-# 0xSplits
+# Introduction
 
-0xSplits is an easy-to-use, composable, and gas-efficient protocol for splitting
-onchain income with multiple parties. It is
-[live for testing](https://app.0xsplits.xyz/) on Ropsten & coming shortly to
-Ethereum and other EVM-compatible chains.
+0xSplits is a protocol for splitting onchain income. Its composable,
+gas-efficient, and trustless. Its live [on Ropsten](https://app.0xsplits.xyz/)
+and coming soon to Ethereum & EVM compatible chains.
 
 At the core of the protocol are [Splits](/core-concepts/#split) and
 [Owners](/core-concepts/#owner). A Split is a smart contract that receives and
-splits incoming funds to the Owners. An Owner is any account (EOA or SC) that
-earns a portion of the Split's income.
-
-After a Split has been created (either
-[via the app](/getting-started#using-the-app) or
-[calling the contracts](/getting-started#calling-the-contracts) directly), all
-you have to do is send ETH or ERC20s to the Split’s address. Each Owner is
-guaranteed to receive their share.
+distributes incoming funds to the Owners. An Owner is any address (externally
+owned account or smart contract) that earns a portion of the Split's income.
+When a Split earns income, each Owner receives their share.
 
 ![Basic Overview Flow](/intro-flow.svg)
 
@@ -28,26 +22,49 @@ guaranteed to receive their share.
   third-parties may execute withdrawals. With full composability on both ends,
   Splits is an effective routing layer within any workflow.
 - Splits maximize **gas efficiency** by batching expensive operations &
-  commingling funds. The gas to split funds is borne by ownership or covered by
-  a third party, eliminating dust and allowing even the smallest Owner to
-  withdraw their funds.
+  commingling funds. Gas needed to distribute funds is borne by ownership or
+  covered by a third party, eliminating dust and allowing even the smallest
+  Owner to withdraw their funds.
 - Each Split exists **entirely onchain** and the actions necessary for the
-  protocol to operate are incentivized & fully decentralized. With no trusted
-  third party to rely on, you can be sure each Split will continue to operate
-  for as long as Ethereum exists.
+  protocol to operate are incentivized & permissionless. With no trusted third
+  parties, infrastructure dependencies, or upgradable contracts, you can be sure
+  each Split will continue to operate for as long as Ethereum exists.
 
-**Splits is a public good and charges no fee for using the protocol.** We think
-Splits introduces a novel approach for public goods funding, so if you'd like to
-support development of the protocol, just add
+### Usage
+
+Splits are valuable whenever you want to allocate percentages of onchain income
+to different parties. We believe a composable, gas-optimized, easy-to-use
+splitter contract is an important primitive that will help usher in a new wave
+of onchain collaboration & giving back. Here are a few ways 0xSplits is being
+used:
+
+- **Onchain Collaboration**: Income from minting NFTs & royalties from secondary
+  sales can be pointed to a Split's address. From then on, each Owner will
+  receive their portion of future income without the need for any manual
+  multisends or ongoing maintenance. If the team's work was inspired by another
+  project, they can make that project a small Owner in their Split as a way of
+  giving back & saying thanks.
+- **Giving Back**: Rather than listing a single donation address for an open
+  source project, and trusting one of the contributors to disperse the proceeds,
+  the developers may simply create a Split and have it receive the donations.
+  All future donations will be automatically distributed amongst the
+  contributors, without anyone having to manage it or trust one another. The
+  developers may also make the Split mutable by a multisig, allowing them to add
+  future collaborators to the Split.
+
+### Community
+
+0xSplits is a **public good that's free to use.** The protocol runs exactly at
+gas cost and charges no fees whatsoever. It's designed to be a
+[piece of infrastructure](https://jacob.energy/hyperstructures.html) that can
+run for free, forever, while creating value for network participants.
+
+We believe that 0xSplits unlocks an interesting approach to continuously funding
+public goods. And we're dogfooding out own protocol. If you'd like to support
+this protocol, all you have to do is add
 [0xsplits.eth](https://etherscan.io/address/0x50671995e1eca15ca9e807774a814331cabe0f3b)
-as a small Owner in the Splits you create.
+as an Owner in the Splits you create. That account is itself a Split, which
+donates to the communities that helped get us to launch.
 
-<Callout emoji="⛑">
-  You can support the protocol by adding
-  [0xsplits.eth](https://etherscan.io/address/0x50671995e1eca15ca9e807774a814331cabe0f3b)
-  as an owner in the Splits you create.
-</Callout>
-
-Please [join us on Discord](https://discord.gg/45kXEWRc6k) or reach out
-[@0xsplits](https://twitter.com/0xSplits) with any feedback, questions, or
-suggestions.
+Join us on [Discord](https://discord.gg/45kXEWRc6k) to learn more, ask
+questions, and share feedback with the community.

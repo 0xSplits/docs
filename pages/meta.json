@@ -1,10 +1,9 @@
 {
   "index": "Introduction",
-  "getting-started": "Getting Started",
-  "usage": "Usage",
+  "getstarted": "Getting Started",
+  "core-concepts": "Core Concepts",
   "flow-of-funds": "Flow of Funds",
   "smart-contracts": "Smart Contracts",
-  "core-concepts": "Core Concepts",
   "alternative-solutions": "Alternative Solutions",
   "natspec": "Natspec Comments",
   "appendices": "Appendices"

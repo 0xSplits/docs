@@ -1,0 +1,23 @@
+# Withdrawing Funds
+
+One of the major advantages of using 0xSplits is that regardless of how many
+Splits you’re receiving from—or how frequently those Splits earn income—it only
+takes a single, simple transaction to transfer all of your balances to your
+wallet.
+
+Once you've connected your wallet, navigate to your Overview page and select the
+balances you wish to withdraw. Once the transaction has been confirmed, you'll
+see that those funds have been transferred to your wallet.
+
+![Withdraw Balances](/withdraw-balances.png)
+
+### Withdrawing For Another Account
+
+Since Owners in a Split can be any Ethereum address, including smart contracts
+to which nobody holds the private keys, you're able to withdraw balances on
+behalf of other Owners. When you do this, you're effectively paying the gas
+needed to push the Owner's funds to their wallet.
+
+We're building a UI to handle this, but in the meantime you can do this via the
+contracts directly by calling [`withdrawFor`](/natspec/SplitMain#withdrawfor) on
+[`SplitMain`](/smart-contracts#splitmain).

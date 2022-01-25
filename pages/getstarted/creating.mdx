@@ -1,0 +1,49 @@
+import Callout from 'nextra-theme-docs/callout'
+
+# Creating A Split
+
+## Using the App
+
+Creating a Split only takes a few seconds. Just navigate to the
+[New Split](https://app.0xsplits.xyz/split/) page, and add each
+[Owner](/core-concepts#owner)'s address (ENS or hex) and their portion of the
+Split. An Owner can be _any_ valid Ethereum address – user wallets, smart
+contracts, and other Splits are all valid Owners. Make sure ownership adds to
+100%, confirm the transaction, and you're done! 🎉
+
+![New Split Owners](/new-split-owners.png)
+
+Once your Split has been created, any ETH or ERC20s sent to its address will be
+distributed among the Owners, forever, without you having to do anything. You
+can read more about using Splits in other platforms like OpenSea, Foundation,
+and others [here](/getstarted/using).
+
+There are two optional parameters when creating a Split:
+
+1. You can change the [Splitter Fee](/core-concepts#splitter-fee). The Splitter
+   Fee incentivizes third parties to distribute the
+   [balance](/core-concepts#balance) on behalf of Owners. The fee can be 0-10%.
+   A higher fee leads to more frequent distributions, but it reduces the amount
+   each Owner receives since it's deducted from the balance.
+
+2. You can make it a [Mutable Split](/core-concepts#mutable-split). To do this,
+   just toggle the Mutable switch and specify the address that can control the
+   Split. This address defaults to your own address, and can be any EOA or SC.
+
+![New Mutable Split](/new-split-mutable.png)
+
+<Callout>
+  We're particularly excited about the potential for custom smart contracts
+  being able to modify Splits based on other onchain data. Please reach out if
+  you're interested in this - we'd like to help!
+</Callout>
+
+## Calling the Contracts
+
+You can call the contracts directly if you want to integrate 0xSplits into your
+own product. To create a Split, all you have to do is call
+[`createSplit`](/natspec/SplitMain#createsplit) on
+[`SplitMain`](/smart-contracts#splitmain). A high-level overview of the
+contracts & functions can be found [here](/smart-contracts). For more details,
+check out [Natspec Comments](/natspec/SplitMain) or the
+[GitHub](https://github.com/0xSplits/splits).

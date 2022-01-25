@@ -9,7 +9,7 @@ still occasionally wish to withdraw, however!
 
 ![Flow of Funds Diagram](/flow-of-funds.svg)
 
-## How Splits Receive Funds
+## Receiving Funds
 
 Splits may receive funds via two paths:
 
@@ -19,7 +19,7 @@ Splits may receive funds via two paths:
 1. If the Split is itself an Owner of another Split, it will receive funds when
    `splitFundsFor(address)` is called on the upstream Split.
 
-## How Splits Distribute Funds
+## Distributing Funds
 
 Once funds have arrived at `SplitMain`, funds may be split by any third party
 willing to pay the gas to call `splitBalanceFor(address)`. This function only
@@ -29,7 +29,7 @@ needs to be called once in order for all owners to
 receive the [Splitter Fee](/core-concepts#splitter-fee) as compensation for
 paying the gas needed to execute the function.
 
-## How Users Withdraw Funds
+## Withdrawing Funds
 
 Once funds have been split, they are now able to be withdrawn by users by
 calling `withdrawFor(address)`. A user can call this function via our web app,
@@ -39,8 +39,7 @@ function themselves (they must, however, still be able to receive funds).
 
 ## Summary
 
-1. Funds flow into the Split and increase it's
-   [balance](/core-concepts#balance).
+1. Funds flow into the Split and increase its [balance](/core-concepts#balance).
 2. As the balance increases, any third party can earn the
    [Splitter Fee](/core-concepts#splitter-fee) by distributing the balance to
    the Owners.
