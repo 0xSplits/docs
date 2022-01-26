@@ -7,13 +7,16 @@ import Callout from 'nextra-theme-docs/callout'
 A Split is a smart contract that receives and splits incoming funds. Each Split
 has an address, a set of Owners, a balance, and a splitter fee. Just like any
 other payable smart contract, funds can be sent to the Split's address from any
-other EOA or smart contract
+other EOA or smart contract. Optionally, a Split can be
+[mutable](/core-concepts#mutable-split), allowing it to be modified after
+creation.
 
 ## Owner
 
 An Owner is an externally owned account (EOA) or smart contract (SC) that earns
-a portion of the Split's income. Owners do not need direct control of the
-account, since funds can be withdrawn to the Owner's wallet by a third party.
+a portion of the Split's income. Owners can be other Splits. Owners do not need
+direct control of the account, since funds can be withdrawn for the Owner wallet
+by a third party.
 
 ## Balance
 
