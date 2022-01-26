@@ -8,7 +8,10 @@ account/wallet (MetaMask, Rainbow, etc), or smart contract (Mirror, Zora, etc).
 
 ![Copy Split Address](/copy-address.png)
 
-Here's how you can integrate Splits into a few common platforms:
+You can also find your Split's address in the URL of the detail page, or by
+viewing it on Etherscan.
+
+Below are ways you can integrate Splits into a few common platforms/apps.
 
 ## OpenSea
 
@@ -20,8 +23,7 @@ field. All future creator fees will automatically be sent to the Split, and then
 distributed among the Owners.
 
 At this time, OpenSea does not allow for a user to set a payout address on an
-individual item. Creator fees, and the associated payout address (ie a Split),
-can
+individual item. Creator fees, and the associated payout address, can
 [only be added](https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-OpenSea-s-fees-#:~:text=%C2%A0-,Splitting%20Revenue,-If%20you%20are)
 at the Collection level. In the future, we hope to see more platforms follow
 [Zora’s approach](https://zine.zora.co/zora-v3) in letting creators specify a
@@ -30,11 +32,11 @@ at the Collection level. In the future, we hope to see more platforms follow
 ## Foundation
 
 While creating a NFT on Foundation, creators can optionally split earnings for
-that NFT with up to 3 other recipients. Foundation’s native splits feature can
-be a bit limiting, but extending it using 0xSplits is very easy. All you have to
-do is paste your Split’s address into the recipient field while
-[creating a split](https://help.foundation.app/en/articles/5305276-how-can-i-create-a-split-on-foundation)
-in Foundation.
+that NFT with up to 3 other recipients natively through Foundation. There are a
+number of limitations with this approach, however, using 0xSplits within
+Foundation is very easy. All you have to do is paste your Split’s address into
+the recipient field while
+[creating a Foundation split](https://help.foundation.app/en/articles/5305276-how-can-i-create-a-split-on-foundation).
 
 Whenever a work is sold on Foundation, your Split owners will receive their
 share. There are a number of benefits to using 0xSplits within Foundation
@@ -70,7 +72,8 @@ once the NFT is sold. As of now, Zora
 user to specify this address through their app/interface directly, but hopefully
 this is coming soon.
 
-That said, it's very easy to integrate 0xSplits if you're a developer using
-Zora's contracts. All you have to do is set the
+That said, it's very easy to integrate 0xSplits into Zora's contracts if you're
+a developer using their V3 contracts. All you have to do is set the
 [`sellerFundsRecipient`](https://docs.zora.co/docs/smart-contracts/modules/Asks/zora-v3-asks-v1.1#ask-structure)
-to the Split's address.
+to the Split's address, and all future income will be sent to your Split and
+distributed to the Owners.

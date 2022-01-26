@@ -2,9 +2,9 @@ import Callout from 'nextra-theme-docs/callout'
 
 # Introduction
 
-0xSplits is a protocol for splitting onchain income. Its composable,
-gas-efficient, and trustless. Its live [on Ropsten](https://app.0xsplits.xyz/)
-and coming soon to Ethereum & EVM compatible chains.
+0xSplits is a composable, gas-efficient, and trustless protocol for splitting
+onchain income. Its [live](https://app.0xsplits.xyz/) on Ropsten and coming soon
+to Ethereum & EVM compatible chains.
 
 At the core of the protocol are [Splits](/core-concepts/#split) and
 [Owners](/core-concepts/#owner). A Split is a smart contract that receives and
@@ -24,7 +24,7 @@ When a Split earns income, each Owner receives their share.
 - Splits maximize **gas efficiency** by batching expensive operations &
   commingling funds. Gas needed to distribute funds is borne by ownership or
   covered by a third party, eliminating dust and allowing even the smallest
-  Owner to withdraw their funds.
+  Owner to withdraw their share.
 - Each Split exists **entirely onchain** and the actions necessary for the
   protocol to operate are incentivized & permissionless. With no trusted third
   parties, infrastructure dependencies, or upgradable contracts, you can be sure
@@ -43,14 +43,14 @@ used:
   receive their portion of future income without the need for any manual
   multisends or ongoing maintenance. If the team's work was inspired by another
   project, they can make that project a small Owner in their Split as a way of
-  giving back & saying thanks.
+  saying thanks.
 - **Giving Back**: Rather than listing a single donation address for an open
   source project, and trusting one of the contributors to disperse the proceeds,
-  the developers may simply create a Split and have it receive the donations.
-  All future donations will be automatically distributed amongst the
-  contributors, without anyone having to manage it or trust one another. The
-  developers may also make the Split mutable by a multisig, allowing them to add
-  future collaborators to the Split.
+  the developers may simply create a Split and have it receive donations. All
+  future donations will be automatically distributed amongst the contributors,
+  without anyone having to manage it or trust one another. The developers may
+  also grant a multisig the ability to modify the Split, allowing them change
+  the Split's composition in the future as collaborators change.
 
 ### Community
 
@@ -59,12 +59,12 @@ gas cost and charges no fees whatsoever. It's designed to be a
 [piece of infrastructure](https://jacob.energy/hyperstructures.html) that can
 run for free, forever, while creating value for network participants.
 
-We believe that 0xSplits unlocks an interesting approach to continuously funding
-public goods. And we're dogfooding out own protocol. If you'd like to support
-this protocol, all you have to do is add
+We believe splits introduce a novel way to fund public goods, and we're
+dogfooding the protocol in this regard. If you'd like to support 0xSplits, all
+you have to do is add
 [0xsplits.eth](https://etherscan.io/address/0x50671995e1eca15ca9e807774a814331cabe0f3b)
 as an Owner in the Splits you create. That account is itself a Split, which
-donates to the communities that helped get us to launch.
+gives back to the communities that helped get us to launch.
 
 Join us on [Discord](https://discord.gg/45kXEWRc6k) to learn more, ask
 questions, and share feedback with the community.

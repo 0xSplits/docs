@@ -15,35 +15,39 @@ contracts, and other Splits are all valid Owners. Make sure ownership adds to
 
 Once your Split has been created, any ETH or ERC20s sent to its address will be
 distributed among the Owners, forever, without you having to do anything. You
-can read more about using Splits in other platforms like OpenSea, Foundation,
-and others [here](/getstarted/using).
+can read more about using Splits in platforms like OpenSea, Foundation, and
+others [here](/getstarted/using).
 
 There are two optional parameters when creating a Split:
 
-1. You can change the [Splitter Fee](/core-concepts#splitter-fee). The Splitter
-   Fee incentivizes third parties to distribute the
+1. You can change the [Splitter Fee](/core-concepts#splitter-fee). This fee
+   incentivizes third parties to distribute the
    [balance](/core-concepts#balance) on behalf of Owners. The fee can be 0-10%.
    A higher fee leads to more frequent distributions, but it reduces the amount
-   each Owner receives since it's deducted from the balance.
+   each Owner receives since it's deducted from the balance. You can think of
+   this fee as a tax Owners pay in exchange for having their balance
+   distributed.
 
 2. You can make it a [Mutable Split](/core-concepts#mutable-split). To do this,
    just toggle the Mutable switch and specify the address that can control the
-   Split. This address defaults to your own address, and can be any EOA or SC.
+   Split. This address defaults to your own address, but can be any valid
+   Ethereum address (EOA or SC). Though Mutable Splits add more flexiblity, they
+   require more trust and should be used with caution.
 
 ![New Mutable Split](/new-split-mutable.png)
 
 <Callout>
-  We're particularly excited about the potential for custom smart contracts
-  being able to modify Splits based on other onchain data. Please reach out if
-  you're interested in this - we'd like to help!
+  We are particularly excited about the potential for custom smart contracts
+  that can modify Splits based on other onchain data. Please reach out if you're
+  interested in this – we'd like to explore this concept & help however we can!
 </Callout>
 
-## Calling the Contracts
+## Integrating 0xSplits
 
-You can call the contracts directly if you want to integrate 0xSplits into your
-own product. To create a Split, all you have to do is call
-[`createSplit`](/natspec/SplitMain#createsplit) on
-[`SplitMain`](/smart-contracts#splitmain). A high-level overview of the
-contracts & functions can be found [here](/smart-contracts). For more details,
-check out [Natspec Comments](/natspec/SplitMain) or the
-[GitHub](https://github.com/0xSplits/splits).
+Creating a Split from another product/app is as easy as calling the contracts.
+All you have to do is call [`createSplit`](/natspec/SplitMain#createsplit) on
+[`SplitMain`](/smart-contracts#splitmain) and pass through the params (accounts,
+ownerships, Splitter Fee, etc). A high-level overview of the contracts &
+functions can be found [here](/smart-contracts). For more details, check out
+[Natspec Comments](/natspec/SplitMain) or view the contracts directly on
+[GitHub](https://github.com/0xSplits/splits/tree/master/contracts).
