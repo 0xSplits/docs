@@ -2,8 +2,6 @@ import Callout from 'nextra-theme-docs/callout'
 
 # Creating A Split
 
-## Using the App
-
 Creating a Split only takes a few seconds. Just navigate to the
 [New Split](https://app.0xsplits.xyz/split/) page, and add each
 [Owner](/core-concepts#owner)'s address (ENS or hex) and their portion of the
@@ -39,15 +37,17 @@ There are two optional parameters when creating a Split:
 <Callout>
   We are particularly excited about the potential for custom smart contracts
   that can modify Splits based on other onchain data. Please reach out if you're
-  interested in this – we'd like to explore this concept & help however we can!
+  interested in this – we'd like to explore this concept & support you however
+  we can!
 </Callout>
 
-## Integrating 0xSplits
+### Calling the Contracts
 
-Creating a Split from another product/app is as easy as calling the contracts.
-All you have to do is call [`createSplit`](/natspec/SplitMain#createsplit) on
-[`SplitMain`](/smart-contracts#splitmain) and pass through the params (accounts,
-ownerships, Splitter Fee, etc). A high-level overview of the contracts &
-functions can be found [here](/smart-contracts). For more details, check out
-[Natspec Comments](/natspec/SplitMain) or view the contracts directly on
+Creating a Split from another product/app is easy. All you have to do is call
+[`createSplit`](/smartcontracts/SplitMain#createsplit) on `SplitMain` and pass
+through the params (accounts, ownerships, Splitter Fee, etc). A high-level
+overview of the contracts & functions can be found
+[here](/smartcontracts/overview). For implementation details, you can check out
+the Natspec Comments for [`SplitMain`](/smartcontracts/SplitMain) and
+[`SplitWallet`](/smartcontracts/SplitWallet), or view the contracts directly on
 [GitHub](https://github.com/0xSplits/splits/tree/master/contracts).

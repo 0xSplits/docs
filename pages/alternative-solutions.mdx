@@ -2,8 +2,9 @@
 
 Before starting this project, we saw what
 [Mirror](https://dev.mirror.xyz/V_7Jp1hy_g8bz-J1B4Wb5KYSmj5Lt4W7q7cw0noxJsU),
-[OpenZeppelin](https://docs.openzeppelin.com/contracts/4.x/api/finance#PaymentSplitter), [Foundation](https://etherscan.io/address/0x1EF0159071b2A5898024cef4b4f78C171b7f48a8#code) and
-others had built, and focused on optimizations around a few key areas:
+[OpenZeppelin](https://docs.openzeppelin.com/contracts/4.x/api/finance#PaymentSplitter),
+[Foundation](https://etherscan.io/address/0x1EF0159071b2A5898024cef4b4f78C171b7f48a8#code)
+and others had built, and focused on optimizations around a few key areas:
 composability, gas efficiency & fairness, and onchain-ness. Below we highlight
 some key differences between 0xSplits and other implementations of splitter
 contracts.
@@ -48,9 +49,9 @@ highlighting.
   the group, the more you should consider some kind of rebasing token or a DAO.
 
 - **Single-use:** Splits are most gas-efficient when reused multiple times. If
-  the payout is expected to arrive in a single lump sum, a
-  [multisend](https://disperse.app/) via a multisig or trusted party may be more
-  efficient.
+  the payout is expected to arrive in a single lump sum, a multisend (like
+  [disperse.app](https://disperse.app/)) via a multisig or trusted party may be
+  more efficient.
 
 - **Rebasing tokens:** While held in a Split or user balance, rebasing tokens
   may cause accounting issues within your Splits.

@@ -2,7 +2,7 @@ import Callout from 'nextra-theme-docs/callout'
 
 # Core Concepts
 
-## Split
+### Split
 
 A Split is a smart contract that receives and splits incoming funds. Each Split
 has an address, a set of Owners, a balance, and a splitter fee. Just like any
@@ -11,20 +11,20 @@ other EOA or smart contract. Optionally, a Split can be
 [mutable](/core-concepts#mutable-split), allowing it to be modified after
 creation.
 
-## Owner
+### Owner
 
 An Owner is an externally owned account (EOA) or smart contract (SC) that earns
 a portion of the Split's income. Owners can be other Splits. Owners do not need
 direct control of the account, since funds can be withdrawn for the Owner wallet
 by a third party.
 
-## Balance
+### Balance
 
 Each Split has a balance that increases whenever income is received. This
 balance must be distributed to the Owners before it can be withdrawn by the
 Owners.
 
-## Splitter Fee
+### Splitter Fee
 
 This is the portion of a Split's balance that's earned in exchange for
 distributing the balance. This fee incentivizes third parties to pay the gas
@@ -32,21 +32,21 @@ needed to distribute a Split's balance on behalf of the Owners, while making the
 distribution cost borne by owners. This fee may be set to 0 for manual or
 progressive distributions.
 
-## Splitter
+### Splitter
 
 The Splitter is any account (EOA or SC) that distributes a Split's balance
 amongst Owners, and earns a Splitter Fee. This architecture allows the gas
 needed to distribute funds to be borne in a flat or progressive manner, making
 it in aggregate more gas efficient for the Owners.
 
-## Withdraw
+### Withdraw
 
 Accounts with a positive balance can withdraw their funds across all of the
 Splits they receive from in a single transaction. A third party can withdraw for
 any account, enabling smart contracts who have no user-controlled private keys
 to still receive their funds.
 
-## Mutable Split
+### Mutable Split
 
 <Callout type="warning" emoji="⚠️">
   Mutability increases flexibility but requires more trust.
