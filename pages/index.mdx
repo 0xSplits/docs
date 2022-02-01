@@ -7,10 +7,10 @@ onchain income. Its [live](https://app.0xsplits.xyz/) on Ropsten and coming soon
 to Ethereum & EVM compatible chains.
 
 At the core of the protocol are [Splits](/core-concepts/#split) and
-[Owners](/core-concepts/#owner). A Split is a smart contract that receives and
-distributes incoming funds to the Owners. An Owner is any address (externally
-owned account or smart contract) that earns a portion of the Split's income.
-When a Split earns income, each Owner receives their share.
+[Recipients](/core-concepts/#recipient). A Split is a smart contract that
+receives and distributes incoming funds to the Recipients. A Recipient is any
+address (externally owned account or smart contract) that earns a portion of the
+Split's income. When a Split earns income, each Recipient receives their share.
 
 ![Basic Overview Flow](/intro-flow.svg)
 
@@ -18,13 +18,13 @@ When a Split earns income, each Owner receives their share.
 
 - Splits are **fully composable** on both input & output. Each Split is a
   payable smart contract that can directly receive ETH & ERC20s from any EOA or
-  SC. Each Owner is also just an Ethereum address (EOA or SC) for which
+  SC. Each Recipient is also just an Ethereum address (EOA or SC) for which
   third-parties may execute withdrawals. With full composability on both ends,
   Splits is an effective routing layer within any workflow.
 - Splits maximize **gas efficiency** by batching expensive operations &
   commingling funds. Gas needed to distribute funds is borne by ownership or
   covered by a third party, eliminating dust and allowing even the smallest
-  Owner to withdraw their share.
+  Recipient to withdraw their share.
 - Each Split exists **entirely onchain** and the actions necessary for the
   protocol to operate are incentivized & permissionless. With no trusted third
   parties, infrastructure dependencies, or upgradable contracts, you can be sure
@@ -39,32 +39,30 @@ of onchain collaboration & giving back. Here are a few ways 0xSplits is being
 used:
 
 - **Onchain Collaboration**: Income from minting NFTs & royalties from secondary
-  sales can be pointed to a Split's address. From then on, each Owner will
+  sales can be pointed to a Split's address. From then on, each Recipient will
   receive their portion of future income without the need for any manual
-  disbursements or ongoing maintenance. If the team's work was inspired by
-  another project, they can make that project a small Owner in their Split as a
-  way of saying thanks.
+  disbursements or ongoing maintenance.
 - **Giving Back**: Rather than listing a single donation address for an open
-  source project, and trusting one of the contributors to disperse the proceeds,
+  source project and trusting one of the contributors to disperse the proceeds,
   the developers may simply create a Split and have it receive donations. All
-  future donations will be automatically distributed amongst the contributors,
-  without anyone having to manage it or trust one another. The developers may
-  also grant a multisig the ability to modify the Split, allowing them change
-  the Split's composition in the future as collaborators change.
+  future donations will be automatically distributed amongst the contributors.
+  The developers may also grant a multisig the ability to modify the Split,
+  allowing them change the Split's composition in the future as collaborators
+  change.
 
 ### Community
 
 0xSplits is a **public good that's free to use.** The protocol runs exactly at
-gas cost and charges no fees whatsoever. It's designed to be a
-[piece of infrastructure](https://jacob.energy/hyperstructures.html) that can
-run for free, forever, while creating value for network participants.
+gas cost and charges no fees whatsoever. It's designed as a
+[hyperstructure](https://jacob.energy/hyperstructures.html), meaning it can run
+for free, forever, without maintenance or trusted third parties.
 
-We believe splits introduce a novel way to fund public goods, and we're
-dogfooding the protocol in this regard. If you'd like to support 0xSplits, all
-you have to do is add
+We believe splits introduce a **novel way to fund public goods**, and so it's
+being testing it on itself. If you'd like to support 0xSplits, all you have to
+do is add
 [0xsplits.eth](https://etherscan.io/address/0x50671995e1eca15ca9e807774a814331cabe0f3b)
-as an Owner in the Splits you create. That account is itself a Split, which
-gives back to the communities that helped get us to launch.
+as a Recipient in the Splits you create. 0xsplits.eth is itself a Split, which
+gives back to the communities that have supported us to date.
 
 Join us on [Discord](https://discord.gg/45kXEWRc6k) to learn more, ask
 questions, and share feedback with the community.

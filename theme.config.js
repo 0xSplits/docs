@@ -6,6 +6,7 @@ export default {
   titleSuffix: ' – 0xSplits',
   logo: (
     <>
+      <img src="/icon.svg" className="mr-2" style={{ width: 24 }} />
       <span className="mr-2 font-semibold hidden md:inline">0xSplits</span>
       <span className="text-gray-600 font-normal hidden md:inline">
         Trustlessly share onchain income

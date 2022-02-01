@@ -4,58 +4,60 @@ import Callout from 'nextra-theme-docs/callout'
 
 ### Split
 
-A Split is a smart contract that receives and splits incoming funds. Each Split
-has an address, a set of Owners, a balance, and a splitter fee. Just like any
-other payable smart contract, funds can be sent to the Split's address from any
-other EOA or smart contract. Optionally, a Split can be
-[mutable](/core-concepts#mutable-split), allowing it to be modified after
-creation.
+A Split is a smart contract (SC) that receives and splits incoming funds. Each
+Split has an address, a set of Recipients, a balance, and a Distributor Fee.
+Just like any other payable smart contract, funds can be sent to the Split's
+address from any other externally owned account (EOA) or SC. Optionally, a Split
+can be [mutable](/core-concepts#mutable-split), allowing it to be modified by
+the Controller.
 
-### Owner
+### Recipient
 
-An Owner is an externally owned account (EOA) or smart contract (SC) that earns
-a portion of the Split's income. Owners can be other Splits. Owners do not need
-direct control of the account, since funds can be withdrawn for the Owner wallet
-by a third party.
+A Recipient is an EOA or SC that earns a portion of the Split's income. A
+Recipient may be any valid Ethereum address, including other Splits. Recipients
+do not need direct control of the account, since funds can be withdrawn for the
+Recipient by a third party.
 
 ### Balance
 
 Each Split has a balance that increases whenever income is received. This
-balance must be distributed to the Owners before it can be withdrawn by the
-Owners.
+balance must be distributed before it can be withdrawn by the Recipients.
 
-### Splitter Fee
+### Distributor Fee
 
 This is the portion of a Split's balance that's earned in exchange for
 distributing the balance. This fee incentivizes third parties to pay the gas
-needed to distribute a Split's balance on behalf of the Owners, while making the
-distribution cost borne by owners. This fee may be set to 0 for manual or
-progressive distributions.
+needed to distribute a Split's balance, while making the distribution cost borne
+by Recipients. This fee may be set to 0 for manual or progressive distributions.
 
-### Splitter
+### Distributor
 
-The Splitter is any account (EOA or SC) that distributes a Split's balance
-amongst Owners, and earns a Splitter Fee. This architecture allows the gas
-needed to distribute funds to be borne in a flat or progressive manner, making
-it in aggregate more gas efficient for the Owners.
+The Distributor is any account (EOA or SC) that distributes a Split's balance
+for the Recipients, and earns the Distributor Fee for doing so. This
+architecture allows the gas needed to distribute funds to be borne in a flat or
+progressive manner, making it in aggregate more gas efficient for the
+Recipients.
 
 ### Withdraw
 
 Accounts with a positive balance can withdraw their funds across all of the
-Splits they receive from in a single transaction. A third party can withdraw for
+Splits they receive from in a single transaction. A third party may withdraw for
 any account, enabling smart contracts who have no user-controlled private keys
 to still receive their funds.
 
 ### Mutable Split
 
-<Callout type="warning" emoji="⚠️">
-  Mutability increases flexibility but requires more trust.
-</Callout>
-
 A Mutable Split operates just like a normal Split, with the only difference
-being that it can be modified in the future. Only one account, which is set
-during Split creation, can modify the Split. This account can be any valid
-address (EOA, multisig, SC with custom logic, etc). This account has the ability
-to modify the owners & splitter fee, transfer control of the Split to a
-different account, or make the Split immutable. A Mutable Split can be made
-immutable, but immutable Splits can never become mutable.
+being that it can be modified in the future. Only the Controller, which is set
+during Split creation, can modify the Split. The Controller can be any valid
+address (EOA, multisig, SC with custom logic, etc), and has the ability to
+modify the Recipients and Distributor Fee, transfer control of the Split to a
+new Controller, or make the Split immutable (removing the Controller entirely).
+A Mutable Split can be made immutable, but immutable Splits can never become
+mutable.
+
+<Callout emoji="👾">
+  We're excited about the idea of building smart contracts that can modify
+  Splits based on other onchain state. Please reach out if you're interested in
+  this – we'd like to explore this concept & support you however we can!
+</Callout>

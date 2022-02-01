@@ -6,19 +6,19 @@ takes a single, simple transaction to transfer all of your balances to your
 wallet. You can do this at your leisure, whenever gas prices are low or you just
 want to cash out.
 
-Once you've connected your wallet, navigate to your Overview page and select the
-balances you wish to withdraw. Once the transaction has been confirmed, you'll
-see that those funds have been transferred to your wallet and your balance
-within Splits has been reset.
+Once you've connected your wallet, just navigate to your Overview page, select
+the balances you wish to withdraw, and hit "Withdraw". Once the transaction has
+been confirmed, you'll see that those funds have been transferred to your wallet
+and your balance within Splits has been reset.
 
 ![Withdraw Balances](/withdraw-balances.png)
 
 ### Withdrawing For Another Account
 
-Since Owners in a Split can be any Ethereum address, including smart contracts
-to which nobody holds the private keys, you're able to withdraw balances on
-behalf of other Owners. When you do this, you're effectively paying the gas
-needed to push the Owner's funds to their wallet.
+Since Recipients in a Split can be any Ethereum address, including smart
+contracts to which nobody holds the private keys, you're able to withdraw
+balances on behalf of other Recipients. When you do this, you're effectively
+paying the gas needed to push the Recipient's funds to their wallet.
 
 We're building a UI to handle this, but in the meantime you can do this via the
 contracts directly by calling [`withdrawFor`](/natspec/SplitMain#withdrawfor) on

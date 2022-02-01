@@ -33,9 +33,11 @@ contracts.
 
 ### Onchain-ness
 
-- All 0xSplits data lives onchain and there are no infrastructure dependencies
+- All 0xSplits data lives onchain, and there are no infrastructure dependencies
+  or potential for censorship
 - 0xSplits contracts are non-upgradable, meaning both the protocol and each
-  Split is unstoppable and censorship resistant
+  Split is unstoppable and will continue to operate for as long as the network
+  does
 
 ## 0xSplits Constraints
 
@@ -49,8 +51,8 @@ highlighting.
   the group, the more you should consider some kind of rebasing token or a DAO.
 
 - **Single-use:** Splits are most gas-efficient when reused multiple times. If
-  the payout is expected to arrive in a single lump sum, a multisend (like
-  [disperse.app](https://disperse.app/)) via a multisig or trusted party may be
+  the payout is expected to arrive in a single lump sum, something like
+  [disperse.app](https://disperse.app/) via a multisig or trusted party may be
   more efficient.
 
 - **Rebasing tokens:** While held in a Split or user balance, rebasing tokens
