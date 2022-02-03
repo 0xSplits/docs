@@ -5,7 +5,7 @@ the different methods for moving funds between the components. As a
 [Recipient](/core-concepts#recipient), you don't actually have to worry about
 any of this, since the [Distributor Fee](/core-concepts#distributor-fee)
 incentivizes third parties to call functions (e.g.
-[`splitBalanceFor`](/smartcontracts/overview#splitbalanceforaddress)) on your
+[`distributeETH`](/smartcontracts/overview#distributeethaddress)) on your
 behalf. You will still occasionally wish to withdraw, however!
 
 ![Flow of Funds Diagram](/flow-of-funds.svg)
@@ -16,14 +16,14 @@ Splits may receive funds via two paths:
 
 1. Simply send funds to the Split's address via `send`, `transfer`, or `call`.
    These funds will be flushed to `SplitMain` the next time
-   `splitBalanceFor(address)` is called.
+   `distributeETH(address)` is called.
 1. If the Split is itself a Recipient of another Split, it will receive funds
-   when `splitFundsFor(address)` is called on the upstream Split.
+   when `distributeETH(address)` is called on the upstream Split.
 
 ### Distributing Funds
 
 Once funds have arrived at `SplitMain`, funds may be distributed by any third
-party willing to pay the gas to call `splitBalanceFor(address)`. This function
+party willing to pay the gas to call `distributeETH(address)`. This function
 only needs to be called once in order for all Recipients to
 [withdraw](/core-concepts#withdraw) their share of the
 [balance](/core-concepts#balance). The party who calls this function will
@@ -33,9 +33,9 @@ for paying the gas needed to execute the function.
 ### Withdrawing Funds
 
 Once funds have been distributed, they are now able to be withdrawn by users by
-calling `withdrawFor(address)`. A user can call this function via the web app,
+calling `withdraw(address)`. A user can call this function via the web app,
 or any third party can call this on the account's behalf. This is necessary,
-since Recipients can be smart contracts which can't execute the `withdrawFor`
+since Recipients can be smart contracts which can't execute the `withdraw`
 function themselves (they must, however, still be able to receive funds).
 
 ### Summary

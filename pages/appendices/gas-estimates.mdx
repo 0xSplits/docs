@@ -2,9 +2,9 @@
 
 The below tables outline gas estimates for
 [`createSplit`](/natspec/SplitMain#createsplit) and
-[`splitBalanceFor`](/natspec/SplitMain#splitbalancefor).
+[`distributeETH`](/natspec/SplitMain#distributeeth).
 
-Note that `splitBalanceFor1st` is an **upper bound estimate**, since it assumes
+Note that `distributeETH1st` is an **upper bound estimate**, since it assumes
 none of the Recipients have been
 [initialized](https://ethereum.org/en/developers/docs/smart-contracts/anatomy/#storage)
 within the protocol. Each account only needs to be initialized once for the
@@ -16,7 +16,7 @@ cost the same as the Nth.
 
   <div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
 
-| Size | CreateSplit Immutable | CreateSplit Mutable | splitBalanceFor 1st | splitBalanceFor Nth |
+| Size | CreateSplit Immutable | CreateSplit Mutable | distributeETH 1st | distributeETH Nth |
 | ---: | --------------------: | ------------------: | ------------------: | ------------------: |
 |    2 |               100_727 |             123_172 |             110_907 |              56_807 |
 |    5 |               104_542 |             126_987 |             182_800 |              77_400 |
@@ -33,7 +33,7 @@ cost the same as the Nth.
 
 <div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
 
-| Size | CreateSplit Immutable | CreateSplit Mutable | splitBalanceFor 1st | splitBalanceFor Nth |
+| Size | CreateSplit Immutable | CreateSplit Mutable | distributeETH 1st | distributeETH Nth |
 | ---: | --------------------: | ------------------: | ------------------: | ------------------: |
 |    2 |                50_363 |              61_586 |              55_453 |              28_403 |
 |    5 |                20_908 |              25_397 |              36_560 |              15_480 |
@@ -52,7 +52,7 @@ Assuming 100 gwei gas and $3000 ETH
 
 <div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
 
-| Size | CreateSplit Immutable | CreateSplit Mutable | splitBalanceFor 1st | splitBalanceFor Nth |
+| Size | CreateSplit Immutable | CreateSplit Mutable | distributeETH 1st | distributeETH Nth |
 | ---: | --------------------: | ------------------: | ------------------: | ------------------: |
 |    2 |                   $30 |                 $37 |                 $33 |                 $17 |
 |    5 |                   $31 |                 $38 |                 $55 |                 $23 |
@@ -71,7 +71,7 @@ Assuming 100 gwei gas and $3000 ETH
 
 <div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
 
-| Size | CreateSplit Immutable | CreateSplit Mutable | splitBalanceFor 1st | splitBalanceFor Nth |
+| Size | CreateSplit Immutable | CreateSplit Mutable | distributeETH 1st | distributeETH Nth |
 | ---: | --------------------: | ------------------: | ------------------: | ------------------: |
 |    2 |                $15.11 |              $18.48 |              $16.64 |               $8.52 |
 |    5 |                 $6.27 |               $7.62 |              $10.97 |               $4.64 |
