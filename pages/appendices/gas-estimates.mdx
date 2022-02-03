@@ -8,8 +8,9 @@ Note that `splitBalanceFor1st` is an **upper bound estimate**, since it assumes
 none of the Recipients have been
 [initialized](https://ethereum.org/en/developers/docs/smart-contracts/anatomy/#storage)
 within the protocol. Each account only needs to be initialized once for the
-entire protocol, so as the network grows this first distribution cost to
-decrease.
+entire protocol, so as the network grows the actual first distribution cost will
+decrease. If all of your recipients have been initialized, the first distribution will
+cost the same as the Nth.
 
 ### Total Gas
 

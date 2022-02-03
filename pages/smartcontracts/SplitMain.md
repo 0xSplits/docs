@@ -6,7 +6,7 @@
 
 A composable and gas-efficient protocol for deploying splitter contracts.
 
-*Split recipients, ownerships, and keeper fees are stored onchain as calldata &amp; re-passed as args / validated via hashing when needed. Each split gets its own address &amp; proxy for maximum composability with other contracts onchain. For these proxies, we extended EIP-1167 Minimal Proxy Contract to avoid `DELEGATECALL` for `receive()` to accept hard gas-capped `sends` &amp; `transfers`.*
+*Split recipients, ownerships, and keeper fees are stored onchain as calldata &amp; re-passed as args / validated via hashing when needed. Each split gets its own address &amp; proxy for maximum composability with other contracts onchain. For these proxies, we extended EIP-1167 Minimal Proxy Contract to avoid `DELEGATECALL` inside `receive()` to accept hard gas-capped `sends` &amp; `transfers`.*
 
 ## Methods
 
@@ -27,10 +27,10 @@ constant to scale uints into percentages (1e6 == 100%)
 |---|---|---|
 | _0 | uint256 | undefined
 
-### acceptOwnership
+### acceptControl
 
 ```solidity
-function acceptOwnership(address split) external nonpayable
+function acceptControl(address split) external nonpayable
 ```
 
 Accepts transfer of the controlling address of mutable split `split`
@@ -41,12 +41,12 @@ Accepts transfer of the controlling address of mutable split `split`
 
 | Name | Type | Description |
 |---|---|---|
-| split | address | Address of mutable split to accept ownership transfer for
+| split | address | Address of mutable split to accept control transfer for
 
-### cancelOwnershipTransfer
+### cancelControlTransfer
 
 ```solidity
-function cancelOwnershipTransfer(address split) external nonpayable
+function cancelControlTransfer(address split) external nonpayable
 ```
 
 Cancels transfer of the controlling address of mutable split `split`
@@ -57,15 +57,15 @@ Cancels transfer of the controlling address of mutable split `split`
 
 | Name | Type | Description |
 |---|---|---|
-| split | address | Address of mutable split to cancel ownership transfer for
+| split | address | Address of mutable split to cancel control transfer for
 
 ### createSplit
 
 ```solidity
-function createSplit(address[] accounts, uint32[] percentAllocations, uint32 splitterFee, address owner) external nonpayable returns (address split)
+function createSplit(address[] accounts, uint32[] percentAllocations, uint32 distributionFee, address controller) external nonpayable returns (address split)
 ```
 
-Creates a new split with recipients `accounts` with ownerships `percentAllocations`, a keeper fee for splitting of `splitterFee` and the controlling address `owner`
+Creates a new split with recipients `accounts` with ownerships `percentAllocations`, a keeper fee for splitting of `distributionFee` and the controlling address `controller`
 
 
 
@@ -75,14 +75,75 @@ Creates a new split with recipients `accounts` with ownerships `percentAllocatio
 |---|---|---|
 | accounts | address[] | Ordered, unique list of addresses with ownership in the split
 | percentAllocations | uint32[] | Percent allocations associated with each address
-| splitterFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
-| owner | address | Controlling address (0x0 if immutable)
+| distributionFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
+| controller | address | Controlling address (0x0 if immutable)
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
 | split | address | Address of newly created split
+
+### distributeERC20
+
+```solidity
+function distributeERC20(address split, contract ERC20 token, address[] accounts, uint32[] percentAllocations, uint32 distributionFee) external nonpayable
+```
+
+Distributes the ERC20 `token` balance for split `split`
+
+*`accounts`, `percentAllocations`, and `distributionFee` are verified by hashing  &amp; comparing to the hash in storage associated with split `split`pernicious ERC20s may cause overflow in this function inside  _scaleAmountByPercentage, but results do not affect ETH &amp; other ERC20 balances*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| split | address | Address of split to distribute balance for
+| token | contract ERC20 | Address of ERC20 to distribute balance for
+| accounts | address[] | Ordered, unique list of addresses with ownership in the split
+| percentAllocations | uint32[] | Percent allocations associated with each address
+| distributionFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
+
+### distributeETH
+
+```solidity
+function distributeETH(address split, address[] accounts, uint32[] percentAllocations, uint32 distributionFee) external nonpayable
+```
+
+Distributes the ETH balance for split `split`
+
+*`accounts`, `percentAllocations`, and `distributionFee` are verified by hashing  &amp; comparing to the hash in storage associated with split `split`*
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| split | address | Address of split to distribute balance for
+| accounts | address[] | Ordered, unique list of addresses with ownership in the split
+| percentAllocations | uint32[] | Percent allocations associated with each address
+| distributionFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
+
+### getController
+
+```solidity
+function getController(address split) external view returns (address)
+```
+
+Returns the current controller of split `split`
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| split | address | Split to return controller for
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | address | Split&#39;s controller
 
 ### getERC20Balance
 
@@ -151,13 +212,13 @@ Returns the current hash of split `split`
 |---|---|---|
 | _0 | bytes32 | Split&#39;s hash
 
-### getNewPotentialOwner
+### getNewPotentialController
 
 ```solidity
-function getNewPotentialOwner(address split) external view returns (address)
+function getNewPotentialController(address split) external view returns (address)
 ```
 
-Returns the current newPotentialOwner of split `split`
+Returns the current newPotentialController of split `split`
 
 
 
@@ -165,35 +226,13 @@ Returns the current newPotentialOwner of split `split`
 
 | Name | Type | Description |
 |---|---|---|
-| split | address | Split to return newPotentialOwner for
+| split | address | Split to return newPotentialController for
 
 #### Returns
 
 | Name | Type | Description |
 |---|---|---|
-| _0 | address | Split&#39;s newPotentialOwner
-
-### getOwner
-
-```solidity
-function getOwner(address split) external view returns (address)
-```
-
-Returns the current owner of split `split`
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| split | address | Split to return owner for
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | address | Split&#39;s owner
+| _0 | address | Split&#39;s newPotentialController
 
 ### makeSplitImmutable
 
@@ -214,10 +253,10 @@ Turns mutable split `split` immutable
 ### predictSplitAddress
 
 ```solidity
-function predictSplitAddress(address[] accounts, uint32[] percentAllocations, uint32 splitterFee) external view returns (address split)
+function predictSplitAddress(address[] accounts, uint32[] percentAllocations, uint32 distributionFee) external view returns (address split)
 ```
 
-Predicts the address for an immutable split created with recipients `accounts` with ownerships `percentAllocations` and a keeper fee for splitting of `splitterFee`
+Predicts the address for an immutable split created with recipients `accounts` with ownerships `percentAllocations` and a keeper fee for splitting of `distributionFee`
 
 
 
@@ -227,7 +266,7 @@ Predicts the address for an immutable split created with recipients `accounts` w
 |---|---|---|
 | accounts | address[] | Ordered, unique list of addresses with ownership in the split
 | percentAllocations | uint32[] | Percent allocations associated with each address
-| splitterFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
+| distributionFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
 
 #### Returns
 
@@ -235,69 +274,30 @@ Predicts the address for an immutable split created with recipients `accounts` w
 |---|---|---|
 | split | address | Predicted address of such an immutable split
 
-### splitBalanceFor
+### transferControl
 
 ```solidity
-function splitBalanceFor(address split, address[] accounts, uint32[] percentAllocations, uint32 splitterFee) external nonpayable
+function transferControl(address split, address newController) external nonpayable
 ```
 
-Splits the ETH balance for split `split`
+Begins transfer of the controlling address of mutable split `split` to `newController`
 
-*`accounts`, `percentAllocations`, and `splitterFee` are verified by hashing &amp; comparing to the hash in storage associated with split `split`*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| split | address | Address of split to split balance for
-| accounts | address[] | Ordered, unique list of addresses with ownership in the split
-| percentAllocations | uint32[] | Percent allocations associated with each address
-| splitterFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
-
-### splitERC20BalanceFor
-
-```solidity
-function splitERC20BalanceFor(address split, contract ERC20 token, address[] accounts, uint32[] percentAllocations, uint32 splitterFee) external nonpayable
-```
-
-Splits the ERC20 `token` balance for split `split`
-
-*`accounts`, `percentAllocations`, and `splitterFee` are verified by hashing &amp; comparing to the hash in storage associated with split `split`pernicious ERC20s may cause overflow in this function, but results do not affect ETH &amp; other ERC20 balances*
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| split | address | Address of split to split balance for
-| token | contract ERC20 | Address of ERC20 to split balance for
-| accounts | address[] | Ordered, unique list of addresses with ownership in the split
-| percentAllocations | uint32[] | Percent allocations associated with each address
-| splitterFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
-
-### transferOwnership
-
-```solidity
-function transferOwnership(address split, address newOwner) external nonpayable
-```
-
-Begins transfer of the controlling address of mutable split `split` to `newOwner`
-
-*Two-step ownership transfer inspired by [dharma](https://github.com/dharma-eng/dharma-smart-wallet/blob/master/contracts/helpers/TwoStepOwnable.sol)*
+*Two-step control transfer inspired by [dharma](https://github.com/dharma-eng/dharma-smart-wallet/blob/master/contracts/helpers/TwoStepOwnable.sol)*
 
 #### Parameters
 
 | Name | Type | Description |
 |---|---|---|
 | split | address | Address of mutable split to transfer control for
-| newOwner | address | Address to begin transferring control to
+| newController | address | Address to begin transferring control to
 
 ### updateSplit
 
 ```solidity
-function updateSplit(address split, address[] accounts, uint32[] percentAllocations, uint32 splitterFee) external nonpayable
+function updateSplit(address split, address[] accounts, uint32[] percentAllocations, uint32 distributionFee) external nonpayable
 ```
 
-Updates an existing split with recipients `accounts` with ownerships `percentAllocations` and a keeper fee for splitting of `splitterFee`
+Updates an existing split with recipients `accounts` with ownerships `percentAllocations` and a keeper fee for splitting of `distributionFee`
 
 
 
@@ -308,7 +308,7 @@ Updates an existing split with recipients `accounts` with ownerships `percentAll
 | split | address | Address of mutable split to update
 | accounts | address[] | Ordered, unique list of addresses with ownership in the split
 | percentAllocations | uint32[] | Percent allocations associated with each address
-| splitterFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
+| distributionFee | uint32 | Keeper fee paid by split to cover gas costs of distribution
 
 ### walletImplementation
 
@@ -327,10 +327,10 @@ address of wallet implementation for split proxies
 |---|---|---|
 | _0 | address | undefined
 
-### withdrawFor
+### withdraw
 
 ```solidity
-function withdrawFor(address account, bool eth, contract ERC20[] tokens) external nonpayable
+function withdraw(address account, bool eth, contract ERC20[] tokens) external nonpayable
 ```
 
 Withdraw ETH &amp;/ ERC20 balances for account `account`
@@ -348,13 +348,13 @@ Withdraw ETH &amp;/ ERC20 balances for account `account`
 
 ## Events
 
-### CancelOwnershipTransfer
+### CancelControlTransfer
 
 ```solidity
-event CancelOwnershipTransfer(address indexed split)
+event CancelControlTransfer(address indexed split)
 ```
 
-emitted after each canceled split ownership transfer
+emitted after each canceled split control transfer
 
 
 
@@ -362,7 +362,25 @@ emitted after each canceled split ownership transfer
 
 | Name | Type | Description |
 |---|---|---|
-| split `indexed` | address | Address of the split ownership transfer was canceled for |
+| split `indexed` | address | Address of the split control transfer was canceled for |
+
+### ControlTransfer
+
+```solidity
+event ControlTransfer(address indexed split, address indexed previousController, address indexed newController)
+```
+
+emitted after each successful split control transfer
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| split `indexed` | address | Address of the split control was transferred for |
+| previousController `indexed` | address | Address of the split&#39;s previous controller |
+| newController `indexed` | address | Address of the split&#39;s new controller |
 
 ### CreateSplit
 
@@ -380,62 +398,10 @@ emitted after each successful split creation
 |---|---|---|
 | split `indexed` | address | Address of the created split |
 
-### InitiateOwnershipTransfer
+### DistributeERC20
 
 ```solidity
-event InitiateOwnershipTransfer(address indexed split, address newPotentialOwner)
-```
-
-emitted after each initiated split ownership transfer
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| split `indexed` | address | Address of the split ownership transfer was initiated for |
-| newPotentialOwner  | address | Address of the split&#39;s new potential owner |
-
-### OwnershipTransfer
-
-```solidity
-event OwnershipTransfer(address indexed split, address indexed previousOwner, address indexed newOwner)
-```
-
-emitted after each successful split ownership transfer
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| split `indexed` | address | Address of the split ownership was transferred for |
-| previousOwner `indexed` | address | Address of the split&#39;s previous owner |
-| newOwner `indexed` | address | Address of the split&#39;s new owner |
-
-### SplitBalance
-
-```solidity
-event SplitBalance(address indexed split, uint256 amount)
-```
-
-emitted after each successful ETH balance split
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| split `indexed` | address | Address of the split that distributed its balance |
-| amount  | uint256 | Amount of ETH distributed |
-
-### SplitERC20Balance
-
-```solidity
-event SplitERC20Balance(address indexed split, contract ERC20 token, uint256 amount)
+event DistributeERC20(address indexed split, contract ERC20 token, uint256 amount)
 ```
 
 emitted after each successful ERC20 balance split
@@ -449,6 +415,40 @@ emitted after each successful ERC20 balance split
 | split `indexed` | address | Address of the split that distributed its balance |
 | token  | contract ERC20 | Address of ERC20 distributed |
 | amount  | uint256 | Amount of ERC20 distributed |
+
+### DistributeETH
+
+```solidity
+event DistributeETH(address indexed split, uint256 amount)
+```
+
+emitted after each successful ETH balance split
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| split `indexed` | address | Address of the split that distributed its balance |
+| amount  | uint256 | Amount of ETH distributed |
+
+### InitiateControlTransfer
+
+```solidity
+event InitiateControlTransfer(address indexed split, address newPotentialController)
+```
+
+emitted after each initiated split control transfer
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| split `indexed` | address | Address of the split control transfer was initiated for |
+| newPotentialController  | address | Address of the split&#39;s new potential controller |
 
 ### UpdateSplit
 
@@ -487,6 +487,7 @@ emitted after each successful withdrawal
 
 
 
+
 ## Errors
 
 ### Create2Error
@@ -511,13 +512,13 @@ create opcode failed
 
 
 
-### InvalidNewOwner
+### InvalidNewController
 
 ```solidity
-error InvalidNewOwner(address newOwner)
+error InvalidNewController(address newController)
 ```
 
-Invalid new controlling address `newOwner` for mutable split
+Invalid new controlling address `newController` for mutable split
 
 
 
@@ -525,7 +526,7 @@ Invalid new controlling address `newOwner` for mutable split
 
 | Name | Type | Description |
 |---|---|---|
-| newOwner | address | Invalid new owner |
+| newController | address | Invalid new controller |
 
 ### InvalidSplit__AccountsAndAllocationsMismatch
 
@@ -592,13 +593,29 @@ Invalid percentAllocations sum `allocationsSum` must equal `PERCENTAGE_SCALE`
 |---|---|---|
 | allocationsSum | uint32 | Sum of percentAllocations array |
 
+### InvalidSplit__InvalidDistributionFee
+
+```solidity
+error InvalidSplit__InvalidDistributionFee(uint32 distributionFee)
+```
+
+Invalid distributionFee `distributionFee` cannot be greater than 10% (1e5)
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| distributionFee | uint32 | Invalid distributionFee amount |
+
 ### InvalidSplit__InvalidHash
 
 ```solidity
 error InvalidSplit__InvalidHash(bytes32 hash)
 ```
 
-Invalid hash `hash` from split data (accounts, percentAllocations, splitterFee)
+Invalid hash `hash` from split data (accounts, percentAllocations, distributionFee)
 
 
 
@@ -607,22 +624,6 @@ Invalid hash `hash` from split data (accounts, percentAllocations, splitterFee)
 | Name | Type | Description |
 |---|---|---|
 | hash | bytes32 | Invalid hash |
-
-### InvalidSplit__InvalidSplitterFee
-
-```solidity
-error InvalidSplit__InvalidSplitterFee(uint32 splitterFee)
-```
-
-Invalid splitterFee `splitterFee` cannot be greater than 10% (1e5)
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| splitterFee | uint32 | Invalid splitterFee amount |
 
 ### InvalidSplit__TooFewAccounts
 
