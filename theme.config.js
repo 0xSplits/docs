@@ -1,12 +1,12 @@
 import React from 'react'
 
 export default {
-  github: 'https://github.com/0xSplits/splits',
+  github: 'https://github.com/0xSplits',
   docsRepositoryBase: 'https://github.com/0xSplits/docs',
   titleSuffix: ' – 0xSplits',
   logo: (
     <>
-      {/* <img src="/icon.svg" className="mr-2" style={{ width: 24 }} /> */}
+      <img src="/logo_light.svg" className="mr-2" style={{ width: 24 }} />
       <span className="mr-2 font-semibold hidden md:inline">0xSplits</span>
       <span className="text-gray-600 font-normal hidden md:inline">
         Trustlessly share onchain income
@@ -31,7 +31,9 @@ export default {
         name="og:title"
         content="Trustlessly split onchain income - 0xSplits"
       />
-      <meta name="og:image" content="/cover_docs.jpg" />
+      <meta name="og:image" property="og:image" content="/cover_docs.png" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta name="apple-mobile-web-app-title" content="0xSplits" />
       <link
         rel="apple-touch-icon"
@@ -46,21 +48,21 @@ export default {
       />
       <link
         rel="icon"
-        type="image/png"
+        type="image/svg"
         sizes="32x32"
-        href="/favicon-32x32.png"
+        href="/logo_compressed.svg"
       />
       <link
         rel="icon"
-        type="image/png"
+        type="image/svg"
         sizes="96x96"
-        href="/favicon-96x96.png"
+        href="/logo_compressed.svg"
       />
       <link
         rel="icon"
-        type="image/png"
+        type="image/svg"
         sizes="16x16"
-        href="/favicon-16x16.png"
+        href="/logo_compressed.svg"
       />
       <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     </>
@@ -68,8 +70,12 @@ export default {
   search: false,
   prevLinks: true,
   nextLinks: true,
-  footer: false,
-  footerEditLink: 'Edit this page on GitHub',
-  footerText: <>MIT {new Date().getFullYear()} © Splits Protocols, Inc.</>,
-  unstable_faviconGlyph: '🔗',
+  footer: true,
+  footerEditLink: 'Edit this page',
+  footerText: (
+    <div className="text-sm">
+      Questions? Join us in <a href="https://chat.0xsplits.xyz/">Discord</a>
+    </div>
+  ),
+  // unstable_faviconGlyph: '🔗',
 }
