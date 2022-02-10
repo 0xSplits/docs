@@ -1,7 +1,5 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_231_1113)">
-<circle cx="20.0001" cy="100" r="19.2" fill="white"/>
-</g>
+<circle cx="20" cy="100" r="17.28" fill="white"/>
 <circle cx="60" cy="20" r="12.8" fill="white"/>
 <circle cx="60" cy="100" r="16" fill="white"/>
 <circle cx="60" cy="180" r="12.8" fill="white"/>
@@ -20,9 +18,4 @@
 <circle cx="180" cy="100" r="6.4" fill="white"/>
 <circle cx="160" cy="59.9999" r="6.4" fill="white"/>
 <circle cx="160" cy="140" r="6.4" fill="white"/>
-<defs>
-<clipPath id="clip0_231_1113">
-<rect width="40" height="40" fill="white" transform="translate(0 80.0002)"/>
-</clipPath>
-</defs>
 </svg>
