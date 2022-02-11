@@ -21,50 +21,19 @@ export default {
       <meta httpEquiv="Content-Language" content="en" />
       <meta
         name="description"
-        content="Trustlessly split onchain income - 0xSplits"
+        content="Trustless, composable, gas-efficient splits | 0xSplits Docs"
       />
       <meta
         name="og:description"
-        content="Trustlessly split onchain income - 0xSplits"
+        content="Trustless, composable, gas-efficient splits | 0xSplits Docs"
       />
       <meta
         name="og:title"
-        content="Trustlessly split onchain income - 0xSplits"
+        content="Trustless, composable, gas-efficient splits | 0xSplits Docs"
       />
       <meta name="og:image" property="og:image" content="/cover_docs.png" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta name="apple-mobile-web-app-title" content="0xSplits" />
-      <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="/apple-icon-180x180.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="192x192"
-        href="/android-icon-192x192.png"
-      />
-      <link
-        rel="icon"
-        type="image/svg"
-        sizes="32x32"
-        href="/logo_compressed.svg"
-      />
-      <link
-        rel="icon"
-        type="image/svg"
-        sizes="96x96"
-        href="/logo_compressed.svg"
-      />
-      <link
-        rel="icon"
-        type="image/svg"
-        sizes="16x16"
-        href="/logo_compressed.svg"
-      />
-      <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     </>
   ),
   search: false,
