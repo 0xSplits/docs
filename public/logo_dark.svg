@@ -1,21 +1,22 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="20" cy="100" r="17.28" fill="white"/>
-<circle cx="60" cy="20" r="12.8" fill="white"/>
-<circle cx="60" cy="100" r="16" fill="white"/>
-<circle cx="60" cy="180" r="12.8" fill="white"/>
-<circle cx="40" cy="59.9999" r="16" fill="white"/>
-<circle cx="40" cy="140" r="16" fill="white"/>
-<circle cx="100" cy="20" r="9.6" fill="white"/>
-<circle cx="100" cy="100" r="12.8" fill="white"/>
-<circle cx="100" cy="180" r="9.6" fill="white"/>
-<circle cx="80" cy="59.9998" r="12.8" fill="white"/>
-<circle cx="80" cy="140" r="12.8" fill="white"/>
-<circle cx="140" cy="20" r="6.4" fill="white"/>
-<circle cx="140" cy="100" r="9.6" fill="white"/>
-<circle cx="140" cy="180" r="6.4" fill="white"/>
-<circle cx="120" cy="59.9999" r="9.6" fill="white"/>
-<circle cx="120" cy="140" r="9.6" fill="white"/>
-<circle cx="180" cy="100" r="6.4" fill="white"/>
-<circle cx="160" cy="59.9999" r="6.4" fill="white"/>
-<circle cx="160" cy="140" r="6.4" fill="white"/>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1024" height="1024" fill="white"/>
+<ellipse cx="201.697" cy="512.001" rx="67.0255" ry="67.0255" fill="black"/>
+<circle cx="356.848" cy="201.697" r="49.6485" fill="black"/>
+<circle cx="356.849" cy="512.001" r="62.0606" fill="black"/>
+<ellipse cx="356.848" cy="822.303" rx="49.6485" ry="49.6485" fill="black"/>
+<ellipse cx="279.273" cy="356.848" rx="62.0606" ry="62.0606" fill="black"/>
+<circle cx="279.273" cy="667.152" r="62.0606" fill="black"/>
+<ellipse cx="512" cy="201.697" rx="37.2364" ry="37.2364" fill="black"/>
+<ellipse cx="512" cy="512.001" rx="49.6485" ry="49.6485" fill="black"/>
+<ellipse cx="512" cy="822.303" rx="37.2364" ry="37.2364" fill="black"/>
+<circle cx="434.424" cy="356.848" r="49.6485" fill="black"/>
+<ellipse cx="434.424" cy="667.152" rx="49.6485" ry="49.6485" fill="black"/>
+<circle cx="667.152" cy="201.697" r="24.8243" fill="black"/>
+<circle cx="667.152" cy="512.001" r="37.2364" fill="black"/>
+<ellipse cx="667.152" cy="822.303" rx="24.8243" ry="24.8242" fill="black"/>
+<ellipse cx="589.576" cy="356.848" rx="37.2364" ry="37.2364" fill="black"/>
+<circle cx="589.576" cy="667.152" r="37.2364" fill="black"/>
+<ellipse cx="822.303" cy="512.001" rx="24.8242" ry="24.8243" fill="black"/>
+<ellipse cx="744.727" cy="356.848" rx="24.8243" ry="24.8243" fill="black"/>
+<ellipse cx="744.727" cy="667.152" rx="24.8243" ry="24.8243" fill="black"/>
 </svg>
