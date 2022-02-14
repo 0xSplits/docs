@@ -13,12 +13,12 @@ The implementation logic for `SplitProxy`.
 ### sendERC20ToMain
 
 ```solidity
-function sendERC20ToMain(contract ERC20 token, uint256 amount) external nonpayable
+function sendERC20ToMain(contract ERC20 token, uint256 amount) external payable
 ```
 
 Sends amount `amount` of ERC20 `token` in proxy to SplitMain
 
-
+*payable reduces gas cost; no vulnerability to accidentally lock  ETH introduced since fn call is restricted to SplitMain*
 
 #### Parameters
 
@@ -30,12 +30,12 @@ Sends amount `amount` of ERC20 `token` in proxy to SplitMain
 ### sendETHToMain
 
 ```solidity
-function sendETHToMain(uint256 amount) external nonpayable
+function sendETHToMain(uint256 amount) external payable
 ```
 
 Sends amount `amount` of ETH in proxy to SplitMain
 
-
+*payable reduces gas cost; no vulnerability to accidentally lock  ETH introduced since fn call is restricted to SplitMain*
 
 #### Parameters
 
