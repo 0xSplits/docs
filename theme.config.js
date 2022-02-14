@@ -36,6 +36,25 @@ export default {
       <meta name="og:image" property="og:image" content="/cover_docs.png" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
+      <link rel="icon" href="/logo_compressed.svg" />
+      <link
+        rel="icon"
+        type="image/svg+xml"
+        sizes="32x32"
+        href="/logo_compressed.svg"
+      />
+      <link
+        rel="icon"
+        type="image/svg+xml"
+        sizes="96x96"
+        href="/logo_compressed.svg"
+      />
+      <link
+        rel="icon"
+        type="image/svg+xml"
+        sizes="16x16"
+        href="/logo_compressed.svg"
+      />
     </>
   ),
   search: false,

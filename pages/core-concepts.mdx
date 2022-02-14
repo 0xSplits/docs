@@ -4,19 +4,22 @@ import Callout from 'nextra-theme-docs/callout'
 
 ### Split
 
-A Split is a smart contract (SC) that receives and distributes incoming funds. Each
-Split has an address, a set of Recipients, a balance, and a Distributor Fee.
-Just like any other payable smart contract, funds can be sent to the Split's
-address from any other externally owned account (EOA) or SC. Optionally, a Split
-can be [mutable](/core-concepts#mutable-split), allowing it to be modified by
-the Controller.
+A Split is a
+[smart contract](https://ethereum.org/en/developers/docs/smart-contracts/) that
+receives and distributes incoming funds. Each Split has an address, a set of
+Recipients, a balance, and a Distributor Fee. Just like any other payable smart
+contract, funds can be sent to the Split's address from any Ethereum account.
+Optionally, a Split can be [mutable](/core-concepts#mutable-split), allowing it
+to be modified by the Controller.
 
 ### Recipient
 
-A Recipient is an EOA or SC that earns a portion of the Split's income. A
-Recipient may be any valid Ethereum address, including other Splits. Recipients
-do not need direct control of the account, since funds can be withdrawn for the
-Recipient by a third party.
+A Recipient is any
+[Ethereum account](https://ethereum.org/en/developers/docs/accounts/#types-of-account)
+(externally owned or smart contract) that earns a portion of the Split's income.
+A Recipient may be any valid Ethereum address, including other Splits.
+Recipients do not need direct control of the account, since funds can be
+withdrawn for the Recipient by a third party.
 
 ### Balance
 
