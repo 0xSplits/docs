@@ -1,10 +1,10 @@
 # Alternative Solutions
 
-Before starting this project, we saw what
+Before starting this project, we surveyed what
 [Mirror](https://dev.mirror.xyz/V_7Jp1hy_g8bz-J1B4Wb5KYSmj5Lt4W7q7cw0noxJsU),
 [OpenZeppelin](https://docs.openzeppelin.com/contracts/4.x/api/finance#PaymentSplitter),
 [Foundation](https://etherscan.io/address/0x1EF0159071b2A5898024cef4b4f78C171b7f48a8#code)
-and others had built, and focused on optimizations around a few key areas:
+and others had built and focused on optimizations around a few key areas:
 composability, gas efficiency & fairness, and onchain-ness. Below we highlight
 some key differences between 0xSplits and other implementations of splitter
 contracts.
@@ -33,8 +33,7 @@ contracts.
 
 ### Onchain-ness
 
-- All 0xSplits data lives onchain, and there are no infrastructure dependencies
-  or potential for censorship
+- All 0xSplits data lives onchain with no infrastructure dependencies or potential for censorship
 - 0xSplits contracts are non-upgradable, meaning both the protocol and each
   Split is unstoppable and will continue to operate for as long as the network
   does
@@ -46,9 +45,9 @@ highlighting.
 
 - **Very large groups:** Splits are designed for groups of people less than ~500
   (see [gas estimates](/gas-estimates)). While you can stack Splits multiple
-  layers deep (i.e. Splits that point to other Splits), you should ensure enough
-  funds will flow through the Split to make this approach efficient. The larger
-  the group, the more you should consider some kind of rebasing token or a DAO.
+  layers deep (i.e. Splits that point to other Splits), you will need significant
+  funds flowing through the top-level Split to justify the total gas cost of distribution.
+  The larger the group, the more you should consider a rebasing token or DAO.
 
 - **Single-use:** Splits are most gas-efficient when reused multiple times. If
   the payout is expected to arrive in a single lump sum, something like
@@ -56,7 +55,7 @@ highlighting.
   more efficient.
 
 - **Rebasing tokens:** While held in a Split or user balance, rebasing tokens
-  may cause accounting issues within your Splits.
+  will cause accounting issues within your Splits.
 
 - **Fee-on-transfer:** ERC20s flowing through Splits that have a
-  "fee-on-transfer" may cause accounting problems within your Splits.
+  "fee-on-transfer" will cause accounting problems within your Splits.
