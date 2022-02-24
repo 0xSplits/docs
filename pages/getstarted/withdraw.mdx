@@ -6,31 +6,26 @@ takes a single transaction to transfer all of your balances to your wallet. You
 can do this at your leisure, whenever gas prices are low or you just want to
 cash out.
 
-Once you've connected your wallet, just navigate to your Overview page, select
-the balances you wish to withdraw, and smash the "Withdraw" button. Once the
+If you have balances available to withdraw, you can see this within the Overview
+menu item or on the Overview page.
+
+![Overview menu item](/withdraw_indicator.png)
+
+To withdraw your balances, just navigate to your Overview page, select the
+balances you wish to withdraw, and hit the "Withdraw" button. Once the
 transaction has been confirmed, you'll see that those funds have been
 transferred to your wallet and your balance within Splits has been reset.
 
-![Withdraw Balances](/withdraw-balances.png)
-
-### Withdrawing For Another Account
-
-Since Recipients in a Split can be any Ethereum address, including smart
-contracts to which nobody holds the private keys, you're able to withdraw
-balances on behalf of other Recipients. When you do this, you're effectively
-paying the gas needed to push the Recipient's funds to their wallet.
-
-We're building a UI to handle this, but in the meantime you can do this via the
-contracts directly by calling [`withdraw`](/natspec/SplitMain#withdraw) on
-[`SplitMain`](/smart-contracts#splitmain).
+![Overview page](/withdraw-balances.png)
 
 ### Why Must You Withdraw?
 
-In other words, once the balance of a Split has been distributed, why aren't
-they automatically showing up in your account? The withdraw flow follows a
+In other words, once the balance of a Split has been distributed, why aren't the
+funds automatically showing up in your account? This is because the withdraw
+flow follows a
 [pull model](https://fravoll.github.io/solidity-patterns/pull_over_push.html)
-(i.e., you need to _pull_ your funds from 0xSplits into your account) for two
-primary reasons.
+(i.e., you need to _pull_ your funds from 0xSplits into your account). It's
+designed this way for two primary reasons.
 
 First, the pull model is more reliable and secure, and is therefore the
 [recommended approach](https://consensys.github.io/smart-contract-best-practices/development-recommendations/general/external-calls/#favor-pull-over-push-for-external-calls)
@@ -41,3 +36,42 @@ Second, the pull model increases gas-efficiency for the recipients. Since all
 your Splits deposit into the same place, you can collect all your distributed
 balances in a single transaction. The longer you wait to withdraw your funds,
 the more money piles up, and the more gas you save.
+
+### Withdrawing For Another Account
+
+Since Recipients in a Split can be any Ethereum address, including smart
+contracts unable to withdraw funds themselves, anyone can withdraw balances on
+behalf of other Recipients. When you do this, you're effectively paying the gas
+needed to push the Recipient's funds to their wallet. We're adding this
+functionality to the app, but you can do this manually via Etherscan today.
+
+Before withdrawing, you should check that the account in question has a balance.
+You can read the balance by calling the `getETHBalance` and `getERC20Balance`
+functions on
+[Etherscan](https://etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#readContract).
+
+To manually withdraw ETH for a Receipient using Etherscan, follow these steps:
+
+1. Go to the
+   [SplitMain contract](https://etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#writeContract)
+   on Etherscan.
+2. Make sure you're on the Contract tab, have selected "Write Contract", and
+   have connected to Web3.
+
+   ![Etherscan navigation](/withdraw_01.png)
+
+3. Scroll down to the `withdraw` function and paste in the recipient's address,
+   make the `withdrawETH` field equal to `1`, leave the `tokens` field empty,
+   and hit the "Write" button.
+
+![Etherscan input](/withdraw_02.png)
+
+If you wish to withdraw the balance for an ERC20 token, follow the same steps
+but make the `withdrawETH` field equal to `0` and paste the ERC20 token
+addresses you wish to withdraw in the `tokens` field. Make sure to enclose the
+ERC20 token address(es) in brackets, and separate with a comma if you're
+withdrawing multiple at once.
+
+If you're having trouble with this, jump in our
+[Discord](https://chat.0xsplits.xyz/) and drop us a note in the `#support`
+channel.
