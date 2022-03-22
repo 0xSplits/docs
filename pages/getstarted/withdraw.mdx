@@ -61,7 +61,7 @@ To manually withdraw ETH for a Receipient using Etherscan, follow these steps:
    ![Etherscan navigation](/withdraw_01.png)
 
 3. Scroll down to the `withdraw` function and paste in the recipient's address,
-   make the `withdrawETH` field equal to `1`, leave the `tokens` field empty,
+   make the `withdrawETH` field equal to `1`, set the `tokens` field to `[]`,
    and hit the "Write" button.
 
 ![Etherscan input](/withdraw_02.png)
@@ -69,7 +69,7 @@ To manually withdraw ETH for a Receipient using Etherscan, follow these steps:
 If you wish to withdraw the balance for an ERC20 token, follow the same steps
 but make the `withdrawETH` field equal to `0` and paste the ERC20 token
 addresses you wish to withdraw in the `tokens` field. Make sure to enclose the
-ERC20 token address(es) in brackets, and separate with a comma if you're
+ERC20 token address(es) in square brackets, and separate with a comma if you're
 withdrawing multiple at once.
 
 If you're having trouble with this, jump in our
