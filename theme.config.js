@@ -57,7 +57,7 @@ export default {
       />
     </>
   ),
-  search: false,
+  search: true,
   prevLinks: true,
   nextLinks: true,
   footer: true,
