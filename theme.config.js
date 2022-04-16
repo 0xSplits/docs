@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default {
-  github: 'https://github.com/0xSplits/splits-contracts',
+  projectLink: 'https://github.com/0xSplits/splits-contracts',
   docsRepositoryBase: 'https://github.com/0xSplits/docs',
   titleSuffix: ' – 0xSplits',
   logo: (
