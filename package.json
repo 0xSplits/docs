@@ -15,7 +15,7 @@
     "nextra": "2.0.0-alpha.48",
     "nextra-theme-docs": "v2.0.0-alpha.48",
     "prism-react-renderer": "^1.2.1",
-    "prismjs": "^1.25.0",
+    "prismjs": "^1.27.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
