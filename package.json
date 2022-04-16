@@ -4,16 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev -p 3002",
+    "dev": "next dev",
     "start": "next start",
     "build": "next build"
   },
   "author": "Shu Ding",
   "license": "MIT",
   "dependencies": {
-    "next": "^11.0.1",
-    "nextra": "^1.1.0",
-    "nextra-theme-docs": "^1.2.2",
+    "next": "^12.0.1",
+    "nextra": "2.0.0-alpha.48",
+    "nextra-theme-docs": "v2.0.0-alpha.48",
     "prism-react-renderer": "^1.2.1",
     "prismjs": "^1.25.0",
     "react": "^17.0.1",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "eslint": "^8.6.0",
+    "eslint-config-next": "^12.1.5",
     "eslint-plugin-react": "^7.28.0",
     "prettier": "2.5.1"
   }

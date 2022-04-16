@@ -58,6 +58,8 @@ export default {
     </>
   ),
   search: true,
+  unstable_flexsearch: true,
+  floatTOC: true,
   prevLinks: true,
   nextLinks: true,
   footer: true,
@@ -68,4 +70,7 @@ export default {
     </div>
   ),
   // unstable_faviconGlyph: '🔗',
+  // i18n: [
+  //   { locale: "en-US", text: "English" }
+  // ],
 }
