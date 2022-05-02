@@ -5,8 +5,8 @@ the different methods for moving funds between the components. As a
 [Recipient](/core-concepts#recipient), you don't actually have to worry about
 any of this, since the [Distributor Fee](/core-concepts#distributor-fee)
 incentivizes third parties to call functions (e.g.
-[`distributeETH`](/smartcontracts/SplitMain#distributeeth)) on your
-behalf. You will still occasionally wish to withdraw, however!
+[`distributeETH`](/smartcontracts/SplitMain#distributeeth)) on your behalf. You
+will still occasionally wish to withdraw, however!
 
 ![Flow of Funds Diagram](/flow-of-funds.svg)
 
@@ -18,27 +18,28 @@ Splits may receive funds via two paths:
    These funds will be flushed to `SplitMain` the next time
    [`distributeETH`](/smartcontracts/SplitMain#distributeeth) is called.
 1. If the Split is itself a Recipient of another Split, it will receive funds
-   when [`distributeETH`](/smartcontracts/SplitMain#distributeeth) is
-   called on the upstream Split.
+   when [`distributeETH`](/smartcontracts/SplitMain#distributeeth) is called on
+   the upstream Split.
 
 ### Distributing Funds
 
 Once funds have arrived at `SplitMain`, funds may be distributed by any third
 party willing to pay the gas to call
-[`distributeETH`](/smartcontracts/SplitMain#distributeeth). This function
-only needs to be called once in order for all Recipients to
-[withdraw](/core-concepts#withdraw) their share of the
-[balance](/core-concepts#balance). The party who calls this function will
-receive the [Distributor Fee](/core-concepts#distributor-fee) as compensation
-for paying the gas needed to execute the function.
+[`distributeETH`](/smartcontracts/SplitMain#distributeeth). This function only
+needs to be called once in order for all Recipients to withdraw their share of
+the balance. The party who calls this function will receive the
+[Distributor Fee](/core-concepts#distributor-fee) as compensation for paying the
+gas needed to execute the function.
 
 ### Withdrawing Funds
 
-Once funds have been distributed, they are now able to be withdrawn by users by
-calling [`withdraw`](/smartcontracts/SplitMain#withdraw). A user can call this function via the web app, or
-any third party can call this on the account's behalf. This is necessary, since
-Recipients can be smart contracts which can't execute the [`withdraw`](/smartcontracts/SplitMain#withdraw) function
-themselves (they must, however, still be able to receive funds).
+Once funds have been distributed, they can now be withdrawn by calling
+[`withdraw`](/smartcontracts/SplitMain#withdraw). A person can call this
+function via the web app, or any third party can call this on the account's
+behalf. Withdrawing for an account is necessary since Recipients can be smart
+contracts which can't execute the
+[`withdraw`](/smartcontracts/SplitMain#withdraw) function themselves (they must,
+however, still be able to receive funds).
 
 ### Summary
 
@@ -46,6 +47,7 @@ themselves (they must, however, still be able to receive funds).
 2. As the balance increases, any third party can earn the
    [Distributor Fee](/core-concepts#distributor-fee) by distributing the balance
    to the Recipients.
-3. Recipients may then [`withdraw`](/smartcontracts/SplitMain#withdraw) their balance, thus
-   collecting from all of their Splits in a single transaction (steps 1 & 2 may
-   happen dozens or hundreds of times per Recipient withdrawal).
+3. Recipients may then [`withdraw`](/smartcontracts/SplitMain#withdraw) their
+   balance, thus collecting from all of their Splits in a single transaction
+   (steps 1 & 2 may happen dozens or hundreds of times per Recipient
+   withdrawal).

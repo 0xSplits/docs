@@ -1,16 +1,16 @@
-import Callout from 'nextra-theme-docs/callout'
-
 # Core Concepts
 
 ### Split
 
 A Split is a
 [smart contract](https://ethereum.org/en/developers/docs/smart-contracts/) that
-receives and distributes incoming funds. Each Split has an address, a set of
-Recipients, a balance, and a Distributor Fee. Just like any other payable smart
-contract, funds can be sent to the Split's address from any Ethereum account.
-Optionally, a Split can be [mutable](/core-concepts#mutable-split), allowing it
-to be modified by the Controller.
+receives and distributes ETH and ERC20 tokens. Each Split has an address to
+which tokens can be sent; a set of [Recipients](/core-concepts#recipient) with
+corresponding ownership percentages; a list of
+[balances](/core-concepts#balance) for each token it's received; a
+[distributor fee](/core-concepts#distributor-fee) that incentivizes
+distributions; and a controlling address if it's a
+[Mutable Split](/core-concepts#mutable-split).
 
 ### Recipient
 
@@ -23,23 +23,21 @@ withdrawn for the Recipient by a third party.
 
 ### Balance
 
-Each Split has a balance that increases whenever income is received. This
-balance must be distributed before it can be withdrawn by the Recipients.
+Each Split has a balance that increases whenever tokens are received. This
+balance must be distributed before it can be withdrawn by the Recipients. Each
+balance is token-specific, meaning a Split may have multiple balances. For
+example, if a Split has received both ETH and DAI, each balance would need to be
+distributed separately.
 
 ### Distributor Fee
 
-This is the portion of a Split's balance that's earned in exchange for
-distributing the balance. This fee incentivizes third parties to pay the gas
-needed to distribute a Split's balance, while making the distribution cost borne
-by Recipients. This fee may be set to 0 for manual or progressive distributions.
-
-### Distributor
-
-The Distributor is any account (EOA or SC) that distributes a Split's balance
-for the Recipients, and earns the Distributor Fee for doing so. This
-architecture allows the gas needed to distribute funds to be borne in a flat or
-progressive manner, making it in aggregate more gas efficient for the
-Recipients.
+The ditributoe fee is the portion of a Split's balance that's earned in exchange
+for distributing the balance. This fee incentivizes third parties to pay the gas
+needed to distribute a Split's balance, since it creates an arbitrage
+opportunity (when the cost to distribute is lower than the fee multiplied by the
+balance). This fee also makes the distribution cost borne by Recipients, since
+it's deducted from the balance. This fee may be set to 0 for manual or
+progressive distributions.
 
 ### Withdraw
 
@@ -58,9 +56,3 @@ modify the Recipients and Distributor Fee, transfer control of the Split to a
 new Controller, or make the Split immutable (removing the Controller entirely).
 A Mutable Split can be made immutable, but immutable Splits can never become
 mutable.
-
-<Callout emoji="👾">
-  We're excited about the idea of building smart contracts that can modify
-  Splits based on other onchain state. Please reach out if you're interested in
-  this – we'd like to explore this concept & support you however we can!
-</Callout>

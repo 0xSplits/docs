@@ -1,16 +1,16 @@
-import Callout from 'nextra-theme-docs/callout'
-
 # Introduction
 
 0xSplits is a trustless, composable, gas-efficient protocol for splitting
-onchain income. It’s non-upgradable, completely free to use, and entirely
-onchain.
+onchain income. It runs exactly at gas cost and charges no fees whatsoever. It
+takes the form of a [hyperstructure](https://jacob.energy/hyperstructures.html),
+meaning it can run for free, forever, without any maintenance or trusted third
+parties.
 
 At the core of the protocol are [Splits](/core-concepts/#split) and
-[Recipients](/core-concepts/#recipient). A Split is a smart contract that
-receives and distributes incoming funds to the Recipients. A Recipient is any
-address (externally owned account or smart contract) that earns a portion of the
-Split's income. When a Split earns income, each Recipient receives their share.
+[Recipients](/core-concepts/#recipient). A Split is a payable smart contract
+that allocates all ETH & ERC20s it receives proportionally among the Recipients.
+A Recipient may be any address (externally owned account or smart contract) that
+receives a portion of the Split's income.
 
 ![Basic Overview Flow](/intro-flow.svg)
 
@@ -51,11 +51,6 @@ used:
   change.
 
 ### Community
-
-0xSplits is a **public good that's free to use.** The protocol runs exactly at
-gas cost and charges no fees whatsoever. It takes the form of a
-[hyperstructure](https://jacob.energy/hyperstructures.html), meaning it can run
-for free, forever, without any maintenance or trusted third parties.
 
 We believe Splits introduce a **novel way to fund public goods**, so it's being
 testing it on itself. If you'd like to support 0xSplits, all you have to do is
