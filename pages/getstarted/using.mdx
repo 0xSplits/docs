@@ -4,18 +4,19 @@ import Callout from 'nextra-theme-docs/callout'
 
 Just like any other payable smart contract, each Split has a unique address at
 which it can receive funds. Funds can be sent from any exchange, marketplace,
-wallet, or smart contract, including those with hard gas limits.
+wallet, or smart contract, including those with hard gas limits. Splits can only
+distribute ETH and ERC20 tokens. NFTs & other tokens sent to a Split will be
+**permanently lost**.
 
-<Callout type="warning" emoji="🚨">
-  Only send **ETH and ERC20s** to a Split. NFTs & other tokens sent to a Split
-  will be permanently lost.
+<Callout type="error" emoji="🚨">
+  Do not send NFTs to a Split - only send ETH and ERC20s.
 </Callout>
 
-You can locate a Split's address within the [app](https://app.0xsplits.xyz/) by
-viewing its detail page. See an
-[example here](https://app.0xsplits.xyz/accounts/0xF8843981e7846945960f53243cA2Fd42a579f719/).
-The Split's address is displayed 1) within the "Address" section in the upper
-right of the page, and 2) in the URL of the page itself.
+You can locate a Split's address by viewing its detail page within the app.
+[Here is an example](https://app.0xsplits.xyz/accounts/0xF8843981e7846945960f53243cA2Fd42a579f719/).
+The Split's address is displayed 1) in the URL of the page itself, and 2) within
+the "Address" section in the upper right of the page. Any ETH & ERC20s sent to
+this address will be split among the recipients.
 
 ![Copy Split Address](/copy-address.png)
 

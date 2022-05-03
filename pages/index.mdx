@@ -1,34 +1,44 @@
 # Introduction
 
 0xSplits is a trustless, composable, gas-efficient protocol for splitting
-onchain income. It runs exactly at gas cost and charges no fees whatsoever. It
-takes the form of a [hyperstructure](https://jacob.energy/hyperstructures.html),
-meaning it can run for free, forever, without any maintenance or trusted third
-parties.
+onchain income. Running exactly at gas cost and charging no fees whatsoever, it
+takes the form of a [hyperstructure](https://jacob.energy/hyperstructures.html)
+and can run for free, forever, without any maintenance or trusted third parties.
+The protocol is
+[open-source](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code)
+and
+[audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf).
+
+![Basic Overview Flow](/intro-flow.svg)
 
 At the core of the protocol are [Splits](/core-concepts/#split) and
 [Recipients](/core-concepts/#recipient). A Split is a payable smart contract
-that allocates all ETH & ERC20s it receives proportionally among the Recipients.
-A Recipient may be any address (externally owned account or smart contract) that
-receives a portion of the Split's income.
+that allocates all ETH & ERC20 tokens it receives proportionally among the
+Recipients. A Recipient may be any address (externally owned account or smart
+contract) that receives a share of the Split's income. Whenever a Split receives
+income, each Recipient gets their share.
 
-![Basic Overview Flow](/intro-flow.svg)
+These docs are designed to be "progressively technical"—the further you read the
+more technical they become. If you're non-technical, new to Ethereum, or just
+want to understand how you can use 0xSplits today, start here and keep reading.
+If you're a developer looking for integration details, skip ahead to the
+[Flow of Funds](/flow-of-funds) and [Smart Contracts](/smartcontracts/overview)
+sections.
 
 ### Features
 
 - Splits are **fully composable** on both input & output. Each Split is a
   payable smart contract that can directly receive ETH & ERC20s from any EOA or
   SC. Each Recipient is also just an Ethereum address (EOA or SC) for which
-  third-parties may execute withdrawals. With full composability on both ends,
-  Splits is an effective routing layer within any workflow.
-- Splits maximize **gas efficiency** by batching expensive operations &
-  commingling funds. Gas needed to distribute funds is borne by ownership or
-  covered by a third party, eliminating dust and allowing even the smallest
-  Recipient to withdraw their share.
+  third-parties may execute withdrawals.
+- Splits maximize **gas efficiency** by commingling funds and batching &
+  incentivizing expensive operations. The gas needed to distribute funds is
+  borne by ownership or covered by a third party, eliminating dust and allowing
+  even the smallest Recipient to withdraw their share.
 - Each Split exists **entirely onchain** and the actions necessary for the
-  protocol to operate are incentivized & permissionless. With no trusted third
-  parties, infrastructure dependencies, or upgradable contracts, you can be sure
-  each Split will continue to operate for as long as Ethereum exists.
+  protocol to operate are permissionless. With no trusted third parties,
+  upgradable contracts, or infrastructure dependencies, you can rely on Splits
+  continuing to operate for as long as Ethereum exists.
 
 ### Usage
 
@@ -36,7 +46,7 @@ Splits are valuable whenever you want to allocate percentages of onchain income
 to different parties. We believe a composable, gas-optimized, easy-to-use
 splitter contract is an important primitive that will help usher in a new wave
 of onchain collaboration & giving back. Here are a few ways 0xSplits is being
-used:
+used today:
 
 - **Onchain Collaboration**: Income from minting NFTs & royalties from secondary
   sales can be pointed to a Split's address. From then on, each Recipient will
@@ -44,22 +54,21 @@ used:
   disbursements or ongoing maintenance.
 - **Giving Back**: Rather than listing a single donation address for an open
   source project and trusting one of the contributors to disperse the proceeds,
-  the developers may simply create a Split and have it receive donations. All
-  future donations will be automatically distributed amongst the contributors.
-  The developers may also grant a multisig the ability to modify the Split,
-  allowing them change the Split's composition in the future as collaborators
-  change.
+  you may simple create a Split and have all donations be automatically
+  distributed amongst the contributors. The developers may also grant a multisig
+  the ability to modify the Split, allowing them change the Split's composition
+  in the future as contributors change.
 
 ### Community
 
-We believe Splits introduce a **novel way to fund public goods**, so it's being
-testing it on itself. If you'd like to support 0xSplits, all you have to do is
-add
+We believe Splits introduce a novel way to fund public goods, so we're **testing
+it on itself**. If you'd like to support the protocol, all you have to do is add
 [donations.0xsplits.eth](https://etherscan.io/address/0xF8843981e7846945960f53243cA2Fd42a579f719)
 as a Recipient in the Splits you create. This contract is itself a Split, which
-gives back to the communities that have supported protocol development to date.
-You can check out the Split
+gives back to the communities that have supported the protocol's development to
+date. You can check out the Split
 [here](https://app.0xsplits.xyz/splits/0xF8843981e7846945960f53243cA2Fd42a579f719/).
 
 Join us on [Discord](https://chat.0xsplits.xyz/) to learn more, ask questions,
-and share feedback with the community.
+and share feedback with the community. We're a small, funded, and growing team
+focused on this full time and would love to hear from you.
