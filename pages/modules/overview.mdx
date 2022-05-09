@@ -1,0 +1,65 @@
+# Modules
+
+Modules are smart contracts that extend the functionality of the protocol. They
+exist independently of 0xSplits, and operate either above or below the protocol.
+
+Above the protocol modules execute logic _before_ tokens are sent to the split.
+This means tokens must be sent to the module directly instead of the split. For
+example, a vesting module vests tokens _before_ sending the vested portion to a
+split. Tokens get sent to the vesting module, and from the vesting module to the
+split.
+
+Below the protocol modules execute logic _after_ tokens have been sent to a
+split. For example, an NFT pointer module allows split recipients to change
+based on NFT ownership. In this case, tokens are still sent to the split's
+address—the logic only impacts how tokens are distributed within the split.
+
+```
+  ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+
+  │            "Above the Protocol"             │
+            Logic happens here, before
+  │        tokens are sent to the split         │
+
+  └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+                         │
+                         │
+                         ▼
+  ┌─────────────────────────────────────────────┐
+  │                                             │
+  │            SPLIT SMART CONTRACT             │
+  │                                             │
+  └─────────────────────────────────────────────┘
+                         │
+                         │
+                         ▼
+  ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+
+  │            "Below the Protocol"             │
+         Logic happens here, after tokens
+  │          are received by the split          │
+
+  └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+```
+
+Most of these modules work independently of each other and can be combined to
+match the specific workflow you have in mind. For example, vesting tokens to a
+liquid split may be a great way to discourage quick flipping NFTs.
+
+### Building Modules
+
+Creating modules is permissionless since they exist independently of the
+protocol itself. They're made possible due to the protocol's composability in
+three key areas:
+
+1. Receiving tokens: each split is a payable smart contract that can receive
+   funds from any other account via `send`, `transfer`, or `call`.
+2. Distributing tokens: each recipient can be an EOA or smart contract for which
+   third parties may execute withdrawals.
+3. Modifying recipients: the controller of a mutable split can also be an EOA or
+   smart contract with custom logic.
+
+All of the modules highlighted here have been suggestions from the community.
+We'd love to see what modules you create, so please drop us a note in the
+`#dev-support` channel in Discord to discuss integrating your modules into the
+app.

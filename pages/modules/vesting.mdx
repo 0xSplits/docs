@@ -1,0 +1,93 @@
+# Vesting Module
+
+The Vesting Module allows multiple, isolated streams of different tokens to be
+vested to a beneficiary over a set period of time. All streams within a vesting
+module share a vesting period, but each stream may begin vesting or release
+tokens independently.
+
+## How It Works
+
+- Each vesting module has a payable address to which ETH and ERC20 tokens can be
+  sent.
+- Tokens sent to the vesting module are held until a vesting stream for a
+  specific token is started. Streams are token-specific, and multiple streams
+  may occur simultaneously.
+- Once a stream has begun, the vested portion can be transferred from the
+  vesting contract to the beneficiary.
+
+  ```
+          EXTERNAL ACCOUNT/SMART CONTRACT
+
+                         │
+                         │
+                         ▼
+    Vesting Module────────────────────────────────┐
+    │                                             │
+    │  ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐  │
+    │                                             │
+    │  │  ┌─────────┐             ┌─────────┐  │  │
+    │     │ Pending │────────────▶│ Vested  │     │
+    │  │  └─────────┘             └─────────┘  │  │
+    │                                             │
+    │  └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘  │
+    │                                             │
+    └─────────────────────────────────────────────┘
+                           │
+    0xSplits───────────────┼──────────────────────┐
+    │                      │                      │
+    │                      ▼                      │
+    │         ┌─────────────────────────┐         │
+    │         │ Split Contract Mutable  │         │
+    │         └─────────────────────────┘         │
+    │                      │                      │
+    │                      │                      │  ┌──────────┐
+    │          ┌───────────┼───────────┐          │  │Controller│
+    │          │           │           │          │  └──────────┘
+    │  ┌ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ┐  │        ●
+    │          ▼           ▼           ▼          │        │
+    │  │  ┌─────────┐ ┌─────────┐ ┌─────────┐  │  │  Controller
+    │     │Recipient│ │Recipient│ │Recipient│   ●─┼──can change
+    │  │  └─────────┘ └─────────┘ └─────────┘  │  │  recipients
+    │          │           │           │          │
+    │  └ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ┘  │
+    │          │           │           │          │
+    └──────────┼───────────┼───────────┼──────────┘
+               │           │           │
+               ▼           ▼           ▼
+
+            EOA/SC      EOA/SC      EOA/SC
+
+  ```
+
+## How To Use
+
+1. Navigate to an existing split's detail page and hit "New Vesting Module"
+   within the Address section.
+2. A form will appear with the beneficiary's address pre-filled to the current
+   split's address. Enter the vesting period (in days) and approve the
+   transaction.
+3. Once the transaction has been confirmed, you'll see the vesting module listed
+   in the Address section under "Vesting Modules" on the split detail page.
+4. Click on the vesting module's address and send tokens to it like you would a
+   split.
+5. Tokens received by the vesting module are held in a "Pending" section until a
+   stream has begun. Each token will have it's own unique stream, however,
+   multiple deposits can occur before a stream begins. You may wish to wait
+   until a ~meaningful balance accrues before starting the stream.
+6. Once a stream has begun and tokens have vested, select the streams to release
+   and click "Release Streams". Once the transaction is confirmed, the vested
+   tokens will be sent to the split (the beneficiary).
+7. From here you can interact with the split as you normally would. You can
+   navigate to the split's detail page and select the balance(s) to distribute
+   to the recipients, or wait for the system to do that automatically (assuming
+   a distributor fee has been set).
+
+## Notes
+
+- This module is designed to be used in conjunction with a mutable Split. You
+  may use it with an immutable split, however, vesting tokens to an immutable
+  split is equivalent to sending all tokens in one lump sum.
+- This module is immutable. Once it's been created, it cannot be changed.
+- Multiple vesting modules can point to the same beneficiary, however, each
+  vesting module must be unique. No two vesting modules can have identical
+  beneficiaries _and_ vesting periods.
