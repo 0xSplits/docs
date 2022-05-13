@@ -1,25 +1,27 @@
 # Modules
 
-Modules are smart contracts that extend the functionality of the protocol. They
-exist independently of 0xSplits, and operate either above or below the protocol.
+Modules are smart contracts that extend the functionality of the 0xSplits
+protocol. They exist as independent contracts, and operate either above or below
+the protocol.
 
-Above the protocol modules execute logic _before_ tokens are sent to the split.
-This means tokens must be sent to the module directly instead of the split. For
-example, a vesting module vests tokens _before_ sending the vested portion to a
-split. Tokens get sent to the vesting module, and from the vesting module to the
-split.
+Above the protocol modules execute logic _before_ tokens are sent to the Split.
+This means tokens must be sent to the module directly instead of the Split. For
+example, a [Vesting Module](/modules/overview) vests tokens _before_ sending the
+vested portion to a Split. Tokens are first sent to the Mesting Module and then
+to the Split.
 
 Below the protocol modules execute logic _after_ tokens have been sent to a
-split. For example, an NFT pointer module allows split recipients to change
-based on NFT ownership. In this case, tokens are still sent to the split's
-address—the logic only impacts how tokens are distributed within the split.
+Split. For example, a Pointer Module allows a Split Recipient to match whatever
+account owns a specific NFT. When the NFT changes hands, the Recipient in the
+Split is updated. In this case, tokens are still sent to the Split directly; the
+logic only impacts how tokens are distributed within the Split.
 
 ```
   ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
 
   │            "Above the Protocol"             │
             Logic happens here, before
-  │        tokens are sent to the split         │
+  │        tokens are sent to the Split         │
 
   └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
                          │
@@ -37,29 +39,29 @@ address—the logic only impacts how tokens are distributed within the split.
 
   │            "Below the Protocol"             │
          Logic happens here, after tokens
-  │          are received by the split          │
+  │          are received by the Split          │
 
   └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
 ```
 
 Most of these modules work independently of each other and can be combined to
 match the specific workflow you have in mind. For example, vesting tokens to a
-liquid split may be a great way to discourage quick flipping NFTs.
+Liquid Module may be a great way to discourage quick flipping NFTs, since the
+NFTs (theoretically) deliver value to the current owner.
 
 ### Building Modules
 
-Creating modules is permissionless since they exist independently of the
-protocol itself. They're made possible due to the protocol's composability in
-three key areas:
+Anyone can create modules since they exist independently of the protocol.
+They're made possible due to the protocol's composability in three key areas:
 
-1. Receiving tokens: each split is a payable smart contract that can receive
+1. Receiving tokens: each Split is a payable smart contract that can receive
    funds from any other account via `send`, `transfer`, or `call`.
-2. Distributing tokens: each recipient can be an EOA or smart contract for which
+2. Distributing tokens: each Recipient can be an EOA or smart contract for which
    third parties may execute withdrawals.
-3. Modifying recipients: the controller of a mutable split can also be an EOA or
+3. Modifying recipients: the Controller of a Mutable Split can also be an EOA or
    smart contract with custom logic.
 
-All of the modules highlighted here have been suggestions from the community.
-We'd love to see what modules you create, so please drop us a note in the
-`#dev-support` channel in Discord to discuss integrating your modules into the
-app.
+All modules highlighted in these docs started as ideas from the community. We'd
+love to see what modules you create, so please drop us a note in the
+`#dev-support` channel in Discord if you have questions or want to discuss ways
+to integrate your modules into the app.
