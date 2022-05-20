@@ -44,11 +44,6 @@ logic only impacts how tokens are distributed within the Split.
   └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
 ```
 
-Most of these modules work independently of each other and can be combined to
-match the specific workflow you have in mind. For example, vesting tokens to a
-Liquid Module may be a great way to discourage quick flipping NFTs, since the
-NFTs (theoretically) deliver value to the current owner.
-
 ### Building Modules
 
 Anyone can create modules since they exist independently of the protocol.
@@ -56,12 +51,13 @@ They're made possible due to the protocol's composability in three key areas:
 
 1. Receiving tokens: each Split is a payable smart contract that can receive
    funds from any other account via `send`, `transfer`, or `call`.
-2. Distributing tokens: each Recipient can be an EOA or smart contract for which
+2. Withdrawing tokens: each Recipient can be an EOA or smart contract for which
    third parties may execute withdrawals.
 3. Modifying recipients: the Controller of a Mutable Split can also be an EOA or
-   smart contract with custom logic.
+   smart contract with custom logic, allowing Split recipients to be
+   programatically updated.
 
 All modules highlighted in these docs started as ideas from the community. We'd
-love to see what modules you create, so please drop us a note in the
-`#dev-support` channel in Discord if you have questions or want to discuss ways
-to integrate your modules into the app.
+love to see the modules you create and learn about the modules you need. Please
+drop us a note in the `#dev-support` channel in Discord if you have questions or
+want to discuss ways to integrate your modules into the app.
