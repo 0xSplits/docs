@@ -74,6 +74,10 @@ controlling address `controller`
 (i.e., 0x00, 0x01, 0x0a, 0x10, 0x1a, etc).
 </Callout>
 
+<Callout>
+  for `percentAllocations` & `distributorFee`, 100% = [`PERCENTAGE_SCALE`](/smartcontracts/SplitMain#percentage_scale) = 1e6
+</Callout>
+
 #### Parameters
 
 | Name               | Type      | Description                                                   |
