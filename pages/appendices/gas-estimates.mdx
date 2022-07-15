@@ -4,28 +4,29 @@ The below tables outline gas estimates for
 [`createSplit`](/smartcontracts/SplitMain#createsplit) and
 [`distributeETH`](/smartcontracts/SplitMain#distributeeth).
 
-Note that `distributeETH 1st` is an **upper bound estimate**, since it assumes
-none of the Recipients have been
+Two important notes:
+1. the cost of distribution will increase if any of the Recipients haven't been
 [initialized](https://ethereum.org/en/developers/docs/smart-contracts/anatomy/#storage)
-within the protocol. Each account only needs to be initialized once for the
-entire protocol, so as the network grows the actual first distribution cost will
-decrease. If all of your recipients have been initialized, the first distribution will
-cost the same as the Nth.
+with the protocol. Each Recipient only needs to be initialized once for the
+entire protocol.
+2. the cost of creating a mutable split is slightly higher (~20k gas) 
+than creating an immutable split.
 
 ### Total Gas
 
   <div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
 
-| Size | CreateSplit Immutable | CreateSplit Mutable | distributeETH 1st | distributeETH Nth |
-| ---: | --------------------: | ------------------: | ----------------: | ----------------: |
-|    2 |               100_741 |             123_186 |            91_590 |            57_390 |
-|    5 |               104_484 |             126_929 |           162_619 |            77_119 |
-|   10 |               110_802 |             133_247 |           281_069 |           110_069 |
-|   25 |               129_344 |             151_789 |           636_074 |           208_574 |
-|   50 |               160_547 |             182_992 |         1_228_070 |           373_070 |
-|  100 |               223_155 |             245_600 |         2_412_505 |           702_505 |
-|  200 |               349_619 |             372_064 |         4_783_420 |         1_363_420 |
-|  500 |               736_908 |             759_353 |        11_910_624 |         3_360_624 |
+| Size | Create Split | Distribute ETH |
+| ---: | ----------: | ------------: |
+|    2 |     100_729 |        57_378 |
+|    5 |     104_520 |        77_155 |
+|   10 |     110_802 |       110_069 |
+|   25 |     129_332 |       208_562 |
+|   50 |     160_511 |       373_034 |
+|  100 |     223_155 |       702_505 |
+|  200 |     349_571 |     1_363_372 |
+|  500 |     737_004 |     3_360_720 |
+
 
   </div>
 
@@ -33,16 +34,16 @@ cost the same as the Nth.
 
 <div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
 
-| Size | CreateSplit Immutable | CreateSplit Mutable | distributeETH 1st | distributeETH Nth |
-| ---: | --------------------: | ------------------: | ----------------: | ----------------: |
-|    2 |                50_370 |              61_593 |            45_795 |            28_695 |
-|    5 |                20_896 |              25_385 |            32_523 |            15_423 |
-|   10 |                11_080 |              13_324 |            28_106 |            11_006 |
-|   25 |                 5_173 |               6_071 |            25_442 |             8_342 |
-|   50 |                 3_210 |               3_659 |            24_561 |             7_461 |
-|  100 |                 2_231 |               2_456 |            24_125 |             7_025 |
-|  200 |                 1_748 |               1_860 |            23_917 |             6_817 |
-|  500 |                 1_473 |               1_518 |            23_821 |             6_721 |
+| Size | Create Split | Distribute ETH |
+| ---: | ----------: | ------------: |
+|    2 |      50_364 |        28_689 |
+|    5 |      20_904 |        15_431 |
+|   10 |      11_080 |        11_006 |
+|   25 |       5_173 |         8_342 |
+|   50 |       3_210 |         7_460 |
+|  100 |       2_231 |         7_025 |
+|  200 |       1_747 |         6_816 |
+|  500 |       1_474 |         6_721 |
 
 </div>
 
@@ -52,16 +53,16 @@ Assuming 10 gwei gas and $1000 ETH
 
 <div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
 
-| Size | CreateSplit Immutable | CreateSplit Mutable | distributeETH 1st | distributeETH Nth |
-| ---: | --------------------: | ------------------: | ----------------: | ----------------: |
-|    2 |                 $1.01 |               $1.23 |             $0.92 |             $0.57 |
-|    5 |                 $1.05 |               $1.27 |             $1.63 |             $0.77 |
-|   10 |                 $1.11 |               $1.33 |             $2.81 |             $1.10 |
-|   25 |                 $1.29 |               $1.52 |             $6.36 |             $2.09 |
-|   50 |                 $1.61 |               $1.83 |            $12.28 |             $3.73 |
-|  100 |                 $2.23 |               $2.46 |            $24.13 |             $7.03 |
-|  200 |                 $3.50 |               $3.72 |            $47.83 |            $13.63 |
-|  500 |                 $7.37 |               $7.59 |           $119.11 |            $33.61 |
+| Size | Create Split | Distribute ETH |
+| ---: | ----------: | ------------: |
+|    2 |       $1.01 |         $0.57 |
+|    5 |       $1.05 |         $0.77 |
+|   10 |       $1.11 |         $1.10 |
+|   25 |       $1.29 |         $2.09 |
+|   50 |       $1.61 |         $3.73 |
+|  100 |       $2.23 |         $7.03 |
+|  200 |       $3.50 |        $13.63 |
+|  500 |       $7.37 |        $33.61 |
 
 </div>
 
@@ -71,16 +72,15 @@ Assuming 10 gwei gas and $1000 ETH
 
 <div style={{ paddingTop: '1rem', fontFamily: 'monospace', fontSize: '15px' }}>
 
-Gas per Recipient (in USD assuming 10 gwei gas & $1000 ETH)
-| Size | CreateSplit Immutable | CreateSplit Mutable | distributeETH 1st | distributeETH Nth |
-| ---: | --------------------: | ------------------: | ----------------: | ----------------: |
-|    2 |                 $0.50 |               $0.62 |             $0.46 |             $0.29 |
-|    5 |                 $0.21 |               $0.25 |             $0.33 |             $0.15 |
-|   10 |                 $0.11 |               $0.13 |             $0.28 |             $0.11 |
-|   25 |                 $0.05 |               $0.06 |             $0.25 |             $0.08 |
-|   50 |                 $0.03 |               $0.04 |             $0.25 |             $0.07 |
-|  100 |                 $0.02 |               $0.02 |             $0.24 |             $0.07 |
-|  200 |                 $0.02 |               $0.02 |             $0.24 |             $0.07 |
-|  500 |                 $0.01 |               $0.02 |             $0.24 |             $0.07 |
+| Size | Create Split | Distribute ETH |
+| ---: | ----------: | ------------: |
+|    2 |       $0.50 |         $0.29 |
+|    5 |       $0.21 |         $0.15 |
+|   10 |       $0.11 |         $0.11 |
+|   25 |       $0.05 |         $0.08 |
+|   50 |       $0.03 |         $0.07 |
+|  100 |       $0.02 |         $0.07 |
+|  200 |       $0.02 |         $0.07 |
+|  500 |       $0.01 |         $0.07 |
 
 </div>
