@@ -23,7 +23,8 @@ import { SplitsClient } from '@0xsplits/splits-sdk'
 
 const splitsClient = new SplitsClient({
   chainId,
-  signer,
+  provider, # ethers provider
+  signer, # ethers signer (optional, required if using the SplitMain write functions)
 })
 ```
 
@@ -46,7 +47,7 @@ Usage
 
 ```js
 const args = {
-  splitId: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+  splitId: '0xF8843981e7846945960f53243cA2Fd42a579f719',
 }
 
 const response = await splitsClient.getSplitMetadata(args)
@@ -84,7 +85,7 @@ Usage
 
 ```js
 const args = {
-  address: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+  address: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
 }
 
 const response = await splitsClient.getRelatedSplits(args)
@@ -102,7 +103,7 @@ Response
 
 ```graphql
 {
-  receivingFrom: { # all Splits in which the address is a Recipient
+  receivingFrom: { # Splits in which the address is a Recipient
     id: string
     controller: string | null
     newPotentialController: string | null
@@ -140,13 +141,17 @@ Response
 
 ### getSplitEarnings
 
-Returns token balances that have been distributed for a given `splitId`.
+Returns token balances for a given `splitId`.
+
+NOTE: Fetching active balances requires a getLogs request across many blocks. Not all 
+providers may handle it properly. Alchemy and Infura should work just fine. You can 
+disable fetching active balances by passing in `includeActiveBalances: false`.
 
 Usage
 
 ```js
 const args = {
-  splitId: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+  splitId: '0xF8843981e7846945960f53243cA2Fd42a579f719',
 }
 
 const response = await splitsClient.getSplitEarnings(args)
@@ -157,6 +162,7 @@ Arguments
 ```graphql
 {
   splitId: string
+  includeActiveBalances?: boolean (defaults to true)
 }
 ```
 
@@ -164,7 +170,10 @@ Response
 
 ```graphql
 {
-  distributed: {
+  activeBalances?: { # tokens that are waiting to be distributed
+    [token: string]: BigNumber
+  }
+  distributed: { # tokens that have already been distributed
     [token: string]: BigNumber
   }
 }
@@ -178,7 +187,7 @@ Usage
 
 ```js
 const args = {
-  userId: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342'
 }
 
 const response = await splitsClient.getUserEarnings(args)
@@ -218,7 +227,7 @@ Usage
 
 ```js
 const args = {
-  recipients: {
+  recipients: [
     {
       address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
       percentAllocation: 50.0000
@@ -226,8 +235,8 @@ const args = {
     {
       address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
       percentAllocation: 50.0000
-    },
-  }
+    }
+  ]
   distributorFeePercent: 1.0000
   controller: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
 }
@@ -244,7 +253,7 @@ Arguments
       percentAllocation: number # >0 and <100 and up to 4 decimals
     }[]
   distributorFeePercent: number # <10 and up to 4 decimals
-  controller: string # use AddressZero to make immutable
+  controller?: string # defaults to AddressZero for an immutable split
 }
 ```
 
@@ -325,7 +334,7 @@ Arguments
 ```graphql
 {
   splitId: string
-  token?: string # defaults to AddressZero representing ETH
+  token: string
   distributorAddress?: string # defaults to signer
 }
 ```
@@ -372,7 +381,7 @@ Arguments
 ```graphql
 {
   splitId: string
-  token?: string # defaults to AddressZero representing ETH
+  token: string
   recipients: {
     address: string;
     percentAllocation: number
@@ -557,7 +566,7 @@ These functions make it easier to query [SplitMain](/smartcontracts/SplitMain).
 
 ### getSplitBalance
 
-Returns the balance for a specified Split.
+Returns the balance for a token on the specified Split.
 
 Usage
 
