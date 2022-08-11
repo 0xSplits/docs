@@ -1,8 +1,7 @@
 # Splits Development Kit
 
-This page explains how to use the **Splits Development Kit (SDK)** to interact
-with Splits. The SDK makes it easier to query the
-[subgraph](/appendices/subgraph) or call
+This page explains how to use the **Splits Development Kit (SDK)**. The SDK
+makes it easier to query the [subgraph](/appendices/subgraph) or call
 [contract functions](/smartcontracts/SplitMain). You can find the SDK source
 code on [Github](https://github.com/0xSplits/splits-sdk/)
 
@@ -23,8 +22,8 @@ import { SplitsClient } from '@0xsplits/splits-sdk'
 
 const splitsClient = new SplitsClient({
   chainId,
-  provider, # ethers provider
-  signer, # ethers signer (optional, required if using the SplitMain write functions)
+  provider, // ethers provider
+  signer, // ethers signer (optional, required if using the SplitMain write functions)
 })
 ```
 
@@ -143,9 +142,10 @@ Response
 
 Returns token balances for a given `splitId`.
 
-NOTE: Fetching active balances requires a getLogs request across many blocks. Not all 
-providers may handle it properly. Alchemy and Infura should work just fine. You can 
-disable fetching active balances by passing in `includeActiveBalances: false`.
+NOTE: Fetching active balances requires a `getLogs` request across many blocks.
+Not all providers may handle it properly. Alchemy and Infura should work just
+fine. You can disable fetching active balances by passing in
+`includeActiveBalances: false`.
 
 Usage
 
@@ -162,7 +162,7 @@ Arguments
 ```graphql
 {
   splitId: string
-  includeActiveBalances?: boolean (defaults to true)
+  includeActiveBalances?: boolean # defaults to true
 }
 ```
 
@@ -187,7 +187,7 @@ Usage
 
 ```js
 const args = {
-  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342'
+  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
 }
 
 const response = await splitsClient.getUserEarnings(args)
@@ -221,7 +221,7 @@ These functions make it easier to call
 
 ### createSplit
 
-Creates a new Split contract. There must be at least 2 unique `recipients`.
+Creates a new Split contract.
 
 Usage
 
@@ -268,8 +268,8 @@ Response
 
 ### updateSplit
 
-Updates an existing mutable Split contract. This can only be called by the
-`controller` of the mutable Split.
+Updates an existing mutable Split contract. Only callable by the controller of
+`splitId`.
 
 Usage
 
@@ -315,7 +315,8 @@ Response
 
 ### distributeToken
 
-Distributes a Split's balance of a specified token.
+Distributes the balance of `token` for `splitId`, and sends the distributor fee
+to `distributorAddress`.
 
 Usage
 
@@ -350,8 +351,8 @@ Response
 ### updateSplitAndDistributeToken
 
 This combines [updateSplit](#updatesplit) and
-[distributeToken](#distributetoken) into one transaction. It can only be called
-by the `controller` of a mutable Split.
+[distributeToken](#distributetoken) into one transaction. Only callable by the
+controller of `splitId`.
 
 Usage
 
@@ -401,7 +402,7 @@ Response
 
 ### withdrawFunds
 
-Withdraws tokens from `SplitMain` for a specified user.
+Withdraws `tokens` for a given `address`.
 
 Usage
 
@@ -436,8 +437,8 @@ Response
 
 ### initiateControlTransfer
 
-Transfers control of a mutable Split to `newController`. This can only be called
-by the `controller`.
+Transfers control of `splitId` to `newController`. Only callable by the
+controller of `splitId`.
 
 Usage
 
@@ -469,8 +470,7 @@ Response
 
 ### acceptControlTransfer
 
-Accept control of a mutable Split being tranferred. This can only be called by
-the `newController`.
+Accepts control of `splitId`. Only callable by the new controller of `splitId`.
 
 Usage
 
@@ -500,8 +500,7 @@ Response
 
 ### cancelControlTransfer
 
-Cancels the transfer of of a mutable Split being tranferred. This can only be
-called by the `controller`.
+Cancels the transfer of `splitId`. Only callable by the controller of `splitId`.
 
 Usage
 
@@ -531,8 +530,7 @@ Response
 
 ### makeSplitImmutable
 
-Makes a mutable Split immutable by making the `controller` address zero. Can
-only be called by the `controller`.
+Makes `splitId` immutable. Only callable by the controller of `splitId`.
 
 Usage
 
@@ -566,13 +564,15 @@ These functions make it easier to query [SplitMain](/smartcontracts/SplitMain).
 
 ### getSplitBalance
 
-Returns the balance for a token on the specified Split.
+Returns the balance for a given `splitId` and `token`. If no `token` is
+provided, returns the ETH balance.
 
 Usage
 
 ```js
 const args = {
   splitId: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+  token: '0x64d91f12ece7362f91a6f8e7940cd55f05060b92',
 }
 
 const response = await splitsClient.getSplitBalance(args)
@@ -597,8 +597,9 @@ Response
 
 ### predictImmutableSplitAddress
 
-Returns the address at which an immutable Split will be deployed, using
-[CREATE2](https://eips.ethereum.org/EIPS/eip-1014).
+Returns the determinisic address (using
+[CREATE2](https://eips.ethereum.org/EIPS/eip-1014)) at which an immutable Split
+will be deployed for given `recipients` and `distributorFeePercent`.
 
 Usage
 
@@ -642,7 +643,7 @@ Response
 
 ### getController
 
-Returns the `controller` for a specified Split.
+Returns the controller for a given `splitId`.
 
 Usage
 
@@ -672,7 +673,8 @@ Response
 
 ### getNewPotentialController
 
-Returns the `newController` for a specified Split.
+Returns the new potential controller (i.e., the account that needs to accept
+control) for a given `splitId`.
 
 Usage
 
@@ -702,7 +704,7 @@ Response
 
 ### getHash
 
-Returns the current hash of a specified Split.
+Returns the current hash for a given `splitId`.
 
 Usage
 
