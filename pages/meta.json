@@ -3,7 +3,8 @@
   "getstarted": "Getting Started",
   "core-concepts": "Core Concepts",
   "flow-of-funds": "Flow of Funds",
-  "modules": "Modules",
   "smartcontracts": "Smart Contracts",
+  "sdk": "SDK",
+  "modules": "Modules",
   "appendices": "Appendices"
 }

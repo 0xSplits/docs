@@ -1,0 +1,722 @@
+# Splits Development Kit
+
+This page explains how to use the **Splits Development Kit (SDK)** to interact
+with Splits. The SDK makes it easier to query the
+[subgraph](/appendices/subgraph) or call
+[contract functions](/smartcontracts/SplitMain). You can find the SDK source
+code on [Github](https://github.com/0xSplits/splits-sdk/)
+
+To get started, install the package using yarn or npm.
+
+```bash
+yarn add @0xsplits/splits-sdk@beta
+```
+
+```bash
+npm install @0xsplits/splits-sdk@beta
+```
+
+Then, import `SplitsClient` into your app.
+
+```js
+import { SplitsClient } from '@0xsplits/splits-sdk'
+
+const splitsClient = new SplitsClient({
+  chainId,
+  signer,
+})
+```
+
+Now you're ready to use any of the functions. All Arguments and Responses for
+these functions are `objects`. This will make it easier for us to release
+updates to the SDK without breaking existing implementations.
+
+The SDK comprises 3 different types of functions: Subgraph Reads, SplitMain
+Writes, and SplitMain Reads.
+
+## Subgraph Reads
+
+These functions make it easier to query the [subgraph](/appendices/subgraph).
+
+### getSplitMetadata
+
+Returns all metadata for a given `splitId`.
+
+Usage
+
+```js
+const args = {
+  splitId: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+}
+
+const response = await splitsClient.getSplitMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+}
+```
+
+Response
+
+```graphql
+{
+  id: string
+  controller: string | null
+  newPotentialController: string | null
+  distributorFeePercent: number
+  recipients: {
+    address: string
+    percentAllocation: number
+  }[]
+  createdBlock: number
+}
+```
+
+### getRelatedSplits
+
+Returns all Splits related to a given `address`.
+
+Usage
+
+```js
+const args = {
+  address: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+}
+
+const response = await splitsClient.getRelatedSplits(args)
+```
+
+Arguments
+
+```graphql
+{
+  address: string
+}
+```
+
+Response
+
+```graphql
+{
+  receivingFrom: { # all Splits in which the address is a Recipient
+    id: string
+    controller: string | null
+    newPotentialController: string | null
+    distributorFeePercent: number
+    recipients: {
+      address: string;
+      percentAllocation: number
+    }[]
+    createdBlock: number
+  }[]
+  controlling: { # Splits of which the address is the Controller
+    id: string
+    controller: string | null
+    newPotentialController: string | null
+    distributorFeePercent: number
+    recipients: {
+      address: string;
+      percentAllocation: number
+    }[]
+    createdBlock: number
+  }[]
+  pendingControl: { # Splits of which the address has been given but not yet accepted Control
+    id: string
+    controller: string | null
+    newPotentialController: string | null
+    distributorFeePercent: number
+    recipients: {
+      address: string;
+      percentAllocation: number
+    }[]
+    createdBlock: number
+  }[]
+}
+```
+
+### getSplitEarnings
+
+Returns token balances that have been distributed for a given `splitId`.
+
+Usage
+
+```js
+const args = {
+  splitId: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+}
+
+const response = await splitsClient.getSplitEarnings(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+}
+```
+
+Response
+
+```graphql
+{
+  distributed: {
+    [token: string]: BigNumber
+  }
+}
+```
+
+### getUserEarnings
+
+Returns token balances for a given `userId`.
+
+Usage
+
+```js
+const args = {
+  userId: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+}
+
+const response = await splitsClient.getUserEarnings(args)
+```
+
+Arguments
+
+```graphql
+{
+  userId: string
+}
+```
+
+Response
+
+```graphql
+{
+  withdrawn: { # tokens the user has already withdrawn from the protocol
+    [token: string]: BigNumber
+  }
+  activeBalances: { # tokens that have been distributed but not yet withdrawn
+    [token: string]: BigNumber
+  }
+}
+```
+
+## SplitMain Writes
+
+These functions make it easier to call
+[SplitMain functions](/smartcontracts/SplitMain).
+
+### createSplit
+
+Creates a new Split contract. There must be at least 2 unique `recipients`.
+
+Usage
+
+```js
+const args = {
+  recipients: {
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    },
+  }
+  distributorFeePercent: 1.0000
+  controller: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+}
+
+const response = await splitsClient.createSplit(args)
+```
+
+Arguments
+
+```graphql
+{
+  recipients: {
+      address: string;
+      percentAllocation: number # >0 and <100 and up to 4 decimals
+    }[]
+  distributorFeePercent: number # <10 and up to 4 decimals
+  controller: string # use AddressZero to make immutable
+}
+```
+
+Response
+
+```graphql
+{
+  splitId: string
+  event: Event # CreateSplit emitted on SplitMain
+}
+```
+
+### updateSplit
+
+Updates an existing mutable Split contract. This can only be called by the
+`controller` of the mutable Split.
+
+Usage
+
+```js
+const args = {
+  splitId: "0x047ED5b8E8a7eDBd92FAF61f3117cAFE8c529ABb"
+  recipients: {
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    },
+  }
+  distributorFeePercent: 1.0000
+}
+
+const response = await splitsClient.updateSplit(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+  recipients: {
+    address: string;
+    percentAllocation: number
+  }[]
+  distributorFeePercent: number
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # UpdateSplit emitted on SplitMain
+}
+```
+
+### distributeToken
+
+Distributes a Split's balance of a specified token.
+
+Usage
+
+```js
+const args = {
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
+}
+
+const response = await splitsClient.distributeToken(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+  token?: string # defaults to AddressZero representing ETH
+  distributorAddress?: string # defaults to signer
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # DistributeETH or DistributeERC20 emitted on SplitMain
+}
+```
+
+### updateSplitAndDistributeToken
+
+This combines [updateSplit](#updatesplit) and
+[distributeToken](#distributetoken) into one transaction. It can only be called
+by the `controller` of a mutable Split.
+
+Usage
+
+```js
+const args = {
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  recipients: {
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    },
+  }
+  distributorFeePercent: 1.0000
+  distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
+}
+
+const response = await splitsClient.updateSplitAndDistributeToken(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+  token?: string # defaults to AddressZero representing ETH
+  recipients: {
+    address: string;
+    percentAllocation: number
+  }[]
+  distributorFeePercent: number
+  distributorAddress?: string # defaults to signer
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # UpdateSplit and DistributeETH or DistributeERC20 emitted on SplitMain
+}
+```
+
+### withdrawFunds
+
+Withdraws tokens from `SplitMain` for a specified user.
+
+Usage
+
+```js
+const args = {
+  address: "0x357138F2690B82f29dF32bf2a3d0e6d4CC4D63C1"
+  tokens: [
+    "0x64d91f12ece7362f91a6f8e7940cd55f05060b92",
+    "0x0000000000000000000000000000000000000000"
+  ]
+}
+
+const response = await splitsClient.withdrawFunds(args)
+```
+
+Arguments
+
+```graphql
+{
+  address: string
+  tokens: string[]
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # Withdrawal emitted on SplitMain
+}
+```
+
+### initiateControlTransfer
+
+Transfers control of a mutable Split to `newController`. This can only be called
+by the `controller`.
+
+Usage
+
+```js
+const args = {
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  newController: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
+}
+
+const response = await splitsClient.initiateControlTransfer(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+  newController: string
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # InitiateControlTransfer emitted on SplitMain
+}
+```
+
+### acceptControlTransfer
+
+Accept control of a mutable Split being tranferred. This can only be called by
+the `newController`.
+
+Usage
+
+```js
+const args = {
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.acceptControlTransfer(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # ControlTransfer emitted on SplitMain
+}
+```
+
+### cancelControlTransfer
+
+Cancels the transfer of of a mutable Split being tranferred. This can only be
+called by the `controller`.
+
+Usage
+
+```js
+const args = {
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.cancelControlTransfer(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # CancelControlTransfer emitted on SplitMain
+}
+```
+
+### makeSplitImmutable
+
+Makes a mutable Split immutable by making the `controller` address zero. Can
+only be called by the `controller`.
+
+Usage
+
+```js
+const args = {
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.makeSplitImmutable(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # ControlTransfer emitted on SplitMain
+}
+```
+
+## SplitMain Reads
+
+These functions make it easier to query [SplitMain](/smartcontracts/SplitMain).
+
+### getSplitBalance
+
+Returns the balance for a specified Split.
+
+Usage
+
+```js
+const args = {
+  splitId: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+}
+
+const response = await splitsClient.getSplitBalance(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+  token?: string # defaults to AddressZero
+}
+```
+
+Response
+
+```graphql
+{
+  balance: BigNumber
+}
+```
+
+### predictImmutableSplitAddress
+
+Returns the address at which an immutable Split will be deployed, using
+[CREATE2](https://eips.ethereum.org/EIPS/eip-1014).
+
+Usage
+
+```js
+const args = {
+  recipients: {
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    },
+  }
+  distributorFeePercent: 1.0000
+}
+
+const response = await splitsClient.predictImmutableSplitAddress(args)
+```
+
+Arguments
+
+```graphql
+{
+  recipients: {
+    address: string;
+    percentAllocation: number
+  }[]
+  distributorFeePercent: number
+}
+```
+
+Response
+
+```graphql
+{
+  splitId: string
+}
+```
+
+### getController
+
+Returns the `controller` for a specified Split.
+
+Usage
+
+```js
+const args = {
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.getController(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+}
+```
+
+Response
+
+```graphql
+{
+  controller: string
+}
+```
+
+### getNewPotentialController
+
+Returns the `newController` for a specified Split.
+
+Usage
+
+```js
+const args = {
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.getNewPotentialController(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+}
+```
+
+Response
+
+```graphql
+{
+  newPotentialController: string
+}
+```
+
+### getHash
+
+Returns the current hash of a specified Split.
+
+Usage
+
+```js
+const args = {
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.getHash(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+}
+```
+
+Response
+
+```graphql
+{
+  hash: string
+}
+```
