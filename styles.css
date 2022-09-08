@@ -1,0 +1,14 @@
+@supports (font-variation-settings: normal) {
+  html {
+    font-family: 'Inter var', sans-serif;
+    font-feature-settings: 'calt' 0, 'ss01' 1, 'ss02' 0;
+  }
+  .font-tabular {
+    font-family: 'Inter var', sans-serif;
+    font-feature-settings: 'tnum' 1, 'calt' 0, 'ss01' 1, 'ss02' 0;
+  }
+}
+
+h2 {
+  border-bottom: none;
+}

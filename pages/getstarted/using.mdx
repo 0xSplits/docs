@@ -1,4 +1,6 @@
-# Using A Split
+import Callout from 'nextra-theme-docs/callout'
+
+# Using Splits
 
 Just like any other payable smart contract, each Split has a unique address at
 which it can receive funds. Funds can be sent from any exchange, marketplace,
@@ -6,9 +8,10 @@ wallet, or smart contract, including those with hard gas limits. Splits can only
 distribute ETH and ERC20 tokens. **NFTs sent to a Split will be permanently
 lost.**
 
-You can locate a Split's address by viewing its detail page within the app.
-[Here is an example](https://app.0xsplits.xyz/accounts/0xF8843981e7846945960f53243cA2Fd42a579f719/).
-The Split's address is displayed 1) in the URL of the page itself, and 2) within
+You can locate a Split's address by viewing its detail page within the app
+(example
+[here](https://app.0xsplits.xyz/accounts/0xF8843981e7846945960f53243cA2Fd42a579f719/)).
+The Split's address is displayed in 2 places: the URL of the page itself, and
 the "Address" section in the upper right of the page. Any ETH & ERC20s sent to
 this address will be split among the recipients.
 
@@ -16,27 +19,42 @@ this address will be split among the recipients.
 
 To find a specific Split, you can search by pressing `/` anywhere within the app
 (or by hitting 🔍 in the nav). If you're unable to locate a Split but know one
-of the recipients, just search for their ENS/address and then look for the split
-in the "Receiving From" section on the right side of the page.
+of the recipients, just search for their ENS/address and then look for the Split
+in the "Receiving" tab.
+
+To find all the Splits you receive from, either connect your wallet (double
+check your connected network) and look under the "Receiving" tab on your home
+page, or paste in your address or ENS into the search input to navgiate to your
+account view (the Splits you receive from will be under the "Receiving" tab). If
+you've tried both of these and still can't find your Splits, reach out to us in
+the `user-support` channel in [Discord](https://chat.0xsplits.xyz/).
 
 ## Third Party Platforms
 
-0xSplits is designed to be as composable as possible, making it very easy to use
-your Splits with third party platforms. Below are a few platforms on which
-people are using Splits today.
+0xSplits is designed to be as composable as possible, making it easy to use your
+Splits with third party platforms. Below are a few platforms on which people are
+using Splits today.
+
+<Callout>
+  Looking to split revenue from primary sales? Check out [this
+  guide](https://mirror.xyz/iamkabuki.eth/CKikAuMK71sdfrfDb5qUb-Hwp-PwbhC0v2muIUyCcm0)
+  on using 0xSplits + Manifold + Zora.
+</Callout>
 
 ### OpenSea
 
-When creating a collection on OpenSea, you can add a creator fee and specify the
-address to which the creator fee will be sent. OpenSea’s instructions are
-[here](https://support.opensea.io/hc/en-us/articles/1500009575482-How-do-creator-fees-work-on-OpenSea).
-In the final step, just paste your Split’s address into the “payout address”
-field. All future creator fees will automatically be sent to the Split, and then
-distributed among the Recipients.
+When creating a collection on OpenSea, you can add creator earnings (i.e.
+royalties) and specify the address to which the earnings will be sent. OpenSea’s
+instructions are
+[here](https://support.opensea.io/hc/en-us/articles/1500009575482-How-do-creator-earnings-work-on-OpenSea-).
+Just paste in your Split's address into the "Creator Earnings" section. Note:
+you can split Creator Earnings directly on OpenSea, however, this will make it
+[more expensive](https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-service-and-creator-fees-#:~:text=Splitting%20creator%20fees)
+for the buyer each time your NFT is sold.
 
-At this time, OpenSea does not allow setting a payout address for an individual
-item. Creator fees, and the associated payout address, can
-[only be added](https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-OpenSea-s-fees-#:~:text=%C2%A0-,Splitting%20Revenue,-If%20you%20are)
+At this time, OpenSea does not allow setting a Creator Earnings for an
+individual item. Creator Earnings can
+[only be added](https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-service-and-creator-fees-#:~:text=at%20any%20time.-,Creator%20fees,-Creators%20can%20set)
 at the Collection level. In the future, we hope to see more platforms follow
 [Zora’s approach](https://zine.zora.co/zora-v3) in letting creators specify a
 “funds recipient” field on a per-item basis.
@@ -49,7 +67,7 @@ once the NFT is sold. All you have to do is set the
 [`sellerFundsRecipient`](https://docs.zora.co/docs/smart-contracts/modules/Asks/zora-v3-asks-v1.1#ask-structure)
 to be the Split's address.
 
-As of writing, Zora
+At this time, Zora
 [does not allow](https://support.zora.co/en/articles/5577498-revenue-splits) a
 person to specify this address through their app/interface directly. In the
 meantime, you can use the Etherscan UI to create a new Zora listing and set a
@@ -60,42 +78,40 @@ Split as the funds recipient.
 While creating a NFT on Foundation, creators can optionally split earnings for
 that NFT with up to 3 other addresses natively through Foundation. Instructions
 are
-[here](https://help.foundation.app/en/articles/5305276-how-can-i-create-a-split-on-foundation).
-Using 0xSplits within Foundation is easy - just paste your Split’s address into
+[here](https://help.foundation.app/hc/en-us/articles/4513530159131-Splitting-Earnings-on-an-NFT).
+Using 0xSplits within Foundation is easy – just paste your Split’s address into
 the recipient field while creating a Foundation split.
 
-Why use 0xSplits within Foundation? Though conceptually the outcome may seem
-similar—automatically split secondary royalties—functionally 0xSplits and
-Foundation splits are very different. Most of these differences come down to the
-fact that a Split created using 0xSplits is a _stand alone smart contract_,
-whereas a split created on Foundation (or Manifold) lives within that NFT
-contract. More specifically:
+Why use 0xSplits within Foundation? Though conceptually they may seem similar,
+functionally 0xSplits and Foundation splits are quite different.
 
-- 0xSplits have mutability, allowing you to change the split percentages in the
-  future without having to mint a new NFT contract.
-- 0xSplits can be used across any marketplace or platform simultaneously. This
-  means you can use the exact same Split on OpenSea that you do on
-  Foundation/Manifold/etc.
-- 0xSplits allow for vastly more recipients (~500 as of writing). Currently,
-  Foundation limits you to 4 total recipients (including yourself). This
-  constraint is primarily driven by gas consumption, since adding recipients _to
-  the NFT directly_ increases gas cost not only for minting the NFT, but each
-  time it's sold as well.
+- 0xSplits have mutability, allowing you to change the recipients & percentages
+  in the future without having to mint a new NFT contract.
+- 0xSplits are not tied to any one particular NFT contract or platform. They can
+  be reused again and again across any platform. This means you can use the
+  exact same Split on OpenSea, Zora, Foundation, Manifold, etc.
+- 0xSplits allow for up to ~500 recipients, whereas Foundation limits you to 4
+  recipients (including yourself). This is because on Foundation the split logic
+  happens each time the NFT is sold, passing on that cost to the buyer.
+- 0xSplits splitting logic is batched & exists as a standalone function that is
+  handled by bots/third parties. The cost of splitting on Foundation is paid for
+  by the buyer each time the NFT changes hands.
 
-You can learn more about Foundation's splits
-[here](https://help.foundation.app/en/collections/3010288-splits). The best tool
-for the job depends on the job itself. We encourage you to learn about the
-tradeoffs of each option, and reach out if you have any questions.
+All this is not to say 0xSplits is better than Foundation splits! They're very
+different and were each designed with different constraints in mind. and The
+best tool for the job depends on the job itself. We encourage you to learn about
+the tradeoffs of each option, and reach out if you have any questions.
 
 ### Manifold
 
 Manifold makes it super easy for people to set royalties on their NFT contracts.
 Their approach is very similar to Foundation's, and it's worth reading the above
 section if you haven't already. You can read Manifold's instructions
-[here](https://docs.manifold.xyz/deploying-contracts/royalties). To use 0xSplits
-on Manifold, just enter the Split's address in the "Default Royalties" section.
+[here](https://docs.manifold.xyz/v/manifold-studio/deploying-contracts/royalties).
+To use 0xSplits on Manifold, just enter the Split's address in the "Default
+Royalties" section.
 
-It's also worth nothing that Manifold allows people to _mint NFTs_, meaning what
-you configure on Manifold relates to _secondary sales_, not primary sales. To
-split revenue from _primary sales_, we recommend using Zora's contracts as they
-offer the most flexibility, specifically around setting the "funds recipient".
+It's also worth nothing that Manifold allows you to _mint NFTs_, meaning what
+you configure on Manifold relates only to _secondary sales_. To split _primary
+sales_ revenue from a Manifold NFT, check out
+[this guide](https://mirror.xyz/iamkabuki.eth/CKikAuMK71sdfrfDb5qUb-Hwp-PwbhC0v2muIUyCcm0).

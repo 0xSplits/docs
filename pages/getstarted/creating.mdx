@@ -1,53 +1,56 @@
-# Creating A Split
+import Callout from 'nextra-theme-docs/callout'
 
-Go to [split.new](https://split.new) and add each
+# Creating Splits
+
+<Callout emoji="🔀">
+  Looking to integrate with your own product or contracts? Check out the
+  [SDK](/sdk) or [Smart Contracts](/smartcontracts/overview) sections.
+</Callout>
+
+To get started head to [split.new](https://split.new) and add each
 [Recipient](/core-concepts#recipient)'s address (ENS or hex) and their
-corresponding share. A Recipient can be any payable Ethereum address – user
-wallets, smart contracts, and other Splits are all valid Recipients. Make sure
-ownership adds to 100%, approve the transaction, and you're done.
+corresponding share. Since Recipients don't need to withdraw for themselves, a
+Recipient can be any payable Ethereum address—user wallets, smart contracts, and
+other Splits are all acceptable.
 
 ![New Split Recipients](/new-split-recipients.png)
 
-You can also create a Split by pasting or uploading a CSV. Lines should be
-separated by a comma, with each line containing a single Recipient and their
-corresponding share (also comma-separated). Hit "Validate list" to make sure
-there are no errors before submitting your transaction.
+You can also upload a CSV if you prefer. Lines should be comma-separated, with
+each line containing a single Recipient and their corresponding share (also
+comma-separated). Hit "Validate list" to make sure there are no errors.
 
-There are two optional parameters when creating a Split: setting a distributor
-fee, and making the Split mutable.
+There are two additional parameters you can (optionally) modify: the
+Distribution Incentive, and the Split Type.
 
-### Distributor Fee
+### Distribution Incentive
 
-This is the percentage of the balance rewarded to whoever distributes the
-balance. This fee creates an arbitrage opportunity—when the cost to distribute
-is less than the fee multiplied by the balance—thereby incentivizing third
-parties to distribute balances on behalf of Recipients. You can think of this as
-a payment processing fee paid for proportionally by Recipients. A higher fee
-leads to more frequent distributions, but results in a smaller balance going to
-Recipients. Setting the fee to 0% removes the reward entirely.
-[Learn more](/core-concepts#distributor-fee)
+This allows Splits to be distributed automatically, without you or any of the
+Recipients having to worry about it. The incentive is the percent of the balance
+rewarded to whoever distributes the balance. This creates an arbitrage
+opportunity (when the cost to distribute is less than the incentive multiplied
+by the balance), which causes bots & third parties to automatically distribute
+balances for Recipients.
 
 ![New Mutable Split](/new-split-distributorfee.png)
 
-### Mutable
+Once you've filled out the Recipients section, you'll be able to see when this
+Split's balance is expected to be distributed (i.e., when it becomes profitable
+for a bot/third party to call the distribute function). If you're not sure what
+to use, we recommend leaving it at the default setting of 1.00%.
+[Learn more](/core-concepts#distributor-fee)
 
-A Mutable Split is one that can be modified in the future by a single
-controlling address. As the creator of a Mutable Split, you must specify the
-controlling address at the time of creation. The controlling address can be
-any valid account (EOA or SC), but make sure it's able to approve transactions
-so it can interact with the Split directly. While Mutable Splits add more
-flexiblity, they inherently require more trust. Mutable Splits can be made
-immutable, but never the other way around.
-[Learn more](/core-concepts#mutable-split)
+### Split Type
+
+Splits can either be Immutable (the default option) or Mutable. Once deployed,
+Immutable Splits can never be changed by anyone. Mutable Splits, on the other
+hand, can be changed only by the Controller. The Controller has the ability to
+modify the Recipients and Distribution Incentive, and even transfer control to a
+new account or remove the Controller entirely (thereby making the Split
+Immutable). The Controller can be any account (EOA, multisig, smart contract
+with custom logic, etc). [Learn more](/core-concepts#mutable-split)
 
 ![New Mutable Split](/new-split-mutable.png)
 
-## Calling the Contracts
-
-Creating a Split from another product/app is easy. All you have to do is call
-[`createSplit`](/smartcontracts/SplitMain#createsplit) on `SplitMain`. A
-high-level overview of the contracts & functions can be found
-[here](/smartcontracts/overview). For implementation details, you can check out
-the Natspec Comments for [`SplitMain`](/smartcontracts/SplitMain) and
-[`SplitWallet`](/smartcontracts/SplitWallet), or view the contracts directly on
-[GitHub](https://github.com/0xSplits/splits-contracts).
+Keep in mind that larger Splits require more gas. Mutable Splits will also
+require slightly more gas to deploy. Gas estimates can be found
+[here](/appendices/gas-estimates)

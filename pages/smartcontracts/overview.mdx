@@ -1,41 +1,88 @@
-# Contracts Overview
+import { Toggle } from '../../components/toggle'
 
-This section provides a high-level overview of the contracts & functions
-involved. The procotol consists of 3 contracts: [`SplitMain`](#splitmain),
-[`SplitProxy`](#splitproxy), and [`SplitWallet`](#splitwallet).
+# Overview
 
-For more details & implementation instructions on the individual contracts,
-check out the NatSpec Comments for [`SplitMain`](/smartcontracts/SplitMain) and
-[`SplitWallet`](/smartcontracts/SplitWallet). You can also read the contracts on
-[GitHub](https://github.com/0xSplits/splits-contracts).
+This section provides a high-level overview of the contracts in the protocol.
+Details & implementation instructions on the individual contracts can be found
+on the contract pages for [SplitMain](/smartcontracts/SplitMain) and
+[SplitWallet](/smartcontracts/SplitWallet). You can also read the contracts on
+[GitHub](https://github.com/0xSplits/splits-contracts) or get started by
+installing the [SDK](/sdk).
 
 ## Audit
 
-The contracts were audited by [Macro](https://0xmacro.com/audits). You can read
+The contracts were audited by [Macro](https://0xmacro.com/audits). You can find
 their audit report
 [here](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf).
 
 ## Addresses
 
-### Ethereum
+### Mainnet Deployments
 
-- Mainnet:
-  [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)
-- Goerli:
-  [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://goerli.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)
-- Ropsten:
-  [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://ropsten.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)
-- Rinkeby:
-  [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://rinkeby.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)
-- Kovan:
-  [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://kovan.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)
+<Toggle title="Ethereum – 1">
 
-### Polygon
+| Contract    | Address                                                                                                                    |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE](https://etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)      |
+| SplitWallet | [0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33](https://etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
 
-- Polygon:
-  [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://polygonscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code)
-- Mumbai:
-  [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://mumbai.polygonscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code)
+</Toggle>
+
+<Toggle title="Polygon – 137">
+
+| Contract    | Address                                                                                                                       |
+| :---------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE](https://polygonscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)      |
+| SplitWallet | [0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33](https://polygonscan.com/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+### Testnet Deployments
+
+<Toggle title="Goerli – 5">
+
+| Contract    | Address                                                                                                                           |
+| :---------- | :-------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE](https://goerli.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)      |
+| SplitWallet | [0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33](https://goerli.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Ropsten – 3">
+
+| Contract    | Address                                                                                                                            |
+| :---------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE](https://ropsten.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)      |
+| SplitWallet | [0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33](https://ropsten.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Rinkeby – 4">
+
+| Contract    | Address                                                                                                                            |
+| :---------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE](https://rinkeby.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)      |
+| SplitWallet | [0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33](https://rinkeby.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Kovan – 42">
+
+| Contract    | Address                                                                                                                          |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE](https://kovan.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)      |
+| SplitWallet | [0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33](https://kovan.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Mumbai – 80001">
+
+| Contract    | Address                                                                                                                              |
+| :---------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE](https://mumbai.polygonscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE)      |
+| SplitWallet | [0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33](https://mumbai.polygonscan.com/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
 
 ## SplitMain
 
@@ -53,7 +100,7 @@ Split `IERC20` for Split `address` which allows Recipients to withdraw
 
 ### `withdraw`
 
-Withdraw ETH & ERC20s for EOA/SC `address`
+Withdraw ETH & ERC20s for `address`
 
 ## SplitProxy
 

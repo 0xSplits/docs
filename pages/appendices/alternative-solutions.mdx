@@ -18,7 +18,7 @@ contracts.
 - 0xSplits handles ERC20s & recursive Splits
 - 0xSplits can withdraw to contracts that use more than 30k gas in `receive()`
 - 0xSplits can withdraw to contracts/accounts that don't have direct access to
-  the private keys using [`withdraw`](/smart-contracts#withdrawaddress)
+  the private keys using [`withdraw`](/smartcontracts/SplitMain#withdraw)
 - 0xSplits can be mutable and modified by EOAs or other SCs
 
 ### Gas-efficiency & fairness
@@ -28,12 +28,13 @@ contracts.
   (i.e. a user does not need to withdraw for each Split they receive from)
 - 0xSplits generates significantly less dust (i.e. funds trapped because of gas
   costs to distribute) since distribution costs come out of the Split's balance
-- 0xSplits are progressive or flat depending on the Distributor Fee (vs regressive
-  for other splitters)
+- 0xSplits are progressive or flat depending on the Distributor Fee (vs
+  regressive for other splitters)
 
 ### Onchain-ness
 
-- All 0xSplits data lives onchain with no infrastructure dependencies or potential for censorship
+- All 0xSplits data lives onchain with no infrastructure dependencies or
+  potential for censorship
 - 0xSplits contracts are non-upgradable, meaning both the protocol and each
   Split is unstoppable and will continue to operate for as long as the network
   does
@@ -44,10 +45,11 @@ There are a number of constraints with our current design that are worth
 highlighting.
 
 - **Very large groups:** Splits are designed for groups of people less than ~500
-  (see [gas estimates](/gas-estimates)). While you can stack Splits multiple
-  layers deep (i.e. Splits that point to other Splits), you will need significant
-  funds flowing through the top-level Split to justify the total gas cost of distribution.
-  The larger the group, the more you should consider a rebasing token or DAO.
+  (see [gas estimates](/appendices/gas-estimates)). While you can stack Splits
+  multiple layers deep (i.e. Splits that point to other Splits), you will need
+  significant funds flowing through the top-level Split to justify the total gas
+  cost of distribution. The larger the group, the more you should consider a
+  rebasing token or DAO.
 
 - **Single-use:** Splits are most gas-efficient when reused multiple times. If
   the payout is expected to arrive in a single lump sum, something like

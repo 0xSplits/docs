@@ -36,8 +36,14 @@ exchange for distributing the balance. This fee incentivizes third parties to
 pay the gas needed to distribute a Split's balance, since it creates an
 arbitrage opportunity (when the cost to distribute is lower than the fee
 multiplied by the balance). This fee also makes the distribution cost borne by
-Recipients, since it's deducted from the balance. This fee may be set to 0 for
-manual or progressive distributions.
+Recipients, since it's deducted from the balance.
+
+You can think of this as a payment processing fee paid for proportionally by
+Recipients. A higher fee leads to more frequent distributions, but results in a
+smaller balance going to Recipients. This fee may be set to 0% for manual or
+progressive distributions. Setting the fee to 0% removes the reward entirely,
+meaning one of the Recipients will need to trigger this manually for all other
+Recipients.
 
 ### Withdraw
 
