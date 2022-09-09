@@ -48,13 +48,13 @@ Recipients.
 
 ### Withdraw
 
-Whenever a Split is distributed, the balance of the Split goes to 0 and each
-Recipient's balance increases proportionally. At any time, accounts with a
-balance can withdraw their funds across _all of the Splits_ they receive from in
-a single transaction. This means users do not need to withdraw for each Split
-individually. Additionally, any account (i.e., a bot or third party) may
-withdraw for any other account, allowing smart contracts and multisigs to
-receive without needing all signers to approve.
+Whenever a Split is distributed, the balance for each Recipient increases. At
+any time, accounts with a balance can withdraw their funds across _all_ the
+Splits they receive from in a single transaction. This prevents users from
+needing to withdraw for each Split individually. Additionally, any account
+(i.e., a bot or third party) may withdraw for any other account, allowing
+withdrawals to smart contracts and multisigs without needing all signers to
+approve.
 
 ### Mutable Split
 

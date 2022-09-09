@@ -1,63 +1,35 @@
 # Modules
 
 Modules are smart contracts that extend the functionality of the 0xSplits
-protocol. They exist as independent contracts, and operate either above or below
+protocol. They exist as independent contracts and operate either above or below
 the protocol.
 
-Above the protocol modules execute logic _before_ tokens are sent to the Split.
-This means tokens must be sent to the module directly instead of the Split. For
-example, a [Vesting Module](/modules/overview) vests tokens _before_ sending the
-vested portion to a Split. Tokens are first sent to the Vesting Module and then
-to the Split.
+Above the protocol modules execute logic before tokens are sent to the Split.
+This means tokens must be sent to the module directly _instead_ of the Split.
+For example, a [Waterfall](/modules/waterfall) receives tokens, executes logic,
+and then sends some portion to a Split. Tokens are first sent to the module, and
+then the module sends tokens to the Split.
 
 Below the protocol modules execute logic _after_ tokens have been sent to a
-Split. For example, a Pointer Module allows a Split Recipient to match whatever
-account owns a specific NFT. When the NFT changes hands, the Recipient in the
-Split is updated. In this case, tokens are still sent to the Split directly; the
-logic only impacts how tokens are distributed within the Split.
+Split. For example, an NFT Pointer (Soon™️) allows a Split Recipient to match
+whatever account owns a specific NFT. When the NFT changes hands, the Recipient
+in the Split is updated. In this case, tokens are still sent to the Split
+directly; the logic only impacts how tokens are distributed within the Split.
 
-```
-  ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
-
-  │            "Above the Protocol"             │
-            Logic happens here, before
-  │        tokens are sent to the Split         │
-
-  └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
-                         │
-                         │
-                         ▼
-  ┌─────────────────────────────────────────────┐
-  │                                             │
-  │            SPLIT SMART CONTRACT             │
-  │                                             │
-  └─────────────────────────────────────────────┘
-                         │
-                         │
-                         ▼
-  ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
-
-  │            "Below the Protocol"             │
-         Logic happens here, after tokens
-  │          are received by the Split          │
-
-  └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
-```
-
-### Building Modules
+## Building Modules
 
 Anyone can create modules since they exist independently of the protocol.
-They're made possible due to the protocol's composability in three key areas:
+They're made possible due to the protocol's composability in three areas:
 
 1. Receiving tokens: each Split is a payable smart contract that can receive
    funds from any other account via `send`, `transfer`, or `call`.
 2. Withdrawing tokens: each Recipient can be an EOA or smart contract for which
    third parties may execute withdrawals.
-3. Modifying recipients: the Controller of a Mutable Split can also be an EOA or
-   smart contract with custom logic, allowing Split recipients to be
-   programatically updated.
+3. Modifying recipients: the Controller of a Mutable Split can also be a smart
+   contract, allowing Split recipients to be programatically updated according
+   to predefined logic.
 
 All modules highlighted in these docs started as ideas from the community. We'd
-love to see the modules you create and learn about the modules you need. Please
-drop us a note in the `#dev-support` channel in Discord if you have questions or
+love to see the modules you create and learn about what ideas you have. Please
+drop us a note in the `dev-support` channel in Discord if you have questions or
 want to discuss ways to integrate your modules into the app.

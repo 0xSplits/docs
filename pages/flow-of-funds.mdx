@@ -5,8 +5,8 @@ the different methods for moving funds between the components. As a
 [Recipient](/core-concepts#recipient), you don't actually have to worry about
 any of this, since the [Distributor Fee](/core-concepts#distributor-fee)
 incentivizes third parties to call functions (e.g.
-[`distributeETH`](/smartcontracts/SplitMain#distributeeth)) on your behalf. You
-will still occasionally wish to withdraw, however!
+[`distributeETH`](/smartcontracts/SplitMain#distributeeth)) on your behalf.
+However, you will still occasionally wish to withdraw.
 
 ![Flow of Funds Diagram](/flow-of-funds.svg)
 
@@ -35,9 +35,10 @@ gas needed to execute the function.
 
 Once funds have been distributed, they can now be withdrawn by calling
 [`withdraw`](/smartcontracts/SplitMain#withdraw). A person can call this
-function via the web app, or any third party can call this on the account's
-behalf. Withdrawing for an account is necessary since Recipients can be smart
-contracts which can't execute the
+function via the web app (or
+[smart contract directly](/https://etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#writeContract#F11)),
+or any third party can call this on the account's behalf. Withdrawing for an
+account is necessary when Recipients are smart contracts that can't execute the
 [`withdraw`](/smartcontracts/SplitMain#withdraw) function themselves (they must,
 however, still be able to receive funds).
 

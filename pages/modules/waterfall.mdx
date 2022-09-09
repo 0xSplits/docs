@@ -1,35 +1,34 @@
 # Waterfall
 
 > Send the first $100 to bob.eth, then the next $50 to mary.eth, and then all
-> residual to yoursplit.eth.
+> residual to yoursplit.eth
 
 The Waterfall module makes it easy to set the order in which funds are
 distributed to different recipients. It's useful when you want to pay one party
 a certain amount _before_ paying another party. Waterfalls are payable smart
-contracts that compose well with Splits and other contracts & platforms.
-
-This is an age-old concept that has many different names: preference stack,
-seniority structure, waterfall distribution, recoupment.
+contracts that compose well with Splits and other contracts. This is an old
+concept that has many different names—preference stack, seniority structure,
+distribution waterfall, recoupment—and the Waterfall module brings this logic
+onchain.
 
 ## How It Works
 
 - Each Waterfall is a payable smart contract to which a Permitted Token may be
   sent. This token can be ETH or any ERC20 token. Non-permitted tokens sent to
-  the Waterfall can be [recovered](#notes).
+  the Waterfall can be [recovered](#notes) to any of the Recipients.
 - Each Waterfall has 2 or more Tranches. Each Tranche has a Threshold (a number)
-  and a Recipient (an address). The last Tranche has no Threshold since it will
-  receive all residual funds.
-- Tokens sent to the Waterfall are held until the balance is distributed. When
-  this happens, each Tranche distributes funds to the Recipient only once the
+  and a Recipient (an address). The last Tranche has no Threshold (i.e., upper
+  limit) and will receive all residual funds.
+- Tokens sent to the Waterfall are held as a balance until it's distributed.
+  During a distribution, each Tranche sends funds to the Recipient only once the
   preceding Tranche Threshold has been reached. This repeats until the all
-  Tranches have been filled, at which point all residual funds are distributed
-  to the residual Tranche Recipient.
+  Tranches have been filled, at which point all residual funds are sent to the
+  residual Tranche Recipient.
 
 ```
         EXTERNAL ACCOUNT/SMART CONTRACT
-
                        │
-                       │ ETH or ERC20
+                       │ ETH or ERC20 (permitted token)
                        ▼
 Waterfall Contract────────────────────────────┐
 │                      │                      │
@@ -48,7 +47,6 @@ Waterfall Contract────────────────────�
 └───────┼──────────────┼──────────────┼───────┘
         │              │              │
         ▼              ▼              ▼
-
      EOA/SC         EOA/SC         EOA/SC
 ```
 
@@ -83,12 +81,16 @@ Soon™
 ## Notes
 
 - Any non-permitted tokens sent to the Waterfall may be recovered to any of the
-  recipients. To do so, open the Waterfall contract's "Write as Proxy" tab on
+  Recipients. To do so, open the Waterfall contract's "Write as Proxy" tab on
   Etherscan (you may first need to verify the proxy) and paste in the required
   fields, which can be copied from the Waterfall's account page on
-  [app.0xsplits.xyz](https://app.0xsplits.xyz/).
-- This is an immutable contract. Once it's been created, it cannot be changed.
-- Funds flow unidirectionally and tranches do not reset, meaning the only way to
+  [app.0xsplits.xyz](https://app.0xsplits.xyz/). **Note:** the Recipient does
+  not need to initiate this call themselves, however, the account you're
+  recovering funds to _must_ be one of the Tranche Recipients.
+- The Waterfall is an immutable contract. Once it's been created, it cannot be
+  changed. However, you can create a Waterfall that distributes to an existing
+  Waterfall.
+- Funds flow unidirectionally and Tranches do not reset, meaning the only way to
   "restart" the sequence is to create a new Waterfall.
 
 ## Natspec
