@@ -2,22 +2,18 @@ import Callout from 'nextra-theme-docs/callout'
 
 # Creating Splits
 
-<Callout emoji="🔀">
-  Looking to integrate with your own product or contracts? Check out the
-  [SDK](/sdk) or [Smart Contracts](/smartcontracts/overview) sections.
+<Callout emoji="🛠">
+  Integratating into your own product or contracts? Check out the [Smart
+  Contracts](/smartcontracts/overview) and [SDK](/sdk) sections.
 </Callout>
 
-To get started head to [split.new](https://split.new) and add each
-[Recipient](/core-concepts#recipient)'s address (ENS or hex) and their
-corresponding share. Since Recipients don't need to withdraw for themselves, a
-Recipient can be any payable Ethereum address—user wallets, smart contracts, and
-other Splits are all acceptable.
+To get started head to [split.new](https://split.new) (or hit the ➕ button in
+the nav) and just add each [Recipient](/core-concepts#recipient)'s address (ENS
+or hex) and their corresponding share. Since Recipients don't need to withdraw
+for themselves, a Recipient can be any payable Ethereum address—user wallets,
+smart contracts, and other Splits are all acceptable.
 
 ![New Split Recipients](/new-split-recipients.png)
-
-You can also upload a CSV if you prefer. Lines should be comma-separated, with
-each line containing a single Recipient and their corresponding share (also
-comma-separated). Hit "Validate list" to make sure there are no errors.
 
 There are two additional parameters you can (optionally) modify: the
 Distribution Incentive, and the Split Type.
@@ -26,16 +22,17 @@ Distribution Incentive, and the Split Type.
 
 This allows Splits to be distributed automatically, without you or any of the
 Recipients having to worry about it. The incentive is the percent of the balance
-rewarded to whoever distributes the balance. This creates an arbitrage
-opportunity (when the cost to distribute is less than the incentive multiplied
-by the balance), which causes bots & third parties to automatically distribute
-balances for Recipients.
+rewarded to whoever pays the gas needed to distribute the balance. This creates
+an arbitrage opportunity (when the cost to distribute is less than the reward),
+which causes bots & third parties to automatically distribute balances for
+Recipients. Balances must only be distributed once for all Recipients to claim
+their share.
 
 ![New Mutable Split](/new-split-distributorfee.png)
 
-Once you've filled out the Recipients section, you'll be able to see when this
-Split's balance is expected to be distributed (i.e., when it becomes profitable
-for a bot/third party to call the distribute function). If you're not sure what
+**Tip:** Once you've filled out the Recipients section, we give you an estimate
+of when a bot/third will distribute the balance (i.e., when it's profitable for
+_anyone_ to distribute the funds for Recipients). If you're not sure what value
 to use, we recommend leaving it at the default setting of 1.00%.
 [Learn more](/core-concepts#distributor-fee)
 
@@ -43,14 +40,14 @@ to use, we recommend leaving it at the default setting of 1.00%.
 
 Splits can either be Immutable (the default option) or Mutable. Once deployed,
 Immutable Splits can never be changed by anyone. Mutable Splits, on the other
-hand, can be changed only by the Controller. The Controller has the ability to
-modify the Recipients and Distribution Incentive, and even transfer control to a
-new account or remove the Controller entirely (thereby making the Split
-Immutable). The Controller can be any account (EOA, multisig, smart contract
-with custom logic, etc). [Learn more](/core-concepts#mutable-split)
+hand, can be changed at any time by the Controller. The Controller has the
+ability to modify the Recipients and Distribution Incentive, and even transfer
+control to someone else or remove the Controller entirely (thereby making the
+Split Immutable). The Controller can be any account (EOA, multisig, smart
+contract with custom logic, etc). [Learn more](/core-concepts#mutable-split)
 
 ![New Mutable Split](/new-split-mutable.png)
 
-Keep in mind that larger Splits require more gas. Mutable Splits will also
+Keep in mind that larger Splits will require more gas. Mutable Splits will also
 require slightly more gas to deploy. Gas estimates can be found
-[here](/appendices/gas-estimates)
+[here](/appendices/gas-estimates).

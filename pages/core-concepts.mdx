@@ -27,7 +27,8 @@ Each Split has a balance that increases whenever tokens are received. This
 balance must be distributed before it can be withdrawn by the Recipients. Each
 balance is token-specific, meaning a Split may have multiple balances. For
 example, if a Split has received both ETH and DAI, each balance would need to be
-distributed separately.
+distributed separately. Balances must only be distributed once in order for all
+Recipients to withdraw their share.
 
 ### Distributor Fee
 
@@ -47,10 +48,13 @@ Recipients.
 
 ### Withdraw
 
-Accounts with a positive balance can withdraw their funds across all of the
-Splits they receive from in a single transaction. A third party may withdraw for
-any account, enabling smart contracts who have no user-controlled private keys
-to still receive their funds.
+Whenever a Split is distributed, the balance of the Split goes to 0 and each
+Recipient's balance increases proportionally. At any time, accounts with a
+balance can withdraw their funds across _all of the Splits_ they receive from in
+a single transaction. This means users do not need to withdraw for each Split
+individually. Additionally, any account (i.e., a bot or third party) may
+withdraw for any other account, allowing smart contracts and multisigs to
+receive without needing all signers to approve.
 
 ### Mutable Split
 

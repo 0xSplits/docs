@@ -3,8 +3,8 @@
 0xSplits is a trustless, composable, gas-efficient protocol for splitting
 onchain income. Running exactly at gas cost and charging no fees whatsoever, it
 takes the form of a [hyperstructure](https://jacob.energy/hyperstructures.html)
-and can run for free, forever, without any maintenance or trusted third parties.
-The protocol is
+that can run for free, forever, without any maintenance or trusted third
+parties. The protocol is
 [open-source](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code)
 and
 [audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf).
@@ -13,17 +13,17 @@ and
 
 At the core of the protocol are [Splits](/core-concepts/#split) and
 [Recipients](/core-concepts/#recipient). A Split is a payable smart contract
-that allocates all ETH & ERC20 tokens it receives proportionally among the
-Recipients. A Recipient may be any address (externally owned account or smart
-contract) that receives a share of the Split's income. Whenever a Split receives
-income, each Recipient gets their share.
+that distributes ETH & ERC20 tokens proportionally among the Recipients. A
+Recipient is any address (i.e., externally owned account or smart contract like
+another Split) that receives a share of the Split's income. Whenever a Split
+receives income, each Recipient gets their share.
 
 These docs are designed to be "progressively technical"—the further you read the
 more technical they become. If you're non-technical, new to Ethereum, or just
 want to understand how you can use 0xSplits today, start here and keep reading.
 If you're a developer looking for integration details, skip ahead to the
-[Flow of Funds](/flow-of-funds) and [Smart Contracts](/smartcontracts/overview)
-sections.
+[Flow of Funds](/flow-of-funds), [Smart Contracts](/smartcontracts/overview),
+and [SDK](/sdk) sections.
 
 ### Features
 
@@ -32,13 +32,13 @@ sections.
   SC. Each Recipient is also just an Ethereum address (EOA or SC) for which
   third-parties may execute withdrawals.
 - Splits maximize **gas efficiency** by commingling funds and batching &
-  incentivizing expensive operations. The gas needed to distribute funds is
-  borne by ownership or covered by a third party, eliminating dust and allowing
-  even the smallest Recipient to withdraw their share.
+  incentivizing expensive operations. The gas needed to distribute funds for all
+  Recipients is borne by ownership or covered by a third party, eliminating dust
+  and allowing even the smallest Recipient to withdraw their share.
 - Each Split exists **entirely onchain** and the actions necessary for the
-  protocol to operate are permissionless. With no trusted third parties,
+  protocol to operate are open to everyone. With no trusted third parties,
   upgradable contracts, or infrastructure dependencies, you can rely on Splits
-  continuing to operate for as long as Ethereum exists.
+  to operate—exactly as they do today—for as long as Ethereum exists.
 
 ### Usage
 
@@ -69,6 +69,6 @@ gives back to the communities that have supported the protocol's development to
 date. You can check out the Split
 [here](https://app.0xsplits.xyz/splits/0xF8843981e7846945960f53243cA2Fd42a579f719/).
 
-Join us on [Discord](https://chat.0xsplits.xyz/) to learn more, ask questions,
-and share feedback with the community. We're a small, funded, and growing team
-focused on this full time and would love to hear from you.
+Join us on [Discord](https://chat.0xsplits.xyz/) to learn more and share
+feedback. We're a small, funded, and growing team focused on this full time and
+would love to hear from you.
