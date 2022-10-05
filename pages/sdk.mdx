@@ -25,6 +25,10 @@ const splitsClient = new SplitsClient({
   provider, // ethers provider (optional, required if using any of the SplitMain functions)
   signer, // ethers signer (optional, required if using the SplitMain write functions)
   includeEnsNames, // boolean, defaults to false. If true, will return ens names for split recipients
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
+  // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
+  // other chain for non EOAs (e.g. Gnosis Safe's)
+  ensProvider, // ethers provider (optional)
 })
 ```
 
