@@ -67,8 +67,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Optimism – 10">
 
-| Contract    | Address                                                                                                                      |
-| :---------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| Contract       | Address                                                                                                                                 |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://optimistic.etherscan.io/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://optimistic.etherscan.io/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -76,10 +76,10 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Polygon – 137">
 
-| Contract    | Address                                                                                                                         |
-| :---------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| Implementation   | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://polygonscan.com/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code)      |
-| Factory | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://polygonscan.com/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
+| Contract       | Address                                                                                                                         |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://polygonscan.com/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
+| Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://polygonscan.com/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
 </Toggle>
 
@@ -96,8 +96,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Optimism Goerli – 420">
 
-| Contract    | Address                                                                                                                      |
-| :---------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| Contract       | Address                                                                                                                                      |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://goerli-optimism.etherscan.io/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://goerli-optimism.etherscan.io/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -105,19 +105,19 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Polygon Mumbai – 80001">
 
-| Contract    | Address                                                                                                                         |
-| :---------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| Implementation   | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://mumbai.polygonscan.com/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code)      |
-| Factory | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://mumbai.polygonscan.com/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
+| Contract       | Address                                                                                                                                |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://mumbai.polygonscan.com/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
+| Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://mumbai.polygonscan.com/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
 </Toggle>
 
 <Toggle title="Arbitrum Goerli – 421613">
 
-| Contract    | Address                                                                                                                      |
-| :---------- | :--------------------------------------------------------------------------------------------------------------------------- |
-| Implementation   | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://goerli-rollup-explorer.arbitrum.io/address/0x1A1314121B06f1E358Eec90E76E459a679c88863/contracts#address-tabs)      |
-| Factory | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://goerli-rollup-explorer.arbitrum.io/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6/contracts#address-tabs) |
+| Contract       | Address                                                                                                                                                              |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://goerli-rollup-explorer.arbitrum.io/address/0x1A1314121B06f1E358Eec90E76E459a679c88863/contracts#address-tabs) |
+| Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://goerli-rollup-explorer.arbitrum.io/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6/contracts#address-tabs) |
 
 </Toggle>
 
@@ -142,12 +142,9 @@ Waterfall Contract────────────────────�
 ## Notes
 
 - Any non-permitted tokens sent to the Waterfall may be recovered to any of the
-  Recipients. To do so, open the Waterfall contract's "Write as Proxy" tab on
-  Etherscan (you may first need to verify the proxy) and paste in the required
-  fields, which can be copied from the Waterfall's account page on
-  [app.0xsplits.xyz](https://app.0xsplits.xyz/). **Note:** the Recipient does
-  not need to initiate this call themselves, however, the account you're
-  recovering funds to _must_ be one of the Tranche Recipients.
+  Recipients. If there are any, you'll find all non-permitted token balances
+  below the address section in the top right of the Waterfall page. The account
+  you're recovering funds to must be one of the Tranche Recipients.
 - The Waterfall is an immutable contract. Once it's been created, it cannot be
   changed. However, you can create a Waterfall that distributes to an existing
   Waterfall.
