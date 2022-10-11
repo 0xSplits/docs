@@ -1,35 +1,16 @@
 # Modules
 
 Modules are smart contracts that extend the functionality of the 0xSplits
-protocol. They exist as independent contracts and operate either above or below
-the protocol.
+protocol. The modules included in these docs were built by the 0xSplits team and
+are all available in the [app](https://app.0xsplits.xyz), however, anyone can
+create their own modules since they exist independently of the protocol. Drop us
+a note to share what you've built, we'd love see how you're extending Splits.
 
-Above the protocol modules execute logic before tokens are sent to the Split.
-This means tokens must be sent to the module directly _instead_ of the Split.
-For example, a [Waterfall](/modules/waterfall) receives tokens, executes logic,
-and then sends some portion to a Split. Tokens are first sent to the module, and
-then the module sends tokens to the Split.
+- [Waterfall](/modules/waterfall) – set the order in which different accounts
+  get paid; works well with Splits & Mutable Splits
+- [Vesting](/modules/vesting) – stream multiple, isolated streams of tokens to
+  an address over a set period of time; works well with Mutable Splits
 
-Below the protocol modules execute logic _after_ tokens have been sent to a
-Split. For example, an NFT Pointer (Soon™️) allows a Split Recipient to match
-whatever account owns a specific NFT. When the NFT changes hands, the Recipient
-in the Split is updated. In this case, tokens are still sent to the Split
-directly; the logic only impacts how tokens are distributed within the Split.
-
-## Building Modules
-
-Anyone can create modules since they exist independently of the protocol.
-They're made possible due to the protocol's composability in three areas:
-
-1. Receiving tokens: each Split is a payable smart contract that can receive
-   funds from any other account via `send`, `transfer`, or `call`.
-2. Withdrawing tokens: each Recipient can be an EOA or smart contract for which
-   third parties may execute withdrawals.
-3. Modifying recipients: the Controller of a Mutable Split can also be a smart
-   contract, allowing Split recipients to be programatically updated according
-   to predefined logic.
-
-All modules highlighted in these docs started as ideas from the community. We'd
-love to see the modules you create and learn about what ideas you have. Please
-drop us a note in the `dev-support` channel in Discord if you have questions or
-want to discuss ways to integrate your modules into the app.
+These modules all started as ideas from the community so let us know what else
+you'd to see included. You can reach out on the `dev-support` channel in Discord
+if you have questions or want to discuss ways to integrate.
