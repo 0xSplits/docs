@@ -1,4 +1,7 @@
-Begin by importing `WaterfallClient` into your app. If you are using the `SplitsClient`, you can access the waterfall client as well.
+# Waterfall
+
+Begin by importing `WaterfallClient` into your app. If you are using the
+`SplitsClient`, you can access the waterfall client as well.
 
 ```js
 import { WaterfallClient } from '@0xsplits/splits-sdk'
@@ -146,7 +149,7 @@ Usage
 
 ```js
 const args = {
-  waterfallModuleId: "0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC"
+  waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
 }
 
 const response = await waterfallClient.waterfallFunds(args)
@@ -177,7 +180,8 @@ Response
 
 ### recoverNonWaterfallFunds
 
-Recovers the balance of `token` for `waterfallModuleId` to the passed in recipient.
+Recovers the balance of `token` for `waterfallModuleId` to the passed in
+recipient.
 
 Usage
 
@@ -213,8 +217,8 @@ Response
 
 ### withdrawPullFunds
 
-Withdraws the funds for the passed in recipient that were set aside after a `waterfallFunds` call
-with `usePull` set to true.
+Withdraws the funds for the passed in recipient that were set aside after a
+`waterfallFunds` call with `usePull` set to true.
 
 Usage
 
@@ -246,7 +250,8 @@ Response
 
 ## Waterfall Reads
 
-These functions make it easier to query the [Waterfall contracts](/modules/waterfall).
+These functions make it easier to query the
+[Waterfall contracts](/modules/waterfall).
 
 ### getDistributedFunds
 
@@ -310,7 +315,8 @@ Response
 
 ### getTranches
 
-Returns the recipient list and threshold list for the tranches of a given `waterfallModuleId`.
+Returns the recipient list and threshold list for the tranches of a given
+`waterfallModuleId`.
 
 Usage
 
@@ -341,7 +347,8 @@ Response
 
 ### getNonWaterfallRecipient
 
-Returns the non-waterfall recipient for a given `waterfallModuleId`. If none was set, returns the zero address.
+Returns the non-waterfall recipient for a given `waterfallModuleId`. If none was
+set, returns the zero address.
 
 Usage
 
@@ -401,14 +408,15 @@ Response
 
 ### getPullBalance
 
-Returns the balance set aside for withdrawal for a given `waterfallModuleId` and recipient address.
+Returns the balance set aside for withdrawal for a given `waterfallModuleId` and
+recipient address.
 
 Usage
 
 ```js
 const args = {
   waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
-  address: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
+  address: '0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72',
 }
 
 const response = await waterfallClient.getPullBalance(args)
