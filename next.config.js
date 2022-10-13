@@ -5,4 +5,14 @@ const withNextra = require('nextra')({
   unstable_contentDump: true,
   unstable_staticImage: true,
 })
-module.exports = withNextra()
+module.exports = withNextra({
+  async redirects() {
+    return [
+      {
+        source: '/sdk',
+        destination: '/sdk-info/overview',
+        permanent: false,
+      }
+    ]
+  }
+})
