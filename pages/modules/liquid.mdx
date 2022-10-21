@@ -1,0 +1,84 @@
+import { Toggle } from '../../components/toggle'
+
+# Liquid Splits
+
+Unlike standard Splits where ownership is controlled, Liquid Splits use NFTs to
+represent ownership. This gives control of the Split to recipients themselves by
+allowing them to easily transfer shares, either wholly or partially, to anyone
+else.
+
+## How It Works
+
+- Each Liquid Split is comprised of an NFT contract and a mutable Split. When a
+  Liquid Split is created, first an ERC-1155 contract is created and then a
+  mutable Split is created where the Controlling Address is the 1155 contract.
+  1,000 NFTs are then minted from the 1155 contract to the initial recipients.
+- Each Liquid Split is a payable smart contract to which ETH and ERC20 tokens
+  may be sent.
+- Tokens sent to the Liquid Split are held until the balance is distributed.
+- When a balance is distributed, in one transaction the Split recipients are
+  updated to match the current NFT holders and the balance is distributed to
+  those recipients. This way, the owneres of the NFTs at time of distribution
+  will receive their share of the balance.
+
+## Addresses (TODO)
+
+### Mainnet Deployments
+
+<Toggle title="Ethereum - 1"></Toggle>
+
+<Toggle title="Optimism – 10"></Toggle>
+
+<Toggle title="Polygon – 137"></Toggle>
+
+### Testnet Deployments
+
+<Toggle title="Goerli - 5"></Toggle>
+
+<Toggle title="Optimism Goerli – 420"></Toggle>
+
+<Toggle title="Polygon Mumbai – 80001"></Toggle>
+
+<Toggle title="Arbitrum Goerli – 421613"></Toggle>
+
+## How To Use
+
+- Create a new Liquid Split by selecting it as the Split type on the new Split
+  form. Add recipients and a distribution incentive, and then hit Create Split.
+- Once the transaction has been confirmed, you'll be redirected to the Liquid
+  Split's page. Subgraph may take a few minutes to update, so if this redirect
+  doesn't happen automatically, you can locate the Liquid Split's page by
+  searching for one of the recipients and looking at their "Receiving" section.
+- On the Liquid Split page you can see the earnings, the address to which funds
+  can be sent, and the current NFT holders. In the Holders section, next to each
+  recipient's name you will see the total number of NFTs they hold and their
+  corresponding share of the Split. Whenever the Liquid Split NFTs change hands,
+  the holders will be automatically updated.
+- Tokens sent to the Liquid Split are held as a balance until they're
+  distributed. You can see the Liquid Split's balance and distributions in the
+  Liquid Split section. Hitting "Distribute Funds" will update the Split (to
+  match current NFT holders) and distribute the balance in a single transaction.
+
+## Notes
+
+- We recommend setting the distribution incentive on Liquid Splits to be
+  slightly higher (i.e., ~2-3%) than on standard Splits. This is because
+  distributions require more gas given the need to both update and distribute
+  the Split.
+- Liquid Split NFTs should only be considered to represent tokens that have not
+  yet been received by the Split. Because recipients of a Liquid Split are
+  updated at the time of a distribution, do not assume that by acquiring Liquid
+  Split NFTs you will be entitled to any portion of the current balance. A
+  nefarious seller could easily distribute the balance right before transferring
+  the shares, causing them to receive that portion of balance.
+- Since there are 1,000 NFTs for each Liquid Split, ownership can be defined to
+  a tenth of a percent (one decimal place) vs traditional Splits, which can be
+  defined to the hundreth of a percent (two decimal places).
+- The ERC-1155 standard was used because it allows batch transfers. This means
+  that someone can transfer 1% of the Split (i.e., 10 NFTs) in a single
+  transaction, instead of 10 separate ones (which would be required if using the
+  ERC-721 standard).
+
+## Code & Natspec
+
+[Github](https://github.com/0xSplits/splits-liquid)
