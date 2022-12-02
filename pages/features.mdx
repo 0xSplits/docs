@@ -2,16 +2,19 @@
 
 - No fees whatsoever – just pay gas
 - Audited, open source, and verified contracts
-- Very gas efficient (see [Gas Estimates](/appendices/gas-estimates))
+- Fine-tuned and very gas efficient (see
+  [Gas Estimates](/appendices/gas-estimates))
 - Works with ETH & ERC20 tokens
 - Live on multiple chains (Ethereum, Polygon, Optimism, Arbitrum)
 - Operates entirely onchain – no third-party dependencies
 - Non-upgradable contracts – guaranteed no breaking changes or rug pulls
 - Maximally composable – even able to receive from `call` with capped gas
 - Batched withdrawals – withdraw across all Splits in a _single_ transaction
-- Withdraw on behalf of any other account
-- Automated – incentivize bots & third-parties to distribute balances so
+  (not a multicall)
+- Withdraw on behalf of any other account (e.g., other Recipients, smart
+  contracts)
+- Automated – bots & third-parties can be incentivized to distribute balances so
   Recipients don't have to
 - Stackable – Splits can fund other Splits and [modules](/modules/overview)
-- Mutable – Splits can be setup to be modified by a designated account (EOA or
-  SC)
+- Mutable – Splits can be configured to be modified by a designated account (EOA
+  or SC)
