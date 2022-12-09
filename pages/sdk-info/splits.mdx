@@ -471,7 +471,7 @@ Usage
 
 ```js
 const args = {
-  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
 }
 
 const response = await splitsClient.acceptControlTransfer(args)
@@ -501,7 +501,7 @@ Usage
 
 ```js
 const args = {
-  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
 }
 
 const response = await splitsClient.cancelControlTransfer(args)
@@ -531,7 +531,7 @@ Usage
 
 ```js
 const args = {
-  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
 }
 
 const response = await splitsClient.makeSplitImmutable(args)
@@ -550,6 +550,50 @@ Response
 ```graphql
 {
   event: Event # ControlTransfer emitted on SplitMain
+}
+```
+
+### batchDistributeAndWithdraw
+
+Performs a multicall transaction, will distribute multiple tokens on a split and withdraw for any given addresses.
+
+Usage
+
+```js
+const args = {
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
+  tokens: [
+    "0x0000000000000000000000000000000000000000",
+    "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  ],
+  recipientAddresses: [
+    "0x39883c6e81e273f381bffe5a8c26c3a866ff57ca",
+    "0xeb78334dfde3afbc2b904f06153f59cc80ee07fa",
+    "0x6b48ad78a26604b9e158a07ec4abb2981842e168",
+    "0xc3313847E2c4A506893999f9d53d07cDa961a675",
+  ],
+  distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
+}
+
+const response = await splitsClient.batchDistributeAndWithdraw(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+  tokens: string[]
+  recipientAddresses: string[]
+  distributorAddress?: string # defaults to signer
+}
+```
+
+Response
+
+```graphql
+{
+  events: Event[]
 }
 ```
 
