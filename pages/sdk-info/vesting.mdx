@@ -1,0 +1,360 @@
+# Vesting
+
+Begin by importing `VestingClient` into your app. If you are using the
+`SplitsClient`, you can access the vesting client as well.
+
+```js
+import { VestingClient } from '@0xsplits/splits-sdk'
+
+const vestingClient = new VestingClient({
+  chainId,
+  provider, // ethers provider (optional, required if using any of the SplitMain functions)
+  signer, // ethers signer (optional, required if using the SplitMain write functions)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for vesting beneficiaries (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
+  // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
+  // other chain for non EOAs (e.g. Gnosis Safe's)
+  ensProvider, // ethers provider (optional)
+})
+```
+
+OR
+
+```js
+import { SplitsClient } from '@0xsplits/splits-sdk'
+
+const splitsClient = new SplitsClient({
+  chainId,
+  provider,
+  signer,
+  includeEnsNames,
+  ensProvider,
+})
+
+const vestingClient = splitsClient.vesting
+```
+
+Now you're ready to use any of the functions. All Arguments and Responses for
+these functions are `objects`. This will make it easier for us to release
+updates to the SDK without breaking existing implementations.
+
+The SDK comprises 3 different types of functions: Subgraph Reads, Vesting
+Writes, and Vesting Reads.
+
+## Subgraph Reads
+
+These functions make it easier to query the [subgraph](/appendices/subgraph).
+
+### getVestingMetadata
+
+Returns all metadata for a given `vestingModuleId`.
+
+Usage
+
+```js
+const args = {
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+}
+
+const response = await vestingClient.getVestingMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  vestingModuleId: string
+}
+```
+
+Response
+
+```graphql
+{
+  type: 'VestingModule'
+  id: string
+  beneficiary: {
+    address: string
+    ensName?: string
+  }
+  vestingPeriod: number
+  streams?: {
+    streamId: number
+    startTime: number
+    totalAmount: number
+    releasedAmount: number
+    token: {
+      address: string
+      symbol: string
+      decimals: number
+    }
+  }[]
+}
+```
+
+## Vesting Writes
+
+These functions make it easier to call
+[Vesting functions](/modules/vesting).
+
+### createVestingModule
+
+Creates a new Vesting contract.
+
+Usage
+
+```js
+const args = {
+  beneficiary: "0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC",
+  vestingPeriodSeconds: 31536000,
+}
+
+const response = await vestingClient.createVestingModule(args)
+```
+
+Arguments
+
+```graphql
+{
+  beneficiary: string
+  vestingPeriodSeconds: number
+}
+```
+
+Response
+
+```graphql
+{
+  vestingModuleId: string
+  event: Event # CreateVestingModule emitted on VestingModuleFactory
+}
+```
+
+### startVest
+
+Starts vesting streams for the given tokens.
+
+Usage
+
+```js
+const args = {
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  tokens: [
+    '0x0000000000000000000000000000000000000000',
+    '0x64d91f12ece7362f91a6f8e7940cd55f05060b92'
+  ]
+}
+
+const response = await vestingClient.startVest(args)
+```
+
+Arguments
+
+```graphql
+{
+  vestingModuleId: string
+  tokens: string[]
+}
+```
+
+Response
+
+```graphql
+{
+  events: Event[] # CreateVestingStream emitted on the Vesting contract (one event per token)
+}
+```
+
+### releaseVestedFunds
+
+Releases vested funds to the beneficiary for the given stream id's.
+
+Usage
+
+```js
+const args = {
+  vestingModuleId: "0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1",
+  streamIds: [0, 1],
+}
+
+const response = await vestingClient.releaseVestedFunds(args)
+```
+
+Arguments
+
+```graphql
+{
+  vestingModuleId: string
+  streamIds: string[]
+}
+```
+
+Response
+
+```graphql
+{
+  events: Event[] # ReleaseFromVestingStream on the Vesting contract (one event per stream)
+}
+```
+
+## Vesting Reads
+
+These functions make it easier to query the
+[Vesting contracts](/modules/vesting).
+
+### predictVestingModuleAddress
+
+Returns the vesting module address, and whether it exists yet, for the given beneficiary and vesting period.
+
+Usage
+
+```js
+const args = {
+  beneficiary: "0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC",
+  vestingPeriodSeconds: 31536000,
+}
+
+const response = await vestingClient.predictVestingModuleAddress(args)
+```
+
+Arguments
+
+```graphql
+{
+  beneficiary: string
+  vestingPeriodSeconds: number
+}
+```
+
+Response
+
+```graphql
+{
+  address: string
+  exists: boolean
+}
+```
+
+### getBeneficiary
+
+Returns the beneficiary for a given `vestingModuleId`.
+
+Usage
+
+```js
+const args = {
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+}
+
+const response = await vestingClient.getBeneficiary(args)
+```
+
+Arguments
+
+```graphql
+{
+  vestingModuleId: string
+}
+```
+
+Response
+
+```graphql
+{
+  beneficiary: string
+}
+```
+
+### getVestingPeriod
+
+Returns the vesting period for a given `vestingModuleId`.
+
+Usage
+
+```js
+const args = {
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+}
+
+const response = await vestingClient.getVestingPeriod(args)
+```
+
+Arguments
+
+```graphql
+{
+  vestingModuleId: string
+}
+```
+
+Response
+
+```graphql
+{
+  vestingPeriod: BigNumber
+}
+```
+
+### getVestedAmount
+
+Returns the vested amount for a given `vestingModuleId` and `streamid`.
+
+Usage
+
+```js
+const args = {
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  streamId: 0,
+}
+
+const response = await vestingClient.getVestedAmount(args)
+```
+
+Arguments
+
+```graphql
+{
+  vestingModuleId: string
+  streamId: string
+}
+```
+
+Response
+
+```graphql
+{
+  amount: BigNumber
+}
+```
+
+### getVestedAndUnreleasedAmount
+
+Returns the vested and unreleased amount for a given `vestingModuleId` and `streamid`.
+
+Usage
+
+```js
+const args = {
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  streamId: 0,
+}
+
+const response = await vestingClient.getVestedAndUnreleasedAmount(args)
+```
+
+Arguments
+
+```graphql
+{
+  vestingModuleId: string
+  streamId: string
+}
+```
+
+Response
+
+```graphql
+{
+  amount: BigNumber
+}
+```
