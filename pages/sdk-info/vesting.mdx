@@ -174,7 +174,7 @@ Usage
 ```js
 const args = {
   vestingModuleId: "0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1",
-  streamIds: [0, 1],
+  streamIds: ["0", "1"],
 }
 
 const response = await vestingClient.releaseVestedFunds(args)
@@ -193,7 +193,7 @@ Response
 
 ```graphql
 {
-  events: Event[] # ReleaseFromVestingStream on the Vesting contract (one event per stream)
+  events: Event[] # ReleaseFromVestingStream emitted on the Vesting contract (one event per stream)
 }
 ```
 
@@ -297,7 +297,7 @@ Response
 
 ### getVestedAmount
 
-Returns the vested amount for a given `vestingModuleId` and `streamid`.
+Returns the vested amount for a given `vestingModuleId` and `streamId`.
 
 Usage
 
@@ -329,7 +329,7 @@ Response
 
 ### getVestedAndUnreleasedAmount
 
-Returns the vested and unreleased amount for a given `vestingModuleId` and `streamid`.
+Returns the vested and unreleased amount for a given `vestingModuleId` and `streamId`.
 
 Usage
 
