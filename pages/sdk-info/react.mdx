@@ -93,6 +93,16 @@ Usage
 const { waterfallMetadata, isLoading } = useWaterfallMetadata(waterfallModuleId)
 ```
 
+### useVestingMetadata
+
+Fetches the given vesting module from the subgraph
+
+Usage
+
+```js
+const { vestingMetadata, isLoading } = useVestingMetadata(vestingModuleId)
+```
+
 ## Transaction Hooks
 
 Each of the transaction functions from the core sdk has a react hook wrapper. It returns
@@ -137,6 +147,11 @@ useCreateWaterfallModule
 useWaterfallFunds
 useRecoverNonWaterfallFunds
 useWithdrawWaterfallPullFunds
+
+// vesting
+useCreateVestingModule
+useStartVest
+useReleaseVestedFunds
 
 // multicall
 useMulticall
