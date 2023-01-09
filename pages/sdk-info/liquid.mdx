@@ -109,7 +109,6 @@ const args = {
   ]
   distributorFeePercent: 1.0000
   owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
-  createClone: true,
 }
 
 const response = await liquidSplitClient.createLiquidSplit(args)
@@ -125,10 +124,6 @@ Arguments
   }[]
   distributorFeePercent: number # <10 and up to 4 decimals
   owner?: string # defaults to signer
-  # General rule-of-thumb is if there are not a lot of recipients, it will
-  # likely be more gas efficient to set createClone to true. In the 0xsplits
-  # webapp, we always set createClone to true when creating a liquid split.
-  createClone?: boolean # defaults to false
 }
 ```
 
@@ -137,7 +132,7 @@ Response
 ```graphql
 {
   liquidSplitId: string
-  event: Event # CreateLS1155 or CreateLS1155Clone emitted on LiquidSplitFactory
+  event: Event # CreateLS1155Clone emitted on LiquidSplitFactory
 }
 ```
 
