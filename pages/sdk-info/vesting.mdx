@@ -197,6 +197,21 @@ Response
 }
 ```
 
+## Gas Estimation
+
+The client has a gas estimation feature that can be used with any of the above write functions.
+Just call the function off of the `estimateGas` property. Estimating the gas for the create 
+vesting module function would look like:
+
+```js
+const args = {
+  beneficiary: "0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC",
+  vestingPeriodSeconds: 31536000,
+}
+
+const gasEstimate = await vestingClient.estimateGas.createVestingModule(args)
+```
+
 ## Vesting Reads
 
 These functions make it easier to query the

@@ -203,6 +203,31 @@ Response
 }
 ```
 
+## Gas Estimation
+
+The client has a gas estimation feature that can be used with any of the above write functions.
+Just call the function off of the `estimateGas` property. Estimating the gas for the create 
+liquid split function would look like:
+
+```js
+const args = {
+  holders: [
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0
+    }
+  ]
+  distributorFeePercent: 1.0000
+  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+}
+
+const gasEstimate = await liquidSplitClient.estimateGas.createLiquidSplit(args)
+```
+
 ## Liquid Split Reads
 
 These functions make it easier to query the
