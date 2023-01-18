@@ -1,45 +1,42 @@
-import Bleed from 'nextra-theme-docs/bleed'
-
 # Withdrawing Funds
 
-Regardless of how many Splits you’re receiving from, or how frequently those
+Regardless of how many Splits you’re earning from, or how frequently those
 Splits earn income, it only takes a single transaction to transfer _all of your
 balances_ to your wallet. You can do this at your leisure, whenever gas prices
 are low or you just want to cash out.
 
-![Withdraw flow](/withdraw-flow.svg)
+![Overview page](/withdraw-balances.gif)
 
-Once a Split you receive from has been distributed, you'll see your withdrawable
-balance in the nav menu at the top of the screen. This withdrawable balance you
-see comprises _all the Splits_ you receive from. If you only have ERC20 tokens
-available to withdraw, you may see "$0.00" in this dropdown if we can't
-determine the token price. Click on the dropdown to see the actual balances for
-each token.
+Once a Split you earn from has been distributed, you'll see your withdrawable
+balance in the top left corner of the page. If you only have ERC-20 tokens
+available to withdraw, you may see a balance of "$0.00" if we can't determine
+the ERC-20 token price. Click on your balance to open your account menu.
 
 ![Overview menu item](/withdraw_indicator.png)
 
-After clicking on the dropdown, you'll see all your balances and can select the
-ones you wish to withdraw. Hit the "withdraw" button in the top right, and once
-the transaction has been confirmed you'll see that those funds have been
-transferred to your wallet and your balance within Splits has been reset. If you
-have any "pending" balances (i.e., Splits you receive from have balances which
-have not been distributed), those will show up here, too. If you wish, you can
-distribute those pending balances before withdrawing.
+You'll be able to see all your balances in the dialog that opens. Select the
+ones you wish to withdraw and hit "Withdraw Tokens". Once you approve this
+transaction in your wallet, the selected balances will be withdrawn from Splits
+to your account. You will see your balance has been reset to $0.
 
 ![Overview page](/withdraw-balances.png)
 
-## Withdrawing For Another Account
+If you have any "pending" balances (i.e., Splits you earn from that have
+balances waiting to be distributed), those will show up here as well. If you
+wish, you may distribute those pending balances before withdrawing.
+
+## Withdrawing for another account
 
 Since Recipients in a Split can be any Ethereum address, including smart
 contracts to which nobody holds the private keys, anyone can withdraw balances
 on behalf of other Recipients. When you do this, you're effectively paying the
 gas needed to send the funds to their wallet.
 
-Just navigate to the account's detail page—either by searching or clicking on it
-from the list of Recipients—then select the balances you wish to withdraw and
-hit "withdraw". This will transfer these balances to the _account's address_,
-not your own. By withdrawing "for" another account, you're just paying the gas
-needed to send them their funds.
+Just navigate to the account's detail page (either by searching or clicking on
+it from the list of Recipients) then select the balances you wish to withdraw
+and hit "Withdraw Tokens". This will transfer these balances to the _account's
+address_, not your own. By withdrawing "for" another account, you're just paying
+the gas needed to send them their funds.
 
 ![Withdraw for an account](/withdraw_account.png)
 
@@ -53,7 +50,7 @@ If you're having trouble with this, jump in our
 [Discord](https://chat.0xsplits.xyz/) and drop us a note in the `user-support`
 channel.
 
-## Why Must You Withdraw?
+## Why must you withdraw?
 
 In other words, once the balance of a Split has been distributed, why aren't the
 funds automatically showing up in your wallet? This is because the withdraw flow

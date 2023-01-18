@@ -3,51 +3,60 @@ import Callout from 'nextra-theme-docs/callout'
 # Creating Splits
 
 <Callout emoji="🛠">
-  Integratating into your own product or contracts? Check out the [Smart
+  Integratating into your own product or contracts? See the [Smart
   Contracts](/smartcontracts/overview) and [SDK](/sdk-info/overview) sections.
 </Callout>
 
-To get started head to [split.new](https://split.new) (or hit the ➕ button in
-the nav) and just add each [Recipient](/core-concepts#recipient)'s address (ENS
-or hex) and their corresponding share. Since Recipients don't need to withdraw
-for themselves, a Recipient can be any payable Ethereum address—user wallets,
-smart contracts, and other Splits are all acceptable.
+To get started head to [split.new](https://split.new) and select "Split" from
+the new contract page. There are 3 types of Splits you can create.
+
+- Immutable Split: the Recipients are permanently fixed and can never be changed
+  by anyone
+- Mutable Split: the Controlling Address may change the Split at any time
+- Liquid Split: each Recipient can manage their ownership in the Split using
+  NFTs
+
+### Recipients
+
+Once you've selected the Split type, you can enter in each Recipient's address
+(ENS or hex) and their corresponding ownership. Since a Recipient doesn't need
+to withdraw for itself, you may enter any payable address—user wallets, smart
+contracts, and other Splits are all acceptable.
 
 ![New Split Recipients](/new-split-recipients.png)
 
-There are two additional parameters you can (optionally) modify: the
-Distribution Incentive, and the Split Type.
-
 ### Distribution Incentive
 
-This allows Splits to be distributed automatically, without you or any of the
-Recipients having to worry about it. The incentive is the percent of the balance
-rewarded to whoever pays the gas needed to distribute the balance. This creates
-an arbitrage opportunity (when the cost to distribute is less than the reward),
-which causes bots & third parties to automatically distribute balances for
-Recipients. Balances must only be distributed once for all Recipients to claim
-their share.
+This is the percent of the Split's balance paid to whoever distributes it. You
+can think of it as a "payment processing fee". Leaving this to a positive number
+allows your Split to be "automated" since it creates an incentive for third
+parties to distribute balances for Recipients. By default this is set to 1% but
+you may remove it (by setting it to 0%) or increase it (the maximum is 10%).
 
 ![New Mutable Split](/new-split-distributorfee.png)
 
-**Tip:** Once you've filled out the Recipients section, we give you an estimate
-of when a bot/third will distribute the balance (i.e., when it's profitable for
-_anyone_ to distribute the funds for Recipients). If you're not sure what value
-to use, we recommend leaving it at the default setting of 1.00%.
-[Learn more](/core-concepts#distributor-fee)
+**Tip:** Once you've filled out the Recipients section, you will see an estimate
+of when it becomes profitable for a third party to distribute the funds for
+Recipients. If you're not sure what value to use, we recommend leaving it at the
+default setting of 1.00%. [Learn more](/core-concepts#distributor-fee)
 
-### Split Type
+### Controlling Address
 
-Splits can either be Immutable (the default option) or Mutable. Once deployed,
-Immutable Splits can never be changed by anyone. Mutable Splits, on the other
-hand, can be changed at any time by the Controller. The Controller has the
-ability to modify the Recipients and Distribution Incentive, and even transfer
-control to someone else or remove the Controller entirely (thereby making the
-Split Immutable). The Controller can be any account (EOA, multisig, smart
-contract with custom logic, etc). [Learn more](/core-concepts#mutable-split)
+This section only applies to Mutable Splits. The Controlling Address has the
+ability to modify the Recipients, Distribution Incentive, Controlling Address,
+and even make the Split immutable. The Controlling Address may be any account
+(EOA, Gnosis Safe, smart contract, etc).
+[Learn more](/core-concepts#mutable-split)
 
 ![New Mutable Split](/new-split-mutable.png)
 
-Keep in mind that larger Splits will require more gas. Mutable Splits will also
-require slightly more gas to deploy. Gas estimates can be found
-[here](/appendices/gas-estimates).
+### Contract Address
+
+This section only applies to Immutable Splits. The Contract Address is the
+address at which this Immutable Split, according to the Recipients and
+Distribution Incentive set above, will be deployed. This address will change if
+you update the Recipients or Distribution Incentive. You may send
+crytocurrencies to this address prior to creating the Split, however, to
+withdraw tokens the Split will need to be deployed.
+
+![New Mutable Split](/new-split-contractaddress.png)
