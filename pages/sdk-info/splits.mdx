@@ -139,8 +139,9 @@ Returns token balances for a given `splitId`.
 
 NOTE: Fetching active balances requires a `getLogs` request across many blocks.
 Not all providers may handle it properly. Alchemy and Infura should work just
-fine. You can disable fetching active balances by passing in
-`includeActiveBalances: false`.
+fine. For other providers, we require a erc20TokenList argument to get passed in.
+You can specify which erc20 tokens to fetch a balance for, or pass an empty array.
+You can disable fetching active balances by passing in `includeActiveBalances: false`.
 
 Usage
 
@@ -158,6 +159,7 @@ Arguments
 {
   splitId: string
   includeActiveBalances?: boolean # defaults to true
+  erc20TokenList?: string[]
 }
 ```
 
