@@ -137,10 +137,12 @@ Response
 
 Returns token balances for a given `splitId`.
 
-NOTE: Fetching active balances requires a `getLogs` request across many blocks.
-Not all providers handle it properly. Alchemy and Infura are the two we currently
-support. For other providers, we require a erc20TokenList argument to get passed in.
-You can specify which erc20 tokens to fetch a balance for, or pass an empty array.
+NOTE: Fetching active balances optionally takes an `erc20TokenList` argument. If the
+provider is not Alchemy or Infura, that token list is required. If the token list is
+passed in, balances will only be fetched for tokens in that list (as well as the native
+token and any previously distributed tokens). Otherwise, all erc20 transfers to the
+split address will be reviewed with a `getLogs` request, but only Alchemy and Infura
+support a large enough `getLogs` request.
 You can disable fetching active balances by passing in `includeActiveBalances: false`.
 
 Usage
