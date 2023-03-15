@@ -5,25 +5,26 @@ onchain income. Running exactly at gas cost and charging no fees whatsoever, it
 takes the form of a [hyperstructure](https://jacob.energy/hyperstructures.html)
 that can run for free, forever, without any maintenance or trusted third
 parties. The protocol is
-[open-source](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code)
-and
-[audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf).
+[open-source](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code),
+[audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf),
+and entirely free to use.
 
 ![Basic Overview Flow](/intro-flow.svg)
 
 At the core of the protocol are [Splits](/core-concepts/#split) and
 [Recipients](/core-concepts/#recipient). A Split is a payable smart contract
-that distributes cryptocurrencies (ETH & ERC-20 tokens) proportionally among the
-Recipients. A Recipient is any address (i.e., externally owned account or smart
-contract like another Split) that receives a share of the Split's income.
-Whenever a Split's [balance](/core-concepts/#balance) is distributed, each
-Recipient is allocated their share.
+that distributes ETH & ERC-20 tokens proportionally among the Recipients. A
+Recipient is any [account](https://ethereum.org/en/developers/docs/accounts/)
+(i.e., an EOA or smart contract like another Split) that receives a share of the
+Split's income. Once a Split has received funds and the
+[balance](/core-concepts/#balance) is distributed, each Recipient can
+[withdraw](/getstarted/withdraw) their share.
 
 These docs are designed to be progressively technical, meaning the further you
 read the more technical they become. If you're non-technical, new to Ethereum,
 or just want to understand how you can use 0xSplits today, continue reading. If
-you're a developer looking to integrate Splits, you may want to skip ahead to
-the [Flow of Funds](/flow-of-funds),
+you're integrating the contracts into your own app or contracts, you may want to
+skip ahead to the [Flow of Funds](/flow-of-funds),
 [Smart Contracts](/smartcontracts/overview), and [SDK](/sdk-info/overview)
 sections.
 

@@ -9,15 +9,14 @@
 - Compatible with ETH & ERC-20 tokens
 - Live on most EVM chains: Ethereum, Polygon, Optimism, Arbitrum, Gnosis, and
   others
-- Non-upgradable contracts – guaranteed no breaking changes or rug pulls
+- Non-upgradable contracts – guaranteed no breaking changes
 - Operates entirely onchain – no third-party dependencies
 - Maximally composable – even able to receive from `call` with capped gas
 - Batched withdrawals – withdraw across all Splits in a _single_ transaction
   (not a multicall)
-- Withdraw on behalf of any other account (e.g., other Recipients, smart
-  contracts)
-- Automated – bots & third-parties can be incentivized to distribute balances so
+- Permissionless withdrawals – anyone can withdraw for any other account
+- Automated – bots & third-parties are incentivized to distribute balances so
   Recipients don't have to
-- Stackable – Splits can fund other Splits and [modules](/modules/overview)
-- Mutable – Splits can be configured to be modified by a designated account
-  (EOA, Gnosis Safe, custom smart contract, etc)
+- Stackable – Splits can point to other Splits and [modules](/modules/overview)
+- Mutable – Splits can be optionally updated by a designated account (EOA,
+  Gnosis Safe, smart contract, etc)
