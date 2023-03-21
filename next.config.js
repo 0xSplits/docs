@@ -12,7 +12,7 @@ module.exports = withNextra({
         source: '/sdk',
         destination: '/sdk-info/overview',
         permanent: false,
-      }
+      },
     ]
-  }
+  },
 })

@@ -1,0 +1,46 @@
+import { Toggle } from '../../components/toggle'
+import Callout from 'nextra-theme-docs/callout'
+
+# Recoup
+
+The Recoup template allows you to repay one group before splitting profits with
+another. It's a simple contract and UI that allows you to create a
+[Waterfall](/modules/waterfall) that points to a number of
+[Splits](/smartcontracts/overview).
+
+![Structure of a Recoup](/recoup_overview.png)
+
+## How It Works
+
+- Go to [app.0xsplits.xyz/new/recoup](https://app.0xsplits.xyz/new/recoup/) and
+  enter in the token and amount you wish to recoup. In the "Recipient(s)"
+  section, if you want split the recoup amount with a number of accounts just
+  hit "Add Recipient" (just like when [creating a Split](/getstarted/creating)).
+  As long as more than one recipient is added, a Split will be automatically
+  created alongside the Recoup.
+
+  ![Add recipients to a recoup](/recoup_addrecipient.gif)
+
+- You can also add a controller and modify the distribution incentive if you'd
+  like. By default, we do not set a controller (i.e., the Split is immutable)
+  and we set the distribution incentive to be 1% so that balances are
+  automatically distributed. You may override these as you wish.
+- Once you hit Create Recoup, you will be brought to the Recoup detail page
+  where you can see how much of the recoup has been paid back, and who the
+  recipients are for each tier. On the right side, you can see the Recoup's
+  earnings and any current balances.
+
+![Recoup detail page](/recoup_detail.png)
+
+## Notes
+
+- We recommend familiarizing yourself with how [Waterfall](/modules/waterfall)
+  and [Splits](/smartcontracts/overview) work, since Recoup is just a basic
+  wrapper for those two contracts.
+- Any non-permitted tokens sent to the Recoup will be recovered to the Profit
+  Share Tier.
+- Recoup is an immutable contract. Once it's been created, it cannot be changed.
+
+## Code & Natspec
+
+[Github](https://github.com/0xSplits/splits-recoup)
