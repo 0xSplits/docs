@@ -1,15 +1,14 @@
 # Introduction
 
-0xSplits is an efficient, composable, non-upgradable protocol for splitting
-onchain income. Running exactly at gas cost and charging no fees whatsoever, it
-takes the form of a [hyperstructure](https://jacob.energy/hyperstructures.html)
-that can run for free, forever, without any maintenance or trusted third
-parties. The protocol is
+0xSplits is a composable, non-upgradable protocol for splitting onchain income.
+Running exactly at gas and charging no fees whatsoever, it takes the form of a
+[hyperstructure](https://jacob.energy/hyperstructures.html) that can run for
+free, forever, without any maintenance or trusted third parties. The protocol is
 [open-source](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code),
 [audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf),
-and entirely free to use.
+and exists as a public good.
 
-![Basic Overview Flow](/intro-flow.svg)
+![Basic Overview Flow](/intro-flow.png)
 
 At the core of the protocol are [Splits](/core-concepts/#split) and
 [Recipients](/core-concepts/#recipient). A Split is a payable smart contract
@@ -20,12 +19,11 @@ Split's income. Once a Split has received funds and the
 [balance](/core-concepts/#balance) is distributed, each Recipient can
 [withdraw](/getstarted/withdraw) their share.
 
-These docs are designed to be progressively technical, meaning the further you
-read the more technical they become. If you're non-technical, new to Ethereum,
-or just want to understand how you can use 0xSplits today, continue reading. If
-you're integrating the contracts into your own app or contracts, you may want to
-skip ahead to the [Flow of Funds](/flow-of-funds),
-[Smart Contracts](/smartcontracts/overview), and [SDK](/sdk-info/overview)
+These docs are designed to be progressively more technical the further you read.
+If you're non-technical, new to Ethereum, or just want to understand how you can
+use 0xSplits today, we recommend you continue reading. If you're integrating the
+contracts into your own app or contracts, you may want to skip ahead to the
+[Smart Contracts](/smartcontracts/overview) and [SDK](/sdk-info/overview)
 sections.
 
 ### Features
@@ -42,20 +40,17 @@ sections.
 - Each Split exists **entirely onchain** and the actions necessary for the
   protocol to operate are open to everyone. There are no infrastructure
   dependencies or trusted third parties, and all the contracts are
-  non-upgradable. You can rely on Splits to operate—exactly as they do today—for
-  as long as Ethereum exists.
+  non-upgradable.
 
 ### Usage
 
 Splits are valuable whenever you want to split onchain payments among multiple
 parties. Here are a few brands using 0xSplits today:
 
-- **Platforms**: Sound, Bonfire, Decent, 1stDibs
-- **DAOs**: Nouns, SuperRare, Bankless
+- **Platforms**: Sound, Bonfire, Decent, Tessera, 1stDibs
+- **DAOs**: Nouns, SuperRare, Airswap, Bankless
 - **Collectives**: Protocol Guild, Songcamp, Metalabel
-- **Musicians**: Daniel Allan, Reo Cragun
-- **NFT projects**: Galverse, Denzadol, Holly+
-- **Dev shops**: Props, Quantum
+- **Music**: Daniel Allan, Reo Cragun, Coop Records, Venice Music
 
 ### Public Goods
 

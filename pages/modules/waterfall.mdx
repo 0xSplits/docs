@@ -2,55 +2,28 @@ import { Toggle } from '../../components/toggle'
 
 # Waterfall
 
-> Send the first $100 to bob.eth, then the next $50 to mary.eth, and then all
-> residual to yoursplit.eth
+A Waterfall lets you order distributions, making it useful when you want to pay
+one party a specific amount _before_ paying a different party. Just like a
+Split, a Waterfall is a payable smart contract that can be plugged into any
+payment flow. Try it out at
+[waterfall.new](https://app.0xsplits.xyz/new/waterfall/).
 
-The Waterfall module makes it easy to set the order in which funds are
-distributed to different recipients. It's useful when you want to pay one party
-a certain amount _before_ paying another party. Waterfalls are payable smart
-contracts that compose well with Splits and other contracts. This is an old
-concept that has many different names—preference stack, seniority structure,
-distribution waterfall, recoupment—and the Waterfall module brings this logic
-onchain.
+![Waterfall diagram](/waterfall_diagram.png) _Send the first 1 ETH to Alice,
+then the next 0.5 ETH to Bob, and then split all the residual 50/50._
 
 ## How It Works
 
-- Each Waterfall is a payable smart contract to which a Permitted Token may be
-  sent. This token can be ETH or any ERC20 token. Non-permitted tokens sent to
-  the Waterfall can be [recovered](#notes) to any of the Recipients.
-- Each Waterfall has 2 or more Tranches. Each Tranche has a Threshold (a number)
-  and a Recipient (an address). The last Tranche has no Threshold (i.e., upper
-  limit) and will receive all residual funds.
-- Tokens sent to the Waterfall are held as a balance until it's distributed.
-  During a distribution, each Tranche sends funds to the Recipient only once the
-  preceding Tranche Threshold has been reached. This repeats until the all
-  Tranches have been filled, at which point all residual funds are sent to the
-  residual Tranche Recipient.
-
-```
-        EXTERNAL ACCOUNT/SMART CONTRACT
-                       │
-                       │ ETH or ERC20 (permitted token)
-                       ▼
-Waterfall Contract────────────────────────────┐
-│                      │                      │
-│       ┌──────────────┘                      │
-│       ▼                                     │
-│  ┌────────┐                                 │
-│  │ 0 to X │───then───┐                      │
-│  └────────┘          ▼                      │
-│       │         ┌────────┐                  │
-│       │         │ X to Y │───then───┐       │
-│       │         └────────┘          ▼       │
-│       │              │         ┌────────┐   │
-│       │              │         │ Y to ∞ │   │
-│       │              │         └────────┘   │
-│       │              │              │       │
-└───────┼──────────────┼──────────────┼───────┘
-        │              │              │
-        ▼              ▼              ▼
-     EOA/SC         EOA/SC         EOA/SC
-```
+- Each Waterfall is a payable smart contract to which a Permitted Token (ETH or
+  ERC20) may be sent. Non-permitted tokens sent to Waterfall can be
+  [recovered](#notes) to any of the Recipients.
+- Each Waterfall has two or more Tranches. Each Tranche has a Recipient, which
+  can be any account, and a Threshold, which is the max number of tokens it can
+  receive. The final Tranche will always receive all residual tokens since it
+  has no Threshold.
+- Tokens sent to a Waterfall are stored in the contract as a balance. When the
+  balance is distributed, each Tranche sends funds to the Recipient only after
+  the preceding Trance has been filled. This repeats until the all Tranches have
+  been filled, at which point all residual funds are sent to the final Tranche.
 
 ## Addresses
 
@@ -76,8 +49,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="BSC – 56">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                     |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xB2641a863d9832e11181103038566752b852E7c4`](https://bscscan.com/address/0xB2641a863d9832e11181103038566752b852E7c4#code) |
 | Factory        | [`0xB7CCCcCeb459F0910589556123dC5fA6DC8dE4E0`](https://bscscan.com/address/0xB7CCCcCeb459F0910589556123dC5fA6DC8dE4E0#code) |
 
@@ -85,8 +58,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Gnosis – 100">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                       |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://gnosisscan.io/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://gnosisscan.io/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -103,8 +76,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Fantom – 250">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                     |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://ftmscan.com/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://ftmscan.com/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -112,8 +85,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Arbitrum – 42161">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                     |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://arbiscan.io/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://arbiscan.io/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -121,8 +94,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Avalanche – 43114">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                      |
+| :------------- | :--------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://snowtrace.io/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://snowtrace.io/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -130,8 +103,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Aurora – 1313161554">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                        |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://aurorascan.dev/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://aurorascan.dev/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -150,8 +123,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="BSC Testnet – 97">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                             |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xB2641a863d9832e11181103038566752b852E7c4`](https://testnet.bscscan.com/address/0xB2641a863d9832e11181103038566752b852E7c4#code) |
 | Factory        | [`0xB7CCCcCeb459F0910589556123dC5fA6DC8dE4E0`](https://testnet.bscscan.com/address/0xB7CCCcCeb459F0910589556123dC5fA6DC8dE4E0#code) |
 
@@ -168,8 +141,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Fantom Testnet – 4002">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                             |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://testnet.ftmscan.com/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://testnet.ftmscan.com/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -177,8 +150,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Gnosis Chiado – 10200">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                                                        |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://blockscout.com/gnosis/chiado/address/0x1A1314121B06f1E358Eec90E76E459a679c88863/contracts#address-tabs) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://blockscout.com/gnosis/chiado/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6/contracts#address-tabs) |
 
@@ -186,8 +159,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Avalanche Fuji – 43113">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                              |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://testnet.snowtrace.io/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://testnet.snowtrace.io/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -213,8 +186,8 @@ Waterfall Contract────────────────────�
 
 <Toggle title="Aurora Testnet – 1313161555">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                                |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x1A1314121B06f1E358Eec90E76E459a679c88863`](https://testnet.aurorascan.dev/address/0x1A1314121B06f1E358Eec90E76E459a679c88863#code) |
 | Factory        | [`0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6`](https://testnet.aurorascan.dev/address/0x4Df01754eBd055498C8087b1e9a5c7a9ad19b0F6#code) |
 
@@ -223,20 +196,20 @@ Waterfall Contract────────────────────�
 ## How To Use
 
 - Create a new Waterfall by selecting which ERC20 token should be permitted.
-  Then, for each Tranche add a Threshold and Recipient. You may add as many
-  Tranches as you wish. Double check everything is right (these are immutable!)
-  and hit Create Waterfall.
-- Once the transaction has been confirmed, you'll be redirected to the
-  Waterfall's account page. If this doesn't happen, you can locate it by
-  searching for one of the Recipients and looking at their "Receiving" section.
+  Then for each Tranche add a Threshold and Recipient. You may add as many
+  Tranches as you wish. Waterfalls are immutable so double check everything is
+  right before creating the Waterfall.
+- Once created you'll be redirected to the Waterfall's account page. If this
+  doesn't happen, you can locate it by searching for one of the Recipients and
+  looking at their receiving from section.
 - Tokens sent to the Waterfall are held as a balance until they're distributed.
   You can see the Waterfall's balance and distributions in the Earnings section.
-  Hitting "Distribute Funds" will send each Recipient their funds.
-- If the Waterfall has received non-permitted tokens, they will show up below
-  the Address section. You can [recover](#notes) these tokens to any of the
-  Recipients using Etherscan.
-- Once all Tranche Thresholds have been filled, all remaining funds will be sent
-  to the Recipient of the last Tranche (i.e., the residual).
+  Distributing the funds will send each Recipient their funds.
+- If the Waterfall has received non-permitted tokens, they will show up in the
+  right column near the earnings. You can [recover](#notes) these tokens
+  directly to any of the Recipients.
+- Once all the Tranches have been filled, any remaining/future tokens will be
+  sent to the Recipient of the final Tranche (i.e., the residual).
 
 ## Notes
 
