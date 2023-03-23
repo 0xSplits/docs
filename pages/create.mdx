@@ -1,11 +1,24 @@
-import Callout from 'nextra-theme-docs/callout'
+# Creating contracts
 
-# Creating Splits
+There are three core contracts (i.e., building blocks) upon which all payment
+flows are built. You can stack them together in whatever order makes most sense
+for your specific needs.
 
-<Callout emoji="🛠">
-  Integratating into your own product or contracts? See the [Smart
-  Contracts](/smartcontracts/overview) and [SDK](/sdk-info/overview) sections.
-</Callout>
+import { Card, Cards } from 'nextra-theme-docs'
+
+<Cards>
+
+<Card title="Split" image href="#split">
+  ![Basic Overview Flow](/split_diagram.png)
+</Card>
+<Card title="Waterfall" image>
+  ![Basic Overview Flow](/waterfall_diagram.png)
+</Card>
+<Card title="Stream" image>
+  ![Basic Overview Flow](/vesting_diagram.png)
+</Card>
+
+</Cards>
 
 To get started head to [split.new](https://split.new) and select "Split" from
 the new contract page. There are 3 types of Splits you can create.

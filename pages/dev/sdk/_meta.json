@@ -1,7 +1,8 @@
 {
-  "overview": "Overview",
+  "splits": "Splits",
   "waterfall": "Waterfall",
   "liquid": "Liquid Splits",
   "vesting": "Vesting",
-  "recoup": "Recoup"
+  "multicall": "Multicall",
+  "react": "React SDK"
 }

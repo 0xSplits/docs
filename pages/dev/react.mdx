@@ -1,29 +1,43 @@
+import { Tab, Tabs } from 'nextra-theme-docs'
+
 # React SDK
 
 This page explains how to use the **React SDK**, a react wrapper around the
-[Core SDK](/sdk-info/overview). The React SDK provides convenient hooks for easily
+[Core SDK](/dev/sdk). The React SDK provides convenient hooks for easily
 fetching splits data and sending transactions. You can find the React SDK source
-code on [Github](https://github.com/0xSplits/splits-sdk/tree/main/packages/splits-sdk-react).
+code on
+[Github](https://github.com/0xSplits/splits-sdk/tree/main/packages/splits-sdk-react).
 
-To get started, install the package using yarn or npm.
+To get started, install the package using `yarn` or `npm`.
+
+<Tabs items={['yarn', 'npm']}>
+
+  <Tab>
 
 ```bash
 yarn add @0xsplits/splits-sdk-react
 ```
 
+  </Tab>
+  <Tab>
+
 ```bash
 npm install @0xsplits/splits-sdk-react
 ```
 
+  </Tab>
+</Tabs>
+
 ## Usage
+
 A `SplitsProvider` component is needed to manage context for all splits hooks.
 
 ```js
 import { SplitsProvider, useSplitsClient } from '@0xsplits/splits-sdk-react'
- 
+
 function App() {
   return (
-    <SplitsProvider> 
+    <SplitsProvider>
       <YourComponents />
     </SplitsProvider>
   )
@@ -105,10 +119,12 @@ const { vestingMetadata, isLoading } = useVestingMetadata(vestingModuleId)
 
 ## Transaction Hooks
 
-Each of the transaction functions from the core sdk has a react hook wrapper. It returns
-the core sdk function and some state properties for monitoring the transaction progress.
+Each of the transaction functions from the core sdk has a react hook wrapper. It
+returns the core sdk function and some state properties for monitoring the
+transaction progress.
 
 Usage
+
 ```js
 const { createSplit, status, txHash, error } = useCreateSplit()
 ```
@@ -125,6 +141,7 @@ Response
 ```
 
 List of transaction hooks
+
 ```js
 // splits
 useCreateSplit

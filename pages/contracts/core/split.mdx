@@ -1,23 +1,28 @@
-import { Toggle } from '../../components/toggle'
+import { Toggle } from '../../../components/toggle'
+import { Tab, Tabs } from 'nextra-theme-docs'
 
-# Overview
+# Split
 
-This section provides a high-level overview of the contracts in the protocol.
-Details & implementation instructions on the individual contracts can be found
-on the contract pages for [SplitMain](/smartcontracts/SplitMain) and
-[SplitWallet](/smartcontracts/SplitWallet). You can also read the contracts on
+A Split is a payable smart contract that distributes all ETH & ERC20 tokens it
+receives among recipients according to pre-set ownership percentages.
+
+![Split diagram](./img/diagram_split.png)
+
+You can also read the contracts on
 [GitHub](https://github.com/0xSplits/splits-contracts) or get started by
 installing the [SDK](/sdk-info/overview).
 
-## Audit
+## Flow of funds
 
-The contracts were audited by [Macro](https://0xmacro.com/audits). You can find
-their audit report
-[here](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf).
+![Flow of Funds Diagram](/flow-of-funds.png)
+
+## How it works
 
 ## Addresses
 
-### Mainnet Deployments
+<Tabs items={['Mainnets', 'Testnets']}>
+
+<Tab>
 
 <Toggle title="Ethereum – 1">
 
@@ -39,8 +44,8 @@ their audit report
 
 <Toggle title="BSC – 56">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                     |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x8EfE568278b40316Ac2aebF92453A0FEcD891D7B`](https://bscscan.com/address/0x8EfE568278b40316Ac2aebF92453A0FEcD891D7B#code) |
 | Factory        | [`0x5924cD81dC672151527B1E4b5Ef57B69cBD07Eda`](https://bscscan.com/address/0x5924cD81dC672151527B1E4b5Ef57B69cBD07Eda#code) |
 
@@ -48,8 +53,8 @@ their audit report
 
 <Toggle title="Gnosis – 100">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                       |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://gnosisscan.io/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
 | Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://gnosisscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
 
@@ -66,8 +71,8 @@ their audit report
 
 <Toggle title="Fantom – 250">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                     |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://ftmscan.com/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
 | Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://ftmscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
 
@@ -84,8 +89,8 @@ their audit report
 
 <Toggle title="Avalanche – 43114">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                      |
+| :------------- | :--------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://snowtrace.io/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
 | Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://snowtrace.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
 
@@ -93,14 +98,16 @@ their audit report
 
 <Toggle title="Aurora – 1313161554">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                        |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://aurorascan.dev/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
 | Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://aurorascan.dev/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
 
 </Toggle>
 
-### Testnet Deployments
+</Tab>
+
+<Tab>
 
 <Toggle title="Goerli – 5">
 
@@ -140,8 +147,8 @@ their audit report
 
 <Toggle title="BSC Testnet – 97">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                             |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0x8EfE568278b40316Ac2aebF92453A0FEcD891D7B`](https://testnet.bscscan.com/address/0x8EfE568278b40316Ac2aebF92453A0FEcD891D7B#code) |
 | Factory        | [`0x5924cD81dC672151527B1E4b5Ef57B69cBD07Eda`](https://testnet.bscscan.com/address/0x5924cD81dC672151527B1E4b5Ef57B69cBD07Eda#code) |
 
@@ -158,8 +165,8 @@ their audit report
 
 <Toggle title="Fantom Testnet – 4002">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                             |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://testnet.ftmscan.com/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
 | Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://testnet.ftmscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
 
@@ -167,8 +174,8 @@ their audit report
 
 <Toggle title="Gnosis Chiado – 10200">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                                                        |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://blockscout.com/gnosis/chiado/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33/contracts#address-tabs) |
 | Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://blockscout.com/gnosis/chiado/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE/contracts#address-tabs) |
 
@@ -176,8 +183,8 @@ their audit report
 
 <Toggle title="Avalanche Fuji – 43113">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                              |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://testnet.snowtrace.io/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
 | Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://testnet.snowtrace.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
 
@@ -203,47 +210,65 @@ their audit report
 
 <Toggle title="Aurora Testnet – 1313161555">
 
-| Contract       | Address                                                                                                                         |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Contract       | Address                                                                                                                                |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://testnet.aurorascan.dev/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
 | Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://testnet.aurorascan.dev/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
 
 </Toggle>
 
-## SplitMain
+</Tab>
 
-### `createSplit`
+</Tabs>
+
+## Code & Natspec
+
+### SplitMain
+
+#### `createSplit`
 
 Create a new [`SplitProxy`](#splitproxy)
 
-### `distributeETH`
+#### `distributeETH`
 
 Split ETH for Split `address` which allows Recipients to withdraw
 
-### `distributeERC20`
+#### `distributeERC20`
 
 Split `IERC20` for Split `address` which allows Recipients to withdraw
 
-### `withdraw`
+#### `withdraw`
 
 Withdraw ETH & ERC20s for `address`
 
-## SplitProxy
+### SplitProxy
 
-### `receive()`
+#### `receive()`
 
 Emit an event when funds are received at the proxy
 
-### `fallback()`
+#### `fallback()`
 
 Delegates all other calls to the implementation [`SplitWallet`](#splitwallet)
 
-## SplitWallet
+### SplitWallet
 
-### `sendETHToMain`
+#### `sendETHToMain`
 
 Sends the contract's ETH to `SplitMain`
 
-### `sendERC20ToMain`
+#### `sendERC20ToMain`
 
 Sends the contract's `IERC20` to `SplitMain`
+
+## Notes
+
+- These contracts were audited by [Macro](https://0xmacro.com/audits). You can
+  find their audit report
+  [here](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf).
+- Recipients, ownerships, and keeper fees are stored onchain as calldata &
+  re-passed as args / validated via hashing when needed. Each Split gets its own
+  address & proxy for maximum composability with other contracts onchain. For
+  these proxies, we extended EIP-1167 Minimal Proxy Contract to avoid
+  `DELEGATECALL` inside `receive()` to accept hard gas-capped `sends` &
+  `transfers`.

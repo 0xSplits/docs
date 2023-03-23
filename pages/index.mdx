@@ -1,14 +1,24 @@
-# Introduction
+# Welcome to 0xSplits
 
-0xSplits is a composable, non-upgradable protocol for splitting onchain income.
-Running exactly at gas and charging no fees whatsoever, it takes the form of a
-[hyperstructure](https://jacob.energy/hyperstructures.html) that can run for
-free, forever, without any maintenance or trusted third parties. The protocol is
+0xSplits is a set of composable,
 [open-source](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code),
-[audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf),
-and exists as a public good.
+and
+[audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf)
+smart contracts that make it easy to split onchain payments. Running exactly at
+gas and charging no fees whatsoever, it takes the form of a
+[hyperstructure](https://jacob.energy/hyperstructures.html) that will run for
+free, forever, without any maintenance or trusted third parties. It exists in
+the public for the well-being of the public.
 
 ![Basic Overview Flow](/intro-flow.png)
+
+These docs are designed to become progressively more technical the further you
+read. If you're non-technical, new to Ethereum, or just want to understand how
+you can use 0xSplits today, we recommend you continue reading. If you're
+integrating the contracts into your own system, you're welcome to skip ahead to
+the [Developer tools](/dev) and [Contracts](/contracts) sections.
+
+## Core concepts
 
 At the core of the protocol are [Splits](/core-concepts/#split) and
 [Recipients](/core-concepts/#recipient). A Split is a payable smart contract
@@ -19,12 +29,40 @@ Split's income. Once a Split has received funds and the
 [balance](/core-concepts/#balance) is distributed, each Recipient can
 [withdraw](/getstarted/withdraw) their share.
 
-These docs are designed to be progressively more technical the further you read.
-If you're non-technical, new to Ethereum, or just want to understand how you can
-use 0xSplits today, we recommend you continue reading. If you're integrating the
-contracts into your own app or contracts, you may want to skip ahead to the
-[Smart Contracts](/smartcontracts/overview) and [SDK](/sdk-info/overview)
-sections.
+## Features
+
+- No fees whatsoever – just pay gas
+- [Audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf),
+  [open source](https://github.com/0xSplits/splits-contracts), and
+  [verified](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code)
+  contracts
+- Fine-tuned and gas efficient
+- Compatible with ETH & ERC-20 tokens
+- Live on most EVM chains: Ethereum, Polygon, Optimism, Arbitrum, Gnosis, and
+  others
+- Non-upgradable contracts – guaranteed no breaking changes
+- Operates entirely onchain – no third-party dependencies
+- Maximally composable – even able to receive from `call` with capped gas
+- Batched withdrawals – withdraw across all Splits in a _single_ transaction
+  (not a multicall)
+- Permissionless withdrawals – anyone can withdraw for any other account
+- Automated – bots & third-parties are incentivized to distribute balances so
+  Recipients don't have to
+- Stackable – Splits can point to other Splits and [modules](/modules/overview)
+- Mutable – Splits can be optionally updated by a designated account (EOA,
+  Gnosis Safe, smart contract, etc)
+
+## Usage
+
+Splits are valuable whenever you want to split onchain payments among multiple
+parties. Here are a few teams using 0xSplits today:
+
+- **Platforms**: Sound, Bonfire, Decent, Tessera, 1stDibs
+- **DAOs**: Nouns, SuperRare, Airswap, Bankless
+- **Collectives**: Protocol Guild, Songcamp, Metalabel
+- **Music**: Daniel Allan, Reo Cragun, Coop Records, Venice Music
+
+## Values
 
 ### Features
 
@@ -41,16 +79,6 @@ sections.
   protocol to operate are open to everyone. There are no infrastructure
   dependencies or trusted third parties, and all the contracts are
   non-upgradable.
-
-### Usage
-
-Splits are valuable whenever you want to split onchain payments among multiple
-parties. Here are a few brands using 0xSplits today:
-
-- **Platforms**: Sound, Bonfire, Decent, Tessera, 1stDibs
-- **DAOs**: Nouns, SuperRare, Airswap, Bankless
-- **Collectives**: Protocol Guild, Songcamp, Metalabel
-- **Music**: Daniel Allan, Reo Cragun, Coop Records, Venice Music
 
 ### Public Goods
 
