@@ -12,3 +12,7 @@
 h2 {
   border-bottom: none;
 }
+
+img {
+  border-radius: 4px;
+}

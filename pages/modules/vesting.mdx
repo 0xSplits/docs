@@ -7,6 +7,8 @@ vest to an address (Beneficiary) over a set period of time (Vesting Period). All
 Vesting Streams within a Vesting Module share a Vesting Period, but each Vesting
 Stream may begin vesting or release tokens independently.
 
+![Vesting diagram](/vesting_diagram.png)
+
 ## How It Works
 
 - Each Vesting Module has a payable address to which ETH and ERC20 tokens can be
@@ -18,49 +20,6 @@ Stream may begin vesting or release tokens independently.
   all tokens will be 100% vested by the end of the Vesting Period. At any time,
   anyone may release the vested portion from the Vesting Module to the
   Beneficiary.
-
-  ```
-          EXTERNAL ACCOUNT/SMART CONTRACT
-
-                         │
-                         │ ETH/ERC20s
-                         ▼
-  Vesting Module────────────────────────────────┐
-  │                      │                      │
-  │          ┌───────────┘                      │
-  │          ▼                                  │
-  │     ┌─────────┐             ┌─────────┐     │
-  │     │ Pending │────────────▶│ Vested  │     │
-  │     └─────────┘             └─────────┘     │
-  │     start vest                   │          │
-  │                      ┌───────────┘          │
-  │                      ▼  release vested      │
-  └─────────────────────────────────────────────┘
-                         │
-  Split──────────────────┼──────────────────────┐
-  │                      │                      │
-  │                      ▼                      │
-  │         ┌─────────────────────────┐         │
-  │         │ Mutable Split Contract  │         │
-  │         └─────────────────────────┘         │
-  │                      │                      │
-  │                  distribute                 │  ┌──────────┐
-  │          ┌───────────┼───────────┐          │  │Controller│
-  │          │           │           │          │  └──────────┘
-  │  ┌ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ┐  │        ●
-  │          ▼           ▼           ▼          │        │
-  │  │  ┌─────────┐ ┌─────────┐ ┌─────────┐  │  │  Controller
-  │     │Recipient│ │Recipient│ │Recipient│   ●─┼──can change
-  │  │  └─────────┘ └─────────┘ └─────────┘  │  │  recipients
-  │          │           │           │          │
-  │  └ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ┘  │
-  │          │           │           │          │
-  └──────────┼───────────┼───────────┼──────────┘
-             │           │           │
-             ▼           ▼           ▼
-
-          EOA/SC      EOA/SC      EOA/SC
-  ```
 
 ## Addresses
 
