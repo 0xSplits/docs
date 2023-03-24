@@ -11,6 +11,7 @@
   "author": "Shu Ding",
   "license": "MIT",
   "dependencies": {
+    "eslint-config-next": "^13.2.4",
     "eslint-plugin-react": "^7.32.2",
     "next": "^13.2.4",
     "nextra": "^2.2.19",
