@@ -21,6 +21,12 @@ html {
   }
 }
 
+h1,
+h2,
+h3 {
+  font-weight: 600 !important;
+}
+
 h2 {
   border-bottom: none;
 }

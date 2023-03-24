@@ -3,12 +3,12 @@
     "title": "Introduction",
     "theme": {
       "breadcrumb": false,
-      "toc": false
+      "toc": true
     }
   },
   "users": {
     "type": "separator",
-    "title": "Using the app"
+    "title": "Users"
   },
   "start": {
     "title": "Getting started",

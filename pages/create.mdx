@@ -1,33 +1,91 @@
 # Creating contracts
 
-There are three core contracts (i.e., building blocks) upon which all payment
-flows are built. You can stack them together in whatever order makes most sense
-for your specific needs.
+Before jumping into the various contracts you're able to create, there are a few
+important concepts to cover. The below concepts apply to all the contracts in
+the ecosystem.
+
+- **Recipient:** this is any Ethereum address that receives tokens from the
+  contract. This can be someone's wallet (EOA) or a smart contract, including
+  any of the building blocks.
+- **Balance:** tokens received by the contract are stored in the contract's
+  balance until it's distributed.
+
+There are three core building blocks upon which all payment flows are created.
+You can stack them together in whatever order makes most sense for your specific
+needs. Since some combinations are more common than others, we've also created
+Templates – a set pre-built flows that stack multiple building blocks together.
+
+## Building blocks
 
 import { Card, Cards } from 'nextra-theme-docs'
 
 <Cards>
 
-<Card title="Split" image href="#split">
+<Card title="Split &rarr;" image href="#split">
   ![Basic Overview Flow](/split_diagram.png)
 </Card>
-<Card title="Waterfall" image>
+<Card title="Waterfall &rarr;" image href="#waterfall">
   ![Basic Overview Flow](/waterfall_diagram.png)
 </Card>
-<Card title="Stream" image>
+<Card title="Vesting &rarr;" image href="#vesting">
   ![Basic Overview Flow](/vesting_diagram.png)
 </Card>
 
 </Cards>
 
-To get started head to [split.new](https://split.new) and select "Split" from
-the new contract page. There are 3 types of Splits you can create.
+### Split
 
-- Immutable Split: the Recipients are permanently fixed and can never be changed
-  by anyone
-- Mutable Split: the Controlling Address may change the Split at any time
-- Liquid Split: each Recipient can manage their ownership in the Split using
-  NFTs
+A Split is a building block that distributes funds according to pre-set
+percentages. To create one, all you have to do is enter in two or more
+recipients and assign each one an ownership percentage. Ownership percentages
+must add to 100%.
+
+If you anticipate ownership percentages needing to change in the future, you can
+assign an account to be the Controller of the Split. This Controller has the
+ability to add/remove/modify recipients and even transfer control of the Split
+to a new account (or remove control entirely). **A Split is only as trustworthy
+as the Controller** so use with caution.
+
+### Waterfall
+
+A Waterfall allows you to define the order & amount different accounts get paid.
+This is helpful if you want to pay one account _before_ paying another. For
+example, many NFT projects want to repay expenses before distributing the
+profits.
+
+Waterfalls have two or more tranches, and each tranche has a threshold and a
+recipient. The threshold is the maximum amount the recipient will receive. Funds
+are sent to the tranche recipient _only after_ the preceeding tranche threshold
+has been reached. This repeats until all the tranches have been filled, at which
+point all residual funds are sent to the final tranche recipient.
+
+### Vesting
+
+Vesting is a contract that releases streams of funds to a recipient over a set
+period of time. When creating a Vesting contract, all you need to do it set the
+recipient and the vesting period (the number of days it takes for each vesting
+stream to complete).
+
+Since there is no way to revoke a vesting stream once it's begun, this is best
+paired with a mutable Split since this combination allows the end recipients to
+change.
+
+## Templates
+
+<Cards>
+
+<Card title="Recoup &rarr;" image href="#split">
+  ![Basic Overview Flow](/recoup_diagram.png)
+</Card>
+<Card title="Liquid Split &rarr;" image href="#waterfall">
+  ![Basic Overview Flow](/liquidsplit_diagram.png)
+</Card>
+
+</Cards>
+
+### Recoup
+
+### Liquid Split
 
 ### Recipients
 

@@ -1,4 +1,8 @@
-# Welcome to 0xSplits
+# Documentation
+
+<div class="mt-2 text-xl text-gray-500">
+  Learn how to use 0xSplits to power onchain payments
+</div>
 
 0xSplits is a set of composable,
 [open-source](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code),
@@ -7,10 +11,11 @@ and
 smart contracts that make it easy to split onchain payments. Running exactly at
 gas and charging no fees whatsoever, it takes the form of a
 [hyperstructure](https://jacob.energy/hyperstructures.html) that will run for
-free, forever, without any maintenance or trusted third parties. It exists in
-the public for the well-being of the public.
+free, forever, without any maintenance or trusted third parties.
 
-![Basic Overview Flow](/intro-flow.png)
+Each smart contract is a building block that composes well with other contracts
+and the Ethereum ecosystem at large. By stacking contacts together, you're able
+to create your own payment flow that plugs into whatever platforms you're using.
 
 These docs are designed to become progressively more technical the further you
 read. If you're non-technical, new to Ethereum, or just want to understand how
@@ -18,78 +23,53 @@ you can use 0xSplits today, we recommend you continue reading. If you're
 integrating the contracts into your own system, you're welcome to skip ahead to
 the [Developer tools](/dev) and [Contracts](/contracts) sections.
 
-## Core concepts
-
-At the core of the protocol are [Splits](/core-concepts/#split) and
-[Recipients](/core-concepts/#recipient). A Split is a payable smart contract
-that distributes ETH & ERC-20 tokens proportionally among the Recipients. A
-Recipient is any [account](https://ethereum.org/en/developers/docs/accounts/)
-(i.e., an EOA or smart contract like another Split) that receives a share of the
-Split's income. Once a Split has received funds and the
-[balance](/core-concepts/#balance) is distributed, each Recipient can
-[withdraw](/getstarted/withdraw) their share.
-
 ## Features
 
-- No fees whatsoever – just pay gas
+- No protocol fees whatsoever, just pay gas.
 - [Audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf),
   [open source](https://github.com/0xSplits/splits-contracts), and
   [verified](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code)
-  contracts
-- Fine-tuned and gas efficient
-- Compatible with ETH & ERC-20 tokens
-- Live on most EVM chains: Ethereum, Polygon, Optimism, Arbitrum, Gnosis, and
-  others
-- Non-upgradable contracts – guaranteed no breaking changes
-- Operates entirely onchain – no third-party dependencies
-- Maximally composable – even able to receive from `call` with capped gas
-- Batched withdrawals – withdraw across all Splits in a _single_ transaction
-  (not a multicall)
-- Permissionless withdrawals – anyone can withdraw for any other account
-- Automated – bots & third-parties are incentivized to distribute balances so
-  Recipients don't have to
-- Stackable – Splits can point to other Splits and [modules](/modules/overview)
-- Mutable – Splits can be optionally updated by a designated account (EOA,
-  Gnosis Safe, smart contract, etc)
+  contracts.
+- Non-upgradable & entirely onchain contracts mean no breaking changes or
+  third-party dependencies.
+- Compatible with ETH & ERC-20 tokens, and live on most EVM chains: Ethereum,
+  Polygon, Optimism, Arbitrum, Gnosis, and most others.
+- Maximally composable contracts that can be stacked upon one another, and
+  permissionless withdrawals allow anyone to withdraw for other accounts.
+- Highly gas efficient
+- Automatic distributions using built-in incentives that encourage bots &
+  third-parties to execute the most repetitve tasks.
+- Withdrawals are batched, allowing recipients to claim their funds in a single
+  transaction (not a multicall).
 
 ## Usage
 
-Splits are valuable whenever you want to split onchain payments among multiple
-parties. Here are a few teams using 0xSplits today:
+Teams, platforms, and projects of all sizes trust 0xSplits to power their
+payment flows.
 
-- **Platforms**: Sound, Bonfire, Decent, Tessera, 1stDibs
-- **DAOs**: Nouns, SuperRare, Airswap, Bankless
-- **Collectives**: Protocol Guild, Songcamp, Metalabel
-- **Music**: Daniel Allan, Reo Cragun, Coop Records, Venice Music
+- **Platforms**: Sound, SuperRare, Artblocks, Tessera, Arpeggi, Bonfire, Decent,
+  1stDibs
+- **Collectives**: Protocol Guild, Metalabel, Songcamp, Heds
+- **Musicians**: Daniel Allan, Reo Cragun, Coop Records, Venice Music
+- **DAOs**: Nouns, Airswap, Bankless
 
 ## Values
 
-### Features
+Our values guide how the system is built. We hope that publicly communicating
+our values will give you a better understanding why the system is built the way
+it is.
 
-- Splits are **fully composable** on both input & output. Each Split is a
-  payable smart contract that can directly receive ETH & ERC-20 tokens from any
-  other account. Each Recipient is also just an Ethereum address (externally
-  owned account or smart contract) for which third-parties may execute
-  withdrawals.
-- Splits maximize **gas efficiency** by commingling funds and batching &
-  incentivizing expensive operations. The gas needed to distribute funds for all
-  Recipients is borne by ownership or covered by a third party, eliminating dust
-  and allowing even the smallest Recipient to withdraw their share.
-- Each Split exists **entirely onchain** and the actions necessary for the
-  protocol to operate are open to everyone. There are no infrastructure
-  dependencies or trusted third parties, and all the contracts are
-  non-upgradable.
-
-### Public Goods
-
-We believe Splits introduce a novel way to fund public goods, so we're testing
-it on itself. If you'd like to support the protocol, all you have to do is add
-[donations.0xsplits.eth](https://etherscan.io/address/0xF8843981e7846945960f53243cA2Fd42a579f719)
-as a Recipient in the Splits you create. This contract is itself a Split, which
-gives back to the communities that have supported the protocol's development to
-date. You can see the Split's details
-[here](https://app.0xsplits.xyz/splits/0xF8843981e7846945960f53243cA2Fd42a579f719/).
+- Do one thing and do it well. Empowering creatives with simple, clear, and
+  modular tools is the best way to create enduring value in the ecosystem.
+- Trust is hard to build and easy to lose. Security of the system is the highest
+  order bit, and the system is only as secure as the foundation upon which its
+  built.
+- Growing the pie matters more than growing the slice. Composability within the
+  ecosystem is the lifeblood of growth since it's experimentation at the edges
+  where the most compelling discoveries happen.
+- Tools must be credibly neutral. This means they're rule-based, verifiable &
+  open source, easy to understand, simple, and hard—if not impossible—to change.
 
 Join us on [Discord](https://chat.0xsplits.xyz/) to learn more and share
-feedback. We're a small, funded, growing team of developers focused on this full
-time and would love to hear from you.
+feedback. We're a small, funded, and growing team of developers focused on this
+full time and would love to hear from you.
