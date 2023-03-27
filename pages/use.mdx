@@ -1,53 +1,56 @@
 import { Callout } from 'nextra-theme-docs'
 
-# Using Splits
+# Using the contracts
 
-### Split Address
+This section covers how to use the contracts anywhere you want to split onchain
+payments.
 
-Just like any other payable smart contract, each Split has a unique address at
-which it can receive funds. Funds can be sent from any exchange, marketplace,
-wallet, or smart contract, including those with hard gas limits. Splits can only
-distribute ETH and ERC-20 tokens. **Do not send NFTs to a Split.**
+<Callout type="warning">
+  All of these contracts can only distribute ETH and ERC20s. **Do not send
+  NFTs**.
+</Callout>
 
-You can locate a Split's address by viewing its detail page within the app.
-[Here](https://app.0xsplits.xyz/accounts/0xF8843981e7846945960f53243cA2Fd42a579f719/)
-is an example. The Split's address is at the top of the page. Click on the
-address to copy it to your clipboard. You can use your Split's address anytime
-you want funds split according to this configuration.
+### Contract address
 
-![Copy Split Address](/copy-address.gif)
+The first thing to do is locate the contract address. Remember that each
+contract has a unique address at which it can receive ETH and ERC20 tokens. The
+address is displayed in two places in the app.
 
-The Split's address is also displayed in the URL. It is the text after
-`/accounts/` that begins with `0x`. Example:
-`https://app.0xsplits.xyz/accounts/0xF8843981e7846945960f53243cA2Fd42a579f719/`
+The first is in the header of the contract detail page. Hovering over it will
+reveal the full address, and clicking on it will copy it to your clipboard.
 
-### Your Splits
+![View address on hover](./img/use_address_header.gif)
 
-To find all the Splits you earn from, either connect your wallet (double check
-your connected network) and navigate to the "My account" page, or search for
-your ENS/address. Within the accounts section, click on the filter dropdown and
-select "Earning from". You may also filter by Splits you control, different
-contract types, and more.
+The second place is in the URL of the page itself. It is the text after
+`/accounts/` that begins with `0x`.
 
-![Filter your accounts](/your-accounts.png)
+![View address in the URL](./img/use_address_url.png)
 
-### Finding a Split
+Funds can be sent to this address from any exchange, marketplace, wallet, or
+smart contract. Just paste in your contract's address anytime you want funds
+split according to these rules.
 
-To find a specific Split, you can search by pressing `/` anywhere within the app
-or by hitting "Search" in the navigation. If you're unable to locate a Split but
-know one of the Recipients, just search for the Recipient (paste in their
-ENS/address) and then look for the Split in the "Earning From" tab.
+### Locating your contracts
 
-![Earning From](/earning-from.png)
+To find all the contracts you're part of, either connect your wallet and
+navigate to the "My account page", or search for your ENS/address. Within the
+accounts section, click on the filter dropdown and select "Earning from". You
+can also filter by contracts you control, your bookmarks, different contract
+types, and more.
 
-If you're having trouble locating any Splits or accounts, please reach out to us
-in the `user-support` channel in [Discord](https://chat.0xsplits.xyz/).
+![Filter your contracts](./img/use_filter.gif)
+
+Double check the network you're viewing or the wallet you're connected to if
+you're having trouble locating specific contracts. Drop us a note in the
+`user-support` channel in [Discord](https://chat.0xsplits.xyz/) if you're still
+having trouble.
 
 ## Third Party Platforms
 
-Splits are designed to be as composable as possible, making it easy to use them
-with third party platforms. Below are a few platforms where people are using
-Splits today.
+These contracts are designed to be used with other platforms within the
+ecosystem. Below are a few places where people are using them today, but in
+every case **all you have to do is paste your contract address into the payout
+field**.
 
 <Callout>
   Splitting revenue from primary sales? Check out [this
@@ -61,8 +64,9 @@ When creating a collection on OpenSea, you can add creator earnings (i.e.
 royalties) and specify the address to which the earnings will be sent. OpenSea’s
 instructions are
 [here](https://support.opensea.io/hc/en-us/articles/1500009575482-How-do-creator-earnings-work-on-OpenSea-).
-Just paste in your Split's address into the "Creator Earnings" section. Note:
-you can split Creator Earnings directly on OpenSea, however, this will make it
+Just paste in your contract's address into the "Creator Earnings" section. Note:
+you can split Creator Earnings directly on OpenSea, however, since OS uses a
+push model this makes it
 [more expensive](https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-service-and-creator-fees-#:~:text=Splitting%20creator%20fees)
 for the buyer each time your NFT is sold.
 
@@ -77,24 +81,20 @@ at the Collection level. In the future, we hope to see more platforms follow
 
 Zora’s [V3 contracts](https://zine.zora.co/zora-v3) allow for developers to
 specify a “seller funds recipient”. This is the address that funds are sent to
-once the NFT is sold. All you have to do is set the
+when the NFT is sold. All you have to do is set the
 [`sellerFundsRecipient`](https://docs.zora.co/docs/smart-contracts/modules/Asks/zora-v3-asks-v1.1#ask-structure)
-to be the Split's address.
-
-At this time, Zora
-[does not allow](https://support.zora.co/en/articles/5577498-revenue-splits) a
-person to specify this address through their app/interface directly. In the
-meantime, you can use the Etherscan UI to create a new Zora listing and set a
-Split as the funds recipient.
+to be your contract's address. You can find more about using 0xSplits in Zora's
+FAQs
+[here](https://support.zora.co/en/articles/6898708-how-do-i-use-a-split-contract-with-my-collection).
 
 ### Foundation
 
 While creating a NFT on Foundation, creators can optionally split earnings for
-that NFT with up to 3 other addresses natively through Foundation. Instructions
-are
+that NFT with up to three other addresses natively through Foundation.
+Instructions are
 [here](https://help.foundation.app/hc/en-us/articles/4513530159131-Splitting-Earnings-on-an-NFT).
-Using 0xSplits within Foundation is easy – just paste your Split’s address into
-the recipient field while creating a Foundation split.
+Using 0xSplits within Foundation is easy – just paste your contract's address
+into the recipient field while creating a Foundation split.
 
 Why use 0xSplits within Foundation? Though conceptually they may seem similar,
 functionally 0xSplits and Foundation splits are quite different.

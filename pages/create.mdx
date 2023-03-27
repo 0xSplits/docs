@@ -1,34 +1,49 @@
 # Creating contracts
 
-Before jumping into the various contracts you're able to create, there are a few
-important concepts to cover. The below concepts apply to all the contracts in
-the ecosystem.
+Before jumping into the different types of contracts you can create, there are a
+few important concepts that apply to all of the contracts in the 0xSplits
+ecosystem.
 
-- **Recipient:** this is any Ethereum address that receives tokens from the
-  contract. This can be someone's wallet (EOA) or a smart contract, including
-  any of the building blocks.
-- **Balance:** tokens received by the contract are stored in the contract's
-  balance until it's distributed.
+- **Contract address:** Each contract has an address that can receive ETH and
+  ERC20 tokens. You can use this address anywhere you want funds distributed
+  according to the rules you've configured, including as a recipient of other
+  contracts you create.
+- **Recipient:** Each contract has at least one recipient, to whom funds are
+  transferred from the contract. A recipient can be any
+  [Ethereum account](https://ethereum.org/en/developers/docs/accounts/) that is
+  capable of receiving ETH and ERC20 tokens. Smart contracts can be designated
+  as recipients since there is no need for recipients to manually withdraw funds
+  themselves.
+- **Balance:** This is the quantity of a particular token that is presently held
+  within a contract. When tokens are received by a contract, they are kept as a
+  balance until they are distributed. Balances are unique to each type of token,
+  and a contract can have several balances. For instance, if a Split receives
+  both ETH and DAI, it will have a balance for ETH and a balance for DAI.
 
-There are three core building blocks upon which all payment flows are created.
-You can stack them together in whatever order makes most sense for your specific
-needs. Since some combinations are more common than others, we've also created
-Templates – a set pre-built flows that stack multiple building blocks together.
+- **Distribution:** Because all of the contracts follow a
+  [pull-based payment flow](https://consensys.github.io/smart-contract-best-practices/development-recommendations/general/external-calls/#favor-pull-over-push-for-external-calls),
+  balances must be distributed before recipients can withdraw their funds. Each
+  balance only needs to be distributed once in order for all recipients to
+  withdraw.
 
 ## Building blocks
+
+There are three core building blocks upon which all payment flows are created:
+Split, Waterfall, and Vesting. You can stack these blocks together in whatever
+order makes sense for your specific needs.
 
 import { Card, Cards } from 'nextra-theme-docs'
 
 <Cards>
 
 <Card title="Split &rarr;" image href="#split">
-  ![Basic Overview Flow](/split_diagram.png)
+  ![Basic split diagram](./img/create_split_diagram.png)
 </Card>
 <Card title="Waterfall &rarr;" image href="#waterfall">
-  ![Basic Overview Flow](/waterfall_diagram.png)
+  ![Basic waterfall diagram](./img/create_waterfall_diagram.png)
 </Card>
 <Card title="Vesting &rarr;" image href="#vesting">
-  ![Basic Overview Flow](/vesting_diagram.png)
+  ![Basic vesting diagram](./img/create_vesting_diagram.png)
 </Card>
 
 </Cards>
@@ -37,40 +52,47 @@ import { Card, Cards } from 'nextra-theme-docs'
 
 A Split is a building block that distributes funds according to pre-set
 percentages. To create one, all you have to do is enter in two or more
-recipients and assign each one an ownership percentage. Ownership percentages
-must add to 100%.
+recipients and assign each one an ownership percentage.
 
-If you anticipate ownership percentages needing to change in the future, you can
-assign an account to be the Controller of the Split. This Controller has the
-ability to add/remove/modify recipients and even transfer control of the Split
-to a new account (or remove control entirely). **A Split is only as trustworthy
-as the Controller** so use with caution.
+![Split form inputs](./img/create_split_form.png)
+
+You have the option to set a controller if you anticipate the Split needing to
+change in the future. The controller has the ability to add/remove/modify
+recipients and even transfer control of the Split to a new account (or remove
+control entirely). **A Split is only as trustworthy as the controller** so use
+with caution.
 
 ### Waterfall
 
-A Waterfall allows you to define the order & amount different accounts get paid.
-This is helpful if you want to pay one account _before_ paying another. For
-example, many NFT projects want to repay expenses before distributing the
-profits.
+A Waterfall allows you to define the order & amount different accounts are paid.
+This is useful when one account shoud be paid _before_ another account. For
+example, an NFT project may choose to repay expenses before splitting profits.
 
-Waterfalls have two or more tranches, and each tranche has a threshold and a
-recipient. The threshold is the maximum amount the recipient will receive. Funds
-are sent to the tranche recipient _only after_ the preceeding tranche threshold
-has been reached. This repeats until all the tranches have been filled, at which
-point all residual funds are sent to the final tranche recipient.
+![Split form inputs](./img/create_waterfall_form.png)
+
+A Waterfall has multiple levels called tranches, each with a limit and a
+recipient. The limit is the highest amount the recipient can get, and they
+receive it only when the previous tranche limit is reached. This pattern
+continues until all the tranches are filled, at which point any extra funds go
+to the last tranche recipient.
 
 ### Vesting
 
 Vesting is a contract that releases streams of funds to a recipient over a set
 period of time. When creating a Vesting contract, all you need to do it set the
-recipient and the vesting period (the number of days it takes for each vesting
-stream to complete).
+recipient and the number of days it takes for each vesting stream to complete.
 
 Since there is no way to revoke a vesting stream once it's begun, this is best
 paired with a mutable Split since this combination allows the end recipients to
-change.
+change. Check out the
+[Protocol Guild](https://app.0xsplits.xyz/accounts/0xF29Ff96aaEa6C9A1fBa851f74737f3c069d4f1a9/)
+to see this setup in action.
 
 ## Templates
+
+Templates are pre-build payment flows that stack two or more building blocks
+together. Each template has a dedicated creation flow and detail view within the
+app.
 
 <Cards>
 
@@ -85,49 +107,15 @@ change.
 
 ### Recoup
 
+Recoup allows you to repay one group before splitting profits with another. It
+makes it easy to create a Waterfall that points to a number of Splits.
+
+![Split form inputs](./img/create_recoup_form.png)
+
 ### Liquid Split
 
-### Recipients
-
-Once you've selected the Split type, you can enter in each Recipient's address
-(ENS or hex) and their corresponding ownership. Since a Recipient doesn't need
-to withdraw for itself, you may enter any payable address—user wallets, smart
-contracts, and other Splits are all acceptable.
-
-![New Split Recipients](/new-split-recipients.png)
-
-### Distribution Incentive
-
-This is the percent of the Split's balance paid to whoever distributes it. You
-can think of it as a "payment processing fee". Leaving this to a positive number
-allows your Split to be "automated" since it creates an incentive for third
-parties to distribute balances for Recipients. By default this is set to 1% but
-you may remove it (by setting it to 0%) or increase it (the maximum is 10%).
-
-![New Mutable Split](/new-split-distributorfee.png)
-
-**Tip:** Once you've filled out the Recipients section, you will see an estimate
-of when it becomes profitable for a third party to distribute the funds for
-Recipients. If you're not sure what value to use, we recommend leaving it at the
-default setting of 1.00%. [Learn more](/core-concepts#distributor-fee)
-
-### Controlling Address
-
-This section only applies to Mutable Splits. The Controlling Address has the
-ability to modify the Recipients, Distribution Incentive, Controlling Address,
-and even make the Split immutable. The Controlling Address may be any account
-(EOA, Gnosis Safe, smart contract, etc).
-[Learn more](/core-concepts#mutable-split)
-
-![New Mutable Split](/new-split-mutable.png)
-
-### Contract Address
-
-This section only applies to Immutable Splits. The Contract Address is the
-address at which this Immutable Split, according to the Recipients and
-Distribution Incentive set above, will be deployed. This address will change if
-you update the Recipients or Distribution Incentive. You may send
-crytocurrencies to this address prior to creating the Split, however, to
-withdraw tokens the Split will need to be deployed.
-
-![New Mutable Split](/new-split-contractaddress.png)
+A Liquid Split utilizes NFTs to signify ownership in a Split. This enables
+recipients to transfer their shares to others. When the NFTs are transferred,
+the Split recipients are updated to show the current NFT ownership. By default,
+when creating a Liquid Split, each initial recipient will receive their share of
+the 1,000 ERC-1155 NFTs created.
