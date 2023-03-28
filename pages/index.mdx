@@ -1,7 +1,7 @@
 # Documentation
 
 <div className="text-xl text-gray-500">
-  Learn how to use 0xSplits to power your onchain payments
+  Learn how 0xSplits can power your onchain payments
 </div>
 
 0xSplits is a set of composable,
@@ -9,39 +9,30 @@
 and
 [audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf)
 smart contracts that make it easy to split onchain payments. Running exactly at
-gas and charging no fees whatsoever, it takes the form of a
+gas and charging no fees whatsoever, 0xSplits takes the form of a
 [hyperstructure](https://jacob.energy/hyperstructures.html) that will run for
 free, forever, without any maintenance or trusted third parties.
-
-Each smart contract is a building block that composes well with other contracts
-and the Ethereum ecosystem at large. By stacking contacts together, you're able
-to create your own payment flows and plug them into all the platforms you're
-using.
 
 These docs are designed to become progressively more technical the further you
 read. If you're non-technical, new to Ethereum, or just want to understand how
 you can use 0xSplits today, we recommend you continue reading. If you're
-integrating the contracts into your own system, you're welcome to skip ahead to
-the [Developer tools](/dev) and [Contracts](/contracts) sections.
+integrating the contracts into your own system, you may consider skipping ahead
+to the [Developer tools](/dev) and [Contracts](/contracts) sections.
 
 ## Features
 
-- No protocol fees whatsoever, just pay gas.
-- [Audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf),
-  [open source](https://github.com/0xSplits/splits-contracts), and
-  [verified](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code)
-  contracts.
-- Non-upgradable & entirely onchain contracts mean no breaking changes or
-  third-party dependencies.
-- Compatible with ETH & ERC-20 tokens, and live on most EVM chains: Ethereum,
-  Polygon, Optimism, Arbitrum, Gnosis, and most others.
-- Maximally composable contracts that can be stacked upon one another, and
-  permissionless withdrawals allow anyone to withdraw for other accounts.
-- Highly gas efficient
-- Automatic distributions using built-in incentives that encourage bots &
-  third-parties to execute the most repetitve tasks.
-- Withdrawals are batched, allowing recipients to claim their funds in a single
-  transaction (not a multicall).
+- Free: No protocol fees whatsoever – runs exactly at gas cost
+- Unstoppable: Non-upgradable contracts run as long as Ethereum exists
+- Multichain: Deployed on Ethereum, Polygon, Optimism, Arbitrum + more
+- Open source: All contracts are
+  [verified](https://etherscan.io/address/0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee#code),
+  [audited](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf),
+  and publicly available on [Github](https://github.com/0xSplits)
+- Composable: Each Split has a payable address to receive ETH and ERC20 tokens
+- Efficient: Batched operations maximize gas efficiency at every step
+- Onchain: No third party APIs or external dependencies
+- Fair: Distribution costs are shared so small recipients aren't screwed
+- Incentivized: Bots and third parties perform the repetitive tasks
 
 ## Usage
 
@@ -56,8 +47,8 @@ payment flows.
 
 ## Values
 
-Our values shape how we create the system. By sharing our values with you, we
-want to help you understand why we built the system in this particular way.
+We hope that sharing our values publicly will help you understand why the system
+is designed the way it is.
 
 - Do one thing and do it well. Empowering creatives with simple, clear, and
   modular tools is the best way to create enduring value in the ecosystem.
@@ -70,6 +61,6 @@ want to help you understand why we built the system in this particular way.
 - Tools must be credibly neutral. This means they're rule-based, verifiable &
   open source, easy to understand, simple, and hard—if not impossible—to change.
 
-Join us on [Discord](https://chat.0xsplits.xyz/) to learn more and share
-feedback. We're a small, funded, and growing team of developers focused on this
-full time and would love to hear from you.
+Join us on [Discord](https://chat.0xsplits.xyz/) to learn more and let us know
+what you think. We're a small, funded, and growing team of developers focused on
+this full time and would love to hear from you.

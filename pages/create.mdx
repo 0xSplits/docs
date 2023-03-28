@@ -1,26 +1,20 @@
-# Creating contracts
+# Contracts
 
 Before jumping into the different types of contracts you can create, there are a
 few important concepts that apply to all of the contracts in the 0xSplits
 ecosystem.
 
-- **Contract address:** Each contract has an address that can receive ETH and
-  ERC20 tokens. You can use this address anywhere you want funds distributed
-  according to the rules you've configured, including as a recipient of other
-  contracts you create.
+- **Address:** Each contract has an address that can receive ETH and ERC20
+  tokens. You can use this address anywhere you want funds split according to
+  contract's rules, including as a recipient of other contracts.
 - **Recipient:** Each contract has at least one recipient, to whom funds are
   transferred from the contract. A recipient can be any
   [Ethereum account](https://ethereum.org/en/developers/docs/accounts/) that is
-  capable of receiving ETH and ERC20 tokens. Smart contracts can be designated
-  as recipients since there is no need for recipients to manually withdraw funds
-  themselves.
+  capable of receiving ETH and ERC20 tokens.
 - **Balance:** This is the quantity of a particular token that is presently held
   within a contract. When tokens are received by a contract, they are kept as a
-  balance until they are distributed. Balances are unique to each type of token,
-  and a contract can have several balances. For instance, if a Split receives
-  both ETH and DAI, it will have a balance for ETH and a balance for DAI.
-
-- **Distribution:** Because all of the contracts follow a
+  balance until they are distributed.
+- **Distribute:** Because all of the contracts follow a
   [pull-based payment flow](https://consensys.github.io/smart-contract-best-practices/development-recommendations/general/external-calls/#favor-pull-over-push-for-external-calls),
   balances must be distributed before recipients can withdraw their funds. Each
   balance only needs to be distributed once in order for all recipients to
@@ -28,9 +22,12 @@ ecosystem.
 
 ## Building blocks
 
-There are three core building blocks upon which all payment flows are created:
-Split, Waterfall, and Vesting. You can stack these blocks together in whatever
-order makes sense for your specific needs.
+There are three core building blocks upon which all payment flows within
+0xSplits are created: Split, Waterfall, and Vesting. You can stack these blocks
+together in whatever order makes sense for your specific needs. These building
+blocks are intentionally unopionated, however, for more opinionated payment
+flows we've also created [Templates](#templates), which stack stack frequently
+used blocks together.
 
 import { Card, Cards } from 'nextra-theme-docs'
 
@@ -50,7 +47,7 @@ import { Card, Cards } from 'nextra-theme-docs'
 
 ### Split
 
-A Split is a building block that distributes funds according to pre-set
+A Split is a smart contract that distributes funds according to pre-set
 percentages. To create one, all you have to do is enter in two or more
 recipients and assign each one an ownership percentage.
 
@@ -91,8 +88,8 @@ to see this setup in action.
 ## Templates
 
 Templates are pre-build payment flows that stack two or more building blocks
-together. Each template has a dedicated creation flow and detail view within the
-app.
+together. Since these are opinionated flows, there's a dedicated creation form
+and detail view within the app for each template.
 
 <Cards>
 

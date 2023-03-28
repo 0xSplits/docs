@@ -35,7 +35,7 @@
     }
   },
   "withdraw": {
-    "title": "Withdrawing funds",
+    "title": "Withdrawing balances",
     "theme": {
       "breadcrumb": false
     }
