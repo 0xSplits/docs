@@ -30,7 +30,7 @@
     }
   },
   "use": {
-    "title": "Using contracts",
+    "title": "Sending funds",
     "theme": {
       "breadcrumb": false
     }

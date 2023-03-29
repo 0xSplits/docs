@@ -4,27 +4,27 @@ import { Toggle } from '../components/toggle'
 
 There are three steps by which funds flow through the system to end recipients.
 
-![Flow of funds](./img/index_flow.png)
+![Flow of funds](./img/flow_steps.png)
 
 <div className="flex items-stretch space-x-4">
-  <div className="w-2 mt-9 rounded-full bg-green-600" />
+  <div className="w-2 mt-9 rounded-full bg-green-500" />
   ## Receiving
 </div>
 
 ETH and ERC20 tokens can be sent directly to any of the contracts simply by
 using the contract's address. You can paste this address into any third-party
-platform, including exchanges and others with hard gas limits. Funds received by
-a contract will be stored as a balance until a distribution occurs. You can
-learn more about sending funds to a contract [here](/use) and technical details
-are [here](/contracts/core/split).
+platform or contract, including exchanges and others with hard gas limits. Funds
+received by a contract will be stored as a balance until a distribution occurs.
+You can learn more about sending funds to a contract [here](/use) and technical
+details are [here](/contracts/core/split).
 
 <div className="flex items-stretch space-x-4">
-  <div className="w-2 mt-9 rounded-full bg-yellow-500" />
+  <div className="w-2 mt-9 rounded-full bg-yellow-400" />
   ## Distributing
 </div>
 
 When a distribution occurs, funds sitting in the contract's balance will be
-allocated to each recipient's account within 0xSplits according to the rules of
+allocated to each recipient's account in the protocol according to the rules of
 the contract. For example, when a Split is distributed the funds are allocated
 according to pre-defined percentages, whereas when a Waterfall is distributed
 funds are allocated sequentially according to the payout schedule. Most people
@@ -44,22 +44,22 @@ eventually be distributed automatically by a bot or arbitrageur.
 </Toggle>
 
 <div className="flex items-stretch space-x-4">
-  <div className="w-2 mt-9 rounded-full bg-red-600" />
+  <div className="w-2 mt-9 rounded-full bg-red-500" />
   ## Withdrawing
 </div>
 
 Once a contract's balance has been distributed, funds are ready to be withdrawn
-to any of the recipients' wallets. Since funds collect in the 0xSplits protocol,
-a withdrawal will transfer _all funds from all contracts_ a recipient earns
-from. This saves recipients from having to initiate separate withdrawals for
-each contract they earn from. Since anyone can withdraw on behalf of any
-recipient, recipients can be any account, smart contract, or exchange address.
+to any of the recipients' wallets. Since funds pile up in one place, withdrawing
+transfers _all funds_ from _all the contracts_ for a recipient. This saves
+people from having to initiate separate withdrawals for each contract they earn
+from. Since anyone can withdraw on behalf of any recipient, recipients can be
+any account, smart contract, or exchange address.
 
 <Toggle title="Why is this step necessary?">
   In addition to being more secure (discussed above), this step maximizes **gas
-  efficiency** for recipients. Since all your contracts are distributed into the
-  same place, you can claim all your balances—from all the contracts you earn
-  from—in a single transaction. The alternative, where funds are sent to each
+  efficiency** for recipients. By putting all the funds in one place, in a
+  single transaction you're able to withdraw all your funds across all the
+  contract you earn from. The alternative, where funds are sent to each
   recipient during a distribution, would use significantly more gas per
   distribution and limit the number of recipients a contract can have. With this
   pull-based withdraw step, the longer you wait to withdraw your funds, the more

@@ -3,20 +3,31 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 
 # Split
 
-A Split is a payable smart contract that distributes all ETH & ERC20 tokens it
-receives among recipients according to pre-set ownership percentages.
-
 ![Split diagram](./img/diagram_split.png)
 
-You can also read the contracts on
-[GitHub](https://github.com/0xSplits/splits-contracts) or get started by
-installing the [SDK](/sdk-info/overview).
+Split acts as an equity instrument by letting you define the pecent of _total
+future value_ each recipient will earn. It's a payable smart contract that
+distributes all ETH & ERC20 tokens it receives among recipients according to
+pre-set ownership percentages.
 
-## Flow of funds
-
-![Flow of Funds Diagram](/flow-of-funds.png)
+- Create one at [split.new](https://app.0xsplits.xyz/new/split/)
+- [Contracts](https://github.com/0xSplits/splits-contracts)
+- [SDK](/dev/sdk/splits)
+- [Example](https://app.0xsplits.xyz/accounts/0xaD30f7EEBD9Bd5150a256F47DA41d4403033CdF0/)
+- [Audit](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf)
 
 ## How it works
+
+- Each Split is a payable smart contract to which ETH and ERC20 tokens may be
+  sent.
+- Each Split has two or more recipients, each of which is assigned an ownership
+  percent.
+- Recipients, ownerships, and keeper fees are stored onchain as calldata and
+  re-passed as args & validated via hashing when needed.
+- Each Split gets its own address & proxy for maximum composability with other
+  contracts onchain. For these proxies, we extended EIP-1167 Minimal Proxy
+  Contract to avoid `DELEGATECALL` inside `receive()` to accept hard gas-capped
+  `sends` & `transfers`.
 
 ## Addresses
 
@@ -220,55 +231,3 @@ installing the [SDK](/sdk-info/overview).
 </Tab>
 
 </Tabs>
-
-## Code & Natspec
-
-### SplitMain
-
-#### `createSplit`
-
-Create a new [`SplitProxy`](#splitproxy)
-
-#### `distributeETH`
-
-Split ETH for Split `address` which allows Recipients to withdraw
-
-#### `distributeERC20`
-
-Split `IERC20` for Split `address` which allows Recipients to withdraw
-
-#### `withdraw`
-
-Withdraw ETH & ERC20s for `address`
-
-### SplitProxy
-
-#### `receive()`
-
-Emit an event when funds are received at the proxy
-
-#### `fallback()`
-
-Delegates all other calls to the implementation [`SplitWallet`](#splitwallet)
-
-### SplitWallet
-
-#### `sendETHToMain`
-
-Sends the contract's ETH to `SplitMain`
-
-#### `sendERC20ToMain`
-
-Sends the contract's `IERC20` to `SplitMain`
-
-## Notes
-
-- These contracts were audited by [Macro](https://0xmacro.com/audits). You can
-  find their audit report
-  [here](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf).
-- Recipients, ownerships, and keeper fees are stored onchain as calldata &
-  re-passed as args / validated via hashing when needed. Each Split gets its own
-  address & proxy for maximum composability with other contracts onchain. For
-  these proxies, we extended EIP-1167 Minimal Proxy Contract to avoid
-  `DELEGATECALL` inside `receive()` to accept hard gas-capped `sends` &
-  `transfers`.

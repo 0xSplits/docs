@@ -1,46 +1,29 @@
-# Contracts
+# Creating contracts
 
-Before jumping into the different types of contracts you can create, there are a
-few important concepts that apply to all of the contracts in the 0xSplits
-ecosystem.
-
-- **Address:** Each contract has an address that can receive ETH and ERC20
-  tokens. You can use this address anywhere you want funds split according to
-  contract's rules, including as a recipient of other contracts.
-- **Recipient:** Each contract has at least one recipient, to whom funds are
-  transferred from the contract. A recipient can be any
-  [Ethereum account](https://ethereum.org/en/developers/docs/accounts/) that is
-  capable of receiving ETH and ERC20 tokens.
-- **Balance:** This is the quantity of a particular token that is presently held
-  within a contract. When tokens are received by a contract, they are kept as a
-  balance until they are distributed.
-- **Distribute:** Because all of the contracts follow a
-  [pull-based payment flow](https://consensys.github.io/smart-contract-best-practices/development-recommendations/general/external-calls/#favor-pull-over-push-for-external-calls),
-  balances must be distributed before recipients can withdraw their funds. Each
-  balance only needs to be distributed once in order for all recipients to
-  withdraw.
+If you haven't already, we recommend you read the [flow of funds](/flow) page to
+understand how funds move through the system and the various steps.
 
 ## Building blocks
 
-There are three core building blocks upon which all payment flows within
-0xSplits are created: Split, Waterfall, and Vesting. You can stack these blocks
-together in whatever order makes sense for your specific needs. These building
-blocks are intentionally unopionated, however, for more opinionated payment
-flows we've also created [Templates](#templates), which stack stack frequently
-used blocks together.
+There are three core smart contract building blocks upon which all payment flows
+within 0xSplits are created: Split, Waterfall, and Vesting. You can stack these
+blocks together in whatever order makes sense for your specific needs. These
+building blocks are intentionally unopionated, however, for more opinionated
+payment flows we've also created [Templates](#templates), which stack stack
+frequently used blocks together.
 
 import { Card, Cards } from 'nextra-theme-docs'
 
-<Cards>
+<Cards num={3}>
 
-<Card title="Split &rarr;" image href="#split">
-  ![Basic split diagram](./img/create_split_diagram.png)
+<Card image arrow title="Split" href="#split">
+  <>![Basic split diagram](./img/create_split_diagram.png)</>
 </Card>
-<Card title="Waterfall &rarr;" image href="#waterfall">
-  ![Basic waterfall diagram](./img/create_waterfall_diagram.png)
+<Card image arrow title="Waterfall" href="#waterfall">
+  <>![Basic waterfall diagram](./img/create_waterfall_diagram.png)</>
 </Card>
-<Card title="Vesting &rarr;" image href="#vesting">
-  ![Basic vesting diagram](./img/create_vesting_diagram.png)
+<Card image arrow title="Vesting" href="#vesting">
+  <>![Basic vesting diagram](./img/create_vesting_diagram.png)</>
 </Card>
 
 </Cards>
@@ -48,22 +31,30 @@ import { Card, Cards } from 'nextra-theme-docs'
 ### Split
 
 A Split is a smart contract that distributes funds according to pre-set
-percentages. To create one, all you have to do is enter in two or more
-recipients and assign each one an ownership percentage.
+percentages. It's an **equity-like structure** that can be plugged into any
+payment flow you need. To create one, just enter in two or more recipients and
+make sure shares add to 100%.
 
 ![Split form inputs](./img/create_split_form.png)
 
-You have the option to set a controller if you anticipate the Split needing to
-change in the future. The controller has the ability to add/remove/modify
-recipients and even transfer control of the Split to a new account (or remove
-control entirely). **A Split is only as trustworthy as the controller** so use
-with caution.
+You also have the option to set an admin if you anticipate the Split needing to
+change in the future. Note that the admin has complete authority to
+add/remove/modify recipients and even change or remove the admin at anytime. You
+can make the admin any address, including a smart contract like a
+[Gnosis Safe](https://safe.global/). Unless you know the Split will need to
+change, we recommend not adding an admin since **a Split is only as trustworthy
+as the admin**.
+
+- [Create a Recoup](https://app.0xsplits.xyz/new/split)
+- [Technical docs](/contracts/core/split)
+- [Contracts](https://github.com/0xSplits/splits-contracts)
 
 ### Waterfall
 
 A Waterfall allows you to define the order & amount different accounts are paid.
-This is useful when one account shoud be paid _before_ another account. For
-example, an NFT project may choose to repay expenses before splitting profits.
+It is a **debt-like structure** that is useful whenever one account shoud be
+paid _before_ another account. You can pair Waterfall with Splits, and the
+[Recoup template](#recoup) makes this easy.
 
 ![Split form inputs](./img/create_waterfall_form.png)
 
@@ -71,13 +62,18 @@ A Waterfall has multiple levels called tranches, each with a limit and a
 recipient. The limit is the highest amount the recipient can get, and they
 receive it only when the previous tranche limit is reached. This pattern
 continues until all the tranches are filled, at which point any extra funds go
-to the last tranche recipient.
+to the final tranche recipient.
+
+- [Create a Recoup](https://app.0xsplits.xyz/new/waterfall)
+- [Technical docs](/contracts/core/waterfall)
+- [Contracts](https://github.com/0xSplits/splits-waterfall)
 
 ### Vesting
 
-Vesting is a contract that releases streams of funds to a recipient over a set
-period of time. When creating a Vesting contract, all you need to do it set the
-recipient and the number of days it takes for each vesting stream to complete.
+Vesting is a contract that releases isolated streams of tokens to a recipient
+over a set period of time. When creating a Vesting contract, all you need to do
+it set the recipient and the number of days it takes for each vesting stream to
+complete.
 
 Since there is no way to revoke a vesting stream once it's begun, this is best
 paired with a mutable Split since this combination allows the end recipients to
@@ -85,19 +81,22 @@ change. Check out the
 [Protocol Guild](https://app.0xsplits.xyz/accounts/0xF29Ff96aaEa6C9A1fBa851f74737f3c069d4f1a9/)
 to see this setup in action.
 
+- [Technical docs](/contracts/core/vesting)
+- [Contracts](https://github.com/0xSplits/splits-vesting)
+
 ## Templates
 
 Templates are pre-build payment flows that stack two or more building blocks
-together. Since these are opinionated flows, there's a dedicated creation form
-and detail view within the app for each template.
+together. Since these are opinionated flows, each template has a dedicated
+creation form and account detail view in the app.
 
-<Cards>
+<Cards num={2}>
 
-<Card title="Recoup &rarr;" image href="#split">
-  ![Basic Overview Flow](/recoup_diagram.png)
+<Card title="Recoup &rarr;" image href="#recoup">
+  <>![Basic Overview Flow](./img/create_recoup_diagram.png)</>
 </Card>
-<Card title="Liquid Split &rarr;" image href="#waterfall">
-  ![Basic Overview Flow](/liquidsplit_diagram.png)
+<Card title="Liquid Split &rarr;" image href="#liquid-split">
+  <>![Basic Overview Flow](./img/create_liquid_diagram.png)</>
 </Card>
 
 </Cards>
@@ -105,14 +104,32 @@ and detail view within the app for each template.
 ### Recoup
 
 Recoup allows you to repay one group before splitting profits with another. It
-makes it easy to create a Waterfall that points to a number of Splits.
+makes it easy to create a Waterfall that points to a number of Splits. This is
+particularly useful if you want to repay one group before splitting profits with
+another. Just enter in the token and amount you wish to recoup, and then add
+recipients for each tier. As long as there are two or more recipients in a tier,
+the Recoup will automatically deploy the necessary Split(s) upon creation.
 
 ![Split form inputs](./img/create_recoup_form.png)
 
+- [Create a Recoup](https://app.0xsplits.xyz/new/recoup)
+- [Technical docs](/contracts/templates/recoup)
+- [Contracts](https://github.com/0xSplits/splits-recoup)
+
 ### Liquid Split
 
-A Liquid Split utilizes NFTs to signify ownership in a Split. This enables
-recipients to transfer their shares to others. When the NFTs are transferred,
-the Split recipients are updated to show the current NFT ownership. By default,
-when creating a Liquid Split, each initial recipient will receive their share of
-the 1,000 ERC-1155 NFTs created.
+A Liquid Split utilizes NFTs to represent ownership in a Split. This enables
+recipients to transfer their shares to others. This works by combining an
+ERC-1155 NFT contract with a Split, and making the NFT contract the admin of the
+Split. Whenever funds are distributed within the Split, it looks at the holders
+of the NFTs and updates the recipients accordingly.
+
+When you create a Liquid Split, just specify the _initial_ recipients and create
+the Split as you normally would. Upon creation, each recipient will receive
+their portion of the 1,000 NFTs minted. For example, if Alice is a 20%
+recipient, they will receive 200 NFTs (20% of 1,000 = 200). Alice can then
+transfer their shares however they want.
+
+- [Create a Liquid Split](https://app.0xsplits.xyz/new/split/?type=liquid)
+- [Technical docs](/contracts/templates/liquid)
+- [Contracts](https://github.com/0xSplits/splits-liquid)

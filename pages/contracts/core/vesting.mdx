@@ -1,13 +1,17 @@
 import { Toggle } from '../../../components/toggle'
+import { Tab, Tabs } from 'nextra-theme-docs'
 
-# Vesting Module
+# Vesting
 
-This module allows multiple, isolated streams of tokens (Vesting Streams) to
-vest to an address (Beneficiary) over a set period of time (Vesting Period). All
-Vesting Streams within a Vesting Module share a Vesting Period, but each Vesting
-Stream may begin vesting or release tokens independently.
+![Vesting diagram](./img/diagram_vesting.png)
 
-![Vesting diagram](/vesting_diagram.png)
+Vesting allows multiple, isolated streams of tokens to vest to an address over a
+set period of time. All streams within the contract share a vesting period, but
+each stream may begin vesting or release tokens independently.
+
+- [Contracts](https://github.com/0xSplits/splits-vesting)
+- [SDK](/dev/sdk/vesting)
+- [Example](https://app.0xsplits.xyz/accounts/0xF29Ff96aaEa6C9A1fBa851f74737f3c069d4f1a9/)
 
 ## How It Works
 
@@ -23,7 +27,11 @@ Stream may begin vesting or release tokens independently.
 
 ## Addresses
 
-### Mainnet Deployments
+<Tabs items={['Mainnets', 'Testnets']}>
+
+<Tab>
+
+### Mainnets
 
 <Toggle title="Ethereum - 1">
 
@@ -106,7 +114,11 @@ Stream may begin vesting or release tokens independently.
 
 </Toggle>
 
-### Testnet Deployments
+</Tab>
+
+<Tab>
+
+### Testnets
 
 <Toggle title="Goerli - 5">
 
@@ -189,27 +201,9 @@ Stream may begin vesting or release tokens independently.
 
 </Toggle>
 
-## How To Use
+</Tab>
 
-1. Navigate to an existing Split page and hit "New Vesting Module" within the
-   Address section.
-2. A dialog will appear, and the Beneficiary's address is pre-filled with the
-   Split you're viewing. Enter the Vesting Period (in days) and approve the
-   transaction.
-3. Once the transaction has been confirmed, you'll see the Vesting Module listed
-   on the Split page in the Address section under "Vesting Modules".
-4. Click on the Vesting Module and send tokens to it like you would a Split or
-   any other payable address.
-5. Tokens received by the Vesting Module are held in a "Pending" state until a
-   Vesting Stream has begun. Multiple deposits may occur before a Vesting Stream
-   is started. Select the Vesting Streams to start, and hit "Start Vests".
-6. Once a Vesting Stream stream is active, select the tokens to release and
-   click "Release Streams". Once the transaction is confirmed, the vested tokens
-   will be sent to the Split.
-7. From here you can interact with the Split as you normally would. If you wish
-   to distribute the released tokens, navigate to the Split page and select the
-   balances to distribute. Or sit back and let the network handle this if a
-   [Distributor Fee](/core-concepts#distributor-fee) has been set.
+</Tabs>
 
 ## Notes
 
@@ -223,7 +217,3 @@ Stream may begin vesting or release tokens independently.
   and Vesting Periods. You can always create a new Vesting Stream within the
   existing Vesting Module – it's unnecessary to duplicate an existing Vesting
   Module.
-
-## Code & Natspec
-
-[Github](https://github.com/0xSplits/splits-vesting/)
