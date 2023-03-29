@@ -1,59 +1,48 @@
 # Withdraw
 
-Withdrawing is the process of transferring your balance from 0xSplits to your
-wallet. Regardless of how many contracts you’re earning from, or how frequently
-those contracts receive income, it only takes a single transaction to transfer
-_all of your balances_ to your wallet. You can do this at your leisure, whenever
-gas prices are low or you just want to cash out.
+Withdrawing is the process of transferring a balance from 0xSplits to a
+recipient's wallet. Regardless of how many contracts someone earns from, or how
+frequently those contracts receive income, it only takes a single transaction to
+transfer _all of those balances_ to their wallet. Anyone can do this at their
+leisure, whenever gas prices are low or they just want to cash out.
 
 ## Withdrawing for yourself
 
-## Withdrawing for someone else
+After connecting your wallet you'll see your total balances in USD in the top
+left corner of the app. If your balance shows $0.00, that is either because you
+have no balances to withdraw or because we're unable to determine a USD price
+for your balances. Clicking on your balance will open your account view.
 
-Once a Split you earn from has been distributed, you'll see your withdrawable
-balance in the top left corner of the page. If you only have ERC-20 tokens
-available to withdraw, you may see a balance of "$0.00" if we can't determine
-the ERC-20 token price. Click on your balance to open your account menu.
+![Open your account view](./img/withdraw_open_dialog.gif)
 
-![Overview menu item](/withdraw_indicator.png)
+Just select all the balances you wish to withdraw, hit withdraw, and the funds
+will be transferred from your balance in 0xSplits to your wallet. If you have
+any "pending" balances (i.e., contracts you earn from that have balances waiting
+to be distributed), those will show up here as well. You may wish to distribute
+those pending balances before withdrawing (or just wait for a bot to distribute
+them if there's a bounty!).
 
-You'll be able to see all your balances in the dialog that opens. Select the
-ones you wish to withdraw and hit "Withdraw Tokens". Once you approve this
-transaction in your wallet, the selected balances will be withdrawn from Splits
-to your account. You will see your balance has been reset to $0.
+You can also select which balances to withdraw by clicking on "My account" in
+the sidebar and then looking at the Earnings section on the right.
 
-![Overview page](/withdraw-balances.png)
-
-If you have any "pending" balances (i.e., Splits you earn from that have
-balances waiting to be distributed), those will show up here as well. If you
-wish, you may distribute those pending balances before withdrawing.
+![Your account earnings](./img/withdraw_earnings.png)
 
 ## Withdrawing for another account
 
-Since Recipients in a Split can be any Ethereum address, including smart
-contracts to which nobody holds the private keys, anyone can withdraw balances
-on behalf of other Recipients. When you do this, you're effectively paying the
-gas needed to send the funds to their wallet.
+There may be instances when you wish to withdraw on behalf of another account.
+When you do this, you're effectively paying the gas needed to "push" the funds
+from 0xSplits to their wallet. Anyone can withdraw on behalf of another account
+at any time.
 
-Just navigate to the account's detail page (either by searching or clicking on
-it from the list of Recipients) then select the balances you wish to withdraw
-and hit "Withdraw Tokens". This will transfer these balances to the _account's
-address_, not your own. By withdrawing "for" another account, you're just paying
-the gas needed to send them their funds.
+To do this, just navigate to the account's detail page (either by searching or
+clicking on it from the list of recipients) and in the Earnings section select
+the balances you wish to withdraw. Remember that this will transfer these
+balances to the _account's address_, not your own. By withdrawing "for" another
+account, you're just paying the gas needed to send them their funds.
 
-![Withdraw for an account](/withdraw_account.png)
+![Withdraw for an account](./img/withdraw_other_account.gif)
 
-If you're a developer looking to incorporate withdrawals from 0xSplits into into
-your own app, just call the [`withdraw`](/smartcontracts/SplitMain#withdraw)
-function on `SplitMain`. You can see if the account in question has a balance by
-calling the `getETHBalance` and `getERC20Balance` functions on `SplitMain` as
-well. The [SDK](/sdk-info/overview) makes this easy.
-
-If you're having trouble with this, jump in our
-[Discord](https://chat.0xsplits.xyz/) and drop us a note in the `user-support`
-channel.
-
-## Why must you withdraw?
+## Why must you withdraw? REMOVE
 
 In other words, once the balance of a Split has been distributed, why aren't the
 funds automatically showing up in your wallet? This is because the withdraw flow

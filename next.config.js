@@ -8,14 +8,4 @@ const withNextra = require('nextra')({
   },
   defaultShowCopyCode: true,
 })
-module.exports = withNextra({
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/sdk',
-  //       destination: '/sdk-info/overview',
-  //       permanent: false,
-  //     },
-  //   ]
-  // },
-})
+module.exports = withNextra({})

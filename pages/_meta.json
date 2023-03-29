@@ -6,6 +6,13 @@
       "toc": true
     }
   },
+  "flow": {
+    "title": "Flow of funds",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
   "users": {
     "type": "separator",
     "title": "Users"

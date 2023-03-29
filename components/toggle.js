@@ -8,13 +8,16 @@ export function Toggle({ children, title, open }) {
         className="flex items-center cursor-pointer"
         onClick={() => setIsVisible(!isVisible)}
       >
-        <div style={{ width: '12px', fontSize: '14px' }}>
-          {isVisible ? `▼` : `►`}
+        <div
+          className={`transition ${isVisible ? `rotate-90` : `rotate-0`}`}
+          style={{ width: '12px', fontSize: '14px' }}
+        >
+          ►
         </div>
-        <div className="ml-2">{title}</div>
+        <div className="ml-3">{title}</div>
       </div>
       {isVisible && (
-        <div className="py-2 ml-2" style={{ paddingLeft: '12px' }}>
+        <div className="py-2 ml-3" style={{ paddingLeft: '12px' }}>
           {children}
         </div>
       )}
