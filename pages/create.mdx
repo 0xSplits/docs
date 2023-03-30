@@ -14,16 +14,13 @@ frequently used blocks together.
 
 import { Card, Cards } from 'nextra-theme-docs'
 
-<Cards num={3}>
+<Cards num={2}>
 
 <Card image arrow title="Split" href="#split">
   <>![Basic split diagram](./img/create_split_diagram.png)</>
 </Card>
 <Card image arrow title="Waterfall" href="#waterfall">
   <>![Basic waterfall diagram](./img/create_waterfall_diagram.png)</>
-</Card>
-<Card image arrow title="Vesting" href="#vesting">
-  <>![Basic vesting diagram](./img/create_vesting_diagram.png)</>
 </Card>
 
 </Cards>
@@ -67,22 +64,6 @@ to the final tranche recipient.
 - [Create a Waterfall](https://app.0xsplits.xyz/new/waterfall)
 - [Technical docs](/contracts/core/waterfall)
 - [Contracts](https://github.com/0xSplits/splits-waterfall)
-
-### Vesting
-
-Vesting is a contract that releases isolated streams of tokens to a recipient
-over a set period of time. When creating a Vesting contract, all you need to do
-it set the recipient and the number of days it takes for each vesting stream to
-complete.
-
-Since there is no way to revoke a vesting stream once it's begun, this is best
-paired with a mutable Split since this combination allows the end recipients to
-change. Check out the
-[Protocol Guild](https://app.0xsplits.xyz/accounts/0xF29Ff96aaEa6C9A1fBa851f74737f3c069d4f1a9/)
-to see this setup in action.
-
-- [Technical docs](/contracts/core/vesting)
-- [Contracts](https://github.com/0xSplits/splits-vesting)
 
 ## Templates
 
