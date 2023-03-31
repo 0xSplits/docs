@@ -5,12 +5,8 @@ import { useRouter } from 'next/router'
 
 const logo = (
   <>
-    <img
-      src="/logo_dark.svg"
-      className="mr-2 rounded-lg"
-      style={{ width: 32 }}
-    />
-    <span className="mr-2 font-semibold hidden md:inline">0xSplits</span>
+    <img src="/logo.svg" className="mr-2 rounded-lg" style={{ width: 20 }} />
+    <span className="mr-2 font-bold hidden md:inline">Splits</span>
     <span className="text-gray-600 font-medium hidden md:inline">Docs</span>
   </>
 )
