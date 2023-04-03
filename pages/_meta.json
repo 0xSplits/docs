@@ -1,0 +1,69 @@
+{
+  "index": {
+    "title": "Introduction",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "flow": {
+    "title": "Flow of funds",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "users": {
+    "type": "separator",
+    "title": "Users"
+  },
+  "start": {
+    "title": "Getting started",
+    "theme": {
+      "breadcrumb": false
+    }
+  },
+  "create": {
+    "title": "Creating contracts",
+    "theme": {
+      "breadcrumb": false
+    }
+  },
+  "use": {
+    "title": "Sending funds",
+    "theme": {
+      "breadcrumb": false
+    }
+  },
+  "distribute": {
+    "title": "Distributing balances",
+    "theme": {
+      "breadcrumb": false
+    }
+  },
+  "withdraw": {
+    "title": "Withdrawing balances",
+    "theme": {
+      "breadcrumb": false
+    }
+  },
+  "developers": {
+    "type": "separator",
+    "title": "Developers"
+  },
+  "dev": "Developer tools",
+  "contracts": "Contracts",
+  "appendices": "Appendices",
+  "launch_app": {
+    "type": "page",
+    "title": "Launch App",
+    "href": "https://app.0xsplits.xyz/",
+    "newWindow": true
+  },
+  "about": {
+    "type": "page",
+    "title": "About",
+    "href": "https://0xsplits.xyz/",
+    "newWindow": true
+  }
+}

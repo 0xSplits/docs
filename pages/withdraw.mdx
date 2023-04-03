@@ -1,0 +1,79 @@
+# Withdrawing balances
+
+![Flow of funds - withdraw](./img/withdraw_highlighted_step.png)
+
+Withdrawing is the process of transferring a balance from 0xSplits to a
+recipient's wallet. Regardless of how many contracts someone earns from, or how
+frequently those contracts receive income, it only takes a single transaction to
+transfer _all of those balances_ to their wallet. Anyone can do this at their
+leisure, whenever gas prices are low or they just want to cash out.
+
+## Withdrawing for yourself
+
+After connecting your wallet you'll see your total balances in USD in the top
+left corner of the app. If your balance shows $0.00, that is either because you
+have no balances to withdraw or because we're unable to determine a USD price
+for your balances. Clicking on your balance will open your account view.
+
+![Open your account view](./img/withdraw_open_dialog.gif)
+
+Just select all the balances you wish to withdraw, hit withdraw, and the funds
+will be transferred from your balance in 0xSplits to your wallet. If you have
+any "pending" balances (i.e., contracts you earn from that have balances waiting
+to be distributed), those will show up here as well. You may wish to distribute
+those pending balances before withdrawing (or just wait for a bot to distribute
+them if there's a bounty!).
+
+You can also select which balances to withdraw by clicking on "My account" in
+the sidebar and then looking at the Earnings section on the right.
+
+![Your account earnings](./img/withdraw_earnings.png)
+
+## Withdrawing for another account
+
+There may be instances when you wish to withdraw on behalf of another account.
+When you do this, you're effectively paying the gas needed to "push" the funds
+from 0xSplits to their wallet. Anyone can withdraw on behalf of another account
+at any time.
+
+To do this, just navigate to the account's detail page (either by searching or
+clicking on it from the list of recipients) and in the Earnings section select
+the balances you wish to withdraw. Remember that this will transfer these
+balances to the _account's address_, not your own. By withdrawing "for" another
+account, you're just paying the gas needed to send them their funds.
+
+![Withdraw for an account](./img/withdraw_other_account.gif)
+
+## Why must you withdraw? REMOVE
+
+In other words, once the balance of a Split has been distributed, why aren't the
+funds automatically showing up in your wallet? This is because the withdraw flow
+follows a
+[pull model](https://fravoll.github.io/solidity-patterns/pull_over_push.html)
+(i.e., you need to _pull_ your funds from 0xSplits into your account). It's
+designed this way for a few reasons.
+
+First, the pull model is far more reliable and secure, making it the
+[recommended approach](https://consensys.github.io/smart-contract-best-practices/development-recommendations/general/external-calls/#favor-pull-over-push-for-external-calls)
+in Solidity. Pushing funds isn't recommended since it's more likely to fail and
+it increases the chance of hitting problems with the gas limit. Additionally,
+the push model reduces composability since contracts with hard gas limits
+wouldn't be able to send funds to a Split.
+
+Second, the pull model increases gas-efficiency for the Recipients. Since all
+your Splits deposit into the same place, you can collect all your distributed
+balances in a single transaction. The longer you wait to withdraw your funds,
+the more funds pile up, and the more gas you save. This same concept applies to
+Splits themselves—instead of paying gas each time a Split receives funds (i.e.,
+from Seaport, Zora, etc), all funds can be distributed at once, drastically
+reducing gas consumption and ultimately sending more money to the Recipients.
+
+If you're just looking to do a one-time split where gas efficiency,
+composability, and manual labor/time don't matter, you may consider using
+[disperse.app](https://disperse.app/) or another multisend contract that will
+"push" funds to the recipients. However, whoever initiates that transaction will
+need to pay the gas to do so and the undoubted wrath of the group should a
+mistake be made. If you're doing multiple manual distributions to the same group
+of recipients, you're better off using a Split. Check out the
+[Alternative Solutions](/appendices/alternative-solutions) page for more
+options.

@@ -1,0 +1,178 @@
+import { Tab, Tabs } from 'nextra-theme-docs'
+
+# React SDK
+
+This page explains how to use the **React SDK**, a React wrapper around the
+[Core SDK](/dev/sdk). The React SDK provides convenient hooks for easily
+fetching contract data and sending transactions. You can find the React SDK
+source code on
+[Github](https://github.com/0xSplits/splits-sdk/tree/main/packages/splits-sdk-react).
+
+To get started, install the package using `yarn` or `npm`.
+
+<Tabs items={['yarn', 'npm']}>
+
+  <Tab>
+
+```bash
+yarn add @0xsplits/splits-sdk-react
+```
+
+  </Tab>
+  <Tab>
+
+```bash
+npm install @0xsplits/splits-sdk-react
+```
+
+  </Tab>
+</Tabs>
+
+## Usage
+
+A `SplitsProvider` component is needed to manage context for all splits hooks.
+
+```js
+import { SplitsProvider, useSplitsClient } from '@0xsplits/splits-sdk-react'
+
+function App() {
+  return (
+    <SplitsProvider>
+      <YourComponents />
+    </SplitsProvider>
+  )
+}
+
+function YourComponents() {
+  useSplitsClient({
+    chainId: 1,
+  })
+
+  return <div>Hello World</div>
+}
+```
+
+## Initialization Hooks
+
+### useSplitsClient
+
+Updates and returns the `SplitsClient` instance used by all hooks.
+
+Usage
+
+```js
+const args = {
+  chainId,
+  provider, // ethers provider
+  signer, // ethers signer (optional, required if using any write functions)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for split recipients (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
+  // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
+  // other chain for non EOAs (e.g. Gnosis Safe's)
+  ensProvider, // ethers provider (optional)
+}
+
+const splitsClient = useSplitsClient(args)
+```
+
+## Read Hooks
+
+### useSplitMetadata
+
+Fetches the given split from the subgraph
+
+Usage
+
+```js
+const { splitMetadata, isLoading } = useSplitMetadata(splitId)
+```
+
+### useLiquidSplitMetadata
+
+Fetches the given liquid split from the subgraph
+
+Usage
+
+```js
+const { liquidSplitMetadata, isLoading } = useLiquidSplitMetadata(liquidSplitId)
+```
+
+### useWaterfallMetadata
+
+Fetches the given waterfall module from the subgraph
+
+Usage
+
+```js
+const { waterfallMetadata, isLoading } = useWaterfallMetadata(waterfallModuleId)
+```
+
+### useVestingMetadata
+
+Fetches the given vesting module from the subgraph
+
+Usage
+
+```js
+const { vestingMetadata, isLoading } = useVestingMetadata(vestingModuleId)
+```
+
+## Transaction Hooks
+
+Each of the transaction functions from the core sdk has a react hook wrapper. It
+returns the core sdk function and some state properties for monitoring the
+transaction progress.
+
+Usage
+
+```js
+const { createSplit, status, txHash, error } = useCreateSplit()
+```
+
+Response
+
+```graphql
+{
+  createSplit: function // This will be the core sdk function associated with each hook
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+List of transaction hooks
+
+```js
+// splits
+useCreateSplit
+useUpdateSplit
+useDistributeToken
+useUpdateSplitAndDistributeToken
+useWithdrawFunds
+useInitiateControlTransfer
+useCancelControlTransfer
+useAcceptControlTransfer
+useMakeSplitImmutable
+
+// liquid splits
+useCreateLiquidSplit
+useDistributeLiquidSplitToken
+useTransferLiquidSplitOwnership
+
+// waterfalls
+useCreateWaterfallModule
+useWaterfallFunds
+useRecoverNonWaterfallFunds
+useWithdrawWaterfallPullFunds
+
+// vesting
+useCreateVestingModule
+useStartVest
+useReleaseVestedFunds
+
+// templates
+useCreateRecoup
+
+// multicall
+useMulticall
+```

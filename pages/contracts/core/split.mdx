@@ -1,0 +1,243 @@
+import { Toggle } from '../../../components/toggle'
+import { Tab, Tabs } from 'nextra-theme-docs'
+
+# Split
+
+![Split diagram](./img/diagram_split.png)
+
+Split acts as an equity instrument by letting you define the _pecent of future
+value_ each recipient will earn. It's a payable smart contract that distributes
+all ETH & ERC20 tokens it receives among recipients according to pre-set
+ownership percentages.
+
+- Create at [split.new](https://app.0xsplits.xyz/new/split/)
+- [Github](https://github.com/0xSplits/splits-contracts)
+- [Contracts & Natspec](https://github.com/0xSplits/splits-contracts/tree/main/contracts)
+- [SDK](/dev/sdk/splits)
+- [Example](https://app.0xsplits.xyz/accounts/0xF8843981e7846945960f53243cA2Fd42a579f719/)
+- [Audit](https://github.com/0xSplits/splits-contracts/blob/main/audit/0xSplits_A-1.pdf)
+
+## How it works
+
+- Each Split is a payable smart contract with two more more recipients. Each
+  recipient has an address and an ownership percent. ETH and ERC20s sent
+  directly to the Split are held in the Split's balance until `distributeETH` or
+  `distributeERC20` are called.
+- Recipients, ownerships, and keeper fees are stored onchain as calldata and
+  re-passed as args and validated via hashing when needed.
+- Each Split gets its own address and proxy for maximum composability with other
+  contracts onchain. For these proxies, we extended
+  [EIP-1167 Minimal Proxy Contract](https://eips.ethereum.org/EIPS/eip-1167) to
+  avoid `DELEGATECALL` inside `receive()`, allowing for Splits to accept hard
+  gas-capped `sends` & `transfers`.
+- [`SplitWallet`](https://github.com/0xSplits/splits-contracts/blob/main/contracts/SplitWallet.sol)
+  is the implementation logic for `SplitProxy`. `SplitProxy` delegates all calls
+  to `SplitWallet` other than handling `receive()` itself to avoid the gas cost
+  with `DELEGATECALL`. All funds pile up in
+  [`SplitMain`](https://github.com/0xSplits/splits-contracts/blob/main/contracts/SplitMain.sol)
+  until `withdraw` is called for a recipient.
+- We recommend reviewing the
+  [contracts flow of funds](/contracts#flow-of-funds).
+
+## Addresses
+
+<Tabs items={['Mainnets', 'Testnets']}>
+
+<Tab>
+
+<Toggle title="Ethereum – 1">
+
+| Contract    | Address                                                                                                                      |
+| :---------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Optimism – 10">
+
+| Contract    | Address                                                                                                                                 |
+| :---------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://optimistic.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://optimistic.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="BSC – 56">
+
+| Contract       | Address                                                                                                                     |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0x8EfE568278b40316Ac2aebF92453A0FEcD891D7B`](https://bscscan.com/address/0x8EfE568278b40316Ac2aebF92453A0FEcD891D7B#code) |
+| Factory        | [`0x5924cD81dC672151527B1E4b5Ef57B69cBD07Eda`](https://bscscan.com/address/0x5924cD81dC672151527B1E4b5Ef57B69cBD07Eda#code) |
+
+</Toggle>
+
+<Toggle title="Gnosis – 100">
+
+| Contract       | Address                                                                                                                       |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://gnosisscan.io/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
+| Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://gnosisscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+
+</Toggle>
+
+<Toggle title="Polygon – 137">
+
+| Contract    | Address                                                                                                                         |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://polygonscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://polygonscan.com/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Fantom – 250">
+
+| Contract       | Address                                                                                                                     |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://ftmscan.com/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
+| Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://ftmscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+
+</Toggle>
+
+<Toggle title="Arbitrum – 42161">
+
+| Contract    | Address                                                                                                                     |
+| :---------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://arbiscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://arbiscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Avalanche – 43114">
+
+| Contract       | Address                                                                                                                      |
+| :------------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://snowtrace.io/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
+| Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://snowtrace.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+
+</Toggle>
+
+<Toggle title="Aurora – 1313161554">
+
+| Contract       | Address                                                                                                                        |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://aurorascan.dev/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
+| Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://aurorascan.dev/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+
+</Toggle>
+
+</Tab>
+
+<Tab>
+
+<Toggle title="Goerli – 5">
+
+| Contract    | Address                                                                                                                             |
+| :---------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://goerli.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://goerli.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Ropsten – 3">
+
+| Contract    | Address                                                                                                                              |
+| :---------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://ropsten.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://ropsten.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Rinkeby – 4">
+
+| Contract    | Address                                                                                                                              |
+| :---------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://rinkeby.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://rinkeby.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Kovan – 42">
+
+| Contract    | Address                                                                                                                            |
+| :---------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://kovan.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://kovan.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="BSC Testnet – 97">
+
+| Contract       | Address                                                                                                                             |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0x8EfE568278b40316Ac2aebF92453A0FEcD891D7B`](https://testnet.bscscan.com/address/0x8EfE568278b40316Ac2aebF92453A0FEcD891D7B#code) |
+| Factory        | [`0x5924cD81dC672151527B1E4b5Ef57B69cBD07Eda`](https://testnet.bscscan.com/address/0x5924cD81dC672151527B1E4b5Ef57B69cBD07Eda#code) |
+
+</Toggle>
+
+<Toggle title="Optimism Goerli – 420">
+
+| Contract    | Address                                                                                                                                      |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://goerli-optimism.etherscan.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://goerli-optimism.etherscan.io/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Fantom Testnet – 4002">
+
+| Contract       | Address                                                                                                                             |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://testnet.ftmscan.com/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
+| Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://testnet.ftmscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+
+</Toggle>
+
+<Toggle title="Gnosis Chiado – 10200">
+
+| Contract       | Address                                                                                                                                                        |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://blockscout.com/gnosis/chiado/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33/contracts#address-tabs) |
+| Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://blockscout.com/gnosis/chiado/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE/contracts#address-tabs) |
+
+</Toggle>
+
+<Toggle title="Avalanche Fuji – 43113">
+
+| Contract       | Address                                                                                                                              |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://testnet.snowtrace.io/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
+| Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://testnet.snowtrace.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+
+</Toggle>
+
+<Toggle title="Polygon Mumbai – 80001">
+
+| Contract    | Address                                                                                                                                |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://mumbai.polygonscan.com/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://mumbai.polygonscan.com/address/0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33#code) |
+
+</Toggle>
+
+<Toggle title="Arbitrum Goerli – 421613">
+
+| Contract    | Address                                                                                                                                                              |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SplitMain   | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://goerli-rollup-explorer.arbitrum.io/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE/contracts#address-tabs) |
+| SplitWallet | [`0xd94c0ce4f8eefa4ebf44bf6665688edeef213b33`](https://goerli-rollup-explorer.arbitrum.io/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33/contracts#address-tabs) |
+
+</Toggle>
+
+<Toggle title="Aurora Testnet – 1313161555">
+
+| Contract       | Address                                                                                                                                |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33`](https://testnet.aurorascan.dev/address/0xD94c0CE4f8eEfA4Ebf44bf6665688EdEEf213B33#code) |
+| Factory        | [`0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE`](https://testnet.aurorascan.dev/address/0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE#code) |
+
+</Toggle>
+
+</Tab>
+
+</Tabs>
