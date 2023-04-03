@@ -11,7 +11,8 @@ The Recoup template allows you split profits instead of revenue. By creating a
 splitting profits with another.
 
 - [Creation form](https://app.0xsplits.xyz/new/recoup/)
-- [Contracts](https://github.com/0xSplits/splits-recoup)
+- [Contracts & NatSpec](https://github.com/0xSplits/splits-recoup/tree/main/src)
+- [Github](https://github.com/0xSplits/splits-recoup)
 - [SDK](/dev/sdk/templates)
 - [Example](https://app.0xsplits.xyz/accounts/0x0bb7a1B75Ac3e679d77E5336fDEBcFe95E89cEED/)
 
@@ -20,14 +21,14 @@ splitting profits with another.
 - We recommend familiarizing yourself with how [Waterfall](/modules/waterfall)
   and [Splits](/smartcontracts/overview) work, since Recoup is just a basic
   wrapper for those two contracts.
+- Any non-permitted tokens sent to the Recoup will be recovered to the final
+  tier (i.e., the profit share tier).
 
 ## Addresses
 
 <Tabs items={['Mainnets', 'Testnets']}>
 
 <Tab>
-
-### Mainnets
 
 <Toggle title="Ethereum - 1">
 
@@ -105,8 +106,6 @@ splitting profits with another.
 
 <Tab>
 
-### Testnets
-
 <Toggle title="Goerli - 5">
 
 | Contract | Address                                                                                                                             |
@@ -182,9 +181,3 @@ splitting profits with another.
 </Tab>
 
 </Tabs>
-
-## Notes
-
-- Any non-permitted tokens sent to the Recoup will be recovered to the Profit
-  Share Tier.
-- Recoup is an immutable contract. Once it's been created, it cannot be changed.

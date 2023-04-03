@@ -9,29 +9,33 @@ Vesting allows multiple, isolated streams of tokens to vest to an address over a
 set period of time. All streams within the contract share a vesting period, but
 each stream may begin vesting or release tokens independently.
 
-- [Contracts](https://github.com/0xSplits/splits-vesting)
+- [Contracts & NatSpec](https://github.com/0xSplits/splits-vesting/tree/master/src)
+- [Github](https://github.com/0xSplits/splits-vesting)
 - [SDK](/dev/sdk/vesting)
 - [Example](https://app.0xsplits.xyz/accounts/0xF29Ff96aaEa6C9A1fBa851f74737f3c069d4f1a9/)
 
 ## How It Works
 
-- Each Vesting Module has a payable address to which ETH and ERC20 tokens can be
-  sent.
-- Tokens sent to the Vesting Module are held until a Vesting Stream is started.
-  Vesting Streams are token-specific. Multiple Vesting Streams may exist
-  simultaneously within the same Vesting Module.
-- Once a Vesting Stream has begun, tokens in that stream will vest linearly and
-  all tokens will be 100% vested by the end of the Vesting Period. At any time,
-  anyone may release the vested portion from the Vesting Module to the
-  Beneficiary.
+- Each Vesting is a payable smart contract with a vesting period and a
+  recipient. ETH and ERC20s sent to Vesting are held until a token-specific
+  vesting stream is started. Multiple vesting streams may exist simultaneously
+  within Vesting.
+- Once a vesting stream has begun, tokens in that stream will vest linearly and
+  all tokens will be 100% vested by the end of the vesting period. At any time,
+  anyone may release the vested portion to the recipient.
+- Since Vesting is immutable, it's designed to be used in conjunction with a
+  mutable Split or any contract that can be modified. Vesting funds to an
+  immutable contract is equivalent to sending all tokens at once, since there is
+  no way to revoke a stream or remove funds within a Vesting before a stream has
+  begun.
+- It is unnecessary to duplicate a Vesting that already exists, therefore each
+  Vesting must have a unique combination of vesting period and recipient.
 
 ## Addresses
 
 <Tabs items={['Mainnets', 'Testnets']}>
 
 <Tab>
-
-### Mainnets
 
 <Toggle title="Ethereum - 1">
 
@@ -118,8 +122,6 @@ each stream may begin vesting or release tokens independently.
 
 <Tab>
 
-### Testnets
-
 <Toggle title="Goerli - 5">
 
 | Contract       | Address                                                                                                                             |
@@ -204,16 +206,3 @@ each stream may begin vesting or release tokens independently.
 </Tab>
 
 </Tabs>
-
-## Notes
-
-- This module is immutable. Once it's been created, it cannot be changed.
-- This module is designed to be used in conjunction with a
-  [Mutable Split](/core-concepts#mutable-split). Technically it works with an
-  immutable Split, however, vesting tokens to an immutable Split is equivalent
-  to sending all tokens at once.
-- Vesting Modules must be unique. Multiple Vesting Modules can point to the same
-  Beneficiary, however, no two Vesting Modules can have identical Beneficiaries
-  and Vesting Periods. You can always create a new Vesting Stream within the
-  existing Vesting Module – it's unnecessary to duplicate an existing Vesting
-  Module.

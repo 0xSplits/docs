@@ -10,11 +10,12 @@ Unlike standard Splits where ownership is manually controlled, Liquid Splits use
 NFTs to make ownership tranferrable. This allows each recipient to control their
 share of the Split themselves. This template uses an ERC-1155 NFT contract and a
 mutable [Split](/contracts/core/split). You can integrate Liquid Splits into
-your own NFT project by forking
+your own NFT project (including adding your own artwork etc) by forking
 [this repo](https://github.com/0xSplits/splits-liquid-template).
 
 - [Creation form](https://app.0xsplits.xyz/new/split/?type=liquid)
-- [Contracts](https://github.com/0xSplits/splits-liquid)
+- [Contracts & NatSpec](https://github.com/0xSplits/splits-liquid/tree/master/src)
+- [Github](https://github.com/0xSplits/splits-liquid)
 - [SDK](/dev/sdk/liquid)
 - [Example](https://app.0xsplits.xyz/accounts/0x8427e46826a520b1264B55f31fCB5DDFDc31E349/)
 
@@ -28,21 +29,35 @@ your own NFT project by forking
 ## How It Works
 
 - When a Liquid Split is created, an ERC-1155 contract is deployed and 1,000
-  NFTs are minted to the initial recipients.
-- Instead of sending funds to the Split contract itself, funds are instead sent
-  to the NFT contract.
-- Whenever a balance is distributed, the NFT contract will update the Split to
-  match current NFT holders and immediately distribute the balance. This means
-  that if there's a balance and you transfer your NFTs to Alice, Alice will be
-  entitled to that share of the balance.
+  NFTs are minted to the initial recipients with each recipient receiving their
+  share of the NFTs. The ERC-1155 contract is then set as the controller for a
+  mutable Split. Funds pile up in the Liquid Split contract (which is the
+  ERC-1155 contract) and whenever a balance is distributed the NFT contract
+  updates the Split to match current NFT holders and immediately distributes the
+  balance. This is done by calling
+  [`updateAndDistribute`](https://github.com/0xSplits/splits-contracts/blob/main/contracts/SplitMain.sol#L410).
+- Since there are 1,000 NFTs for each Liquid Split, ownership can be defined to
+  one tenth of a percent vs traditional Splits, which can be defined to one
+  hundreth of a percent.
+- NFTs should only be considered to represent funds that _have not yet been
+  received by the Liquid Split_. Because recipients of a Liquid Split are
+  updated at the time of a distribution, it is unsafe to assume that acquiring
+  Liquid Split NFTs will entitle someone to any portion of the current balance.
+  A seller could easily distribute the balance right before transferring you the
+  shares, causing them to receive that portion of the balance.
+- We recommend setting the distribution incentive on Liquid Splits to be
+  slightly higher (i.e., ~2-3% instead of ~1%). This is because distributions
+  require more gas given the need to both update and distribute the Split.
+- The ERC-1155 standard was used since it allows batch transfers. This means
+  that someone can transfer 1% of the Split (10 NFTs) in a single transaction
+  instead of 10 separate ones (which would be required if using the ERC-721
+  standard).
 
 ## Addresses
 
 <Tabs items={['Mainnets', 'Testnets']}>
 
 <Tab>
-
-### Mainnets
 
 <Toggle title="Ethereum - 1">
 
@@ -129,8 +144,6 @@ your own NFT project by forking
 
 <Tab>
 
-### Testnets
-
 <Toggle title="Goerli - 5">
 
 | Contract       | Address                                                                                                                             |
@@ -215,24 +228,3 @@ your own NFT project by forking
 </Tab>
 
 </Tabs>
-
-## Notes
-
-- We recommend setting the
-  [distribution incentive](/core-concepts#distributor-fee) on Liquid Splits to
-  be slightly higher (i.e., ~2-3%) than on standard Splits. This is because
-  distributions require more gas given the need to both update and distribute
-  the Split.
-- Liquid Split NFTs should only be considered to represent funds that have not
-  yet been received by the Split. Because recipients of a Liquid Split are
-  updated at the time of a distribution, it is unsafe to assume that acquiring
-  Liquid Split NFTs will entitle you to any portion of the current balance. A
-  seller could easily distribute the balance right before transferring you the
-  shares, causing them to receive that portion of the balance.
-- Since there are 1,000 NFTs for each Liquid Split, ownership can be defined to
-  one tenth of a percent vs traditional Splits, which can be defined to one
-  hundreth of a percent.
-- The ERC-1155 standard was used since it allows batch transfers. This means
-  that someone can transfer 1% of the Split (10 NFTs) in a single transaction
-  instead of 10 separate ones (which would be required if using the ERC-721
-  standard).
