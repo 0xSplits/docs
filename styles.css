@@ -12,8 +12,8 @@ html {
   html {
     font-family: 'Inter var', sans-serif;
     font-feature-settings: 'calt' 0, 'ss01' 1, 'ss02' 0;
-    font-size: 16px;
-    font-weight: 450;
+    font-size: 15px;
+    font-weight: 400;
   }
   .font-tabular {
     font-family: 'Inter var', sans-serif;
