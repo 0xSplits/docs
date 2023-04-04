@@ -36,9 +36,6 @@ your own NFT project (including adding your own artwork etc) by forking
   updates the Split to match current NFT holders and immediately distributes the
   balance. This is done by calling
   [`updateAndDistribute`](https://github.com/0xSplits/splits-contracts/blob/main/contracts/SplitMain.sol#L410).
-- Since there are 1,000 NFTs for each Liquid Split, ownership can be defined to
-  one tenth of a percent vs traditional Splits, which can be defined to one
-  hundreth of a percent.
 - NFTs should only be considered to represent funds that _have not yet been
   received by the Liquid Split_. Because recipients of a Liquid Split are
   updated at the time of a distribution, it is unsafe to assume that acquiring
