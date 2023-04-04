@@ -3,23 +3,28 @@
 This section is broken into two categories.
 
 - **Core contracts:** these are the smart contract building blocks upon which
-  all payment flows are built. There are currently three core contracts: Split,
-  Waterfall, and Vesting.
+  all payment flows are built. There are currently four core contracts:
+  [Split](/contracts/core/split), [Waterfall](/contracts/core/waterfall),
+  [Swapper](/contracts/core/swapper), and [Vesting](/contracts/core/vesting).
 - **Templates**: these are pre-built payment flows that stack multiple core
   contracts together. These templates are supported natively within the app
   since they were built by the Splits team, however, you can easily create your
-  own templates by stacking the core contacts together.
+  own templates by stacking the core contacts together. There are currently two
+  templates: [Recoup](/contracts/templates/recoup) and
+  [Liquid Split](/contracts/templates/liquid).
 
 ## Flow of funds
 
 We recommend reading the [flow of funds](/flow) page if you haven't already. The
 below diagram shows the different methods for moving funds through the system.
+Though each contract's _distribution logic_ is unique, the general three steps
+are the same.
 
 ![Flow of funds](./contracts/img/flow_of_funds.png)
 
-1. ETH and ERC20 tokens flow into the contract via `send`, `transfer`, or `call`
-   and the contract's balance increases
-2. Once a contract has a positive balance, anyone can call `distributeETH` or
-   `distributeERC20` and earn the distributor fee
-3. Anyone can call `withdraw` at anytime for any account, thereby withdrawing
-   that account's balance in SplitMain
+1. **Receive**: ETH and ERC20 tokens flow into the contract via `send`,
+   `transfer`, or `call` and the contract's balance increases
+2. **Distribute**: Once a contract has a positive balance, anyone can call
+   `distributeETH` or `distributeERC20` and earn the distributor fee
+3. **Withdraw**: can call `withdraw` at anytime for any account, thereby
+   withdrawing that account's balance in SplitMain
