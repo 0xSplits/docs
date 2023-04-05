@@ -12,7 +12,7 @@ clearing price.
 
 - [Github](https://github.com/0xSplits/splits-swapper)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-swapper/tree/main/src)
-- Related: [Oracle]()
+- Related: [Oracle](https://github.com/0xSplits/splits-oracle)
 - SDK coming soon
 
 ## How it works
@@ -20,7 +20,9 @@ clearing price.
 - Each Swapper is a payable smart contract with a specified beneficiary, output
   token (ETH or any ERC20), and oracle. The oracle is modular so be very careful
   to use a secure oracle with sensible defaults & overrides for desired
-  behavior. 0xSplits currently has one [oracle](), which uses UniswapV3 TWAP.
+  behavior. 0xSplits currently has one
+  [oracle](https://github.com/0xSplits/splits-oracle), which uses UniswapV3
+  TWAP.
 - Tokens received by Swapper are held in the contract's balance until `flash` is
   called. When `flash` is called, the caller sends the expected amount (as
   determined by the oracle) to the beneficiary in exchange for the balance in
@@ -31,7 +33,7 @@ clearing price.
   arbitrary transactions at their will. We recommend removing the owner or
   making it a multisig if this contract is being used in any trustless setting.
 
-![Swapper step chart](./img/swapper_steps.png)
+![Swapper step chart](./img/swapper_sequence.png)
 
 ## Addresses
 
