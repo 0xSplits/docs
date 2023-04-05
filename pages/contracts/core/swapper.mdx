@@ -7,8 +7,8 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 
 Swapper is a payable smart contract that converts all incoming tokens into a
 single output token. Whenever ETH and ERC20s are received by a Swapper, they're
-automatically swapped into the specified output token. The clearing price is
-determined by a modular oracle, which is configured during Swapper creation.
+automatically swapped into the specified output token according to the oracle's
+clearing price.
 
 - [Github](https://github.com/0xSplits/splits-swapper)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-swapper/tree/main/src)
@@ -28,8 +28,8 @@ determined by a modular oracle, which is configured during Swapper creation.
   balance in exchange for sending the expected value to the beneficiary.
 - Each Swapper can be owned, which means the **owner has full control of the
   deployment**. The owner may change the oracle, pause the contract, and execute
-  arbitrary transactions as their will. We recommend removing the owner if this
-  contract is being used in any trustless setting.
+  arbitrary transactions at their will. We recommend removing the owner or
+  making it a multisig if this contract is being used in any trustless setting.
 
 ![Swapper step chart](./img/swapper_steps.png)
 
