@@ -43,7 +43,7 @@ Writes, and Liquid Split Reads.
 
 ## Subgraph Reads
 
-These functions make it easier to query the [subgraph](/appendices/subgraph).
+These functions make it easier to query the [subgraph](/subgraph).
 
 ### getLiquidSplitMetadata
 
@@ -87,7 +87,7 @@ Response
 ## Liquid Split Writes
 
 These functions make it easier to call
-[Liquid Split functions](/modules/liquid).
+[Liquid Split functions](/templates/liquid).
 
 ### createLiquidSplit
 
@@ -138,7 +138,8 @@ Response
 
 ### distributeToken
 
-Distributes the current token balance for the given liquid split to the current NFT holders
+Distributes the current token balance for the given liquid split to the current
+NFT holders
 
 Usage
 
@@ -172,8 +173,8 @@ Response
 
 ### transferOwnership
 
-Transfer ownership of the given liquid split to the `newOwner`. Only callable by the owner
-of the liquid split contract.
+Transfer ownership of the given liquid split to the `newOwner`. Only callable by
+the owner of the liquid split contract.
 
 Usage
 
@@ -205,9 +206,9 @@ Response
 
 ## Gas Estimation
 
-The client has a gas estimation feature that can be used with any of the above write functions.
-Just call the function off of the `estimateGas` property. Estimating the gas for the create 
-liquid split function would look like:
+The client has a gas estimation feature that can be used with any of the above
+write functions. Just call the function off of the `estimateGas` property.
+Estimating the gas for the create liquid split function would look like:
 
 ```js
 const args = {
@@ -231,7 +232,7 @@ const gasEstimate = await liquidSplitClient.estimateGas.createLiquidSplit(args)
 ## Liquid Split Reads
 
 These functions make it easier to query the
-[Liquid Split contracts](/modules/liquid).
+[Liquid Split contracts](/templates/liquid).
 
 ### getDistributorFee
 
@@ -355,7 +356,8 @@ Response
 
 ### getScaledPercentBalanceOf
 
-Returns the current percent ownership of a given `liquidSplitId` for an `address`.
+Returns the current percent ownership of a given `liquidSplitId` for an
+`address`.
 
 Usage
 

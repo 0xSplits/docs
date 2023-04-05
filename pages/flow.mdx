@@ -13,7 +13,7 @@ using the contract's address. You can paste this address into any third-party
 platform or contract, including exchanges and others with hard gas limits. Funds
 received by a contract will be stored as a balance until a distribution occurs.
 You can learn more about sending funds to a contract [here](/use) and technical
-details are [here](/contracts/core/split).
+details are [here](/core).
 
 ## Distributing
 
@@ -21,30 +21,31 @@ When a distribution occurs, funds sitting in the contract's balance will be
 allocated to each recipient's account in the protocol according to the rules of
 the contract. For example, when a Split is distributed the funds are allocated
 according to pre-defined percentages, whereas when a Waterfall is distributed
-funds are allocated sequentially according to the payout schedule. Most people
-won't need to worry about this step, since any contract with a bounty will
-eventually be distributed automatically by a bot or arbitrageur.
+funds are allocated sequentially according to the payout schedule.
+
+Instructions for distributing balances using the app are [here](/distribute),
+however, most people won't need to worry about this step since any contract with
+a bounty will eventually be distributed automatically by a bot or arbitrageur.
 
 <Toggle title="Why is this step necessary?">
   The distribution step exists to maximize **composability and reliability**.
   The alternative, where funds are "pushed" to end recipients immediately upon
   being received by the contract, is expensive, unreliable, and insecure.
-  Industry best practices recommend following a pull model
-  [[1](https://consensys.github.io/smart-contract-best-practices/development-recommendations/general/external-calls/#favor-pull-over-push-for-external-calls),
-  [2](https://fravoll.github.io/solidity-patterns/pull_over_push.html)],
-  particularly when it comes to payments. This added step is mitigated by adding
-  a bounty on the contract, which creates an arbitrage opportunity and
-  incentivizes third parties to execute distributions automatically.
+  Industry best practices recommend following a pull model, particularly when it
+  comes to payments.[^1] [^2] This added step is mitigated by adding a bounty on
+  the contract, which creates an arbitrage opportunity and incentivizes third
+  parties to execute distributions automatically.
 </Toggle>
 
 ## Withdrawing
 
 Once a contract's balance has been distributed, funds are ready to be withdrawn
 to any of the recipients' wallets. Since funds pile up in one place, withdrawing
-transfers _all funds_ from _all the contracts_ for a recipient. This saves
-people from having to initiate separate withdrawals for each contract they earn
-from. Since anyone can withdraw on behalf of any recipient, recipients can be
-any account, smart contract, or exchange address.
+transfers _all the funds_ across _all the contracts_ for a given recipient. This
+saves people from having to initiate separate withdrawals for each contract they
+earn from. Since anyone can withdraw on behalf of any recipient (instructions
+[here](/withdraw)), recipients can be any account, smart contract, or exchange
+address.
 
 <Toggle title="Why is this step necessary?">
   In addition to being more secure (discussed above), this step maximizes **gas
@@ -56,3 +57,11 @@ any account, smart contract, or exchange address.
   pull-based withdraw step, the longer you wait to withdraw your funds, the more
   funds pile up, and the more gas you save.
 </Toggle>
+
+<br />
+<br />
+[^1]: [Smart contract best
+practices](https://consensys.github.io/smart-contract-best-practices/development-recommendations/general/external-calls/#favor-pull-over-push-for-external-calls)
+
+[^2]:
+    [Pull over push](https://fravoll.github.io/solidity-patterns/pull_over_push.html)

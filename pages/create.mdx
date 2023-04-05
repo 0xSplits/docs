@@ -5,12 +5,12 @@ understand how funds move through the system and the various steps.
 
 ## Building blocks
 
-There are three core smart contract building blocks upon which all payment flows
-within 0xSplits are created: Split, Waterfall, and Vesting. You can stack these
-blocks together in whatever order makes sense for your specific needs. These
-building blocks are intentionally unopionated, however, for more opinionated
-payment flows we've also created [Templates](#templates), which stack frequently
-used blocks together.
+There are two core smart contract building blocks upon which all payment flows
+within 0xSplits are created: Split and Waterfall. You can stack these blocks
+together in whatever order makes sense for your specific needs. These building
+blocks are intentionally unopionated, however, for more opinionated payment
+flows we've also created [Templates](#templates), which stack frequently used
+blocks together.
 
 import { Card, Cards } from 'nextra-theme-docs'
 
@@ -27,10 +27,11 @@ import { Card, Cards } from 'nextra-theme-docs'
 
 ### Split
 
-A Split is a smart contract that distributes funds according to pre-set
+Split is a smart contract that distributes funds according to pre-set
 percentages. It's an **equity-like structure** that can be plugged into any
-payment flow you need. To create one, just enter in two or more recipients and
-make sure shares add to 100%.
+payment flow you need. To create one, just head to
+[split.new](https://app.0xsplits.xyz/new/split/), enter in two or more
+recipients, and make sure shares add to 100%.
 
 ![Split form inputs](./img/create_split_form.png)
 
@@ -43,26 +44,32 @@ change, we recommend not adding an admin since **a Split is only as trustworthy
 as the admin**.
 
 - [Create a Split](https://app.0xsplits.xyz/new/split)
-- [Technical docs](/contracts/core/split)
+- [Technical docs](/core/split)
 - [Contracts](https://github.com/0xSplits/splits-contracts)
 
 ### Waterfall
 
-A Waterfall allows you to define the order & amount different accounts are paid.
+Waterfall allows you to define the order & amount different accounts are paid.
 It is a **debt-like structure** that is useful whenever one account shoud be
-paid _before_ another account. You can pair Waterfall with Splits, and the
-[Recoup template](#recoup) makes this easy.
+paid _before_ another account. Waterfall is modular so you can pair it with
+Splits, which is exactly what the [Recoup template](#recoup) does.
 
 ![Split form inputs](./img/create_waterfall_form.png)
 
 A Waterfall has multiple levels called tranches, each with a limit and a
-recipient. The limit is the highest amount the recipient can get, and they
+recipient. The limit is the maximum amount that recipient will receive, and they
 receive it only when the previous tranche limit is reached. This pattern
 continues until all the tranches are filled, at which point any extra funds go
 to the final tranche recipient.
 
+You can create one by heading to
+[waterfall.new](https://app.0xsplits.xyz/new/waterfall) and entering in the
+permitted token and add as many tranches as you'd like. The above example has
+two tranches, with the first 500 DAI going to ethglobal.eth and all subsequent
+DAI going to theprotocolguild.eth.
+
 - [Create a Waterfall](https://app.0xsplits.xyz/new/waterfall)
-- [Technical docs](/contracts/core/waterfall)
+- [Technical docs](/core/waterfall)
 - [Contracts](https://github.com/0xSplits/splits-waterfall)
 
 ## Templates
@@ -85,25 +92,24 @@ creation form and account detail view in the app.
 ### Recoup
 
 Recoup allows you to repay one group before splitting profits with another. It
-makes it easy to create a Waterfall that points to a number of Splits. This is
-particularly useful if you want to repay one group before splitting profits with
-another. Just enter in the token and amount you wish to recoup, and then add
-recipients for each tier. As long as there are two or more recipients in a tier,
-the Recoup will automatically deploy the necessary Split(s) upon creation.
+makes it easy to create a Waterfall that points to a number of Splits. Just
+enter in the token and amount you wish to recoup, and then add recipients for
+each tier. As long as there are two or more recipients in a tier, the Recoup
+will automatically deploy the necessary Split(s) upon creation.
 
 ![Split form inputs](./img/create_recoup_form.png)
 
 - [Create a Recoup](https://app.0xsplits.xyz/new/recoup)
-- [Technical docs](/contracts/templates/recoup)
+- [Technical docs](/templates/recoup)
 - [Contracts](https://github.com/0xSplits/splits-recoup)
 
 ### Liquid Split
 
-A Liquid Split utilizes NFTs to represent ownership in a Split. This enables
+A Liquid Split utilizes NFTs to represent ownership in a Split, allowing
 recipients to transfer their shares to others. This works by combining an
 ERC-1155 NFT contract with a Split, and making the NFT contract the admin of the
 Split. Whenever funds are distributed within the Split, it looks at the holders
-of the NFTs and updates the recipients accordingly.
+of the NFTs and updates the recipients to match.
 
 When you create a Liquid Split, just specify the _initial_ recipients and create
 the Split as you normally would. Upon creation, each recipient will receive
@@ -112,5 +118,5 @@ recipient, they will receive 200 NFTs (20% of 1,000 = 200). Alice can then
 transfer their shares however they want.
 
 - [Create a Liquid Split](https://app.0xsplits.xyz/new/split/?type=liquid)
-- [Technical docs](/contracts/templates/liquid)
+- [Technical docs](/templates/liquid)
 - [Contracts](https://github.com/0xSplits/splits-liquid)

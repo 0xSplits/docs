@@ -43,7 +43,7 @@ Writes, and Waterfall Reads.
 
 ## Subgraph Reads
 
-These functions make it easier to query the [subgraph](/appendices/subgraph).
+These functions make it easier to query the [subgraph](/subgraph).
 
 ### getWaterfallMetadata
 
@@ -90,8 +90,7 @@ Response
 
 ## Waterfall Writes
 
-These functions make it easier to call
-[Waterfall functions](/modules/waterfall).
+These functions make it easier to call [Waterfall functions](/core/waterfall).
 
 ### createWaterfallModule
 
@@ -251,9 +250,9 @@ Response
 
 ## Gas Estimation
 
-The client has a gas estimation feature that can be used with any of the above write functions.
-Just call the function off of the `estimateGas` property. Estimating the gas for the create 
-waterfall module function would look like:
+The client has a gas estimation feature that can be used with any of the above
+write functions. Just call the function off of the `estimateGas` property.
+Estimating the gas for the create waterfall module function would look like:
 
 ```js
 const args = {
@@ -279,7 +278,7 @@ const gasEstimate = await waterfallClient.estimateGas.createWaterfallModule(args
 ## Waterfall Reads
 
 These functions make it easier to query the
-[Waterfall contracts](/modules/waterfall).
+[Waterfall contracts](/core/waterfall).
 
 ### getDistributedFunds
 

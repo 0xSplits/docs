@@ -3,7 +3,7 @@
     "title": "Introduction",
     "theme": {
       "breadcrumb": false,
-      "toc": true
+      "toc": false
     }
   },
   "flow": {
@@ -15,7 +15,7 @@
   },
   "users": {
     "type": "separator",
-    "title": "Users"
+    "title": "App"
   },
   "start": {
     "title": "Getting started",
@@ -49,10 +49,22 @@
   },
   "developers": {
     "type": "separator",
-    "title": "Developers"
+    "title": "Dev tools"
   },
-  "dev": "Developer tools",
-  "contracts": "Contracts",
+  "sdk": {
+    "title": "SDK",
+    "theme": {
+      "collapsed": true
+    }
+  },
+  "react": "React SDK",
+  "subgraph": "Subgraph",
+  "protocol": {
+    "type": "separator",
+    "title": "Contracts"
+  },
+  "core": "Core contracts",
+  "templates": "Templates",
   "appendices": "Appendices",
   "launch_app": {
     "type": "page",

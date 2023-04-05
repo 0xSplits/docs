@@ -26,7 +26,7 @@ Writes, and SplitMain Reads.
 
 ## Subgraph Reads
 
-These functions make it easier to query the [subgraph](/appendices/subgraph).
+These functions make it easier to query the [subgraph](/subgraph).
 
 ### getSplitMetadata
 
@@ -137,13 +137,13 @@ Response
 
 Returns token balances for a given `splitId`.
 
-NOTE: Fetching active balances optionally takes an `erc20TokenList` argument. If the
-provider is not Alchemy or Infura, that token list is required. If the token list is
-passed in, balances will only be fetched for tokens in that list (as well as the native
-token and any previously distributed tokens). Otherwise, all erc20 transfers to the
-split address will be reviewed with a `getLogs` request, but only Alchemy and Infura
-support a large enough `getLogs` request.
-You can disable fetching active balances by passing in `includeActiveBalances: false`.
+NOTE: Fetching active balances optionally takes an `erc20TokenList` argument. If
+the provider is not Alchemy or Infura, that token list is required. If the token
+list is passed in, balances will only be fetched for tokens in that list (as
+well as the native token and any previously distributed tokens). Otherwise, all
+erc20 transfers to the split address will be reviewed with a `getLogs` request,
+but only Alchemy and Infura support a large enough `getLogs` request. You can
+disable fetching active balances by passing in `includeActiveBalances: false`.
 
 Usage
 
@@ -214,9 +214,6 @@ Response
 ```
 
 ## SplitMain Writes
-
-These functions make it easier to call
-[SplitMain functions](/smartcontracts/SplitMain).
 
 ### createSplit
 
@@ -475,7 +472,7 @@ Usage
 
 ```js
 const args = {
-  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
 }
 
 const response = await splitsClient.acceptControlTransfer(args)
@@ -505,7 +502,7 @@ Usage
 
 ```js
 const args = {
-  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
 }
 
 const response = await splitsClient.cancelControlTransfer(args)
@@ -535,7 +532,7 @@ Usage
 
 ```js
 const args = {
-  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
 }
 
 const response = await splitsClient.makeSplitImmutable(args)
@@ -559,24 +556,25 @@ Response
 
 ### batchDistributeAndWithdraw
 
-Performs a multicall transaction, will distribute multiple tokens on a split and withdraw for any given addresses.
+Performs a multicall transaction, will distribute multiple tokens on a split and
+withdraw for any given addresses.
 
 Usage
 
 ```js
 const args = {
-  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
   tokens: [
-    "0x0000000000000000000000000000000000000000",
-    "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    '0x0000000000000000000000000000000000000000',
+    '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   ],
   recipientAddresses: [
-    "0x39883c6e81e273f381bffe5a8c26c3a866ff57ca",
-    "0xeb78334dfde3afbc2b904f06153f59cc80ee07fa",
-    "0x6b48ad78a26604b9e158a07ec4abb2981842e168",
-    "0xc3313847E2c4A506893999f9d53d07cDa961a675",
+    '0x39883c6e81e273f381bffe5a8c26c3a866ff57ca',
+    '0xeb78334dfde3afbc2b904f06153f59cc80ee07fa',
+    '0x6b48ad78a26604b9e158a07ec4abb2981842e168',
+    '0xc3313847E2c4A506893999f9d53d07cDa961a675',
   ],
-  distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
+  distributorAddress: '0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72',
 }
 
 const response = await splitsClient.batchDistributeAndWithdraw(args)
@@ -603,18 +601,19 @@ Response
 
 ### batchDistributeAndWithdrawForAll
 
-Performs a multicall transaction, will distribute multiple tokens on a split and withdraw for all recipients.
+Performs a multicall transaction, will distribute multiple tokens on a split and
+withdraw for all recipients.
 
 Usage
 
 ```js
 const args = {
-  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
   tokens: [
-    "0x0000000000000000000000000000000000000000",
-    "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    '0x0000000000000000000000000000000000000000',
+    '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   ],
-  distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
+  distributorAddress: '0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72',
 }
 
 const response = await splitsClient.batchDistributeAndWithdrawForAll(args)
@@ -640,9 +639,9 @@ Response
 
 ## Gas Estimation
 
-The client has a gas estimation feature that can be used with any of the above write functions.
-Just call the function off of the `estimateGas` property. Estimating the gas for the create 
-split function would look like:
+The client has a gas estimation feature that can be used with any of the above
+write functions. Just call the function off of the `estimateGas` property.
+Estimating the gas for the create split function would look like:
 
 ```js
 const args = {
@@ -664,8 +663,6 @@ const gasEstimate = await splitsClient.estimateGas.createSplit(args)
 ```
 
 ## SplitMain Reads
-
-These functions make it easier to query [SplitMain](/smartcontracts/SplitMain).
 
 ### getSplitBalance
 

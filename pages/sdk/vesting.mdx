@@ -43,7 +43,7 @@ Writes, and Vesting Reads.
 
 ## Subgraph Reads
 
-These functions make it easier to query the [subgraph](/appendices/subgraph).
+These functions make it easier to query the [subgraph](/subgraph).
 
 ### getVestingMetadata
 
@@ -94,8 +94,7 @@ Response
 
 ## Vesting Writes
 
-These functions make it easier to call
-[Vesting functions](/modules/vesting).
+These functions make it easier to call [Vesting functions](/core/vesting).
 
 ### createVestingModule
 
@@ -105,7 +104,7 @@ Usage
 
 ```js
 const args = {
-  beneficiary: "0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC",
+  beneficiary: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
   vestingPeriodSeconds: 31536000,
 }
 
@@ -141,8 +140,8 @@ const args = {
   vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
   tokens: [
     '0x0000000000000000000000000000000000000000',
-    '0x64d91f12ece7362f91a6f8e7940cd55f05060b92'
-  ]
+    '0x64d91f12ece7362f91a6f8e7940cd55f05060b92',
+  ],
 }
 
 const response = await vestingClient.startVest(args)
@@ -173,8 +172,8 @@ Usage
 
 ```js
 const args = {
-  vestingModuleId: "0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1",
-  streamIds: ["0", "1"],
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  streamIds: ['0', '1'],
 }
 
 const response = await vestingClient.releaseVestedFunds(args)
@@ -199,13 +198,13 @@ Response
 
 ## Gas Estimation
 
-The client has a gas estimation feature that can be used with any of the above write functions.
-Just call the function off of the `estimateGas` property. Estimating the gas for the create 
-vesting module function would look like:
+The client has a gas estimation feature that can be used with any of the above
+write functions. Just call the function off of the `estimateGas` property.
+Estimating the gas for the create vesting module function would look like:
 
 ```js
 const args = {
-  beneficiary: "0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC",
+  beneficiary: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
   vestingPeriodSeconds: 31536000,
 }
 
@@ -214,18 +213,18 @@ const gasEstimate = await vestingClient.estimateGas.createVestingModule(args)
 
 ## Vesting Reads
 
-These functions make it easier to query the
-[Vesting contracts](/modules/vesting).
+These functions make it easier to query the [Vesting contracts](/core/vesting).
 
 ### predictVestingModuleAddress
 
-Returns the vesting module address, and whether it exists yet, for the given beneficiary and vesting period.
+Returns the vesting module address, and whether it exists yet, for the given
+beneficiary and vesting period.
 
 Usage
 
 ```js
 const args = {
-  beneficiary: "0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC",
+  beneficiary: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
   vestingPeriodSeconds: 31536000,
 }
 
@@ -344,7 +343,8 @@ Response
 
 ### getVestedAndUnreleasedAmount
 
-Returns the vested and unreleased amount for a given `vestingModuleId` and `streamId`.
+Returns the vested and unreleased amount for a given `vestingModuleId` and
+`streamId`.
 
 Usage
 

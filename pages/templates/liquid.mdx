@@ -1,4 +1,4 @@
-import { Toggle } from '../../../components/toggle'
+import { Toggle } from '../../components/toggle'
 import { Tab, Tabs } from 'nextra-theme-docs'
 import { Callout } from 'nextra-theme-docs'
 
@@ -9,17 +9,17 @@ import { Callout } from 'nextra-theme-docs'
 Unlike standard Splits where ownership is manually controlled, Liquid Splits use
 NFTs to make ownership tranferrable. This allows each recipient to control their
 share of the Split themselves. This template uses an ERC-1155 NFT contract and a
-mutable [Split](/contracts/core/split). You can integrate Liquid Splits into
-your own NFT project (including adding your own artwork etc) by forking
+mutable [Split](/core/split). You can integrate Liquid Splits into your own NFT
+project (including adding your own artwork etc) by forking
 [this repo](https://github.com/0xSplits/splits-liquid-template).
 
 - [Creation form](https://app.0xsplits.xyz/new/split/?type=liquid)
 - [Contracts & NatSpec](https://github.com/0xSplits/splits-liquid/tree/master/src)
 - [Github](https://github.com/0xSplits/splits-liquid)
-- Related: [Split](/contracts/core/split),
-  [ERC-1155](https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/)
-- [SDK](/dev/sdk/liquid)
+- [SDK](/sdk/liquid)
 - [Example](https://app.0xsplits.xyz/accounts/0x8427e46826a520b1264B55f31fCB5DDFDc31E349/)
+- Related: [Split](/core/split),
+  [ERC-1155](https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/)
 
 <Callout type="warning" emoji="⚠️">
   When adding this functionality to your contracts, if `sum(percentAllocations)
