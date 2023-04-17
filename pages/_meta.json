@@ -65,7 +65,12 @@
   },
   "core": "Core contracts",
   "templates": "Templates",
-  "appendices": "Appendices",
+  "appendices": {
+    "title": "Appendices",
+    "theme": {
+      "collapsed": true
+    }
+  },
   "launch_app": {
     "type": "page",
     "title": "Launch App",
