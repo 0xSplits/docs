@@ -22,9 +22,8 @@ price.
   **use a secure oracle** with sensible defaults & overrides for desired
   behavior. 0xSplits currently offers one
   [oracle](https://github.com/0xSplits/splits-oracle), which uses UniswapV3
-  TWAP, but you can use whatever oracle you'd like as long as it complies with
-  the
-  [interface](https://github.com/0xSplits/splits-oracle/blob/main/src/interfaces/IOracle.sol).
+  TWAP, but you can use whatever oracle you'd like as long as it extends
+  [this abstract contract](https://github.com/0xSplits/splits-oracle/blob/main/src/OracleImpl.sol).
 - Tokens received by Swapper are held in the contract's balance until `flash` is
   called. When `flash` is called, the caller sends the expected amount (as
   determined by the oracle) to the beneficiary in exchange for the balance in
