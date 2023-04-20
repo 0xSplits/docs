@@ -23,10 +23,10 @@ into a stablecoin and set aside for taxes. This template simply stacks a
   specified output token. That's all there is to it, so if that sounds
   complicated we recommend you review the Split and Swapper contracts.
 - Tokens received by Diversifier are held in the contract's balance until
-  `distribute` is called. When `distribute` is called, the balance is split
-  according to the set percentages. Tokens are then transferred to each Swapper,
-  where they're converted into the desired output tokens and sent to the
-  beneficiaries.
+  `distributeETH` or `distributeERC20` is called. When this happens, the balance
+  is split according to the set percentages. Tokens are then transferred to each
+  Swapper, where they're converted into the desired output tokens and sent to
+  the beneficiaries.
 - Each Diversified can be owned, which means the owner has full control of the
   deployment. The owner may modify the Split, change the oracles, pause the
   Swappers, and execute arbitrary transactions at their will. We recommend
