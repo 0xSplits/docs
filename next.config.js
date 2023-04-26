@@ -8,4 +8,21 @@ const withNextra = require('nextra')({
   },
   defaultShowCopyCode: true,
 })
-module.exports = withNextra({})
+module.exports = withNextra({
+  async redirects() {
+    return [
+      {
+        source: '/sdk-info',
+        destination: '/sdk',
+        permanent: false,
+      },
+      // Just redirect any slug to the main page for now, not sure if they map
+      // the same
+      {
+        source: '/sdk-info/:slug*',
+        destination: '/sdk',
+        permanent: false,
+      },
+    ]
+  },
+})
