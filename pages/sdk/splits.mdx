@@ -178,6 +178,54 @@ Response
 }
 ```
 
+### getFormattedSplitEarnings
+
+Returns the same data as `getSplitEarnings`, but includes token data as well as a
+formatted amount.
+
+Usage
+
+```js
+const args = {
+  splitId: '0xF8843981e7846945960f53243cA2Fd42a579f719',
+}
+
+const response = await splitsClient.getFormattedSplitEarnings(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitId: string
+  includeActiveBalances?: boolean # defaults to true
+  erc20TokenList?: string[]
+}
+```
+
+Response
+
+```graphql
+{
+  activeBalances?: { # tokens that are waiting to be distributed
+    [token: string]: {
+      symbol: string
+      decimals: number
+      rawAmount: BigNumber
+      formattedAmount: string
+    }
+  }
+  distributed: { # tokens that have already been distributed
+    [token: string]: {
+      symbol: string
+      decimals: number
+      rawAmount: BigNumber
+      formattedAmount: string
+    }
+  }
+}
+```
+
 ### getUserEarnings
 
 Returns token balances for a given `userId`.
@@ -209,6 +257,52 @@ Response
   }
   activeBalances: { # tokens that have been distributed but not yet withdrawn
     [token: string]: BigNumber
+  }
+}
+```
+
+### getFormattedUserEarnings
+
+Returns the same data as `getUserEarnings`, but includes token data as well as a
+formatted amount.
+
+Usage
+
+```js
+const args = {
+  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+}
+
+const response = await splitsClient.getFormattedUserEarnings(args)
+```
+
+Arguments
+
+```graphql
+{
+  userId: string
+}
+```
+
+Response
+
+```graphql
+{
+  withdrawn: { # tokens the user has already withdrawn from the protocol
+    [token: string]: {
+      symbol: string
+      decimals: number
+      rawAmount: BigNumber
+      formattedAmount: string
+    }
+  }
+  activeBalances: { # tokens that have been distributed but not yet withdrawn
+    [token: string]: {
+      symbol: string
+      decimals: number
+      rawAmount: BigNumber
+      formattedAmount: string
+    }
   }
 }
 ```

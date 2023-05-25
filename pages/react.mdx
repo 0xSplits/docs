@@ -87,6 +87,22 @@ Usage
 const { splitMetadata, isLoading } = useSplitMetadata(splitId)
 ```
 
+### useSplitEarnings
+
+Fetches the given split's earnings from the subgraph. Will also optionally fetch
+active balances. See `getSplitEarnings` for more information on the input options.
+
+Usage
+
+```js
+const { splitEarnings, formattedSplitEarnings, isLoading } = useSplitMetadata(
+  splitId,
+  includeActiveBalances,
+  erc20TokenList,
+  formatted
+)
+```
+
 ### useLiquidSplitMetadata
 
 Fetches the given liquid split from the subgraph
