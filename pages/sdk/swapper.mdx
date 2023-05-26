@@ -1,0 +1,556 @@
+# Swapper
+
+Begin by importing `SwapperClient` into your app. If you are using the
+`SplitsClient`, you can access the swapper client as well.
+
+```js
+import { SwapperClient } from '@0xsplits/splits-sdk'
+
+const swapperClient = new SwapperClient({
+  chainId,
+  provider, // ethers provider (optional, required if using any of the contract functions)
+  signer, // ethers signer (optional, required if using the contract write functions)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for swapper recipients (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
+  // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
+  // other chain for non EOAs (e.g. Gnosis Safe's)
+  ensProvider, // ethers provider (optional)
+})
+```
+
+OR
+
+```js
+import { SplitsClient } from '@0xsplits/splits-sdk'
+
+const splitsClient = new SplitsClient({
+  chainId,
+  provider,
+  signer,
+  includeEnsNames,
+  ensProvider,
+})
+
+const swapperClient = splitsClient.swapper
+```
+
+Now you're ready to use any of the functions. All Arguments and Responses for
+these functions are `objects`. This will make it easier for us to release
+updates to the SDK without breaking existing implementations.
+
+The SDK comprises 3 different types of functions: Subgraph Reads, Swapper
+Writes, and Swapper Reads.
+
+## Subgraph Reads
+
+These functions make it easier to query the [subgraph](/subgraph).
+
+### getSwapperMetadata
+
+Returns all metadata for a given `swapperId`.
+
+Usage
+
+```js
+const args = {
+  swapperId: '0x0000000000000000000000000000000000000000',
+}
+
+const response = await swapperClient.getSwapperMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+}
+```
+
+Response
+
+```graphql
+{
+  type: 'Swapper'
+  id: string
+  beneficiary: {
+    address: string
+    ens?: string
+  }
+  tokenToBeneficiary: {
+    address: string
+  }
+  owner: {
+    address: string
+    ens?: string
+  }
+  paused: boolean
+  defaultScaledOfferFactorPercent: number
+  scaledOfferFactorOverrides: {
+    baseToken: string
+    quoteToken: string
+    scaledOfferFactorPercent: number
+  }[]
+}
+```
+
+## Swapper Writes
+
+These functions make it easier to call [Swapper functions](/core/swapper).
+
+### createSwapper
+
+Creates a new Swapper contract.
+
+Usage
+
+```js
+const args = {
+  beneficiary: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+  defaultScaledOfferFactorPercent: 1,
+  scaledOfferFactorOverrides: [
+    {
+      baseToken: "0x0000000000000000000000000000000000000000",
+      quoteToken: "0x0000000000000000000000000000000000000000",
+      scaledOfferFactorPercent: 0.1,
+    }
+  ],
+  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  oracleParams: {
+    address: "0x0000000000000000000000000000000000000000",
+  },
+}
+
+const response = await waterfallClient.createWaterfallModule(args)
+```
+
+Arguments
+
+```graphql
+{
+  beneficiary: string
+  tokenToBeneficiary: string
+  defaultScaledOfferFactorPercent: number
+  scaledOfferFactorOverrides: {
+    baseToken: string
+    quoteToken: string
+    scaledOfferFactorPercent: number
+  }[]
+  owner: string
+  paused?: boolean # defaults to false
+  oracleParams: {
+    address?: string
+    createOracleParams?: {
+      factory: string
+      data: string
+    }
+  }
+}
+```
+
+Response
+
+```graphql
+{
+  swapperId: string
+  event: Event # CreateSwapper emitted on SwapperFactory
+}
+```
+
+### uniV3FlashSwap
+
+Swaps the given tokens for the Swapper's output token. Uses 0xSplits' integration trader contract to trade with
+UniswapV3.
+
+Usage
+
+```js
+const args = {
+  swapperId: '0x0000000000000000000000000000000000000000',
+}
+
+const response = await swapperClient.uniV3FlashSwap(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+  # Will receive the excess funds from the uniswap trade after the swapper beneficiary gets their expected output
+  excessRecipient?: string # defaults to signer
+  # Inputs required for the exact input function for Uniswap V3
+  # See: https://docs.uniswap.org/contracts/v3/guides/swaps/multihop-swaps
+  inputAssets: {
+    encodedPath: string
+    token: string
+    amountIn: BigNumber
+    amountOutMin: BigNumber
+  }[]
+  transactionTimeLimit?: number # In seconds
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # Flash emitted on the Swapper contract
+}
+```
+
+### execCalls
+
+Execute the given list of calls from the Swapper. Only callable by the Swapper owner.
+
+Usage
+
+```js
+const args = {
+  swapperId: "0x0000000000000000000000000000000000000000",
+  calls: [
+    {
+      to: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
+      value: BigNumber.from(1),
+      data: "0x0",
+    }
+  ]
+}
+
+const response = await swapperClient.execCalls(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+  calls: {
+    to: string
+    value: BigNumber
+    data: string
+  }[]
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # ExecCalls on the Swapper contract
+}
+```
+
+### setPaused
+
+Updates the pause state of the contract, which blocks executing swaps (except for the contract owner).
+Only callable by the Swapper owner.
+
+Usage
+
+```js
+const args = {
+  swapperId: "0x0000000000000000000000000000000000000000",
+  paused: true,
+}
+
+const response = await swapperClient.setPaused(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+  paused: boolean
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # SetPaused emitted on the Swapper contract
+}
+```
+
+### setBeneficiary
+
+Updates the beneficiary of the swapper. Only callable by the Swapper owner.
+
+Usage
+
+```js
+const args = {
+  swapperId: "0x0000000000000000000000000000000000000000",
+  beneficiary: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
+}
+
+const response = await swapperClient.setBeneficiary(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+  beneficiary: string
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # SetBeneficiary emitted on the Swapper contract
+}
+```
+
+### setTokenToBeneficiary
+
+Updates the token to the beneficiary of the swapper. Only callable by the Swapper owner.
+
+Usage
+
+```js
+const args = {
+  swapperId: "0x0000000000000000000000000000000000000000",
+  tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+}
+
+const response = await swapperClient.setTokenToBeneficiary(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+  tokenToBeneficiary: string
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # SetTokenToBeneficiary emitted on the Swapper contract
+}
+```
+
+### setOracle
+
+Updates the oracle of the swapper. Only callable by the Swapper owner.
+
+Usage
+
+```js
+const args = {
+  swapperId: "0x0000000000000000000000000000000000000000",
+  oracle: "0x0000000000000000000000000000000000000000",
+}
+
+const response = await swapperClient.setOracle(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+  oracle: string
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # SetOracle emitted on the Swapper contract
+}
+```
+
+### setDefaultScaledOfferFactor
+
+Updates the default scaled offer factor of the swapper. Only callable by the Swapper owner.
+
+Usage
+
+```js
+const args = {
+  swapperId: "0x0000000000000000000000000000000000000000",
+  defaultScaledOfferFactorPercent: 1,
+}
+
+const response = await swapperClient.setDefaultScaledOfferFactor(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+  defaultScaledOfferFactorPercent: number
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # SetDefaultScaledOfferFactor emitted on the Swapper contract
+}
+```
+
+## Gas Estimation
+
+The client has a gas estimation feature that can be used with any of the above
+write functions. Just call the function off of the `estimateGas` property.
+Estimating the gas for the create swapper function would look like:
+
+```js
+const args = {
+  beneficiary: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+  defaultScaledOfferFactorPercent: 1,
+  scaledOfferFactorOverrides: [
+    {
+      baseToken: "0x0000000000000000000000000000000000000000",
+      quoteToken: "0x0000000000000000000000000000000000000000",
+      scaledOfferFactorPercent: 0.1,
+    }
+  ],
+  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  oracleParams: {
+    address: "0x0000000000000000000000000000000000000000",
+  },
+}
+
+const gasEstimate = await swapperClient.estimateGas.createSwapper(args)
+```
+
+## Swapper Reads
+
+These functions make it easier to query the
+[Swapper contracts](/core/swapper).
+
+### getBeneficiary
+
+Returns the beneficiary for a given `swapperId`.
+
+Usage
+
+```js
+const args = {
+  swapperId: '0x0000000000000000000000000000000000000000',
+}
+
+const response = await swapperClient.getBeneficiary(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+}
+```
+
+Response
+
+```graphql
+{
+  beneficiary: string
+}
+```
+
+### getTokenToBeneficiary
+
+Returns the token to beneficiary for a given `swapperId`.
+
+Usage
+
+```js
+const args = {
+  swapperId: '0x0000000000000000000000000000000000000000',
+}
+
+const response = await swapperClient.getTokenToBeneficiary(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+}
+```
+
+Response
+
+```graphql
+{
+  tokenToBeneficiary: string
+}
+```
+
+### getOracle
+
+Returns the oracle for a given `swapperId`.
+
+Usage
+
+```js
+const args = {
+  swapperId: '0x0000000000000000000000000000000000000000',
+}
+
+const response = await swapperClient.getOracle(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+}
+```
+
+Response
+
+```graphql
+{
+  oracle: string
+}
+```
+
+### getDefaultScaledOfferFactor
+
+Returns the default scaled offer factor for a given `swapperId`.
+
+Usage
+
+```js
+const args = {
+  swapperId: '0x0000000000000000000000000000000000000000',
+}
+
+const response = await swapperClient.getDefaultScaledOfferFactor(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+}
+```
+
+Response
+
+```graphql
+{
+  defaultScaledOfferFactor: BigNumber
+}
+```
