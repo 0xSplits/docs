@@ -129,3 +129,83 @@ If you are including an existing immutable split in the create recoup input, you
 use just the Split's address and not the recipients/percent allocations for it. If you 
 pass in the recipients the transaction will fail when it goes to create that immutable
 split since it already exists.
+
+### createDiversifier
+
+Calls a helper contract that creates a new PassThroughWallet, a new Split, and potentially multiple
+Swappers. A CreateDiversifier event with the pass through wallet contract address is emitted by the
+helper contract and the Splits Subgraph will pick this up so that these Diversifiers can be displayed
+properly.
+
+Usage
+
+```js
+const args = {
+  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f"
+  oracleParams: {
+    address: "0x0000000000000000000000000000000000000000",
+  },
+  recipients: [
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+      percentAllocation: 60
+    }
+    {
+      swapperParams: {
+        beneficiary: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+        tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+        defaultScaledOfferFactorPercent: 1,
+        scaledOfferFactorOverrides: [
+          {
+            baseToken: "0x0000000000000000000000000000000000000000",
+            quoteToken: "0x0000000000000000000000000000000000000000",
+            scaledOfferFactorPercent: 0.1,
+          }
+        ],
+      },
+      percentAllocation: 40
+    }
+  ]
+}
+
+const response = await templatesClient.createRecoup(args)
+```
+
+Arguments
+
+```graphql
+{
+  owner: string
+  paused?: boolean # defaults to false
+  oracleParams: {
+    address?: string
+    createOracleParams?: {
+      factory: string
+      data: string
+    }
+  }
+  recipients: {
+    address?: string
+    swapperParams?: {
+      beneficiary: string
+      tokenToBeneficiary: string
+      defaultScaledOfferFactorPercent: number
+      scaledOfferFactorOverrides: {
+        baseToken: string
+        quoteToken: string
+        scaledOfferFactorPercent: number
+      }[]
+    }
+    percentAllocation: number
+  }[]
+}
+```
+
+Response
+
+```graphql
+{
+  passThroughWalletId: string
+  event: Event # CreateDiversifier emitted on DiversifierFactory
+}
+```
