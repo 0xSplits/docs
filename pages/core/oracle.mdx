@@ -3,17 +3,32 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 # Oracle
 
 Oracle provides an interface allowing for a customization layer on top of other
-onchain oracles.
+onchain oracles. Oracle is how [Swapper](/core/swapper) determines prices for
+different assets.
+
+Since Oracle itself is just an interface, most of these docs focus on the
+specific Oracle implementations offered by the Splits team. Currently, Splits
+offers one implementation, [UniV3Oracle](#univ3oracle).
 
 - [Github](https://github.com/0xSplits/splits-oracle)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-oracle/tree/main/src)
 - Related: [Swapper](/core/swapper), [Diversifier](/templates/diversifier)
 
-## How it works
+## UniV3Oracle
+
+This Oracle implementation uses
+[Uniswap's v3](https://docs.uniswap.org/concepts/protocol/oracle) TWAP to price
+assets.
+
+### How it works
 
 [![UniV3OracleImpl sequence diagram](https://mermaid.ink/svg/pako:eNqNk01PAjEQhv9KU0P2ICTEXT7SAwmLbOLBqDFy2suwO2Bjt13bWZQY_rv7IcICMV7aSfu870wn0y-emBS54J3OV6wZk1qSYHXImEevmKEnmLcEh173-HQBVsJSofN-8fpyZTRFkEm1rXQVpPbCRoyfNDPK2Or6ahiObsb9FpBbmYHdHpjIj4JoeIkJjU3R_unmMDE6bfkN5_NROLpMnTr2g9F40GYhIbkBkkb_Aya0JFvZp4MwiGYXoVO_wPfHs6nXkLtqK5ddpxPrWDt8L1AneCthbSFjrKGmSibYm0yuX7Rc-A8WEoV3Wa4EWyM9FYZwmplCk2twZUzO5hu0W5aDtIeaTuQ_ju4D8oX_aIxygpUdc4WiluYIKCW9syJIJm-NAHXaBOeZevUjBIOmUt7lGdoMZFpOaT1pMa8nMOaiDFNcQVUGL1tTolCQed7qhAuyBXZ5kadA-y5xsQLlylNMJRl730x-_QF234Rk7Ds?type=png)](https://mermaid.live/edit#pako:eNqNk01PAjEQhv9KU0P2ICTEXT7SAwmLbOLBqDFy2suwO2Bjt13bWZQY_rv7IcICMV7aSfu870wn0y-emBS54J3OV6wZk1qSYHXImEevmKEnmLcEh173-HQBVsJSofN-8fpyZTRFkEm1rXQVpPbCRoyfNDPK2Or6ahiObsb9FpBbmYHdHpjIj4JoeIkJjU3R_unmMDE6bfkN5_NROLpMnTr2g9F40GYhIbkBkkb_Aya0JFvZp4MwiGYXoVO_wPfHs6nXkLtqK5ddpxPrWDt8L1AneCthbSFjrKGmSibYm0yuX7Rc-A8WEoV3Wa4EWyM9FYZwmplCk2twZUzO5hu0W5aDtIeaTuQ_ju4D8oX_aIxygpUdc4WiluYIKCW9syJIJm-NAHXaBOeZevUjBIOmUt7lGdoMZFpOaT1pMa8nMOaiDFNcQVUGL1tTolCQed7qhAuyBXZ5kadA-y5xsQLlylNMJRl730x-_QF234Rk7Ds)
 
-## V1
+### Pairs
+
+The following token pairs are supported by this Oracle implementation.
+
+Coming soon
 
 ### Addresses
 
@@ -32,7 +47,3 @@ Coming soon
 </Tab>
 
 </Tabs>
-
-### Pairs
-
-The following token pairs are supported by the V1 Oracle instance.
