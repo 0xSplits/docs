@@ -17,12 +17,11 @@ price.
 ## How it works
 
 - Each Swapper is a payable smart contract with a specified beneficiary, output
-  token (ETH or any ERC20), and oracle. The oracle is modular so be careful to
-  **use a secure oracle** with sensible defaults & overrides for desired
-  behavior. 0xSplits currently offers one
-  [oracle](https://github.com/0xSplits/splits-oracle), which uses UniswapV3
-  TWAP, but you can use whatever oracle you'd like as long as it extends
-  [this abstract contract](https://github.com/0xSplits/splits-oracle/blob/main/src/OracleImpl.sol).
+  token (ETH or any ERC20), oracle, and optional owner. The oracle is modular so
+  be careful to **use a secure oracle** with sensible defaults & overrides for
+  desired behavior. You can use whatever oracle contract you'd like. Splits
+  currently offers one [oracle](/core/oracle), which uses Uniswap v3 TWAP to
+  price assets.
 - Tokens received by Swapper are held in the contract's balance until `flash` is
   called. When `flash` is called, the caller sends the expected amount (as
   determined by the oracle) to the beneficiary in exchange for the balance in
