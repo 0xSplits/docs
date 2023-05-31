@@ -95,7 +95,7 @@ active balances. See [getSplitEarnings](/sdk/splits#getsplitearnings) for more i
 Usage
 
 ```js
-const { splitEarnings, formattedSplitEarnings, isLoading } = useSplitEarnings(
+const { splitEarnings, formattedSplitEarnings, isLoading, status, error } = useSplitEarnings(
   splitId,
   includeActiveBalances, // defaults to true
   erc20TokenList, // defaults to undefined
