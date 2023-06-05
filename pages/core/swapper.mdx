@@ -6,7 +6,7 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 ![Split diagram](./img/swapper_diagram.png)
 
 Swapper is a payable smart contract that converts all incoming tokens into a
-single output token. Whenever ETH and ERC20s are received by a Swapper, they're
+single output token. When ETH and ERC20s are received by a Swapper, they're
 automatically swapped into the output token according to the oracle's clearing
 price.
 
@@ -16,9 +16,9 @@ price.
 
 ## How it works
 
-- Each Swapper is a payable smart contract with a specified beneficiary, output
-  token (ETH or any ERC20), oracle, and optional owner. The oracle is modular so
-  be careful to **use a secure oracle** with sensible defaults & overrides for
+- Each Swapper is a payable smart contract with a beneficiary, output
+  token (ETH or any ERC20), oracle, and owner. The oracle is modular so
+  be careful to **use a secure oracle** with sensible settings for your
   desired behavior. You can use whatever oracle contract you'd like. Splits
   currently offers one [oracle](/core/oracle), which uses Uniswap v3 TWAP to
   price assets.
@@ -28,7 +28,7 @@ price.
   Swapper. This means _the caller is trading with Swapper directly_, earning the
   balance in exchange for sending the expected value to the beneficiary.
 - Each Swapper can be owned, which means the **owner has full control of the
-  deployment**. The owner may change the oracle, pause the contract, and execute
+  deployment**. The owner may change the beneficiary or oracle, pause the contract, and execute
   arbitrary transactions at their will. We recommend removing the owner or
   making it a multisig if Swapper is being used in any trustless setting.
 
@@ -40,13 +40,27 @@ price.
 
 <Tab>
 
-Coming soon
+<Toggle title="Ethereum – 1">
+
+| Contract    | Address                                                                                                                      |
+| :---------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0x7fcdD45101E35fd626A539BA565d26A72d95fDa7`](https://etherscan.io/address/0x7fcdD45101E35fd626A539BA565d26A72d95fDa7#code) |
+| Factory | [`0xa244bbe019cf1BA177EE5A532250be2663Fb55cA`](https://etherscan.io/address/0xa244bbe019cf1BA177EE5A532250be2663Fb55cA#code) |
+
+</Toggle>
 
 </Tab>
 
 <Tab>
 
-Coming soon
+<Toggle title="Goerli – 5">
+
+| Contract    | Address                                                                                                                             |
+| :---------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0x7fcdD45101E35fd626A539BA565d26A72d95fDa7`](https://goerli.etherscan.io/address/0x7fcdD45101E35fd626A539BA565d26A72d95fDa7#code) |
+| Factory | [`0xa244bbe019cf1BA177EE5A532250be2663Fb55cA`](https://goerli.etherscan.io/address/0xa244bbe019cf1BA177EE5A532250be2663Fb55cA#code) |
+
+</Toggle>
 
 </Tab>
 
