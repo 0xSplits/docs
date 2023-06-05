@@ -1,3 +1,4 @@
+import { Toggle } from '../../components/toggle'
 import { Tab, Tabs } from 'nextra-theme-docs'
 
 # Oracle
@@ -8,7 +9,7 @@ different assets.
 
 Since Oracle itself is just an interface, most of these docs focus on the
 specific Oracle implementations offered by the Splits team. Currently, Splits
-offers one implementation, [UniV3Oracle](#univ3oracle).
+offers one implementation, [UniV3Oracle](#univ3oracle). We expect to offer another Chainlink-based implementation shortly.
 
 - [Github](https://github.com/0xSplits/splits-oracle)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-oracle/tree/main/src)
@@ -24,11 +25,56 @@ assets.
 
 [![UniV3OracleImpl sequence diagram](https://mermaid.ink/svg/pako:eNqNk01PAjEQhv9KU0P2ICTEXT7SAwmLbOLBqDFy2suwO2Bjt13bWZQY_rv7IcICMV7aSfu870wn0y-emBS54J3OV6wZk1qSYHXImEevmKEnmLcEh173-HQBVsJSofN-8fpyZTRFkEm1rXQVpPbCRoyfNDPK2Or6ahiObsb9FpBbmYHdHpjIj4JoeIkJjU3R_unmMDE6bfkN5_NROLpMnTr2g9F40GYhIbkBkkb_Aya0JFvZp4MwiGYXoVO_wPfHs6nXkLtqK5ddpxPrWDt8L1AneCthbSFjrKGmSibYm0yuX7Rc-A8WEoV3Wa4EWyM9FYZwmplCk2twZUzO5hu0W5aDtIeaTuQ_ju4D8oX_aIxygpUdc4WiluYIKCW9syJIJm-NAHXaBOeZevUjBIOmUt7lGdoMZFpOaT1pMa8nMOaiDFNcQVUGL1tTolCQed7qhAuyBXZ5kadA-y5xsQLlylNMJRl730x-_QF234Rk7Ds?type=png)](https://mermaid.live/edit#pako:eNqNk01PAjEQhv9KU0P2ICTEXT7SAwmLbOLBqDFy2suwO2Bjt13bWZQY_rv7IcICMV7aSfu870wn0y-emBS54J3OV6wZk1qSYHXImEevmKEnmLcEh173-HQBVsJSofN-8fpyZTRFkEm1rXQVpPbCRoyfNDPK2Or6ahiObsb9FpBbmYHdHpjIj4JoeIkJjU3R_unmMDE6bfkN5_NROLpMnTr2g9F40GYhIbkBkkb_Aya0JFvZp4MwiGYXoVO_wPfHs6nXkLtqK5ddpxPrWDt8L1AneCthbSFjrKGmSibYm0yuX7Rc-A8WEoV3Wa4EWyM9FYZwmplCk2twZUzO5hu0W5aDtIeaTuQ_ju4D8oX_aIxygpUdc4WiluYIKCW9syJIJm-NAHXaBOeZevUjBIOmUt7lGdoMZFpOaT1pMa8nMOaiDFNcQVUGL1tTolCQed7qhAuyBXZ5kadA-y5xsQLlylNMJRl730x-_QF234Rk7Ds)
 
-### Pairs
+### Token pairs
 
-The following token pairs are supported by this Oracle implementation.
+The following token pairs are supported by our default, immutable deployment of this Oracle implementation.
 
-Coming soon
+<Tabs items={['Mainnets', 'Testnets']}>
+
+<Tab>
+
+<Toggle title="Ethereum – 1">
+
+| Token Pair | Fee | Uniswap v3 Pool                                                                                               |
+| :---------- | :---------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| (W)ETH-USDC | 0.05% | [`0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640`](https://info.uniswap.org/#/pools/0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640) |
+| (W)ETH-WBTC | 0.30% | [`0xCBCdF9626bC03E24f779434178A73a0B4bad62eD`](https://info.uniswap.org/#/pools/0xCBCdF9626bC03E24f779434178A73a0B4bad62eD) |
+| USDC-DAI | 0.01% | [`0x5777d92f208679DB4b9778590Fa3CAB3aC9e2168`](https://info.uniswap.org/#/pools/0x5777d92f208679DB4b9778590Fa3CAB3aC9e2168) |
+| USDC-USDT | 0.01% | [`0x3416cF6C708Da44DB2624D63ea0AAef7113527C6`](https://info.uniswap.org/#/pools/0x3416cF6C708Da44DB2624D63ea0AAef7113527C6) |
+| (W)ETH-USDT | 0.05% | [`0x11b815efB8f581194ae79006d24E0d814B7697F6`](https://info.uniswap.org/#/pools/0x11b815efB8f581194ae79006d24E0d814B7697F6) |
+| USDC-WBTC | 0.30% | [`0x99ac8cA7087fA4A2A1FB6357269965A2014ABc35`](https://info.uniswap.org/#/pools/0x99ac8cA7087fA4A2A1FB6357269965A2014ABc35) |
+| (W)ETH-UNI | 0.30% | [`0x1d42064Fc4Beb5F8aAF85F4617AE8b3b5B8Bd801`](https://info.uniswap.org/#/pools/0x1d42064Fc4Beb5F8aAF85F4617AE8b3b5B8Bd801) |
+| USDT-WBTC | 0.30% | [`0x9Db9e0e53058C89e5B94e29621a205198648425B`](https://info.uniswap.org/#/pools/0x9Db9e0e53058C89e5B94e29621a205198648425B) |
+| (W)ETH-cbETH | 0.05% | [`0x840DEEef2f115Cf50DA625F7368C24af6fE74410`](https://info.uniswap.org/#/pools/0x840DEEef2f115Cf50DA625F7368C24af6fE74410) |
+| (W)ETH-LINK | 0.30% | [`0xa6Cc3C2531FdaA6Ae1A3CA84c2855806728693e8`](https://info.uniswap.org/#/pools/0xa6Cc3C2531FdaA6Ae1A3CA84c2855806728693e8) |
+| (W)ETH-DAI | 0.30% | [`0xC2e9F25Be6257c210d7Adf0D4Cd6E3E881ba25f8`](https://info.uniswap.org/#/pools/0xC2e9F25Be6257c210d7Adf0D4Cd6E3E881ba25f8) |
+| (W)ETH-MATIC | 0.30% | [`0x290A6a7460B308ee3F19023D2D00dE604bcf5B42`](https://info.uniswap.org/#/pools/0x290A6a7460B308ee3F19023D2D00dE604bcf5B42) |
+| (W)ETH-RPL | 0.30% | [`0xe42318eA3b998e8355a3Da364EB9D48eC725Eb45`](https://info.uniswap.org/#/pools/0xe42318eA3b998e8355a3Da364EB9D48eC725Eb45) |
+| (W)ETH-LDO | 0.30% | [`0xa3f558aebAecAf0e11cA4b2199cC5Ed341edfd74`](https://info.uniswap.org/#/pools/0xa3f558aebAecAf0e11cA4b2199cC5Ed341edfd74) |
+| (W)ETH-MKR | 0.30% | [`0xe8c6c9227491C0a8156A0106A0204d881BB7E531`](https://info.uniswap.org/#/pools/0xe8c6c9227491C0a8156A0106A0204d881BB7E531) |
+| (W)ETH-rETH | 0.05% | [`0xa4e0faA58465A2D369aa21B3e42d43374c6F9613`](https://info.uniswap.org/#/pools/0xa4e0faA58465A2D369aa21B3e42d43374c6F9613) |
+| (W)ETH-sETH2 | 0.30% | [`0x7379e81228514a1D2a6Cf7559203998E20598346`](https://info.uniswap.org/#/pools/0x7379e81228514a1D2a6Cf7559203998E20598346) |
+
+</Toggle>
+
+</Tab>
+
+<Tab>
+
+<Toggle title="Goerli – 5">
+
+| Token Pair | Fee |
+| :---------- | :---------- |
+| (W)ETH-USDC | 0.01% |
+| (W)ETH-DAI | 0.05% |
+| (W)ETH-UNI | 0.05% |
+| USDC-UNI | 0.30% |
+
+</Toggle>
+
+</Tab>
+
+</Tabs>
 
 ### Addresses
 
@@ -36,13 +82,29 @@ Coming soon
 
 <Tab>
 
-Coming soon
+<Toggle title="Ethereum – 1">
+
+| Contract    | Address                                                                                                                      |
+| :---------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| Default Deployment | [`0x8E0E20Ea43A88214A0908F32Cd14395022e823A6`](https://etherscan.io/address/0x8E0E20Ea43A88214A0908F32Cd14395022e823A6#code) |
+| UniV3OracleImpl | [`0x6e65C4Be1DcD33bDddD99f42DC45B2658fe9aD91`](https://etherscan.io/address/0x6e65C4Be1DcD33bDddD99f42DC45B2658fe9aD91#code) |
+| UniV3OracleFactory | [`0x498f316fEB85a250fdC64B859a130515491EC888`](https://etherscan.io/address/0x498f316fEB85a250fdC64B859a130515491EC888#code) |
+
+</Toggle>
 
 </Tab>
 
 <Tab>
 
-Coming soon
+<Toggle title="Goerli – 5">
+
+| Contract    | Address                                                                                                                             |
+| :---------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| Default Deployment | [`0x8E0E20Ea43A88214A0908F32Cd14395022e823A6`](https://goerli.etherscan.io/address/0x8E0E20Ea43A88214A0908F32Cd14395022e823A6#code) |
+| UniV3OracleImpl | [`0x6e65C4Be1DcD33bDddD99f42DC45B2658fe9aD91`](https://goerli.etherscan.io/address/0x6e65C4Be1DcD33bDddD99f42DC45B2658fe9aD91#code) |
+| UniV3OracleFactory | [`0x498f316fEB85a250fdC64B859a130515491EC888`](https://goerli.etherscan.io/address/0x498f316fEB85a250fdC64B859a130515491EC888#code) |
+
+</Toggle>
 
 </Tab>
 
