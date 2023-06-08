@@ -53,7 +53,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: '0x0000000000000000000000000000000000000000',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getSwapperMetadata(args)
@@ -118,11 +118,11 @@ const args = {
   ],
   owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
   oracleParams: {
-    address: "0x0000000000000000000000000000000000000000",
+    address: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
   },
 }
 
-const response = await waterfallClient.createWaterfallModule(args)
+const response = await swapperClient.createSwapper(args)
 ```
 
 Arguments
@@ -167,7 +167,15 @@ Usage
 
 ```js
 const args = {
-  swapperId: '0x0000000000000000000000000000000000000000',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  inputAssets: [
+    {
+      encodedPath: '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d60001f41f9840a85d5af5bf1d1762f925bdaddc4201f984',
+      token: 0x0000000000000000000000000000000000000000,
+      amountIn: BigNumber.from('100000000000000000'),
+      amountOutMin: BigNumber.from('1000000000'),
+    }
+  ]
 }
 
 const response = await swapperClient.uniV3FlashSwap(args)
@@ -208,7 +216,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: "0x0000000000000000000000000000000000000000",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   calls: [
     {
       to: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
@@ -251,7 +259,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: "0x0000000000000000000000000000000000000000",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   paused: true,
 }
 
@@ -283,7 +291,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: "0x0000000000000000000000000000000000000000",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   beneficiary: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
 }
 
@@ -315,7 +323,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: "0x0000000000000000000000000000000000000000",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
 }
 
@@ -347,8 +355,8 @@ Usage
 
 ```js
 const args = {
-  swapperId: "0x0000000000000000000000000000000000000000",
-  oracle: "0x0000000000000000000000000000000000000000",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  oracle: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
 }
 
 const response = await swapperClient.setOracle(args)
@@ -379,7 +387,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: "0x0000000000000000000000000000000000000000",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   defaultScaledOfferFactorPercent: 1,
 }
 
@@ -423,7 +431,7 @@ const args = {
   ],
   owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
   oracleParams: {
-    address: "0x0000000000000000000000000000000000000000",
+    address: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
   },
 }
 
@@ -443,7 +451,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: '0x0000000000000000000000000000000000000000',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getBeneficiary(args)
@@ -473,7 +481,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: '0x0000000000000000000000000000000000000000',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getTokenToBeneficiary(args)
@@ -503,7 +511,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: '0x0000000000000000000000000000000000000000',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getOracle(args)
@@ -533,7 +541,7 @@ Usage
 
 ```js
 const args = {
-  swapperId: '0x0000000000000000000000000000000000000000',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getDefaultScaledOfferFactor(args)

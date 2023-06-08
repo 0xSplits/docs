@@ -135,7 +135,7 @@ split since it already exists.
 Calls a helper contract that creates a new PassThroughWallet, a new Split, and potentially multiple
 Swappers. A CreateDiversifier event with the pass through wallet contract address is emitted by the
 helper contract and the Splits Subgraph will pick this up so that these Diversifiers can be displayed
-properly.
+properly in the 0xSplits webapp.
 
 Usage
 
@@ -143,7 +143,7 @@ Usage
 const args = {
   owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f"
   oracleParams: {
-    address: "0x0000000000000000000000000000000000000000",
+    address: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
   },
   recipients: [
     {
@@ -168,7 +168,7 @@ const args = {
   ]
 }
 
-const response = await templatesClient.createRecoup(args)
+const response = await templatesClient.createDiversifier(args)
 ```
 
 Arguments
