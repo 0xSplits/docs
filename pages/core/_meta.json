@@ -3,5 +3,6 @@
   "waterfall": "Waterfall",
   "swapper": "Swapper",
   "oracle": "Oracle",
+  "pass-through": "Pass-Through",
   "vesting": "Vesting"
 }
