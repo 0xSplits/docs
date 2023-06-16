@@ -130,7 +130,8 @@ const splitsClient = useSplitsClient(args)
 
 ### useSplitMetadata
 
-Fetches the given split from the subgraph
+Fetches the given split from the subgraph.
+See [getSplitMetadata](/sdk/splits#getsplitmetadata) for details on the metadata returned.
 
 Usage
 
@@ -156,7 +157,8 @@ const { splitEarnings, formattedSplitEarnings, isLoading, status, error } = useS
 
 ### useLiquidSplitMetadata
 
-Fetches the given liquid split from the subgraph
+Fetches the given liquid split from the subgraph.
+See [getLiquidSplitMetadata](/sdk/liquid#getliquidsplitmetadata) for details on the metadata returned.
 
 Usage
 
@@ -166,7 +168,8 @@ const { liquidSplitMetadata, isLoading, status, error } = useLiquidSplitMetadata
 
 ### useWaterfallMetadata
 
-Fetches the given waterfall module from the subgraph
+Fetches the given waterfall module from the subgraph.
+See [getWaterfallMetadata](/sdk/waterfall#getwaterfallmetadata) for details on the metadata returned.
 
 Usage
 
@@ -176,7 +179,8 @@ const { waterfallMetadata, isLoading, status, error } = useWaterfallMetadata(wat
 
 ### useVestingMetadata
 
-Fetches the given vesting module from the subgraph
+Fetches the given vesting module from the subgraph.
+See [getVestingMetadata](/sdk/vesting#getvestingmetadata) for details on the metadata returned.
 
 Usage
 
@@ -186,7 +190,8 @@ const { vestingMetadata, isLoading, status, error } = useVestingMetadata(vesting
 
 ### useSwapperMetadata
 
-Fetches the given swapper from the subgraph
+Fetches the given swapper from the subgraph.
+See [getSwapperMetadata](/sdk/swapper#getswappermetadata) for details on the metadata returned.
 
 Usage
 
@@ -201,7 +206,7 @@ returns the core sdk function and some state properties for monitoring the
 transaction progress.
 
 ### useCreateSplit
-See [createSplit](/sdk/splits#createsplit) for more details
+See [createSplit](/sdk/splits#createsplit) for more details.
 
 Usage
 
@@ -221,7 +226,7 @@ Response
 ```
 
 ### useUpdateSplit
-See [updateSplit](/sdk/splits#updatesplit) for more details
+See [updateSplit](/sdk/splits#updatesplit) for more details.
 
 Usage
 
@@ -241,7 +246,7 @@ Response
 ```
 
 ### useDistributeToken
-See [distributeToken](/sdk/splits#distributetoken) for more details
+See [distributeToken](/sdk/splits#distributetoken) for more details.
 
 Usage
 
@@ -261,7 +266,7 @@ Response
 ```
 
 ### useUpdateSplitAndDistributeToken
-See [updateSplitAndDistributeToken](/sdk/splits#updatesplitanddistributetoken) for more details
+See [updateSplitAndDistributeToken](/sdk/splits#updatesplitanddistributetoken) for more details.
 
 Usage
 
@@ -281,7 +286,7 @@ Response
 ```
 
 ### useWithdrawFunds
-See [withdrawFunds](/sdk/splits#withdrawfunds) for more details
+See [withdrawFunds](/sdk/splits#withdrawfunds) for more details.
 
 Usage
 
@@ -301,7 +306,7 @@ Response
 ```
 
 ### useInitiateControlTransfer
-See [initiateControlTransfer](/sdk/splits#initiatecontroltransfer) for more details
+See [initiateControlTransfer](/sdk/splits#initiatecontroltransfer) for more details.
 
 Usage
 
@@ -321,7 +326,7 @@ Response
 ```
 
 ### useCancelControlTransfer
-See [cancelControlTransfer](/sdk/splits#cancelcontroltransfer) for more details
+See [cancelControlTransfer](/sdk/splits#cancelcontroltransfer) for more details.
 
 Usage
 
@@ -341,7 +346,7 @@ Response
 ```
 
 ### useAcceptControlTransfer
-See [acceptControlTransfer](/sdk/splits#acceptcontroltransfer) for more details
+See [acceptControlTransfer](/sdk/splits#acceptcontroltransfer) for more details.
 
 Usage
 
@@ -361,7 +366,7 @@ Response
 ```
 
 ### useMakeSplitImmutable
-See [makeSplitImmutable](/sdk/splits#makesplitimmutable) for more details
+See [makeSplitImmutable](/sdk/splits#makesplitimmutable) for more details.
 
 Usage
 
@@ -383,7 +388,7 @@ Response
 ## Liquid Split Transaction Hooks
 
 ### useCreateLiquidSplit
-See [createLiquidSplit](/sdk/liquid#createliquidsplit) for more details
+See [createLiquidSplit](/sdk/liquid#createliquidsplit) for more details.
 
 Usage
 
@@ -403,7 +408,7 @@ Response
 ```
 
 ### useDistributeLiquidSplitToken
-See [distributeToken](/sdk/liquid#distributetoken) for more details
+See [distributeToken](/sdk/liquid#distributetoken) for more details.
 
 Usage
 
@@ -423,7 +428,7 @@ Response
 ```
 
 ### useTransferLiquidSplitOwnership
-See [transferOwnership](/sdk/liquid#transferownership) for more details
+See [transferOwnership](/sdk/liquid#transferownership) for more details.
 
 Usage
 
@@ -445,7 +450,7 @@ Response
 ## Waterfall Transaction Hooks
 
 ### useCreateWaterfallModule
-See [createWaterfallModule](/sdk/waterfall#createwaterfallmodule) for more details
+See [createWaterfallModule](/sdk/waterfall#createwaterfallmodule) for more details.
 
 Usage
 
@@ -465,7 +470,7 @@ Response
 ```
 
 ### useWaterfallFunds
-See [waterfallFunds](/sdk/waterfall#waterfallfunds) for more details
+See [waterfallFunds](/sdk/waterfall#waterfallfunds) for more details.
 
 Usage
 
@@ -485,7 +490,7 @@ Response
 ```
 
 ### useRecoverNonWaterfallFunds
-See [recoverNonWaterfallFunds](/sdk/waterfall#recovernonwaterfallfunds) for more details
+See [recoverNonWaterfallFunds](/sdk/waterfall#recovernonwaterfallfunds) for more details.
 
 Usage
 
@@ -505,7 +510,7 @@ Response
 ```
 
 ### useWithdrawWaterfallPullFunds
-See [withdrawPullFunds](/sdk/waterfall#withdrawpullfunds) for more details
+See [withdrawPullFunds](/sdk/waterfall#withdrawpullfunds) for more details.
 
 Usage
 
@@ -527,7 +532,7 @@ Response
 ## Vesting Transaction Hooks
 
 ### useCreateVestingModule
-See [createVestingModule](/sdk/vesting#createvestingmodule) for more details
+See [createVestingModule](/sdk/vesting#createvestingmodule) for more details.
 
 Usage
 
@@ -547,7 +552,7 @@ Response
 ```
 
 ### useStartVest
-See [startVest](/sdk/vesting#startvest) for more details
+See [startVest](/sdk/vesting#startvest) for more details.
 
 Usage
 
@@ -567,7 +572,7 @@ Response
 ```
 
 ### useReleaseVestedFunds
-See [releaseVestedFunds](/sdk/vesting#releasevestedfunds) for more details
+See [releaseVestedFunds](/sdk/vesting#releasevestedfunds) for more details.
 
 Usage
 
@@ -589,7 +594,7 @@ Response
 ## Swapper Transaction Hooks
 
 ### useCreateSwapper
-See [createSwapper](/sdk/swapper#createswapper) for more details
+See [createSwapper](/sdk/swapper#createswapper) for more details.
 
 Usage
 
@@ -609,7 +614,7 @@ Response
 ```
 
 ### useUniV3FlashSwap
-See [uniV3FlashSwap](/sdk/swapper#univ3flashswap) for more details
+See [uniV3FlashSwap](/sdk/swapper#univ3flashswap) for more details.
 
 Usage
 
@@ -629,7 +634,7 @@ Response
 ```
 
 ### useSwapperExecCalls
-See [execCalls](/sdk/swapper#execcalls) for more details
+See [execCalls](/sdk/swapper#execcalls) for more details.
 
 Usage
 
@@ -649,7 +654,7 @@ Response
 ```
 
 ### useSwapperPause
-See [setPaused](/sdk/swapper#setpaused) for more details
+See [setPaused](/sdk/swapper#setpaused) for more details.
 
 Usage
 
@@ -669,7 +674,7 @@ Response
 ```
 
 ### useSwapperSetBeneficiary
-See [setBeneficiary](/sdk/swapper#setbeneficiary) for more details
+See [setBeneficiary](/sdk/swapper#setbeneficiary) for more details.
 
 Usage
 
@@ -689,7 +694,7 @@ Response
 ```
 
 ### useSwapperSetTokenToBeneficiary
-See [setTokenToBeneficiary](/sdk/swapper#settokentobeneficiary) for more details
+See [setTokenToBeneficiary](/sdk/swapper#settokentobeneficiary) for more details.
 
 Usage
 
@@ -709,7 +714,7 @@ Response
 ```
 
 ### useSwapperSetOracle
-See [setOracle](/sdk/swapper#setoracle) for more details
+See [setOracle](/sdk/swapper#setoracle) for more details.
 
 Usage
 
@@ -729,7 +734,7 @@ Response
 ```
 
 ### useSwapperSetDefaultScaledOfferFactor
-See [setDefaultScaledOfferFactor](/sdk/swapper#setdefaultscaledofferfactor) for more details
+See [setDefaultScaledOfferFactor](/sdk/swapper#setdefaultscaledofferfactor) for more details.
 
 Usage
 
@@ -749,7 +754,7 @@ Response
 ```
 
 ### useSwapperSetScaledOfferFactorOverrides
-See [setScaledOfferFactorOverrides](/sdk/swapper#setscaledofferfactoroverrides) for more details
+See [setScaledOfferFactorOverrides](/sdk/swapper#setscaledofferfactoroverrides) for more details.
 
 Usage
 
@@ -771,7 +776,7 @@ Response
 ## Template Transaction Hooks
 
 ### useCreateRecoup
-See [createRecoup](/sdk/templates#createrecoup) for more details
+See [createRecoup](/sdk/templates#createrecoup) for more details.
 
 Usage
 
@@ -793,7 +798,7 @@ Response
 ## Multicall Transaction Hooks
 
 ### useMulticall
-See [multicall](/sdk/multicall#multicall) for more details
+See [multicall](/sdk/multicall#multicall) for more details.
 
 Usage
 
