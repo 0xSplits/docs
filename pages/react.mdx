@@ -30,29 +30,78 @@ npm install @0xsplits/splits-sdk-react
 
 ## Usage
 
-A `SplitsProvider` component is needed to manage context for all splits hooks.
+A `SplitsProvider` component is needed to manage context for all splits hooks. This sample
+code loads and displays a Split's basic metadata.
 
 ```js
-import { SplitsProvider, useSplitsClient } from '@0xsplits/splits-sdk-react'
+import { AlchemyProvider } from 'ethers'
+import { SplitsProvider } from '@0xsplits/splits-sdk-react'
+
+const SPLIT_ADDRESS = '0xF8843981e7846945960f53243cA2Fd42a579f719'
+const splitsConfig = {
+  chainId: 1,
+  provider: new AlchemyProvider(1, "my-alchemy-api-key")
+}
 
 function App() {
   return (
-    <SplitsProvider>
+    <SplitsProvider config={splitsConfig}>
       <YourComponents />
     </SplitsProvider>
   )
 }
 
 function YourComponents() {
-  useSplitsClient({
-    chainId: 1,
-  })
+  const { splitMetadata, isLoading } = useSplitMetadata(SPLIT_ADDRESS)
 
+  if (isLoading) return <div>Loading Split...</div>
+  if (!splitMetadata) return <div>No Split found at address {SPLIT_ADDRESS}</div>
+
+  return (
+    <div>
+      <div>Split: {splitMetadata.id}</div>
+      {splitMetadata.controller && (
+        <div>Controlled by: {splitMetadata.controller}</div>
+      )}
+      <div>
+        <div>Recipients</div>
+        {splitMetadata.recipients.map((recipient) => (
+          <div>{recipient.address} - {recipient.percentAllocation}</div>
+        ))}
+      </div>
+    </div>
+  )
   return <div>Hello World</div>
 }
 ```
 
-## Initialization Hooks
+## Initialization
+
+### SplitsProvider
+
+Provider component that is needed to manage context for all splits hooks. It can
+optionally take in a splits config dictionary to initialize the SplitsClient.
+
+Usage
+```js
+import { SplitsProvider } from '@0xsplits/splits-sdk-react'
+
+const splitsConfig = {
+  chainId: 1,
+}
+
+function App() {
+  return (
+    <SplitsProvider config={splitsConfig}>
+      <YourComponents />
+    </SplitsProvider>
+  )
+}
+
+function YourComponents() {
+  return <div>Hello World</div>
+}
+```
 
 ### useSplitsClient
 
@@ -133,11 +182,24 @@ Usage
 const { vestingMetadata, isLoading, status, error } = useVestingMetadata(vestingModuleId)
 ```
 
-## Transaction Hooks
+### useSwapperMetadata
+
+Fetches the given swapper from the subgraph
+
+Usage
+
+```js
+const { swapperMetadata, isLoading, status, error } = useSwapperMetadata(swapperId)
+```
+
+## Split Transaction Hooks
 
 Each of the transaction functions from the core sdk has a react hook wrapper. It
 returns the core sdk function and some state properties for monitoring the
 transaction progress.
+
+### useCreateSplit
+See (createSplit)[/sdk/splits#createsplit] for more details
 
 Usage
 
@@ -149,46 +211,601 @@ Response
 
 ```graphql
 {
-  createSplit: function // This will be the core sdk function associated with each hook
+  createSplit: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
 }
 ```
 
-List of transaction hooks
+### useUpdateSplit
+See (updateSplit)[/sdk/splits#updatesplit] for more details
+
+Usage
 
 ```js
-// splits
-useCreateSplit
-useUpdateSplit
-useDistributeToken
-useUpdateSplitAndDistributeToken
-useWithdrawFunds
-useInitiateControlTransfer
-useCancelControlTransfer
-useAcceptControlTransfer
-useMakeSplitImmutable
+const { updateSplit, status, txHash, error } = useUpdateSplit()
+```
 
-// liquid splits
-useCreateLiquidSplit
-useDistributeLiquidSplitToken
-useTransferLiquidSplitOwnership
+Response
 
-// waterfalls
-useCreateWaterfallModule
-useWaterfallFunds
-useRecoverNonWaterfallFunds
-useWithdrawWaterfallPullFunds
+```graphql
+{
+  updateSplit: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
 
-// vesting
-useCreateVestingModule
-useStartVest
-useReleaseVestedFunds
+### useDistributeToken
+See (distributeToken)[/sdk/splits#distributetoken] for more details
 
-// templates
-useCreateRecoup
+Usage
 
-// multicall
-useMulticall
+```js
+const { distributeToken, status, txHash, error } = useDistributeToken()
+```
+
+Response
+
+```graphql
+{
+  distributeToken: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useUpdateSplitAndDistributeToken
+See (updateSplitAndDistributeToken)[/sdk/splits#updatesplitanddistributetoken] for more details
+
+Usage
+
+```js
+const { updateSplitAndDistributeToken, status, txHash, error } = useUpdateSplitAndDistributeToken()
+```
+
+Response
+
+```graphql
+{
+  updateSplitAndDistributeToken: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useWithdrawFunds
+See (withdrawFunds)[/sdk/splits#withdrawfunds] for more details
+
+Usage
+
+```js
+const { withdrawFunds, status, txHash, error } = useWithdrawFunds()
+```
+
+Response
+
+```graphql
+{
+  withdrawFunds: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useInitiateControlTransfer
+See (initiateControlTransfer)[/sdk/splits#initiatecontroltransfer] for more details
+
+Usage
+
+```js
+const { initiateControlTransfer, status, txHash, error } = useInitiateControlTransfer()
+```
+
+Response
+
+```graphql
+{
+  initiateControlTransfer: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useCancelControlTransfer
+See (cancelControlTransfer)[/sdk/splits#cancelcontroltransfer] for more details
+
+Usage
+
+```js
+const { cancelControlTransfer, status, txHash, error } = useCancelControlTransfer()
+```
+
+Response
+
+```graphql
+{
+  cancelControlTransfer: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useAcceptControlTransfer
+See (acceptControlTransfer)[/sdk/splits#acceptcontroltransfer] for more details
+
+Usage
+
+```js
+const { acceptControlTransfer, status, txHash, error } = useAcceptControlTransfer()
+```
+
+Response
+
+```graphql
+{
+  acceptControlTransfer: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useMakeSplitImmutable
+See (makeSplitImmutable)[/sdk/splits#makesplitimmutable] for more details
+
+Usage
+
+```js
+const { makeSplitImmutable, status, txHash, error } = useMakeSplitImmutable()
+```
+
+Response
+
+```graphql
+{
+  makeSplitImmutable: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+## Liquid Split Transaction Hooks
+
+### useCreateLiquidSplit
+See (createLiquidSplit)[/sdk/liquid#createliquidsplit] for more details
+
+Usage
+
+```js
+const { createLiquidSplit, status, txHash, error } = useCreateLiquidSplit()
+```
+
+Response
+
+```graphql
+{
+  createLiquidSplit: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useDistributeLiquidSplitToken
+See (distributeLiquidSplitToken)[/sdk/liquid#distributeliquidsplittoken] for more details
+
+Usage
+
+```js
+const { distributeLiquidSplitToken, status, txHash, error } = useDistributeLiquidSplitToken()
+```
+
+Response
+
+```graphql
+{
+  distributeLiquidSplitToken: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useTransferLiquidSplitOwnership
+See (transferLiquidSplitOwnership)[/sdk/liquid#transferliquidsplitownership] for more details
+
+Usage
+
+```js
+const { transferLiquidSplitOwnership, status, txHash, error } = useTransferLiquidSplitOwnership()
+```
+
+Response
+
+```graphql
+{
+  transferLiquidSplitOwnership: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+## Waterfall Transaction Hooks
+
+### useCreateWaterfallModule
+See (createWaterfallModule)[/sdk/waterfall#createwaterfallmodule] for more details
+
+Usage
+
+```js
+const { createWaterfallModule, status, txHash, error } = useCreateWaterfallModule()
+```
+
+Response
+
+```graphql
+{
+  createWaterfallModule: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useWaterfallFunds
+See (waterfallFunds)[/sdk/waterfall#waterfallfunds] for more details
+
+Usage
+
+```js
+const { waterfallFunds, status, txHash, error } = useWaterfallFunds()
+```
+
+Response
+
+```graphql
+{
+  waterfallFunds: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useRecoverNonWaterfallFunds
+See (recoverNonWaterfallFunds)[/sdk/waterfall#recovernonwaterfallfunds] for more details
+
+Usage
+
+```js
+const { recoverNonWaterfallFunds, status, txHash, error } = useRecoverNonWaterfallFunds()
+```
+
+Response
+
+```graphql
+{
+  recoverNonWaterfallFunds: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useWithdrawWaterfallPullFunds
+See (withdrawWaterfallPullFunds)[/sdk/waterfall#withdrawwaterfallpullfunds] for more details
+
+Usage
+
+```js
+const { withdrawWaterfallPullFunds, status, txHash, error } = useWithdrawWaterfallPullFunds()
+```
+
+Response
+
+```graphql
+{
+  withdrawWaterfallPullFunds: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+## Vesting Transaction Hooks
+
+### useCreateVestingModule
+See (createVestingModule)[/sdk/vesting#createvestingmodule] for more details
+
+Usage
+
+```js
+const { createVestingModule, status, txHash, error } = useCreateVestingModule()
+```
+
+Response
+
+```graphql
+{
+  createVestingModule: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useStartVest
+See (startVest)[/sdk/vesting#startvest] for more details
+
+Usage
+
+```js
+const { startVest, status, txHash, error } = useStartVest()
+```
+
+Response
+
+```graphql
+{
+  startVest: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useReleaseVestedFunds
+See (releaseVestedFunds)[/sdk/vesting#releasevestedfunds] for more details
+
+Usage
+
+```js
+const { releaseVestedFunds, status, txHash, error } = useReleaseVestedFunds()
+```
+
+Response
+
+```graphql
+{
+  releaseVestedFunds: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+## Swapper Transaction Hooks
+
+### useCreateSwapper
+See (createSwapper)[/sdk/swapper#createswapper] for more details
+
+Usage
+
+```js
+const { createSwapper, status, txHash, error } = useCreateSwapper()
+```
+
+Response
+
+```graphql
+{
+  createSwapper: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useUniV3FlashSwap
+See (uniV3FlashSwap)[/sdk/swapper#univ3flashswap] for more details
+
+Usage
+
+```js
+const { uniV3FlashSwap, status, txHash, error } = useUniV3FlashSwap()
+```
+
+Response
+
+```graphql
+{
+  uniV3FlashSwap: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useSwapperExecCalls
+See (execCalls)[/sdk/swapper#execcalls] for more details
+
+Usage
+
+```js
+const { execCalls, status, txHash, error } = useSwapperExecCalls()
+```
+
+Response
+
+```graphql
+{
+  execCalls: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useSwapperPause
+See (swapperPause)[/sdk/swapper#swapperpause] for more details
+
+Usage
+
+```js
+const { swapperPause, status, txHash, error } = useSwapperPause()
+```
+
+Response
+
+```graphql
+{
+  swapperPause: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useSwapperSetBeneficiary
+See (swapperSetBeneficiary)[/sdk/swapper#swappersetbeneficiary] for more details
+
+Usage
+
+```js
+const { swapperSetBeneficiary, status, txHash, error } = useSwapperSetBeneficiary()
+```
+
+Response
+
+```graphql
+{
+  swapperSetBeneficiary: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useSwapperSetTokenToBeneficiary
+See (swapperSetTokenToBeneficiary)[/sdk/swapper#swappersettokentobeneficiary] for more details
+
+Usage
+
+```js
+const { swapperSetTokenToBeneficiary, status, txHash, error } = useSwapperSetTokenToBeneficiary()
+```
+
+Response
+
+```graphql
+{
+  swapperSetTokenToBeneficiary: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useSwapperSetOracle
+See (swapperSetOracle)[/sdk/swapper#swappersetoracle] for more details
+
+Usage
+
+```js
+const { swapperSetOracle, status, txHash, error } = useSwapperSetOracle()
+```
+
+Response
+
+```graphql
+{
+  swapperSetOracle: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useSwapperSetDefaultScaledOfferFactor
+See (swapperSetDefaultScaledOfferFactor)[/sdk/swapper#swappersetdefaultscaledofferfactor] for more details
+
+Usage
+
+```js
+const { swapperSetDefaultScaledOfferFactor, status, txHash, error } = useSwapperSetDefaultScaledOfferFactor()
+```
+
+Response
+
+```graphql
+{
+  swapperSetDefaultScaledOfferFactor: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useSwapperSetScaledOfferFactorOverrides
+See (swapperSetScaledOfferFactorOverrides)[/sdk/swapper#swappersetscaledofferfactoroverrides] for more details
+
+Usage
+
+```js
+const { swapperSetScaledOfferFactorOverrides, status, txHash, error } = useSwapperSetScaledOfferFactorOverrides()
+```
+
+Response
+
+```graphql
+{
+  swapperSetScaledOfferFactorOverrides: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+## Template Transaction Hooks
+
+### useCreateRecoup
+See (createRecoup)[/sdk/templates#createrecoup] for more details
+
+Usage
+
+```js
+const { createRecoup, status, txHash, error } = useCreateRecoup()
+```
+
+Response
+
+```graphql
+{
+  createRecoup: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+## Multicall Transaction Hooks
+
+### useMulticall
+See (multicall)[/sdk/multicall#multicall] for more details
+
+Usage
+
+```js
+const { multicall, status, txHash, error } = useMulticall()
+```
+
+Response
+
+```graphql
+{
+  multicall: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
 ```
