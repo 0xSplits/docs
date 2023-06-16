@@ -411,6 +411,55 @@ Response
 }
 ```
 
+### setScaledOfferFactorOverrides
+
+Updates the scaled offer factor overrides of the swapper. Only callable by the Swapper owner.
+NOTE: To remove an existing override you need to pass in a scaled offer factor percent of 100
+which tells the contract to fallback to the default scaled offer factor.
+
+Usage
+
+```js
+const args = {
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  scaledOfferFactorOverrides: [
+    {
+      baseToken: "0x0000000000000000000000000000000000000000",
+      quoteToken: "0x0000000000000000000000000000000000000000",
+      scaledOfferFactorPercent: 0.1,
+    },
+    {
+      baseToken: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+      quoteToken: "0x0000000000000000000000000000000000000000",
+      scaledOfferFactorPercent: 100,
+    }
+  ]
+}
+
+const response = await swapperClient.setDefaultScaledOfferFactor(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperId: string
+  scaledOfferFactorOverrides: {
+    baseToken: string
+    quoteToken: string
+    scaledOfferFactorPercent: number
+  }[]
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # SetPairScaledOfferFactors emitted on the Swapper contract
+}
+```
+
 ## Gas Estimation
 
 The client has a gas estimation feature that can be used with any of the above
