@@ -34,13 +34,13 @@ A `SplitsProvider` component is needed to manage context for all splits hooks. T
 code loads and displays a Split's basic metadata.
 
 ```js
-import { AlchemyProvider } from 'ethers'
-import { SplitsProvider } from '@0xsplits/splits-sdk-react'
+import { AlchemyProvider } from '@ethersproject/providers'
+import { SplitsProvider, useSplitMetadata } from '@0xsplits/splits-sdk-react'
 
 const SPLIT_ADDRESS = '0xF8843981e7846945960f53243cA2Fd42a579f719'
 const splitsConfig = {
   chainId: 1,
-  provider: new AlchemyProvider(1, "my-alchemy-api-key")
+  provider: new AlchemyProvider()
 }
 
 function App() {
@@ -60,18 +60,20 @@ function YourComponents() {
   return (
     <div>
       <div>Split: {splitMetadata.id}</div>
-      {splitMetadata.controller && (
+      {splitMetadata.controller ? (
         <div>Controlled by: {splitMetadata.controller}</div>
+      ): (
+        <div>No controller, Split is immutable</div>
       )}
+      <div>Distribution incentive: {splitMetadata.distributorFeePercent}%</div>
       <div>
         <div>Recipients</div>
         {splitMetadata.recipients.map((recipient) => (
-          <div>{recipient.address} - {recipient.percentAllocation}</div>
+          <div key={recipient.address}>{recipient.address}: {recipient.percentAllocation}%</div>
         ))}
       </div>
     </div>
   )
-  return <div>Hello World</div>
 }
 ```
 
