@@ -199,7 +199,7 @@ returns the core sdk function and some state properties for monitoring the
 transaction progress.
 
 ### useCreateSplit
-See (createSplit)[/sdk/splits#createsplit] for more details
+See [createSplit](/sdk/splits#createsplit) for more details
 
 Usage
 
@@ -219,7 +219,7 @@ Response
 ```
 
 ### useUpdateSplit
-See (updateSplit)[/sdk/splits#updatesplit] for more details
+See [updateSplit](/sdk/splits#updatesplit) for more details
 
 Usage
 
@@ -239,7 +239,7 @@ Response
 ```
 
 ### useDistributeToken
-See (distributeToken)[/sdk/splits#distributetoken] for more details
+See [distributeToken](/sdk/splits#distributetoken) for more details
 
 Usage
 
@@ -259,7 +259,7 @@ Response
 ```
 
 ### useUpdateSplitAndDistributeToken
-See (updateSplitAndDistributeToken)[/sdk/splits#updatesplitanddistributetoken] for more details
+See [updateSplitAndDistributeToken](/sdk/splits#updatesplitanddistributetoken) for more details
 
 Usage
 
@@ -279,7 +279,7 @@ Response
 ```
 
 ### useWithdrawFunds
-See (withdrawFunds)[/sdk/splits#withdrawfunds] for more details
+See [withdrawFunds](/sdk/splits#withdrawfunds) for more details
 
 Usage
 
@@ -299,7 +299,7 @@ Response
 ```
 
 ### useInitiateControlTransfer
-See (initiateControlTransfer)[/sdk/splits#initiatecontroltransfer] for more details
+See [initiateControlTransfer](/sdk/splits#initiatecontroltransfer) for more details
 
 Usage
 
@@ -319,7 +319,7 @@ Response
 ```
 
 ### useCancelControlTransfer
-See (cancelControlTransfer)[/sdk/splits#cancelcontroltransfer] for more details
+See [cancelControlTransfer](/sdk/splits#cancelcontroltransfer) for more details
 
 Usage
 
@@ -339,7 +339,7 @@ Response
 ```
 
 ### useAcceptControlTransfer
-See (acceptControlTransfer)[/sdk/splits#acceptcontroltransfer] for more details
+See [acceptControlTransfer](/sdk/splits#acceptcontroltransfer) for more details
 
 Usage
 
@@ -359,7 +359,7 @@ Response
 ```
 
 ### useMakeSplitImmutable
-See (makeSplitImmutable)[/sdk/splits#makesplitimmutable] for more details
+See [makeSplitImmutable](/sdk/splits#makesplitimmutable) for more details
 
 Usage
 
@@ -381,7 +381,7 @@ Response
 ## Liquid Split Transaction Hooks
 
 ### useCreateLiquidSplit
-See (createLiquidSplit)[/sdk/liquid#createliquidsplit] for more details
+See [createLiquidSplit](/sdk/liquid#createliquidsplit) for more details
 
 Usage
 
@@ -401,19 +401,19 @@ Response
 ```
 
 ### useDistributeLiquidSplitToken
-See (distributeLiquidSplitToken)[/sdk/liquid#distributeliquidsplittoken] for more details
+See [distributeToken](/sdk/liquid#distributetoken) for more details
 
 Usage
 
 ```js
-const { distributeLiquidSplitToken, status, txHash, error } = useDistributeLiquidSplitToken()
+const { distributeToken, status, txHash, error } = useDistributeLiquidSplitToken()
 ```
 
 Response
 
 ```graphql
 {
-  distributeLiquidSplitToken: function
+  distributeToken: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
@@ -421,19 +421,19 @@ Response
 ```
 
 ### useTransferLiquidSplitOwnership
-See (transferLiquidSplitOwnership)[/sdk/liquid#transferliquidsplitownership] for more details
+See [transferOwnership](/sdk/liquid#transferownership) for more details
 
 Usage
 
 ```js
-const { transferLiquidSplitOwnership, status, txHash, error } = useTransferLiquidSplitOwnership()
+const { transferOwnership, status, txHash, error } = useTransferLiquidSplitOwnership()
 ```
 
 Response
 
 ```graphql
 {
-  transferLiquidSplitOwnership: function
+  transferOwnership: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
@@ -443,7 +443,7 @@ Response
 ## Waterfall Transaction Hooks
 
 ### useCreateWaterfallModule
-See (createWaterfallModule)[/sdk/waterfall#createwaterfallmodule] for more details
+See [createWaterfallModule](/sdk/waterfall#createwaterfallmodule) for more details
 
 Usage
 
@@ -463,7 +463,7 @@ Response
 ```
 
 ### useWaterfallFunds
-See (waterfallFunds)[/sdk/waterfall#waterfallfunds] for more details
+See [waterfallFunds](/sdk/waterfall#waterfallfunds) for more details
 
 Usage
 
@@ -483,7 +483,7 @@ Response
 ```
 
 ### useRecoverNonWaterfallFunds
-See (recoverNonWaterfallFunds)[/sdk/waterfall#recovernonwaterfallfunds] for more details
+See [recoverNonWaterfallFunds](/sdk/waterfall#recovernonwaterfallfunds) for more details
 
 Usage
 
@@ -503,19 +503,19 @@ Response
 ```
 
 ### useWithdrawWaterfallPullFunds
-See (withdrawWaterfallPullFunds)[/sdk/waterfall#withdrawwaterfallpullfunds] for more details
+See [withdrawPullFunds](/sdk/waterfall#withdrawpullfunds) for more details
 
 Usage
 
 ```js
-const { withdrawWaterfallPullFunds, status, txHash, error } = useWithdrawWaterfallPullFunds()
+const { withdrawPullFunds, status, txHash, error } = useWithdrawWaterfallPullFunds()
 ```
 
 Response
 
 ```graphql
 {
-  withdrawWaterfallPullFunds: function
+  withdrawPullFunds: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
@@ -525,7 +525,7 @@ Response
 ## Vesting Transaction Hooks
 
 ### useCreateVestingModule
-See (createVestingModule)[/sdk/vesting#createvestingmodule] for more details
+See [createVestingModule](/sdk/vesting#createvestingmodule) for more details
 
 Usage
 
@@ -545,7 +545,7 @@ Response
 ```
 
 ### useStartVest
-See (startVest)[/sdk/vesting#startvest] for more details
+See [startVest](/sdk/vesting#startvest) for more details
 
 Usage
 
@@ -565,7 +565,7 @@ Response
 ```
 
 ### useReleaseVestedFunds
-See (releaseVestedFunds)[/sdk/vesting#releasevestedfunds] for more details
+See [releaseVestedFunds](/sdk/vesting#releasevestedfunds) for more details
 
 Usage
 
@@ -587,7 +587,7 @@ Response
 ## Swapper Transaction Hooks
 
 ### useCreateSwapper
-See (createSwapper)[/sdk/swapper#createswapper] for more details
+See [createSwapper](/sdk/swapper#createswapper) for more details
 
 Usage
 
@@ -607,7 +607,7 @@ Response
 ```
 
 ### useUniV3FlashSwap
-See (uniV3FlashSwap)[/sdk/swapper#univ3flashswap] for more details
+See [uniV3FlashSwap](/sdk/swapper#univ3flashswap) for more details
 
 Usage
 
@@ -627,7 +627,7 @@ Response
 ```
 
 ### useSwapperExecCalls
-See (execCalls)[/sdk/swapper#execcalls] for more details
+See [execCalls](/sdk/swapper#execcalls) for more details
 
 Usage
 
@@ -647,19 +647,19 @@ Response
 ```
 
 ### useSwapperPause
-See (swapperPause)[/sdk/swapper#swapperpause] for more details
+See [setPaused](/sdk/swapper#setpaused) for more details
 
 Usage
 
 ```js
-const { swapperPause, status, txHash, error } = useSwapperPause()
+const { setPaused, status, txHash, error } = useSwapperPause()
 ```
 
 Response
 
 ```graphql
 {
-  swapperPause: function
+  setPaused: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
@@ -667,19 +667,19 @@ Response
 ```
 
 ### useSwapperSetBeneficiary
-See (swapperSetBeneficiary)[/sdk/swapper#swappersetbeneficiary] for more details
+See [setBeneficiary](/sdk/swapper#setbeneficiary) for more details
 
 Usage
 
 ```js
-const { swapperSetBeneficiary, status, txHash, error } = useSwapperSetBeneficiary()
+const { setBeneficiary, status, txHash, error } = useSwapperSetBeneficiary()
 ```
 
 Response
 
 ```graphql
 {
-  swapperSetBeneficiary: function
+  setBeneficiary: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
@@ -687,19 +687,19 @@ Response
 ```
 
 ### useSwapperSetTokenToBeneficiary
-See (swapperSetTokenToBeneficiary)[/sdk/swapper#swappersettokentobeneficiary] for more details
+See [setTokenToBeneficiary](/sdk/swapper#settokentobeneficiary) for more details
 
 Usage
 
 ```js
-const { swapperSetTokenToBeneficiary, status, txHash, error } = useSwapperSetTokenToBeneficiary()
+const { setTokenToBeneficiary, status, txHash, error } = useSwapperSetTokenToBeneficiary()
 ```
 
 Response
 
 ```graphql
 {
-  swapperSetTokenToBeneficiary: function
+  setTokenToBeneficiary: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
@@ -707,19 +707,19 @@ Response
 ```
 
 ### useSwapperSetOracle
-See (swapperSetOracle)[/sdk/swapper#swappersetoracle] for more details
+See [setOracle](/sdk/swapper#setoracle) for more details
 
 Usage
 
 ```js
-const { swapperSetOracle, status, txHash, error } = useSwapperSetOracle()
+const { setOracle, status, txHash, error } = useSwapperSetOracle()
 ```
 
 Response
 
 ```graphql
 {
-  swapperSetOracle: function
+  setOracle: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
@@ -727,19 +727,19 @@ Response
 ```
 
 ### useSwapperSetDefaultScaledOfferFactor
-See (swapperSetDefaultScaledOfferFactor)[/sdk/swapper#swappersetdefaultscaledofferfactor] for more details
+See [setDefaultScaledOfferFactor](/sdk/swapper#setdefaultscaledofferfactor) for more details
 
 Usage
 
 ```js
-const { swapperSetDefaultScaledOfferFactor, status, txHash, error } = useSwapperSetDefaultScaledOfferFactor()
+const { setDefaultScaledOfferFactor, status, txHash, error } = useSwapperSetDefaultScaledOfferFactor()
 ```
 
 Response
 
 ```graphql
 {
-  swapperSetDefaultScaledOfferFactor: function
+  setDefaultScaledOfferFactor: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
@@ -747,19 +747,19 @@ Response
 ```
 
 ### useSwapperSetScaledOfferFactorOverrides
-See (swapperSetScaledOfferFactorOverrides)[/sdk/swapper#swappersetscaledofferfactoroverrides] for more details
+See [setScaledOfferFactorOverrides](/sdk/swapper#setscaledofferfactoroverrides) for more details
 
 Usage
 
 ```js
-const { swapperSetScaledOfferFactorOverrides, status, txHash, error } = useSwapperSetScaledOfferFactorOverrides()
+const { setScaledOfferFactorOverrides, status, txHash, error } = useSwapperSetScaledOfferFactorOverrides()
 ```
 
 Response
 
 ```graphql
 {
-  swapperSetScaledOfferFactorOverrides: function
+  setScaledOfferFactorOverrides: function
   status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
   txHash?: string
   error?: any
@@ -769,7 +769,7 @@ Response
 ## Template Transaction Hooks
 
 ### useCreateRecoup
-See (createRecoup)[/sdk/templates#createrecoup] for more details
+See [createRecoup](/sdk/templates#createrecoup) for more details
 
 Usage
 
@@ -791,7 +791,7 @@ Response
 ## Multicall Transaction Hooks
 
 ### useMulticall
-See (multicall)[/sdk/multicall#multicall] for more details
+See [multicall](/sdk/multicall#multicall) for more details
 
 Usage
 
