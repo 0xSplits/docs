@@ -62,13 +62,19 @@ const config: DocsThemeConfig = {
         <meta name="twitter:site" content="@0xsplits" />
         <meta name="twitter:site:domain" content="splits.org" />
         <meta name="twitter:url" content="https://www.splits.org/" />
-        <meta name="twitter:title" content={title ?? 'Splits'} />
+        <meta
+          name="twitter:title"
+          content={title ? title + ' | Splits' : 'Splits'}
+        />
         <meta
           name="twitter:description"
           content="Learn how Splits powers onchain payments"
         />
         {/* Title */}
-        <meta name="og:title" content={title ?? 'Splits'} />
+        <meta
+          name="og:title"
+          content={title ? title + ' | Splits' : 'Splits'}
+        />
         <meta name="og:image" content={socialCard} />
         {/* Open Graph */}
         <meta property="og:image:width" content="1200" />
