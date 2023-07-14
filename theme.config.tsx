@@ -27,7 +27,7 @@ const config: DocsThemeConfig = {
     const { asPath } = useRouter()
     if (asPath !== '/') {
       return {
-        titleTemplate: '%s – Splits',
+        titleTemplate: '%s | Splits',
       }
     }
   },
@@ -62,7 +62,14 @@ const config: DocsThemeConfig = {
         <meta name="twitter:site" content="@0xsplits" />
         <meta name="twitter:site:domain" content="splits.org" />
         <meta name="twitter:url" content="https://www.splits.org/" />
-        <meta name="twitter:title" content="Splits" />
+        <meta
+          name="twitter:title"
+          content={title ? title + ' | Splits' : 'Splits'}
+        />
+        <meta
+          name="twitter:description"
+          content="Learn how Splits powers onchain payments"
+        />
         {/* Title */}
         <meta
           name="og:title"
@@ -73,6 +80,7 @@ const config: DocsThemeConfig = {
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="docs.splits.org" />
         <meta name="apple-mobile-web-app-title" content="Splits" />
         <link rel="icon" href="/logo_compressed.svg" type="image/svg+xml" />
       </>
