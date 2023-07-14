@@ -2,11 +2,18 @@ import React from 'react'
 import type { DocsThemeConfig } from 'nextra-theme-docs'
 import { useConfig } from 'nextra-theme-docs'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 const logo = (
   <>
-    <img src="/logo.svg" className="mr-2 rounded-lg" style={{ width: 20 }} />
-    <span className="mr-2 font-bold hidden md:inline">Splits</span>
+    <Image
+      src="/logo.svg"
+      className="mr-2 rounded-lg"
+      alt="splits_logo"
+      width={20}
+      height={20}
+    />
+    <span className="mr-2 font-semibold hidden md:inline">Splits</span>
     <span className="text-gray-600 font-medium hidden md:inline">Docs</span>
   </>
 )
@@ -20,52 +27,54 @@ const config: DocsThemeConfig = {
     const { asPath } = useRouter()
     if (asPath !== '/') {
       return {
-        titleTemplate: '%s – 0xSplits',
+        titleTemplate: '%s – Splits',
       }
     }
   },
   logo,
   head: function useHead() {
     const { title } = useConfig()
-    const socialCard = '/cover_docs.png'
+    const socialCard = 'https://docs.splits.org/cover_docs.png'
 
     return (
       <>
+        {/* Basic metadata */}
+        <meta charSet="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        />
         <meta name="msapplication-TileColor" content="#fff" />
         <meta name="theme-color" content="#fff" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="Content-Language" content="en" />
+        {/* Page description */}
         <meta
           name="description"
-          content="Payment infrastructure for the onchain economy"
+          content="Learn how Splits powers onchain payments"
         />
         <meta
           name="og:description"
-          content="Payment infrastructure for the onchain economy"
+          content="Learn how Splits powers onchain payments"
         />
+        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content={socialCard} />
-        <meta name="twitter:site:domain" content="0xsplits.xyz" />
-        <meta name="twitter:url" content="https://www.0xsplits.xyz/" />
+        <meta name="twitter:site" content="@0xsplits" />
+        <meta name="twitter:site:domain" content="splits.org" />
+        <meta name="twitter:url" content="https://www.splits.org/" />
+        <meta name="twitter:title" content="Splits" />
+        {/* Title */}
         <meta
           name="og:title"
-          content={title ? title + ' – 0xSplits' : '0xSplits'}
+          content={title ? title + ' | Splits' : 'Splits'}
         />
         <meta name="og:image" content={socialCard} />
-        <meta name="apple-mobile-web-app-title" content="0xSplits" />
+        {/* Open Graph */}
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:type" content="website" />
+        <meta name="apple-mobile-web-app-title" content="Splits" />
         <link rel="icon" href="/logo_compressed.svg" type="image/svg+xml" />
-        <link
-          rel="icon"
-          href="/logo_compressed.svg"
-          type="image/svg+xml"
-          media="(prefers-color-scheme: dark)"
-        />
-        <link
-          rel="icon"
-          href="/logo_compressed.png"
-          type="image/png"
-          media="(prefers-color-scheme: dark)"
-        />
       </>
     )
   },
