@@ -8,7 +8,7 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 Swapper is a payable smart contract that converts all incoming tokens into a
 single output token. When ETH and ERC20s are received by a Swapper, they're
 automatically swapped into the output token according to the oracle's clearing
-price. If the oracle is unable to determine a clearing price (i.e., it doesn't
+price and the swapper's discount. If the oracle is unable to determine a clearing price (i.e., it doesn't
 support tokens it has received), the Swapper's owner can withdraw those tokens
 at any time.
 
@@ -19,13 +19,13 @@ at any time.
 ## How it works
 
 - Each Swapper is a payable smart contract with a beneficiary, output token (ETH
-  or any ERC20), oracle, and owner. The oracle is modular so be careful to **use
+  or any ERC20), oracle, discount, and owner. The oracle is modular so be careful to **use
   a secure oracle** with sensible settings for your desired behavior. You can
   use whatever oracle contract you'd like. Splits currently offers one
   [oracle](/core/oracle), which uses Uniswap v3 TWAP to price assets.
 - Tokens received by Swapper are held in the contract's balance until `flash` is
   called. When `flash` is called, the caller sends the expected amount (as
-  determined by the oracle) to the beneficiary in exchange for the balance in
+  determined by the oracle and discount) to the beneficiary in exchange for the balance in
   Swapper. This means _the caller is trading with Swapper directly_, earning the
   balance in exchange for sending the expected value to the beneficiary.
 - Each Swapper can be owned, which means the **owner has full control of the
