@@ -30,7 +30,7 @@ import { Card, Cards } from 'nextra-theme-docs'
 Split is a smart contract that distributes funds according to pre-set
 percentages. It's an **equity-like structure** that can be plugged into any
 payment flow you need. To create one, just head to
-[split.new](https://app.0xsplits.xyz/new/split/) and enter in two or more
+[split.new](https://app.splits.org/new/split/) and enter in two or more
 recipients.
 
 ![Split form inputs](./img/create_split_form.png)
@@ -43,7 +43,7 @@ can make the admin any address, including a smart contract like a
 change, we recommend not adding an admin since **a Split is only as trustworthy
 as the admin**.
 
-- [Create a Split](https://app.0xsplits.xyz/new/split)
+- [Create a Split](https://app.splits.org/new/split)
 - [Technical docs](/core/split)
 - [Contracts](https://github.com/0xSplits/splits-contracts)
 
@@ -75,12 +75,12 @@ continues until all the tranches are filled, at which point any extra funds go
 to the final tranche recipient.
 
 You can create one by heading to
-[waterfall.new](https://app.0xsplits.xyz/new/waterfall) and entering in the
+[waterfall.new](https://app.splits.org/new/waterfall) and entering in the
 permitted token and add as many tranches as you'd like. The above example has
 two tranches, with the first 500 DAI going to ethglobal.eth and all subsequent
 DAI going to theprotocolguild.eth.
 
-- [Create a Waterfall](https://app.0xsplits.xyz/new/waterfall)
+- [Create a Waterfall](https://app.splits.org/new/waterfall)
 - [Technical docs](/core/waterfall)
 - [Contracts](https://github.com/0xSplits/splits-waterfall)
 
@@ -111,7 +111,7 @@ will automatically deploy the necessary Split(s) upon creation.
 
 ![Split form inputs](./img/create_recoup_form.png)
 
-- [Create a Recoup](https://app.0xsplits.xyz/new/recoup)
+- [Create a Recoup](https://app.splits.org/new/recoup)
 - [Technical docs](/templates/recoup)
 - [Contracts](https://github.com/0xSplits/splits-recoup)
 
@@ -129,6 +129,6 @@ their portion of the 1,000 NFTs minted. For example, if Alice is a 20%
 recipient, they will receive 200 NFTs (20% of 1,000 = 200). Alice can then
 transfer their shares however they want.
 
-- [Create a Liquid Split](https://app.0xsplits.xyz/new/split/?type=liquid)
+- [Create a Liquid Split](https://app.splits.org/new/split/?type=liquid)
 - [Technical docs](/templates/liquid)
 - [Contracts](https://github.com/0xSplits/splits-liquid)

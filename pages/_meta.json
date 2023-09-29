@@ -74,13 +74,13 @@
   "launch_app": {
     "type": "page",
     "title": "Launch App",
-    "href": "https://app.0xsplits.xyz/",
+    "href": "https://app.splits.org/",
     "newWindow": true
   },
   "about": {
     "type": "page",
     "title": "About",
-    "href": "https://0xsplits.xyz/",
+    "href": "https://splits.org/",
     "newWindow": true
   }
 }

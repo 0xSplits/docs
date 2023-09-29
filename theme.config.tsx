@@ -112,7 +112,7 @@ const config: DocsThemeConfig = {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://chat.0xsplits.xyz/"
+            href="https://chat.splits.org/"
           >
             Discord
           </a>
