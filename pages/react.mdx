@@ -128,17 +128,6 @@ const splitsClient = useSplitsClient(args)
 
 ## Read Hooks
 
-### useSplitMetadata
-
-Fetches the given split from the subgraph.
-See [getSplitMetadata](/sdk/splits#getsplitmetadata) for details on the metadata returned.
-
-Usage
-
-```js
-const { splitMetadata, isLoading, status, error } = useSplitMetadata(splitId)
-```
-
 ### useSplitEarnings
 
 Fetches the given split's earnings from the subgraph. Will also optionally fetch
@@ -153,6 +142,78 @@ const { splitEarnings, formattedSplitEarnings, isLoading, status, error } = useS
   erc20TokenList, // defaults to undefined
   formatted // defaults to true
 )
+```
+
+### useUserEarnings
+
+Fetches the given user's earnings from the subgraph. Includes withdrawn amount and active balance (i.e. waiting
+to be withdrawn).
+See [getUserEarnings](/sdk/splits#getuserearnings) for details on the metadata returned.
+
+Usage
+
+```js
+const { userEarnings, isLoading, status, error } = useUserEarnings(
+  userId,
+)
+```
+
+### useFormattedUserEarnings
+
+Wrapper around `useUserEarnings` to include token data and formatted amounts.
+See [getFormattedUserEarnings](/sdk/splits#getformatteduserearnings) for details on the metadata returned.
+
+Usage
+
+```js
+const { formattedUserEarnings, isLoading, status, error } = useFormattedUserEarnings(
+  userId,
+)
+```
+
+### useUserEarningsByContract
+
+Fetches the given user's earnings from the subgraph. Includes withdrawn amount and active balance (i.e. waiting
+to be withdrawn), as well as earnings broken down by each 0xSplits contract the user receives from. Optionally
+takes a list of contractIds to filter down results to.
+See [getUserEarningsByContract](/sdk/splits#getuserearningsbycontract) for details on the metadata returned.
+
+Usage
+
+```js
+const { userEarningsByContract, isLoading, status, error } = useUserEarningsByContract(
+  userId,
+  {
+    contractIds, // defaults to undefined, returning all contracts the user receives from
+  }
+)
+```
+
+### useFormattedUserEarningsByContract
+
+Wrapper around `useUserEarningsByContract` to include token data and formatted amounts.
+See [getFormattedUserEarningsByContract](/sdk/splits#getformatteduserearningsbycontract) for details on the metadata returned.
+
+Usage
+
+```js
+const { formattedUserEarningsByContract, isLoading, status, error } = useFormattedUserEarningsByContract(
+  userId,
+  {
+    contractIds, // defaults to undefined, returning all contracts the user receives from
+  }
+)
+```
+
+### useSplitMetadata
+
+Fetches the given split from the subgraph.
+See [getSplitMetadata](/sdk/splits#getsplitmetadata) for details on the metadata returned.
+
+Usage
+
+```js
+const { splitMetadata, isLoading, status, error } = useSplitMetadata(splitId)
 ```
 
 ### useLiquidSplitMetadata

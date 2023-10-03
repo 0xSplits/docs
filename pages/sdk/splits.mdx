@@ -307,6 +307,120 @@ Response
 }
 ```
 
+### getUserEarningsByContract
+
+Returns token balances for a given `userId`, separated out by each 0xSplits contract the user has received from.
+Can optionally pass in a list of `contractIds` to filter results to just a set of contracts.
+
+Usage
+
+```js
+const args = {
+  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+}
+
+const response = await splitsClient.getUserEarningsByContract(args)
+```
+
+Arguments
+
+```graphql
+{
+  userId: string
+  contractIds?: string[]
+}
+```
+
+Response
+
+```graphql
+{
+  withdrawn: { # tokens the user has already withdrawn from the protocol
+    [token: string]: BigNumber
+  }
+  activeBalances: { # tokens that have been distributed but not yet withdrawn
+    [token: string]: BigNumber
+  }
+  earningsByContract: { # Earnings broken out by each 0xSplits contract the user has received from
+    [contractAddress: string]: {
+      withdrawn: {
+        [token: string]: BigNumber
+      }
+      activeBalances: {
+        [token: string]: BigNumber
+      }
+    }
+  }
+}
+```
+
+### getFormattedUserEarningsByContract
+
+Returns the same data as `getUserEarningsByContract`, but includes token data as well as a
+formatted amount.
+
+Usage
+
+```js
+const args = {
+  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+}
+
+const response = await splitsClient.getFormattedUserEarningsByContract(args)
+```
+
+Arguments
+
+```graphql
+{
+  userId: string
+  contractIds?: string[]
+}
+```
+
+Response
+
+```graphql
+{
+  withdrawn: { # tokens the user has already withdrawn from the protocol
+    [token: string]: {
+      symbol: string
+      decimals: number
+      rawAmount: BigNumber
+      formattedAmount: string
+    }
+  }
+  activeBalances: { # tokens that have been distributed but not yet withdrawn
+    [token: string]: {
+      symbol: string
+      decimals: number
+      rawAmount: BigNumber
+      formattedAmount: string
+    }
+  }
+  earningsByContract: { # Earnings broken out by each 0xSplits contract the user has received from
+    [contractAddress: string]: {
+      withdrawn: {
+        [token: string]: {
+          symbol: string
+          decimals: number
+          rawAmount: BigNumber
+          formattedAmount: string
+        }
+      }
+      activeBalances: {
+        [token: string]: {
+          symbol: string
+          decimals: number
+          rawAmount: BigNumber
+          formattedAmount: string
+        }
+      }
+    }
+  }
+}
+```
+
 ## SplitMain Writes
 
 ### createSplit
