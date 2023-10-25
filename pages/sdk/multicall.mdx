@@ -12,7 +12,7 @@ we withdraw that token for the liquid split from SplitMain, then we distribute t
 
 ```
 const splitDistributionArgs = {
-  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
+  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
   token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92",
   distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
 }
@@ -25,7 +25,7 @@ const withdrawArgs = {
 const withdrawCallData = await splitsClient.callData.withdrawFunds(withdrawArgs)
 
 const liquidSplitDistributionArgs = {
-  liquidSplitId: "0xb5Ce41320F3d486671918733BB3226E3981Db62b",
+  liquidSplitAddress: "0xb5Ce41320F3d486671918733BB3226E3981Db62b",
   token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92",
   distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
 }
@@ -46,6 +46,6 @@ Arguments
 Response
 ```graphql
 {
-  events: Event[]
+  events: Log[]
 }
 ```
