@@ -1,0 +1,467 @@
+# Waterfall
+
+Begin by importing `WaterfallClient` into your app. If you are using the
+`SplitsClient`, you can access the waterfall client as well.
+
+```js
+import { WaterfallClient } from '@0xsplits/splits-sdk'
+
+const waterfallClient = new WaterfallClient({
+  chainId,
+  provider, // ethers provider (optional, required if using any of the SplitMain functions)
+  signer, // ethers signer (optional, required if using the SplitMain write functions)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for waterfall recipients (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
+  // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
+  // other chain for non EOAs (e.g. Gnosis Safe's)
+  ensProvider, // ethers provider (optional)
+})
+```
+
+OR
+
+```js
+import { SplitsClient } from '@0xsplits/splits-sdk'
+
+const splitsClient = new SplitsClient({
+  chainId,
+  provider,
+  signer,
+  includeEnsNames,
+  ensProvider,
+})
+
+const waterfallClient = splitsClient.waterfall
+```
+
+Now you're ready to use any of the functions. All Arguments and Responses for
+these functions are `objects`. This will make it easier for us to release
+updates to the SDK without breaking existing implementations.
+
+The SDK comprises 3 different types of functions: Subgraph Reads, Waterfall
+Writes, and Waterfall Reads.
+
+## Subgraph Reads
+
+These functions make it easier to query the [subgraph](/subgraph).
+
+### getWaterfallMetadata
+
+Returns all metadata for a given `waterfallModuleId`.
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+}
+
+const response = await waterfallClient.getWaterfallMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+}
+```
+
+Response
+
+```graphql
+{
+  type: 'WaterfallModule'
+  id: string
+  token: {
+    address: string
+    symbol: string
+    decimals: number
+  }
+  nonWaterfallRecipient: string | null
+  tranches: {
+    recipientAddress: string
+    recipientEnsName?: string
+    startAmount: number
+    size?: number
+  }[]
+}
+```
+
+## Waterfall Writes
+
+These functions make it easier to call [Waterfall functions](/core/waterfall).
+
+### createWaterfallModule
+
+Creates a new Waterfall contract.
+
+Usage
+
+```js
+const args = {
+  token: "0x0000000000000000000000000000000000000000"
+  tranches: [
+    {
+      recipient: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+      size: 5.2 # Receives the first 5.2 eth
+    },
+    {
+      recipient: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
+      size: 3 # Receives the next 3 eth
+    },
+    {
+      recipient: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+    }
+  ]
+}
+
+const response = await waterfallClient.createWaterfallModule(args)
+```
+
+Arguments
+
+```graphql
+{
+  token: string
+  tranches: {
+    recipient: string
+    size?: number # the last tranche should have no size set, as it will receive all residual funds
+  }[]
+  nonWaterfallRecipient?: string # defaults to AddressZero, meaning any tranche recipient can recover non-waterfall tokens
+}
+```
+
+Response
+
+```graphql
+{
+  waterfallModuleId: string
+  event: Event # CreateWaterfallModule emitted on WaterfallModuleFactory
+}
+```
+
+### waterfallFunds
+
+Distributes the current balance for the given waterfall through it's tranches
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+}
+
+const response = await waterfallClient.waterfallFunds(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+  # If you have attempted to distribute the funds through the tranches, but are
+  # hitting an error due to one of the tranche recipients being unable to receive
+  # funds, you can call waterfallFunds with usePull set to true. This will set aside
+  # the appropriate balance for each tranche recipient within the waterfall module
+  # contract. Each recipient can then withdraw their funds using the withdrawPullFunds
+  # function below.
+  usePull?: boolean # defaults to false
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # WaterfallFunds emitted on the Waterfall contract
+}
+```
+
+### recoverNonWaterfallFunds
+
+Recovers the balance of `token` for `waterfallModuleId` to the passed in
+recipient.
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: "0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC"
+  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  recipient: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
+}
+
+const response = await waterfallClient.recoverNonWaterfallFunds(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+  token: string
+  # The recipient can be any of the tranche recipients on the waterfall. If a `nonWaterfallRecipient`
+  # was set when the waterfall was created, then recipient must be that address
+  recipient: string
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # RecoverNonWaterfallFunds on the Waterfall contract
+}
+```
+
+### withdrawPullFunds
+
+Withdraws the funds for the passed in recipient that were set aside after a
+`waterfallFunds` call with `usePull` set to true.
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: "0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC"
+  address: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
+}
+
+const response = await waterfallClient.withdrawPullFunds(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+  address: string
+}
+```
+
+Response
+
+```graphql
+{
+  event: Event # Withdrawal emitted on the Waterfall contract
+}
+```
+
+## Gas Estimation
+
+The client has a gas estimation feature that can be used with any of the above
+write functions. Just call the function off of the `estimateGas` property.
+Estimating the gas for the create waterfall module function would look like:
+
+```js
+const args = {
+  token: "0x0000000000000000000000000000000000000000"
+  tranches: [
+    {
+      recipient: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+      size: 5.2 # Receives the first 5.2 eth
+    },
+    {
+      recipient: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
+      size: 3 # Receives the next 3 eth
+    },
+    {
+      recipient: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+    }
+  ]
+}
+
+const gasEstimate = await waterfallClient.estimateGas.createWaterfallModule(args)
+```
+
+## Waterfall Reads
+
+These functions make it easier to query the
+[Waterfall contracts](/core/waterfall).
+
+### getDistributedFunds
+
+Returns the distributed balance for a given `waterfallModuleId`.
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+}
+
+const response = await waterfallClient.getDistributedFunds(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+}
+```
+
+Response
+
+```graphql
+{
+  distributedFunds: BigNumber
+}
+```
+
+### getFundsPendingWithdrawal
+
+Returns the pending balance for pull withdrawal for a given `waterfallModuleId`.
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+}
+
+const response = await waterfallClient.getFundsPendingWithdrawal(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+}
+```
+
+Response
+
+```graphql
+{
+  fundsPendingWithdrawal: BigNumber
+}
+```
+
+### getTranches
+
+Returns the recipient list and threshold list for the tranches of a given
+`waterfallModuleId`.
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+}
+
+const response = await waterfallClient.getTranches(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+}
+```
+
+Response
+
+```graphql
+{
+  recipients: string[]
+  thresholds: BigNumber[]
+}
+```
+
+### getNonWaterfallRecipient
+
+Returns the non-waterfall recipient for a given `waterfallModuleId`. If none was
+set, returns the zero address.
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+}
+
+const response = await waterfallClient.getNonWaterfallRecipient(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+}
+```
+
+Response
+
+```graphql
+{
+  nonWaterfallRecipient: string
+}
+```
+
+### getToken
+
+Returns the token for a given `waterfallModuleId`.
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+}
+
+const response = await waterfallClient.getToken(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+}
+```
+
+Response
+
+```graphql
+{
+  token: string
+}
+```
+
+### getPullBalance
+
+Returns the balance set aside for withdrawal for a given `waterfallModuleId` and
+recipient address.
+
+Usage
+
+```js
+const args = {
+  waterfallModuleId: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+  address: '0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72',
+}
+
+const response = await waterfallClient.getPullBalance(args)
+```
+
+Arguments
+
+```graphql
+{
+  waterfallModuleId: string
+  address: string
+}
+```
+
+Response
+
+```graphql
+{
+  pullBalance: BigNumber
+}
+```

@@ -1,0 +1,211 @@
+# Templates
+
+Begin by importing `TemplatesClient` into your app. If you are using the
+`SplitsClient`, you can access the templates client as well.
+
+```js
+import { TemplatesClient } from '@0xsplits/splits-sdk'
+
+const templatesClient = new TemplatesClient({
+  chainId,
+  provider, // ethers provider
+  signer, // ethers signer
+})
+```
+
+OR
+
+```js
+import { SplitsClient } from '@0xsplits/splits-sdk'
+
+const splitsClient = new SplitsClient({
+  chainId,
+  provider,
+  signer,
+  includeEnsNames,
+  ensProvider,
+})
+
+const templatesClient = splitsClient.templates
+```
+
+Now you're ready to use any of the functions. All Arguments and Responses for
+these functions are `objects`. This will make it easier for us to release
+updates to the SDK without breaking existing implementations.
+
+## Template Writes
+
+These functions make it easier to call various template contracts that combine Split
+core contracts together.
+
+### createRecoup
+
+Calls a helper contract that creates a new Waterfall and potentially multiple
+Splits (a Waterfall tranche with multiple recipients will be a Split). A CreateRecoup
+event with the waterfall contract address is emitted by the helper contract and the
+Splits Subgraph will pick this up so that these Recoup Waterfalls can be displayed
+differently.
+
+Usage
+
+```js
+const args = {
+  token: "0x0000000000000000000000000000000000000000"
+  tranches: [
+    {
+      recipient: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+      size: 5.2 # Receives the first 5.2 eth
+    },
+    {
+      recipient: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
+      size: 3 # Receives the next 3 eth
+    },
+    {
+      recipient: {
+        recipients: [
+            {
+                address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+                percentAllocation: 50
+            },
+            {
+                address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
+                percentAllocation: 30
+            },
+            {
+                address: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+                percentAllocation: 20
+            }
+        ],
+        distributorFeePercent: 1
+      }
+    }
+  ]
+}
+
+const response = await templatesClient.createRecoup(args)
+```
+
+Arguments
+
+```graphql
+{
+  token: string
+  tranches: {
+    recipient: string | {
+        recipients: {
+            address: string
+            percentAllocation: number # >0 and <100 and up to 4 decimals
+        }[]
+        distributorFeePercent: number # <10 and up to 4 decimals
+        controller?: string # defaults to AddressZero for an immutable split
+    }
+    size?: number # the last tranche should have no size set, as it will receive all residual funds
+  }[]
+  nonWaterfallRecipientAddress?: string # defaults to AddressZero
+  nonWaterfallRecipientTrancheIndex?: number # defaults to undefined
+}
+```
+
+Response
+
+```graphql
+{
+  waterfallModuleId: string
+  event: Event # CreateRecoup emitted on Recoup
+}
+```
+
+#### Note on non-waterfall recipient
+If you want to set the non-waterfall recipient (i.e. the address that can receive any
+token that is not the waterfall token), you can use either nonWaterfallRecipientAddress
+or nonWaterfallRecipientTrancheIndex. If you have an address, set that. If you want to
+make a specific tranche the non-waterfall recipient, set the tranche index
+(remember that the first tranche is index 0). If you do not set either of them, the 
+non-waterfall recipient will get set to the zero address, which means non-waterfall 
+tokens can be recovered to any tranche recipient.
+
+#### Note on existing immutable splits
+If you are including an existing immutable split in the create recoup input, you must
+use just the Split's address and not the recipients/percent allocations for it. If you 
+pass in the recipients the transaction will fail when it goes to create that immutable
+split since it already exists.
+
+### createDiversifier
+
+Calls a helper contract that creates a new PassThroughWallet, a new Split, and potentially multiple
+Swappers. A CreateDiversifier event with the pass through wallet contract address is emitted by the
+helper contract and the Splits Subgraph will pick this up so that these Diversifiers can be displayed
+properly in the 0xSplits webapp.
+
+Usage
+
+```js
+const args = {
+  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f"
+  oracleParams: {
+    address: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
+  },
+  recipients: [
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+      percentAllocation: 60
+    }
+    {
+      swapperParams: {
+        beneficiary: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+        tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+        defaultScaledOfferFactorPercent: 1,
+        scaledOfferFactorOverrides: [
+          {
+            baseToken: "0x0000000000000000000000000000000000000000",
+            quoteToken: "0x0000000000000000000000000000000000000000",
+            scaledOfferFactorPercent: 0.1,
+          }
+        ],
+      },
+      percentAllocation: 40
+    }
+  ]
+}
+
+const response = await templatesClient.createDiversifier(args)
+```
+
+Arguments
+
+```graphql
+{
+  owner: string
+  paused?: boolean # defaults to false
+  oracleParams: {
+    address?: string
+    createOracleParams?: {
+      factory: string
+      data: string
+    }
+  }
+  recipients: {
+    address?: string
+    swapperParams?: {
+      beneficiary: string
+      tokenToBeneficiary: string
+      defaultScaledOfferFactorPercent: number
+      scaledOfferFactorOverrides: {
+        baseToken: string
+        quoteToken: string
+        scaledOfferFactorPercent: number
+      }[]
+    }
+    percentAllocation: number
+  }[]
+}
+```
+
+Response
+
+```graphql
+{
+  passThroughWalletId: string
+  event: Event # CreateDiversifier emitted on DiversifierFactory
+}
+```
