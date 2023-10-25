@@ -8,13 +8,13 @@ import { SwapperClient } from '@0xsplits/splits-sdk'
 
 const swapperClient = new SwapperClient({
   chainId,
-  publicClient, // viem public client (optional, required if using any of the contract functions)
-  walletClient, // viem wallet client (optional, required if using any contract write functions. must have an account already attached)
-  includeEnsNames, // boolean, defaults to false. If true, will return ens names for any swapper owner or beneficiary (only for mainnet)
-  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet public client
+  provider, // ethers provider (optional, required if using any of the contract functions)
+  signer, // ethers signer (optional, required if using the contract write functions)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for swapper recipients (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
-  ensPublicClient, // viem public client (optional)
+  ensProvider, // ethers provider (optional)
 })
 ```
 
@@ -25,10 +25,10 @@ import { SplitsClient } from '@0xsplits/splits-sdk'
 
 const splitsClient = new SplitsClient({
   chainId,
-  publicClient,
-  walletClient,
+  provider,
+  signer,
   includeEnsNames,
-  ensPublicClient,
+  ensProvider,
 })
 
 const swapperClient = splitsClient.swapper
@@ -47,13 +47,13 @@ These functions make it easier to query the [subgraph](/subgraph).
 
 ### getSwapperMetadata
 
-Returns all metadata for a given `swapperAddress`.
+Returns all metadata for a given `swapperId`.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getSwapperMetadata(args)
@@ -63,7 +63,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
 }
 ```
 
@@ -72,7 +72,7 @@ Response
 ```graphql
 {
   type: 'Swapper'
-  address: string
+  id: string
   beneficiary: {
     address: string
     ens?: string
@@ -87,12 +87,8 @@ Response
   paused: boolean
   defaultScaledOfferFactorPercent: number
   scaledOfferFactorOverrides: {
-    baseToken: {
-      address: string
-    }
-    quoteToken: {
-      address: string
-    }
+    baseToken: string
+    quoteToken: string
     scaledOfferFactorPercent: number
   }[]
 }
@@ -157,8 +153,8 @@ Response
 
 ```graphql
 {
-  swapperAddress: string
-  event: Log # CreateSwapper emitted on SwapperFactory
+  swapperId: string
+  event: Event # CreateSwapper emitted on SwapperFactory
 }
 ```
 
@@ -171,13 +167,13 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
   inputAssets: [
     {
       encodedPath: '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d60001f41f9840a85d5af5bf1d1762f925bdaddc4201f984',
       token: 0x0000000000000000000000000000000000000000,
-      amountIn: BigInt('100000000000000000'),
-      amountOutMin: BigInt('1000000000'),
+      amountIn: BigNumber.from('100000000000000000'),
+      amountOutMin: BigNumber.from('1000000000'),
     }
   ]
 }
@@ -189,7 +185,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
   # Will receive the excess funds from the uniswap trade after the swapper beneficiary gets their expected output
   excessRecipient?: string # defaults to signer
   # Inputs required for the exact input function for Uniswap V3
@@ -197,8 +193,8 @@ Arguments
   inputAssets: {
     encodedPath: string
     token: string
-    amountIn: bigint
-    amountOutMin: bigint
+    amountIn: BigNumber
+    amountOutMin: BigNumber
   }[]
   transactionTimeLimit?: number # In seconds
 }
@@ -208,7 +204,7 @@ Response
 
 ```graphql
 {
-  event: Log # Flash emitted on the Swapper contract
+  event: Event # Flash emitted on the Swapper contract
 }
 ```
 
@@ -220,11 +216,11 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   calls: [
     {
       to: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
-      value: BigInt(1),
+      value: BigNumber.from(1),
       data: "0x0",
     }
   ]
@@ -237,10 +233,10 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
   calls: {
     to: string
-    value: bigint
+    value: BigNumber
     data: string
   }[]
 }
@@ -250,7 +246,7 @@ Response
 
 ```graphql
 {
-  event: Log # ExecCalls on the Swapper contract
+  event: Event # ExecCalls on the Swapper contract
 }
 ```
 
@@ -263,7 +259,7 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   paused: true,
 }
 
@@ -274,7 +270,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
   paused: boolean
 }
 ```
@@ -283,7 +279,7 @@ Response
 
 ```graphql
 {
-  event: Log # SetPaused emitted on the Swapper contract
+  event: Event # SetPaused emitted on the Swapper contract
 }
 ```
 
@@ -295,7 +291,7 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   beneficiary: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
 }
 
@@ -306,7 +302,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
   beneficiary: string
 }
 ```
@@ -315,7 +311,7 @@ Response
 
 ```graphql
 {
-  event: Log # SetBeneficiary emitted on the Swapper contract
+  event: Event # SetBeneficiary emitted on the Swapper contract
 }
 ```
 
@@ -327,7 +323,7 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
 }
 
@@ -338,7 +334,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
   tokenToBeneficiary: string
 }
 ```
@@ -347,7 +343,7 @@ Response
 
 ```graphql
 {
-  event: Log # SetTokenToBeneficiary emitted on the Swapper contract
+  event: Event # SetTokenToBeneficiary emitted on the Swapper contract
 }
 ```
 
@@ -359,7 +355,7 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   oracle: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
 }
 
@@ -370,7 +366,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
   oracle: string
 }
 ```
@@ -379,7 +375,7 @@ Response
 
 ```graphql
 {
-  event: Log # SetOracle emitted on the Swapper contract
+  event: Event # SetOracle emitted on the Swapper contract
 }
 ```
 
@@ -391,7 +387,7 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   defaultScaledOfferFactorPercent: 1,
 }
 
@@ -402,7 +398,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
   defaultScaledOfferFactorPercent: number
 }
 ```
@@ -411,7 +407,7 @@ Response
 
 ```graphql
 {
-  event: Log # SetDefaultScaledOfferFactor emitted on the Swapper contract
+  event: Event # SetDefaultScaledOfferFactor emitted on the Swapper contract
 }
 ```
 
@@ -425,7 +421,7 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperId: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
   scaledOfferFactorOverrides: [
     {
       baseToken: "0x0000000000000000000000000000000000000000",
@@ -447,7 +443,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
   scaledOfferFactorOverrides: {
     baseToken: string
     quoteToken: string
@@ -460,7 +456,7 @@ Response
 
 ```graphql
 {
-  event: Log # SetPairScaledOfferFactors emitted on the Swapper contract
+  event: Event # SetPairScaledOfferFactors emitted on the Swapper contract
 }
 ```
 
@@ -498,13 +494,13 @@ These functions make it easier to query the
 
 ### getBeneficiary
 
-Returns the beneficiary for a given `swapperAddress`.
+Returns the beneficiary for a given `swapperId`.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getBeneficiary(args)
@@ -514,7 +510,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
 }
 ```
 
@@ -528,13 +524,13 @@ Response
 
 ### getTokenToBeneficiary
 
-Returns the token to beneficiary for a given `swapperAddress`.
+Returns the token to beneficiary for a given `swapperId`.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getTokenToBeneficiary(args)
@@ -544,7 +540,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
 }
 ```
 
@@ -558,13 +554,13 @@ Response
 
 ### getOracle
 
-Returns the oracle for a given `swapperAddress`.
+Returns the oracle for a given `swapperId`.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getOracle(args)
@@ -574,7 +570,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
 }
 ```
 
@@ -588,13 +584,13 @@ Response
 
 ### getDefaultScaledOfferFactor
 
-Returns the default scaled offer factor for a given `swapperAddress`.
+Returns the default scaled offer factor for a given `swapperId`.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  swapperId: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
 }
 
 const response = await swapperClient.getDefaultScaledOfferFactor(args)
@@ -604,7 +600,7 @@ Arguments
 
 ```graphql
 {
-  swapperAddress: string
+  swapperId: string
 }
 ```
 
@@ -612,6 +608,6 @@ Response
 
 ```graphql
 {
-  defaultScaledOfferFactor: number
+  defaultScaledOfferFactor: BigNumber
 }
 ```

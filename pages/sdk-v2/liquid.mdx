@@ -8,13 +8,13 @@ import { LiquidSplitClient } from '@0xsplits/splits-sdk'
 
 const liquidSplitClient = new LiquidSplitClient({
   chainId,
-  publicClient, // viem public client (optional, required if using any of the contract functions)
-  walletClient, // viem wallet client (optional, required if using any contract write functions. must have an account already attached)
-  includeEnsNames, // boolean, defaults to false. If true, will return ens names for any liquid split holder (only for mainnet)
-  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet public client
+  provider, // ethers provider (optional, required if using any of the contract functions)
+  signer, // ethers signer (optional, required if using the contract write functions)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for liquid split holders (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
-  ensPublicClient, // viem public client (optional)
+  ensProvider, // ethers provider (optional)
 })
 ```
 
@@ -25,10 +25,10 @@ import { SplitsClient } from '@0xsplits/splits-sdk'
 
 const splitsClient = new SplitsClient({
   chainId,
-  publicClient,
-  walletClient,
+  provider,
+  signer,
   includeEnsNames,
-  ensPublicClient,
+  ensProvider,
 })
 
 const liquidSplitClient = splitsClient.liquidSplits
@@ -47,13 +47,13 @@ These functions make it easier to query the [subgraph](/subgraph).
 
 ### getLiquidSplitMetadata
 
-Returns all metadata for a given `liquidSplitAddress`.
+Returns all metadata for a given `liquidSplitId`.
 
 Usage
 
 ```js
 const args = {
-  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
+  liquidSplitId: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
 }
 
 const response = await liquidSplitClient.getLiquidSplitMetadata(args)
@@ -63,7 +63,7 @@ Arguments
 
 ```graphql
 {
-  liquidSplitAddress: string
+  liquidSplitId: string
 }
 ```
 
@@ -72,16 +72,14 @@ Response
 ```graphql
 {
   type: 'LiquidSplit'
-  address: string
+  id: string
   distributorFeePercent: number
-  payoutSplitAddress: string
+  payoutSplitId: string
   isFactoryGenerated: boolean
   holders: {
+    address: string
     percentAllocation: number
-    recipient: {
-      address: string
-      ensName?: string
-    }
+    ensName?: string
   }[]
 }
 ```
@@ -133,8 +131,8 @@ Response
 
 ```graphql
 {
-  liquidSplitAddress: string
-  event: Log # CreateLS1155Clone emitted on LiquidSplitFactory
+  liquidSplitId: string
+  event: Event # CreateLS1155Clone emitted on LiquidSplitFactory
 }
 ```
 
@@ -147,7 +145,7 @@ Usage
 
 ```js
 const args = {
-  liquidSplitAddress: "0xb5Ce41320F3d486671918733BB3226E3981Db62b"
+  liquidSplitId: "0xb5Ce41320F3d486671918733BB3226E3981Db62b"
   token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
   distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
 }
@@ -159,7 +157,7 @@ Arguments
 
 ```graphql
 {
-  liquidSplitAddress: string
+  liquidSplitId: string
   token: string
   distributorAddress?: string # defaults to signer
 }
@@ -169,7 +167,7 @@ Response
 
 ```graphql
 {
-  event: Log # DistributeETH or DistributeERC20 emitted on the Liquid Split contract
+  event: Event # DistributeETH or DistributeERC20 emitted on the Liquid Split contract
 }
 ```
 
@@ -182,7 +180,7 @@ Usage
 
 ```js
 const args = {
-  liquidSplitAddress: "0xb5Ce41320F3d486671918733BB3226E3981Db62b"
+  liquidSplitId: "0xb5Ce41320F3d486671918733BB3226E3981Db62b"
   newOwner: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
 }
 
@@ -193,7 +191,7 @@ Arguments
 
 ```graphql
 {
-  liquidSplitAddress: string
+  liquidSplitId: string
   newOwner: string
 }
 ```
@@ -202,7 +200,7 @@ Response
 
 ```graphql
 {
-  event: Log # OwnershipTransferred emitted on the Liquid Split contract
+  event: Event # OwnershipTransferred emitted on the Liquid Split contract
 }
 ```
 
@@ -238,13 +236,13 @@ These functions make it easier to query the
 
 ### getDistributorFee
 
-Returns the distributor fee of a given `liquidSplitAddress`.
+Returns the distributor fee of a given `liquidSplitId`.
 
 Usage
 
 ```js
 const args = {
-  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
+  liquidSplitId: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
 }
 
 const response = await liquidSplitClient.getDistributorFee(args)
@@ -254,7 +252,7 @@ Arguments
 
 ```graphql
 {
-  liquidSplitAddress: string
+  liquidSplitId: string
 }
 ```
 
@@ -268,13 +266,13 @@ Response
 
 ### getPayoutSplit
 
-Returns the payout split of a given `liquidSplitAddress`.
+Returns the payout split of a given `liquidSplitId`.
 
 Usage
 
 ```js
 const args = {
-  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
+  liquidSplitId: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
 }
 
 const response = await liquidSplitClient.getPayoutSplit(args)
@@ -284,7 +282,7 @@ Arguments
 
 ```graphql
 {
-  liquidSplitAddress: string
+  liquidSplitId: string
 }
 ```
 
@@ -298,13 +296,13 @@ Response
 
 ### getOwner
 
-Returns the owner of a given `liquidSplitAddress`.
+Returns the owner of a given `liquidSplitId`.
 
 Usage
 
 ```js
 const args = {
-  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
+  liquidSplitId: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
 }
 
 const response = await liquidSplitClient.getOwner(args)
@@ -314,7 +312,7 @@ Arguments
 
 ```graphql
 {
-  liquidSplitAddress: string
+  liquidSplitId: string
 }
 ```
 
@@ -328,13 +326,13 @@ Response
 
 ### getUri
 
-Returns the uri of a given `liquidSplitAddress`.
+Returns the uri of a given `liquidSplitId`.
 
 Usage
 
 ```js
 const args = {
-  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
+  liquidSplitId: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
 }
 
 const response = await liquidSplitClient.getUri(args)
@@ -344,7 +342,7 @@ Arguments
 
 ```graphql
 {
-  liquidSplitAddress: string
+  liquidSplitId: string
 }
 ```
 
@@ -358,14 +356,14 @@ Response
 
 ### getScaledPercentBalanceOf
 
-Returns the current percent ownership of a given `liquidSplitAddress` for an
+Returns the current percent ownership of a given `liquidSplitId` for an
 `address`.
 
 Usage
 
 ```js
 const args = {
-  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
+  liquidSplitId: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
   address: '0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72',
 }
 
@@ -376,7 +374,7 @@ Arguments
 
 ```graphql
 {
-  liquidSplitAddress: string
+  liquidSplitId: string
   address: string
 }
 ```

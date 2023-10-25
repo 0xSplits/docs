@@ -8,13 +8,13 @@ import { VestingClient } from '@0xsplits/splits-sdk'
 
 const vestingClient = new VestingClient({
   chainId,
-  publicClient, // viem public client (optional, required if using any of the contract functions)
-  walletClient, // viem wallet client (optional, required if using any contract write functions. must have an account already attached)
-  includeEnsNames, // boolean, defaults to false. If true, will return ens names for any vesting beneficiary (only for mainnet)
-  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet public client
+  provider, // ethers provider (optional, required if using any of the SplitMain functions)
+  signer, // ethers signer (optional, required if using the SplitMain write functions)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for vesting beneficiaries (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
-  ensPublicClient, // viem public client (optional)
+  ensProvider, // ethers provider (optional)
 })
 ```
 
@@ -25,10 +25,10 @@ import { SplitsClient } from '@0xsplits/splits-sdk'
 
 const splitsClient = new SplitsClient({
   chainId,
-  publicClient,
-  walletClient,
+  provider,
+  signer,
   includeEnsNames,
-  ensPublicClient,
+  ensProvider,
 })
 
 const vestingClient = splitsClient.vesting
@@ -47,13 +47,13 @@ These functions make it easier to query the [subgraph](/subgraph).
 
 ### getVestingMetadata
 
-Returns all metadata for a given `vestingModuleAddress`.
+Returns all metadata for a given `vestingModuleId`.
 
 Usage
 
 ```js
 const args = {
-  vestingModuleAddress: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
 }
 
 const response = await vestingClient.getVestingMetadata(args)
@@ -63,7 +63,7 @@ Arguments
 
 ```graphql
 {
-  vestingModuleAddress: string
+  vestingModuleId: string
 }
 ```
 
@@ -72,7 +72,7 @@ Response
 ```graphql
 {
   type: 'VestingModule'
-  address: string
+  id: string
   beneficiary: {
     address: string
     ensName?: string
@@ -85,8 +85,8 @@ Response
     releasedAmount: number
     token: {
       address: string
-      symbol?: string
-      decimals?: number
+      symbol: string
+      decimals: number
     }
   }[]
 }
@@ -124,8 +124,8 @@ Response
 
 ```graphql
 {
-  vestingModuleAddress: string
-  event: Log # CreateVestingModule emitted on VestingModuleFactory
+  vestingModuleId: string
+  event: Event # CreateVestingModule emitted on VestingModuleFactory
 }
 ```
 
@@ -137,7 +137,7 @@ Usage
 
 ```js
 const args = {
-  vestingModuleAddress: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
   tokens: [
     '0x0000000000000000000000000000000000000000',
     '0x64d91f12ece7362f91a6f8e7940cd55f05060b92',
@@ -151,7 +151,7 @@ Arguments
 
 ```graphql
 {
-  vestingModuleAddress: string
+  vestingModuleId: string
   tokens: string[]
 }
 ```
@@ -160,7 +160,7 @@ Response
 
 ```graphql
 {
-  events: Log[] # CreateVestingStream emitted on the Vesting contract (one event per token)
+  events: Event[] # CreateVestingStream emitted on the Vesting contract (one event per token)
 }
 ```
 
@@ -172,7 +172,7 @@ Usage
 
 ```js
 const args = {
-  vestingModuleAddress: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
   streamIds: ['0', '1'],
 }
 
@@ -183,7 +183,7 @@ Arguments
 
 ```graphql
 {
-  vestingModuleAddress: string
+  vestingModuleId: string
   streamIds: string[]
 }
 ```
@@ -192,7 +192,7 @@ Response
 
 ```graphql
 {
-  events: Log[] # ReleaseFromVestingStream emitted on the Vesting contract (one event per stream)
+  events: Event[] # ReleaseFromVestingStream emitted on the Vesting contract (one event per stream)
 }
 ```
 
@@ -251,13 +251,13 @@ Response
 
 ### getBeneficiary
 
-Returns the beneficiary for a given `vestingModuleAddress`.
+Returns the beneficiary for a given `vestingModuleId`.
 
 Usage
 
 ```js
 const args = {
-  vestingModuleAddress: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
 }
 
 const response = await vestingClient.getBeneficiary(args)
@@ -267,7 +267,7 @@ Arguments
 
 ```graphql
 {
-  vestingModuleAddress: string
+  vestingModuleId: string
 }
 ```
 
@@ -281,13 +281,13 @@ Response
 
 ### getVestingPeriod
 
-Returns the vesting period for a given `vestingModuleAddress`.
+Returns the vesting period for a given `vestingModuleId`.
 
 Usage
 
 ```js
 const args = {
-  vestingModuleAddress: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
 }
 
 const response = await vestingClient.getVestingPeriod(args)
@@ -297,7 +297,7 @@ Arguments
 
 ```graphql
 {
-  vestingModuleAddress: string
+  vestingModuleId: string
 }
 ```
 
@@ -305,19 +305,19 @@ Response
 
 ```graphql
 {
-  vestingPeriod: bigint
+  vestingPeriod: BigNumber
 }
 ```
 
 ### getVestedAmount
 
-Returns the vested amount for a given `vestingModuleAddress` and `streamId`.
+Returns the vested amount for a given `vestingModuleId` and `streamId`.
 
 Usage
 
 ```js
 const args = {
-  vestingModuleAddress: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
   streamId: 0,
 }
 
@@ -328,7 +328,7 @@ Arguments
 
 ```graphql
 {
-  vestingModuleAddress: string
+  vestingModuleId: string
   streamId: string
 }
 ```
@@ -337,20 +337,20 @@ Response
 
 ```graphql
 {
-  amount: bigint
+  amount: BigNumber
 }
 ```
 
 ### getVestedAndUnreleasedAmount
 
-Returns the vested and unreleased amount for a given `vestingModuleAddress` and
+Returns the vested and unreleased amount for a given `vestingModuleId` and
 `streamId`.
 
 Usage
 
 ```js
 const args = {
-  vestingModuleAddress: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+  vestingModuleId: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
   streamId: 0,
 }
 
@@ -361,7 +361,7 @@ Arguments
 
 ```graphql
 {
-  vestingModuleAddress: string
+  vestingModuleId: string
   streamId: string
 }
 ```
@@ -370,6 +370,6 @@ Response
 
 ```graphql
 {
-  amount: bigint
+  amount: BigNumber
 }
 ```

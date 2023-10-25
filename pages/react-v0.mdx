@@ -2,14 +2,11 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 
 # React SDK
 
-This page explains how to use the **React SDK**, a React wrapper around the
-[Core SDK](/sdk). The React SDK provides convenient hooks for easily fetching
-contract data and sending transactions. You can find the React SDK source code
-on
-[Github](https://github.com/0xSplits/splits-sdk/tree/main/packages/splits-sdk-react).
-
-The SDK uses viem under the hood. If you are using ethers-v5 and do not want to add viem to your project,
-you can check out the [original version of the react SDK](/react-v0) which uses ethers-v5.
+This page explains how to use the old ethers version of the **React SDK**, a
+React wrapper around the [Core SDK](/sdk-v2). The React SDK provides convenient
+hooks for easily fetching contract data and sending transactions. You can find
+the React SDK source code on
+[Github](https://github.com/0xSplits/splits-sdk/tree/v2/packages/splits-sdk-react).
 
 To get started, install the package using `yarn` or `npm`.
 
@@ -18,14 +15,14 @@ To get started, install the package using `yarn` or `npm`.
   <Tab>
 
 ```bash
-yarn add @0xsplits/splits-sdk-react
+yarn add @0xsplits/splits-sdk-react@0
 ```
 
   </Tab>
   <Tab>
 
 ```bash
-npm install @0xsplits/splits-sdk-react
+npm install @0xsplits/splits-sdk-react@0
 ```
 
   </Tab>
@@ -37,19 +34,13 @@ A `SplitsProvider` component is needed to manage context for all splits hooks. T
 code loads and displays a Split's basic metadata.
 
 ```js
-import { createPublicClient, http } from 'viem'
-import { mainnet } from 'viem/chains'
+import { AlchemyProvider } from '@ethersproject/providers'
 import { SplitsProvider, useSplitMetadata } from '@0xsplits/splits-sdk-react'
 
 const SPLIT_ADDRESS = '0xF8843981e7846945960f53243cA2Fd42a579f719'
-
-const publicClient = createPublicClient({ 
-  chain: mainnet,
-  transport: http()
-})
 const splitsConfig = {
   chainId: 1,
-  publicClient,
+  provider: new AlchemyProvider()
 }
 
 function App() {
@@ -68,9 +59,9 @@ function YourComponents() {
 
   return (
     <div>
-      <div>Split: {splitMetadata.address}</div>
+      <div>Split: {splitMetadata.id}</div>
       {splitMetadata.controller ? (
-        <div>Controlled by: {splitMetadata.controller.address}</div>
+        <div>Controlled by: {splitMetadata.controller}</div>
       ): (
         <div>No controller, Split is immutable</div>
       )}
@@ -78,7 +69,7 @@ function YourComponents() {
       <div>
         <div>Recipients</div>
         {splitMetadata.recipients.map((recipient) => (
-          <div key={recipient.recipient.address}>{recipient.recipient.address}: {recipient.percentAllocation}%</div>
+          <div key={recipient.address}>{recipient.address}: {recipient.percentAllocation}%</div>
         ))}
       </div>
     </div>
@@ -123,13 +114,13 @@ Usage
 ```js
 const args = {
   chainId,
-  publicClient, // viem public client
-  walletClient, // viem wallet client (must have an account already attached)
-  includeEnsNames, // boolean, defaults to false. If true, will return ens names for any recipient (only for mainnet)
-  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet public client
+  provider, // ethers provider
+  signer, // ethers signer (optional, required if using any write functions)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for split recipients (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
-  ensPublicClient, // viem public client (optional)
+  ensProvider, // ethers provider (optional)
 }
 
 const splitsClient = useSplitsClient(args)
@@ -140,13 +131,13 @@ const splitsClient = useSplitsClient(args)
 ### useSplitEarnings
 
 Fetches the given split's earnings from the subgraph. Will also optionally fetch
-active balances. See [getSplitEarnings](/sdk/splits#getsplitearnings) for more information on the input options.
+active balances. See [getSplitEarnings](/sdk-v2/splits#getsplitearnings) for more information on the input options.
 
 Usage
 
 ```js
 const { splitEarnings, formattedSplitEarnings, isLoading, status, error } = useSplitEarnings(
-  splitAddress,
+  splitId,
   includeActiveBalances, // defaults to true
   erc20TokenList, // defaults to undefined
   formatted // defaults to true
@@ -157,26 +148,26 @@ const { splitEarnings, formattedSplitEarnings, isLoading, status, error } = useS
 
 Fetches the given user's earnings from the subgraph. Includes withdrawn amount and active balance (i.e. waiting
 to be withdrawn).
-See [getUserEarnings](/sdk/splits#getuserearnings) for details on the metadata returned.
+See [getUserEarnings](/sdk-v2/splits#getuserearnings) for details on the metadata returned.
 
 Usage
 
 ```js
 const { userEarnings, isLoading, status, error } = useUserEarnings(
-  userAddress,
+  userId,
 )
 ```
 
 ### useFormattedUserEarnings
 
 Wrapper around `useUserEarnings` to include token data and formatted amounts.
-See [getFormattedUserEarnings](/sdk/splits#getformatteduserearnings) for details on the metadata returned.
+See [getFormattedUserEarnings](/sdk-v2/splits#getformatteduserearnings) for details on the metadata returned.
 
 Usage
 
 ```js
 const { formattedUserEarnings, isLoading, status, error } = useFormattedUserEarnings(
-  userAddress,
+  userId,
 )
 ```
 
@@ -184,16 +175,16 @@ const { formattedUserEarnings, isLoading, status, error } = useFormattedUserEarn
 
 Fetches the given user's earnings from the subgraph. Includes withdrawn amount and active balance (i.e. waiting
 to be withdrawn), as well as earnings broken down by each 0xSplits contract the user receives from. Optionally
-takes a list of contractAddresses to filter down results to.
-See [getUserEarningsByContract](/sdk/splits#getuserearningsbycontract) for details on the metadata returned.
+takes a list of contractIds to filter down results to.
+See [getUserEarningsByContract](/sdk-v2/splits#getuserearningsbycontract) for details on the metadata returned.
 
 Usage
 
 ```js
 const { userEarningsByContract, isLoading, status, error } = useUserEarningsByContract(
-  userAddress,
+  userId,
   {
-    contractAddresses, // defaults to undefined, returning all contracts the user receives from
+    contractIds, // defaults to undefined, returning all contracts the user receives from
   }
 )
 ```
@@ -201,15 +192,15 @@ const { userEarningsByContract, isLoading, status, error } = useUserEarningsByCo
 ### useFormattedUserEarningsByContract
 
 Wrapper around `useUserEarningsByContract` to include token data and formatted amounts.
-See [getFormattedUserEarningsByContract](/sdk/splits#getformatteduserearningsbycontract) for details on the metadata returned.
+See [getFormattedUserEarningsByContract](/sdk-v2/splits#getformatteduserearningsbycontract) for details on the metadata returned.
 
 Usage
 
 ```js
 const { formattedUserEarningsByContract, isLoading, status, error } = useFormattedUserEarningsByContract(
-  userAddress,
+  userId,
   {
-    contractAddresses, // defaults to undefined, returning all contracts the user receives from
+    contractIds, // defaults to undefined, returning all contracts the user receives from
   }
 )
 ```
@@ -217,56 +208,56 @@ const { formattedUserEarningsByContract, isLoading, status, error } = useFormatt
 ### useSplitMetadata
 
 Fetches the given split from the subgraph.
-See [getSplitMetadata](/sdk/splits#getsplitmetadata) for details on the metadata returned.
+See [getSplitMetadata](/sdk-v2/splits#getsplitmetadata) for details on the metadata returned.
 
 Usage
 
 ```js
-const { splitMetadata, isLoading, status, error } = useSplitMetadata(splitAddress)
+const { splitMetadata, isLoading, status, error } = useSplitMetadata(splitId)
 ```
 
 ### useLiquidSplitMetadata
 
 Fetches the given liquid split from the subgraph.
-See [getLiquidSplitMetadata](/sdk/liquid#getliquidsplitmetadata) for details on the metadata returned.
+See [getLiquidSplitMetadata](/sdk-v2/liquid#getliquidsplitmetadata) for details on the metadata returned.
 
 Usage
 
 ```js
-const { liquidSplitMetadata, isLoading, status, error } = useLiquidSplitMetadata(liquidsplitAddress)
+const { liquidSplitMetadata, isLoading, status, error } = useLiquidSplitMetadata(liquidSplitId)
 ```
 
 ### useWaterfallMetadata
 
 Fetches the given waterfall module from the subgraph.
-See [getWaterfallMetadata](/sdk/waterfall#getwaterfallmetadata) for details on the metadata returned.
+See [getWaterfallMetadata](/sdk-v2/waterfall#getwaterfallmetadata) for details on the metadata returned.
 
 Usage
 
 ```js
-const { waterfallMetadata, isLoading, status, error } = useWaterfallMetadata(waterfallModuleAddress)
+const { waterfallMetadata, isLoading, status, error } = useWaterfallMetadata(waterfallModuleId)
 ```
 
 ### useVestingMetadata
 
 Fetches the given vesting module from the subgraph.
-See [getVestingMetadata](/sdk/vesting#getvestingmetadata) for details on the metadata returned.
+See [getVestingMetadata](/sdk-v2/vesting#getvestingmetadata) for details on the metadata returned.
 
 Usage
 
 ```js
-const { vestingMetadata, isLoading, status, error } = useVestingMetadata(vestingModuleAddress)
+const { vestingMetadata, isLoading, status, error } = useVestingMetadata(vestingModuleId)
 ```
 
 ### useSwapperMetadata
 
 Fetches the given swapper from the subgraph.
-See [getSwapperMetadata](/sdk/swapper#getswappermetadata) for details on the metadata returned.
+See [getSwapperMetadata](/sdk-v2/swapper#getswappermetadata) for details on the metadata returned.
 
 Usage
 
 ```js
-const { swapperMetadata, isLoading, status, error } = useSwapperMetadata(swapperAddress)
+const { swapperMetadata, isLoading, status, error } = useSwapperMetadata(swapperId)
 ```
 
 ## Split Transaction Hooks
@@ -276,7 +267,7 @@ returns the core sdk function and some state properties for monitoring the
 transaction progress.
 
 ### useCreateSplit
-See [createSplit](/sdk/splits#createsplit) for more details.
+See [createSplit](/sdk-v2/splits#createsplit) for more details.
 
 Usage
 
@@ -296,7 +287,7 @@ Response
 ```
 
 ### useUpdateSplit
-See [updateSplit](/sdk/splits#updatesplit) for more details.
+See [updateSplit](/sdk-v2/splits#updatesplit) for more details.
 
 Usage
 
@@ -316,7 +307,7 @@ Response
 ```
 
 ### useDistributeToken
-See [distributeToken](/sdk/splits#distributetoken) for more details.
+See [distributeToken](/sdk-v2/splits#distributetoken) for more details.
 
 Usage
 
@@ -336,7 +327,7 @@ Response
 ```
 
 ### useUpdateSplitAndDistributeToken
-See [updateSplitAndDistributeToken](/sdk/splits#updatesplitanddistributetoken) for more details.
+See [updateSplitAndDistributeToken](/sdk-v2/splits#updatesplitanddistributetoken) for more details.
 
 Usage
 
@@ -356,7 +347,7 @@ Response
 ```
 
 ### useWithdrawFunds
-See [withdrawFunds](/sdk/splits#withdrawfunds) for more details.
+See [withdrawFunds](/sdk-v2/splits#withdrawfunds) for more details.
 
 Usage
 
@@ -376,7 +367,7 @@ Response
 ```
 
 ### useInitiateControlTransfer
-See [initiateControlTransfer](/sdk/splits#initiatecontroltransfer) for more details.
+See [initiateControlTransfer](/sdk-v2/splits#initiatecontroltransfer) for more details.
 
 Usage
 
@@ -396,7 +387,7 @@ Response
 ```
 
 ### useCancelControlTransfer
-See [cancelControlTransfer](/sdk/splits#cancelcontroltransfer) for more details.
+See [cancelControlTransfer](/sdk-v2/splits#cancelcontroltransfer) for more details.
 
 Usage
 
@@ -416,7 +407,7 @@ Response
 ```
 
 ### useAcceptControlTransfer
-See [acceptControlTransfer](/sdk/splits#acceptcontroltransfer) for more details.
+See [acceptControlTransfer](/sdk-v2/splits#acceptcontroltransfer) for more details.
 
 Usage
 
@@ -436,7 +427,7 @@ Response
 ```
 
 ### useMakeSplitImmutable
-See [makeSplitImmutable](/sdk/splits#makesplitimmutable) for more details.
+See [makeSplitImmutable](/sdk-v2/splits#makesplitimmutable) for more details.
 
 Usage
 
@@ -458,7 +449,7 @@ Response
 ## Liquid Split Transaction Hooks
 
 ### useCreateLiquidSplit
-See [createLiquidSplit](/sdk/liquid#createliquidsplit) for more details.
+See [createLiquidSplit](/sdk-v2/liquid#createliquidsplit) for more details.
 
 Usage
 
@@ -478,7 +469,7 @@ Response
 ```
 
 ### useDistributeLiquidSplitToken
-See [distributeToken](/sdk/liquid#distributetoken) for more details.
+See [distributeToken](/sdk-v2/liquid#distributetoken) for more details.
 
 Usage
 
@@ -498,7 +489,7 @@ Response
 ```
 
 ### useTransferLiquidSplitOwnership
-See [transferOwnership](/sdk/liquid#transferownership) for more details.
+See [transferOwnership](/sdk-v2/liquid#transferownership) for more details.
 
 Usage
 
@@ -520,7 +511,7 @@ Response
 ## Waterfall Transaction Hooks
 
 ### useCreateWaterfallModule
-See [createWaterfallModule](/sdk/waterfall#createwaterfallmodule) for more details.
+See [createWaterfallModule](/sdk-v2/waterfall#createwaterfallmodule) for more details.
 
 Usage
 
@@ -540,7 +531,7 @@ Response
 ```
 
 ### useWaterfallFunds
-See [waterfallFunds](/sdk/waterfall#waterfallfunds) for more details.
+See [waterfallFunds](/sdk-v2/waterfall#waterfallfunds) for more details.
 
 Usage
 
@@ -560,7 +551,7 @@ Response
 ```
 
 ### useRecoverNonWaterfallFunds
-See [recoverNonWaterfallFunds](/sdk/waterfall#recovernonwaterfallfunds) for more details.
+See [recoverNonWaterfallFunds](/sdk-v2/waterfall#recovernonwaterfallfunds) for more details.
 
 Usage
 
@@ -580,7 +571,7 @@ Response
 ```
 
 ### useWithdrawWaterfallPullFunds
-See [withdrawPullFunds](/sdk/waterfall#withdrawpullfunds) for more details.
+See [withdrawPullFunds](/sdk-v2/waterfall#withdrawpullfunds) for more details.
 
 Usage
 
@@ -602,7 +593,7 @@ Response
 ## Vesting Transaction Hooks
 
 ### useCreateVestingModule
-See [createVestingModule](/sdk/vesting#createvestingmodule) for more details.
+See [createVestingModule](/sdk-v2/vesting#createvestingmodule) for more details.
 
 Usage
 
@@ -622,7 +613,7 @@ Response
 ```
 
 ### useStartVest
-See [startVest](/sdk/vesting#startvest) for more details.
+See [startVest](/sdk-v2/vesting#startvest) for more details.
 
 Usage
 
@@ -642,7 +633,7 @@ Response
 ```
 
 ### useReleaseVestedFunds
-See [releaseVestedFunds](/sdk/vesting#releasevestedfunds) for more details.
+See [releaseVestedFunds](/sdk-v2/vesting#releasevestedfunds) for more details.
 
 Usage
 
@@ -664,7 +655,7 @@ Response
 ## Swapper Transaction Hooks
 
 ### useCreateSwapper
-See [createSwapper](/sdk/swapper#createswapper) for more details.
+See [createSwapper](/sdk-v2/swapper#createswapper) for more details.
 
 Usage
 
@@ -684,7 +675,7 @@ Response
 ```
 
 ### useUniV3FlashSwap
-See [uniV3FlashSwap](/sdk/swapper#univ3flashswap) for more details.
+See [uniV3FlashSwap](/sdk-v2/swapper#univ3flashswap) for more details.
 
 Usage
 
@@ -704,7 +695,7 @@ Response
 ```
 
 ### useSwapperExecCalls
-See [execCalls](/sdk/swapper#execcalls) for more details.
+See [execCalls](/sdk-v2/swapper#execcalls) for more details.
 
 Usage
 
@@ -724,7 +715,7 @@ Response
 ```
 
 ### useSwapperPause
-See [setPaused](/sdk/swapper#setpaused) for more details.
+See [setPaused](/sdk-v2/swapper#setpaused) for more details.
 
 Usage
 
@@ -744,7 +735,7 @@ Response
 ```
 
 ### useSwapperSetBeneficiary
-See [setBeneficiary](/sdk/swapper#setbeneficiary) for more details.
+See [setBeneficiary](/sdk-v2/swapper#setbeneficiary) for more details.
 
 Usage
 
@@ -764,7 +755,7 @@ Response
 ```
 
 ### useSwapperSetTokenToBeneficiary
-See [setTokenToBeneficiary](/sdk/swapper#settokentobeneficiary) for more details.
+See [setTokenToBeneficiary](/sdk-v2/swapper#settokentobeneficiary) for more details.
 
 Usage
 
@@ -784,7 +775,7 @@ Response
 ```
 
 ### useSwapperSetOracle
-See [setOracle](/sdk/swapper#setoracle) for more details.
+See [setOracle](/sdk-v2/swapper#setoracle) for more details.
 
 Usage
 
@@ -804,7 +795,7 @@ Response
 ```
 
 ### useSwapperSetDefaultScaledOfferFactor
-See [setDefaultScaledOfferFactor](/sdk/swapper#setdefaultscaledofferfactor) for more details.
+See [setDefaultScaledOfferFactor](/sdk-v2/swapper#setdefaultscaledofferfactor) for more details.
 
 Usage
 
@@ -824,7 +815,7 @@ Response
 ```
 
 ### useSwapperSetScaledOfferFactorOverrides
-See [setScaledOfferFactorOverrides](/sdk/swapper#setscaledofferfactoroverrides) for more details.
+See [setScaledOfferFactorOverrides](/sdk-v2/swapper#setscaledofferfactoroverrides) for more details.
 
 Usage
 
@@ -846,7 +837,7 @@ Response
 ## Template Transaction Hooks
 
 ### useCreateRecoup
-See [createRecoup](/sdk/templates#createrecoup) for more details.
+See [createRecoup](/sdk-v2/templates#createrecoup) for more details.
 
 Usage
 
@@ -868,7 +859,7 @@ Response
 ## Multicall Transaction Hooks
 
 ### useMulticall
-See [multicall](/sdk/multicall#multicall) for more details.
+See [multicall](/sdk-v2/multicall#multicall) for more details.
 
 Usage
 

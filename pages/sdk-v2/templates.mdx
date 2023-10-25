@@ -8,8 +8,8 @@ import { TemplatesClient } from '@0xsplits/splits-sdk'
 
 const templatesClient = new TemplatesClient({
   chainId,
-  publicClient, // viem public client
-  walletClient, // viem wallet client
+  provider, // ethers provider
+  signer, // ethers signer
 })
 ```
 
@@ -20,10 +20,10 @@ import { SplitsClient } from '@0xsplits/splits-sdk'
 
 const splitsClient = new SplitsClient({
   chainId,
-  publicClient,
-  walletClient,
+  provider,
+  signer,
   includeEnsNames,
-  ensPublicClient,
+  ensProvider,
 })
 
 const templatesClient = splitsClient.templates
@@ -110,8 +110,8 @@ Response
 
 ```graphql
 {
-  waterfallModuleAddress: string
-  event: Log # CreateRecoup emitted on Recoup
+  waterfallModuleId: string
+  event: Event # CreateRecoup emitted on Recoup
 }
 ```
 
@@ -205,7 +205,7 @@ Response
 
 ```graphql
 {
-  passThroughWalletAddress: string
-  event: Log # CreateDiversifier emitted on DiversifierFactory
+  passThroughWalletId: string
+  event: Event # CreateDiversifier emitted on DiversifierFactory
 }
 ```

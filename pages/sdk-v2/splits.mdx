@@ -7,13 +7,13 @@ import { SplitsClient } from '@0xsplits/splits-sdk'
 
 const splitsClient = new SplitsClient({
   chainId,
-  publicClient, // viem public client (optional, required if using any of the contract functions)
-  walletClient, // viem wallet client (optional, required if using any contract write functions. must have an account already attached)
-  includeEnsNames, // boolean, defaults to false. If true, will return ens names for any split recipient or controller (only for mainnet)
-  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet public client
+  provider, // ethers provider (optional, required if using any of the SplitMain functions)
+  signer, // ethers signer (optional, required if using the SplitMain write functions)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for split recipients (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet provider
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
-  ensPublicClient, // viem public client (optional)
+  ensProvider, // ethers provider (optional)
 })
 ```
 
@@ -30,13 +30,13 @@ These functions make it easier to query the [subgraph](/subgraph).
 
 ### getSplitMetadata
 
-Returns all metadata for a given `splitAddress`.
+Returns all metadata for a given `splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: '0xF8843981e7846945960f53243cA2Fd42a579f719',
+  splitId: '0xF8843981e7846945960f53243cA2Fd42a579f719',
 }
 
 const response = await splitsClient.getSplitMetadata(args)
@@ -46,7 +46,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
 }
 ```
 
@@ -55,22 +55,14 @@ Response
 ```graphql
 {
   type: 'Split'
-  address: string
-  controller: {
-    address: string
-    ensName?: string
-  } | null
-  newPotentialController: {
-    address: string
-    ensName?: string
-  } | null
+  id: string
+  controller: string | null
+  newPotentialController: string | null
   distributorFeePercent: number
   recipients: {
+    address: string
     percentAllocation: number
-    recipient: {
-      address: string
-      ensName?: string
-    }
+    ensName?: string
   }[]
   createdBlock: number
 }
@@ -103,62 +95,38 @@ Response
 ```graphql
 {
   receivingFrom: { # Splits in which the address is a Recipient
-    address: string
-    controller: {
-      address: string
-      ensName?: string
-    } | null
-    newPotentialController: {
-      address: string
-      ensName?: string
-    } | null
+    id: string
+    controller: string | null
+    newPotentialController: string | null
     distributorFeePercent: number
     recipients: {
+      address: string;
       percentAllocation: number
-      recipient: {
-        address: string
-        ensName?: string
-      }
+      ensName?: string
     }[]
     createdBlock: number
   }[]
   controlling: { # Splits of which the address is the Controller
-    address: string
-    controller: {
-      address: string
-      ensName?: string
-    } | null
-    newPotentialController: {
-      address: string
-      ensName?: string
-    } | null
+    id: string
+    controller: string | null
+    newPotentialController: string | null
     distributorFeePercent: number
     recipients: {
+      address: string;
       percentAllocation: number
-      recipient: {
-        address: string
-        ensName?: string
-      }
+      ensName?: string
     }[]
     createdBlock: number
   }[]
   pendingControl: { # Splits of which the address has been given but not yet accepted Control
-    address: string
-    controller: {
-      address: string
-      ensName?: string
-    } | null
-    newPotentialController: {
-      address: string
-      ensName?: string
-    } | null
+    id: string
+    controller: string | null
+    newPotentialController: string | null
     distributorFeePercent: number
     recipients: {
+      address: string;
       percentAllocation: number
-      recipient: {
-        address: string
-        ensName?: string
-      }
+      ensName?: string
     }[]
     createdBlock: number
   }[]
@@ -167,10 +135,10 @@ Response
 
 ### getSplitEarnings
 
-Returns token balances for a given `splitAddress`.
+Returns token balances for a given `splitId`.
 
 NOTE: Fetching active balances optionally takes an `erc20TokenList` argument. If
-the rpc url is not Alchemy or Infura, that token list is required. If the token
+the provider is not Alchemy or Infura, that token list is required. If the token
 list is passed in, balances will only be fetched for tokens in that list (as
 well as the native token and any previously distributed tokens). Otherwise, all
 erc20 transfers to the split address will be reviewed with a `getLogs` request,
@@ -181,7 +149,7 @@ Usage
 
 ```js
 const args = {
-  splitAddress: '0xF8843981e7846945960f53243cA2Fd42a579f719',
+  splitId: '0xF8843981e7846945960f53243cA2Fd42a579f719',
 }
 
 const response = await splitsClient.getSplitEarnings(args)
@@ -191,7 +159,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
   includeActiveBalances?: boolean # defaults to true
   erc20TokenList?: string[]
 }
@@ -202,10 +170,10 @@ Response
 ```graphql
 {
   activeBalances?: { # tokens that are waiting to be distributed
-    [token: string]: bigint
+    [token: string]: BigNumber
   }
   distributed: { # tokens that have already been distributed
-    [token: string]: bigint
+    [token: string]: BigNumber
   }
 }
 ```
@@ -219,7 +187,7 @@ Usage
 
 ```js
 const args = {
-  splitAddress: '0xF8843981e7846945960f53243cA2Fd42a579f719',
+  splitId: '0xF8843981e7846945960f53243cA2Fd42a579f719',
 }
 
 const response = await splitsClient.getFormattedSplitEarnings(args)
@@ -229,7 +197,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
   includeActiveBalances?: boolean # defaults to true
   erc20TokenList?: string[]
 }
@@ -243,7 +211,7 @@ Response
     [token: string]: {
       symbol: string
       decimals: number
-      rawAmount: bigint
+      rawAmount: BigNumber
       formattedAmount: string
     }
   }
@@ -251,7 +219,7 @@ Response
     [token: string]: {
       symbol: string
       decimals: number
-      rawAmount: bigint
+      rawAmount: BigNumber
       formattedAmount: string
     }
   }
@@ -260,13 +228,13 @@ Response
 
 ### getUserEarnings
 
-Returns token balances for a given `userAddress`.
+Returns token balances for a given `userId`.
 
 Usage
 
 ```js
 const args = {
-  userAddress: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
 }
 
 const response = await splitsClient.getUserEarnings(args)
@@ -276,7 +244,7 @@ Arguments
 
 ```graphql
 {
-  userAddress: string
+  userId: string
 }
 ```
 
@@ -285,10 +253,10 @@ Response
 ```graphql
 {
   withdrawn: { # tokens the user has already withdrawn from the protocol
-    [token: string]: bigint
+    [token: string]: BigNumber
   }
   activeBalances: { # tokens that have been distributed but not yet withdrawn
-    [token: string]: bigint
+    [token: string]: BigNumber
   }
 }
 ```
@@ -302,7 +270,7 @@ Usage
 
 ```js
 const args = {
-  userAddress: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
 }
 
 const response = await splitsClient.getFormattedUserEarnings(args)
@@ -312,7 +280,7 @@ Arguments
 
 ```graphql
 {
-  userAddress: string
+  userId: string
 }
 ```
 
@@ -324,7 +292,7 @@ Response
     [token: string]: {
       symbol: string
       decimals: number
-      rawAmount: bigint
+      rawAmount: BigNumber
       formattedAmount: string
     }
   }
@@ -332,7 +300,7 @@ Response
     [token: string]: {
       symbol: string
       decimals: number
-      rawAmount: bigint
+      rawAmount: BigNumber
       formattedAmount: string
     }
   }
@@ -341,14 +309,14 @@ Response
 
 ### getUserEarningsByContract
 
-Returns token balances for a given `userAddress`, separated out by each 0xSplits contract the user has received from.
-Can optionally pass in a list of `contractAddresses` to filter results to just a set of contracts.
+Returns token balances for a given `userId`, separated out by each 0xSplits contract the user has received from.
+Can optionally pass in a list of `contractIds` to filter results to just a set of contracts.
 
 Usage
 
 ```js
 const args = {
-  userAddress: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
 }
 
 const response = await splitsClient.getUserEarningsByContract(args)
@@ -358,8 +326,8 @@ Arguments
 
 ```graphql
 {
-  userAddress: string
-  contractAddresses?: string[]
+  userId: string
+  contractIds?: string[]
 }
 ```
 
@@ -368,18 +336,18 @@ Response
 ```graphql
 {
   withdrawn: { # tokens the user has already withdrawn from the protocol
-    [token: string]: bigint
+    [token: string]: BigNumber
   }
   activeBalances: { # tokens that have been distributed but not yet withdrawn
-    [token: string]: bigint
+    [token: string]: BigNumber
   }
   earningsByContract: { # Earnings broken out by each 0xSplits contract the user has received from
     [contractAddress: string]: {
       withdrawn: {
-        [token: string]: bigint
+        [token: string]: BigNumber
       }
       activeBalances: {
-        [token: string]: bigint
+        [token: string]: BigNumber
       }
     }
   }
@@ -395,7 +363,7 @@ Usage
 
 ```js
 const args = {
-  userAddress: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+  userId: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
 }
 
 const response = await splitsClient.getFormattedUserEarningsByContract(args)
@@ -405,8 +373,8 @@ Arguments
 
 ```graphql
 {
-  userAddress: string
-  contractAddresses?: string[]
+  userId: string
+  contractIds?: string[]
 }
 ```
 
@@ -418,7 +386,7 @@ Response
     [token: string]: {
       symbol: string
       decimals: number
-      rawAmount: bigint
+      rawAmount: BigNumber
       formattedAmount: string
     }
   }
@@ -426,7 +394,7 @@ Response
     [token: string]: {
       symbol: string
       decimals: number
-      rawAmount: bigint
+      rawAmount: BigNumber
       formattedAmount: string
     }
   }
@@ -436,7 +404,7 @@ Response
         [token: string]: {
           symbol: string
           decimals: number
-          rawAmount: bigint
+          rawAmount: BigNumber
           formattedAmount: string
         }
       }
@@ -444,7 +412,7 @@ Response
         [token: string]: {
           symbol: string
           decimals: number
-          rawAmount: bigint
+          rawAmount: BigNumber
           formattedAmount: string
         }
       }
@@ -497,21 +465,21 @@ Response
 
 ```graphql
 {
-  splitAddress: string
-  event: Log # CreateSplit emitted on SplitMain
+  splitId: string
+  event: Event # CreateSplit emitted on SplitMain
 }
 ```
 
 ### updateSplit
 
 Updates an existing mutable Split contract. Only callable by the controller of
-`splitAddress`.
+`splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: "0x047ED5b8E8a7eDBd92FAF61f3117cAFE8c529ABb"
+  splitId: "0x047ED5b8E8a7eDBd92FAF61f3117cAFE8c529ABb"
   recipients: {
     {
       address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
@@ -532,7 +500,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
   recipients: {
     address: string;
     percentAllocation: number
@@ -545,20 +513,20 @@ Response
 
 ```graphql
 {
-  event: Log # UpdateSplit emitted on SplitMain
+  event: Event # UpdateSplit emitted on SplitMain
 }
 ```
 
 ### distributeToken
 
-Distributes the balance of `token` for `splitAddress`, and sends the distributor fee
+Distributes the balance of `token` for `splitId`, and sends the distributor fee
 to `distributorAddress`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
   token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
   distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
 }
@@ -570,7 +538,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
   token: string
   distributorAddress?: string # defaults to signer
 }
@@ -580,7 +548,7 @@ Response
 
 ```graphql
 {
-  event: Log # DistributeETH or DistributeERC20 emitted on SplitMain
+  event: Event # DistributeETH or DistributeERC20 emitted on SplitMain
 }
 ```
 
@@ -588,13 +556,13 @@ Response
 
 This combines [updateSplit](#updatesplit) and
 [distributeToken](#distributetoken) into one transaction. Only callable by the
-controller of `splitAddress`.
+controller of `splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
   token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
   recipients: {
     {
@@ -617,7 +585,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
   token: string
   recipients: {
     address: string;
@@ -632,7 +600,7 @@ Response
 
 ```graphql
 {
-  event: Log # DistributeETH or DistributeERC20 emitted on SplitMain
+  event: Event # UpdateSplit and DistributeETH or DistributeERC20 emitted on SplitMain
 }
 ```
 
@@ -667,20 +635,20 @@ Response
 
 ```graphql
 {
-  event: Log # Withdrawal emitted on SplitMain
+  event: Event # Withdrawal emitted on SplitMain
 }
 ```
 
 ### initiateControlTransfer
 
-Transfers control of `splitAddress` to `newController`. Only callable by the
-controller of `splitAddress`.
+Transfers control of `splitId` to `newController`. Only callable by the
+controller of `splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  splitId: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
   newController: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
 }
 
@@ -691,7 +659,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
   newController: string
 }
 ```
@@ -700,19 +668,19 @@ Response
 
 ```graphql
 {
-  event: Log # InitiateControlTransfer emitted on SplitMain
+  event: Event # InitiateControlTransfer emitted on SplitMain
 }
 ```
 
 ### acceptControlTransfer
 
-Accepts control of `splitAddress`. Only callable by the new controller of `splitAddress`.
+Accepts control of `splitId`. Only callable by the new controller of `splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
 }
 
 const response = await splitsClient.acceptControlTransfer(args)
@@ -722,7 +690,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
 }
 ```
 
@@ -730,19 +698,19 @@ Response
 
 ```graphql
 {
-  event: Log # ControlTransfer emitted on SplitMain
+  event: Event # ControlTransfer emitted on SplitMain
 }
 ```
 
 ### cancelControlTransfer
 
-Cancels the transfer of `splitAddress`. Only callable by the controller of `splitAddress`.
+Cancels the transfer of `splitId`. Only callable by the controller of `splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
 }
 
 const response = await splitsClient.cancelControlTransfer(args)
@@ -752,7 +720,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
 }
 ```
 
@@ -760,19 +728,19 @@ Response
 
 ```graphql
 {
-  event: Log # CancelControlTransfer emitted on SplitMain
+  event: Event # CancelControlTransfer emitted on SplitMain
 }
 ```
 
 ### makeSplitImmutable
 
-Makes `splitAddress` immutable. Only callable by the controller of `splitAddress`.
+Makes `splitId` immutable. Only callable by the controller of `splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
 }
 
 const response = await splitsClient.makeSplitImmutable(args)
@@ -782,7 +750,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
 }
 ```
 
@@ -790,7 +758,7 @@ Response
 
 ```graphql
 {
-  event: Log # ControlTransfer emitted on SplitMain
+  event: Event # ControlTransfer emitted on SplitMain
 }
 ```
 
@@ -803,7 +771,7 @@ Usage
 
 ```js
 const args = {
-  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
   tokens: [
     '0x0000000000000000000000000000000000000000',
     '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -824,7 +792,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
   tokens: string[]
   recipientAddresses: string[]
   distributorAddress?: string # defaults to signer
@@ -835,7 +803,7 @@ Response
 
 ```graphql
 {
-  events: Log[]
+  events: Event[]
 }
 ```
 
@@ -848,7 +816,7 @@ Usage
 
 ```js
 const args = {
-  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
   tokens: [
     '0x0000000000000000000000000000000000000000',
     '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
@@ -863,7 +831,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
   tokens: string[]
   distributorAddress?: string # defaults to signer
 }
@@ -873,7 +841,7 @@ Response
 
 ```graphql
 {
-  events: Log[]
+  events: Event[]
 }
 ```
 
@@ -906,14 +874,14 @@ const gasEstimate = await splitsClient.estimateGas.createSplit(args)
 
 ### getSplitBalance
 
-Returns the balance for a given `splitAddress` and `token`. If no `token` is
+Returns the balance for a given `splitId` and `token`. If no `token` is
 provided, returns the ETH balance.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+  splitId: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
   token: '0x64d91f12ece7362f91a6f8e7940cd55f05060b92',
 }
 
@@ -924,7 +892,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
   token?: string # defaults to AddressZero
 }
 ```
@@ -933,7 +901,7 @@ Response
 
 ```graphql
 {
-  balance: bigint
+  balance: BigNumber
 }
 ```
 
@@ -979,19 +947,19 @@ Response
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
 }
 ```
 
 ### getController
 
-Returns the controller for a given `splitAddress`.
+Returns the controller for a given `splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
 }
 
 const response = await splitsClient.getController(args)
@@ -1001,7 +969,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
 }
 ```
 
@@ -1016,13 +984,13 @@ Response
 ### getNewPotentialController
 
 Returns the new potential controller (i.e., the account that needs to accept
-control) for a given `splitAddress`.
+control) for a given `splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
 }
 
 const response = await splitsClient.getNewPotentialController(args)
@@ -1032,7 +1000,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
 }
 ```
 
@@ -1046,13 +1014,13 @@ Response
 
 ### getHash
 
-Returns the current hash for a given `splitAddress`.
+Returns the current hash for a given `splitId`.
 
 Usage
 
 ```js
 const args = {
-  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  splitId: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
 }
 
 const response = await splitsClient.getHash(args)
@@ -1062,7 +1030,7 @@ Arguments
 
 ```graphql
 {
-  splitAddress: string
+  splitId: string
 }
 ```
 
