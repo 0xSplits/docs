@@ -57,7 +57,13 @@
       "collapsed": true
     }
   },
+  "sdk-v2": {
+    "display": "hidden"
+  },
   "react": "React SDK",
+  "react-v0": {
+    "display": "hidden"
+  },
   "subgraph": "Subgraph",
   "protocol": {
     "type": "separator",
