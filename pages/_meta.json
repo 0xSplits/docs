@@ -57,11 +57,11 @@
       "collapsed": true
     }
   },
-  "sdk-v2": {
+  "sdk-ethers": {
     "display": "hidden"
   },
   "react": "React SDK",
-  "react-v0": {
+  "react-ethers": {
     "display": "hidden"
   },
   "subgraph": "Subgraph",
