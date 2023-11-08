@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "build": "next build",
-    "postbuild": "next-sitemap"
+    "build": "next build && yarn post-build",
+    "post-build": "next-sitemap"
   },
   "author": "Shu Ding",
   "license": "MIT",
