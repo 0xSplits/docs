@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "build": "next build"
+    "build": "next build",
+    "postbuild": "next-sitemap"
   },
   "author": "Shu Ding",
   "license": "MIT",
@@ -14,6 +15,7 @@
     "eslint-config-next": "^13.2.4",
     "eslint-plugin-react": "^7.32.2",
     "next": "^13.2.4",
+    "next-sitemap": "^4.2.3",
     "nextra": "^2.2.19",
     "nextra-theme-docs": "^2.2.19",
     "prism-react-renderer": "^1.2.1",
