@@ -64,7 +64,7 @@
   "react-ethers": {
     "display": "hidden"
   },
-  "splits-kit": "Splits Kit",
+  "splits-kit": "SplitsKit",
   "subgraph": "Subgraph",
   "protocol": {
     "type": "separator",
