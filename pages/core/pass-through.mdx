@@ -3,7 +3,8 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 
 # Pass-Through Wallet
 
-Pass-Through Wallet is a payable, ownable smart contract wallet with pausable token forwarding.
+Pass-Through Wallet is a payable, ownable smart contract wallet with pausable
+token forwarding.
 
 - [Github](https://github.com/0xSplits/splits-pass-through-wallet)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-pass-through-wallet/tree/main/src)
@@ -12,7 +13,8 @@ Pass-Through Wallet is a payable, ownable smart contract wallet with pausable to
 ## How it works
 
 - Funds are held in the contract's balance until `passThroughTokens` is called.
-At any time the owner may pause `passThroughTokens`, update the pass-through address, or execute arbitrary calls from the Pass-Through Wallet.
+  At any time the owner may pause `passThroughTokens`, update the pass-through
+  address, or execute arbitrary calls from the Pass-Through Wallet.
 
 [![Sequence diagram of passThroughFunds](https://mermaid.ink/svg/pako:eNqNklFPwjAUhf9KU7PsQUiIDEb2sIQhezMx0eiD8-GyXaCxa7G9MxLCf3frgjBE40vb3Pud09707HiuC-QR97xdphgTSlDE3JExn9ZYoh8xfwEW_d5p9QmMgIVE63_jrrnUilIohdw2ugaSB2Erxk-aaalN074aJ-HNZNABNkaUYLZHJh2mQTq-xCTaFGj-dLOYa1V0_MbzeZiEl6lzx0EQTkZdFnISH0BCq3_AhIZE5_bpKAnS2UXo3C8YDiezqd-S-2arl73nZSpTFt8rVDneClgZKBui5aZS5NiP4-t7sPZxbXS1Wj-DlFh_6-ZYetRvqGwr-UH2a_1JMWIvjAwou0TDyAnZ62_SOO67J0QMSl0psrzHSzQliKJOmUtKxl2CMh7VxwKXUEnKeD1ajUJF-mGrch6RqbDHq00BdJjyUMRCkDZ3bXBdfvdfjQraHg)](https://mermaid.live/edit#pako:eNqNklFPwjAUhf9KU7PsQUiIDEb2sIQhezMx0eiD8-GyXaCxa7G9MxLCf3frgjBE40vb3Pud09707HiuC-QR97xdphgTSlDE3JExn9ZYoh8xfwEW_d5p9QmMgIVE63_jrrnUilIohdw2ugaSB2Erxk-aaalN074aJ-HNZNABNkaUYLZHJh2mQTq-xCTaFGj-dLOYa1V0_MbzeZiEl6lzx0EQTkZdFnISH0BCq3_AhIZE5_bpKAnS2UXo3C8YDiezqd-S-2arl73nZSpTFt8rVDneClgZKBui5aZS5NiP4-t7sPZxbXS1Wj-DlFh_6-ZYetRvqGwr-UH2a_1JMWIvjAwou0TDyAnZ62_SOO67J0QMSl0psrzHSzQliKJOmUtKxl2CMh7VxwKXUEnKeD1ajUJF-mGrch6RqbDHq00BdJjyUMRCkDZ3bXBdfvdfjQraHg)
 
@@ -24,10 +26,10 @@ At any time the owner may pause `passThroughTokens`, update the pass-through add
 
 <Toggle title="Ethereum – 1">
 
-| Contract    | Address                                                                                                                      |
-| :---------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| Contract       | Address                                                                                                                      |
+| :------------- | :--------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xfE87400C401C0CB61EC3a923a5d9873090e8daFc`](https://etherscan.io/address/0xfE87400C401C0CB61EC3a923a5d9873090e8daFc#code) |
-| Factory | [`0xF5aCC1568706Fbf9A55a77DdBe8DF907Da95dD6B`](https://etherscan.io/address/0xF5aCC1568706Fbf9A55a77DdBe8DF907Da95dD6B#code) |
+| Factory        | [`0xF5aCC1568706Fbf9A55a77DdBe8DF907Da95dD6B`](https://etherscan.io/address/0xF5aCC1568706Fbf9A55a77DdBe8DF907Da95dD6B#code) |
 
 </Toggle>
 
@@ -37,10 +39,19 @@ At any time the owner may pause `passThroughTokens`, update the pass-through add
 
 <Toggle title="Goerli – 5">
 
-| Contract    | Address                                                                                                                             |
-| :---------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| Contract       | Address                                                                                                                             |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
 | Implementation | [`0xfE87400C401C0CB61EC3a923a5d9873090e8daFc`](https://goerli.etherscan.io/address/0xfE87400C401C0CB61EC3a923a5d9873090e8daFc#code) |
-| Factory | [`0xF5aCC1568706Fbf9A55a77DdBe8DF907Da95dD6B`](https://goerli.etherscan.io/address/0xF5aCC1568706Fbf9A55a77DdBe8DF907Da95dD6B#code) |
+| Factory        | [`0xF5aCC1568706Fbf9A55a77DdBe8DF907Da95dD6B`](https://goerli.etherscan.io/address/0xF5aCC1568706Fbf9A55a77DdBe8DF907Da95dD6B#code) |
+
+</Toggle>
+
+<Toggle title="Sepolia – 11155111">
+
+| Contract       | Address                                                                                                                              |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| Implementation | [`0xf62d6eBbc108b8B16218Dbf8FC0e249BA9fBb4bc`](https://sepolia.etherscan.io/address/0xf62d6eBbc108b8B16218Dbf8FC0e249BA9fBb4bc#code) |
+| Factory        | [`0x52d6838957ec268cc5B50F17F9b490cbAb0A9E40`](https://sepolia.etherscan.io/address/0x52d6838957ec268cc5B50F17F9b490cbAb0A9E40#code) |
 
 </Toggle>
 

@@ -8,25 +8,29 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 Diversifier is a smart contract that automatically diversifies an income stream
 into specific tokens of various ratios. This is particularly useful for tax
 withholdings, for example when you want to automatically swap 40% of your income
-into a stablecoin and set aside for taxes. This template simply stacks a [Pass-Through Wallet](/core/pass-through) on top of a [Split](/core/split) on top of a number of [Swappers](/core/swapper).
+into a stablecoin and set aside for taxes. This template simply stacks a
+[Pass-Through Wallet](/core/pass-through) on top of a [Split](/core/split) on
+top of a number of [Swappers](/core/swapper).
 
 - [Github](https://github.com/0xSplits/splits-diversifier)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-diversifier/tree/main/src)
-- Related: [Split](/core/split), [Swapper](/core/swapper), [Pass-Through Wallet](/core/pass-through)
+- Related: [Split](/core/split), [Swapper](/core/swapper),
+  [Pass-Through Wallet](/core/pass-through)
 
 ## How it works
 
 - Each Diversifier is a payable smart contract that uses a Split to
   automatically split incoming tokens according to pre-set percentages.
   Recipients of the Split may be Swappers to automatically swap tokens into a
-  specified output tokens. A Pass-Through Wallet sits on top and owns / controls all of the 
-  underlying modules, allowing the Diversifier to function as a full wallet. That's all there is to it, so if that sounds
-  complicated we recommend you review the Split, Swapper, and Pass-Through Wallet contracts.
+  specified output tokens. A Pass-Through Wallet sits on top and owns / controls
+  all of the underlying modules, allowing the Diversifier to function as a full
+  wallet. That's all there is to it, so if that sounds complicated we recommend
+  you review the Split, Swapper, and Pass-Through Wallet contracts.
 - Each Diversifier can be owned, which means the owner has full control of the
-  deployment. The owner may modify the Split, change the oracles and discounts, pause the
-  Swappers, and execute arbitrary transactions at their will. We recommend
-  removing the owner or making it a multisig if this contract is being used in
-  any trustless setting.
+  deployment. The owner may modify the Split, change the oracles and discounts,
+  pause the Swappers, and execute arbitrary transactions at their will. We
+  recommend removing the owner or making it a multisig if this contract is being
+  used in any trustless setting.
 
 [![Diversifier flow chart](https://mermaid.ink/img/pako:eNqNk0lrwzAQhf-KUAm-xJDG2fChkM23QmlKe_FlYo-TAVky8jhpCPnvtZVuDmnoRct73zwhNDrKxKQoQ-n7fqyZWGEoFrRDW1JGaGPtjFh3OsdYC0GaOBRuKYTHW8zRC4W3hhK97m_1FSzBWmHpfePOzIzmCHJSh6augdRXofMVaZwbZWxj341m4_6k1wIY3_kmUFjKwR5-mCiIBtHoGjMzNkV7M63ExOi0lTdaLsez8XXqMrE3GE-GbRYSph0wGf0PmNEytU6fDmeDaH4VuswbBMFkPvXO5KmZ6uHU6TTvmSmzT7Zg-ew-QVm-bK2pNts3UApZ-P6DWBWKuKEbxG2c_IwJFYSa7y-d1R6KAm3_Dz341D-pdli_ZQZts66UXZmjzYHSul1dS8XStVosw3qZYgaV4ljWV6xRqNisDjqRIdsKu7IqUmBcEGws5DLMQJW1iimxsY_nL-B-wukD5E3qrQ?type=png)](https://mermaid.live/edit#pako:eNqNk0lrwzAQhf-KUAm-xJDG2fChkM23QmlKe_FlYo-TAVky8jhpCPnvtZVuDmnoRct73zwhNDrKxKQoQ-n7fqyZWGEoFrRDW1JGaGPtjFh3OsdYC0GaOBRuKYTHW8zRC4W3hhK97m_1FSzBWmHpfePOzIzmCHJSh6augdRXofMVaZwbZWxj341m4_6k1wIY3_kmUFjKwR5-mCiIBtHoGjMzNkV7M63ExOi0lTdaLsez8XXqMrE3GE-GbRYSph0wGf0PmNEytU6fDmeDaH4VuswbBMFkPvXO5KmZ6uHU6TTvmSmzT7Zg-ew-QVm-bK2pNts3UApZ-P6DWBWKuKEbxG2c_IwJFYSa7y-d1R6KAm3_Dz341D-pdli_ZQZts66UXZmjzYHSul1dS8XStVosw3qZYgaV4ljWV6xRqNisDjqRIdsKu7IqUmBcEGws5DLMQJW1iimxsY_nL-B-wukD5E3qrQ)
 
@@ -38,9 +42,9 @@ into a stablecoin and set aside for taxes. This template simply stacks a [Pass-T
 
 <Toggle title="Ethereum – 1">
 
-| Contract    | Address                                                                                                                      |
-| :---------- | :--------------------------------------------------------------------------------------------------------------------------- |
-| Factory | [`0x78791997483f25217F4C3FE2a568Fe3eFaf77884`](https://etherscan.io/address/0x78791997483f25217F4C3FE2a568Fe3eFaf77884#code) |
+| Contract | Address                                                                                                                      |
+| :------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| Factory  | [`0x78791997483f25217F4C3FE2a568Fe3eFaf77884`](https://etherscan.io/address/0x78791997483f25217F4C3FE2a568Fe3eFaf77884#code) |
 
 </Toggle>
 
@@ -50,9 +54,17 @@ into a stablecoin and set aside for taxes. This template simply stacks a [Pass-T
 
 <Toggle title="Goerli – 5">
 
-| Contract    | Address                                                                                                                             |
-| :---------- | :---------------------------------------------------------------------------------------------------------------------------------- |
-| Factory | [`0x78791997483f25217F4C3FE2a568Fe3eFaf77884`](https://goerli.etherscan.io/address/0x78791997483f25217F4C3FE2a568Fe3eFaf77884#code) |
+| Contract | Address                                                                                                                             |
+| :------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| Factory  | [`0x78791997483f25217F4C3FE2a568Fe3eFaf77884`](https://goerli.etherscan.io/address/0x78791997483f25217F4C3FE2a568Fe3eFaf77884#code) |
+
+</Toggle>
+
+<Toggle title="Sepolia – 11155111">
+
+| Contract | Address                                                                                                                              |
+| :------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| Factory  | [`0x15Cb41615d210f4c4E597BeCEcB8Ee9410B9837F`](https://sepolia.etherscan.io/address/0x15Cb41615d210f4c4E597BeCEcB8Ee9410B9837F#code) |
 
 </Toggle>
 
