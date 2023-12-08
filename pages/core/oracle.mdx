@@ -124,19 +124,15 @@ this Oracle implementation.
 
 ## ChainlinkOracle
 
-Our platform integrates Chainlink data feeds for onchain price reference.
-Chainlink ensures the integrity of price data by providing updated values with a
-defined frequency and deviation threshold, termed as heartbeat and threshold,
-respectively. These parameters help maintain data relevancy during varying
-market conditions. For comprehensive technicalities, the Chainlink
-[documentation](https://docs.chain.link/data-feeds) serves as a resourceful
-reference.
+The oracle uses Chainlink data feeds for onchain prices. Checkout the chainlink
+[documentation](https://docs.chain.link/data-feeds) to learn more about data
+feeds.
 
 ### How it works
 
 The oracle setup includes a defined path for price computation for each currency
 pair. The oracle maintainer configures this path, which comprises sequential
-steps, each encapsulating:
+steps, each containing:
 
 1. **Feed**: This denotes the specific Chainlink oracle feed utilized to
    retrieve the exchange rate data.
