@@ -9,8 +9,8 @@ different assets.
 
 Since Oracle itself is just an interface, most of these docs focus on the
 specific Oracle implementations offered by the Splits team. Currently, Splits
-offers one implementation, [UniV3Oracle](#univ3oracle). We expect to offer
-another Chainlink-based implementation shortly.
+offers two implementations, [UniV3Oracle](#univ3oracle) and
+[ChainlinkOracle](#chainlinkoracle).
 
 - [Github](https://github.com/0xSplits/splits-oracle)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-oracle/tree/main/src)
@@ -115,6 +115,58 @@ this Oracle implementation.
 | Default Deployment | [`0x6B99b2E868B6E3B8b259E296c4c6aBffbB1AaB94`](https://sepolia.etherscan.io/address/0x6B99b2E868B6E3B8b259E296c4c6aBffbB1AaB94#code) |
 | UniV3OracleImpl    | [`0x280064Ab5f49f9f61Ba9ed03a244773230beE195`](https://sepolia.etherscan.io/address/0x280064Ab5f49f9f61Ba9ed03a244773230beE195#code) |
 | UniV3OracleFactory | [`0x074827E8bD77B0A66c6008a51AF9BD1F33105caf`](https://sepolia.etherscan.io/address/0x074827E8bD77B0A66c6008a51AF9BD1F33105caf#code) |
+
+</Toggle>
+
+</Tab>
+
+</Tabs>
+
+## ChainlinkOracle
+
+Our platform integrates Chainlink data feeds for onchain price reference.
+Chainlink ensures the integrity of price data by providing updated values with a
+defined frequency and deviation threshold, termed as heartbeat and threshold,
+respectively. These parameters help maintain data relevancy during varying
+market conditions. For comprehensive technicalities, the Chainlink
+[documentation](https://docs.chain.link/data-feeds) serves as a resourceful
+reference.
+
+### How it works
+
+The oracle setup includes a defined path for price computation for each currency
+pair. The oracle maintainer configures this path, which comprises sequential
+steps, each encapsulating:
+
+1. **Feed**: This denotes the specific Chainlink oracle feed utilized to
+   retrieve the exchange rate data.
+2. **Decimals**: The scale of precision of the returned price from the feed is
+   denoted by the decimals. It dictates the factor by which the price should be
+   adjusted to get the actual value.
+3. **StaleAfter**: A time-based parameter set by the user, which dictates the
+   acceptable age of the data feed. If the data is older than this value, it's
+   disregarded as stale.
+4. **Mul (boolean)**: A boolean flag that determines the mathematical operation
+   for the price adjustment. If set to true, the price from the feed is
+   multiplied by the 'current price' in the computation path. If false, it's
+   divided. The 'current price' is initialized to a standard base of 1 wad
+   (1e18) to maintain precision.
+
+### Addresses
+
+<Tabs items={['Mainnets', 'Testnets']}>
+
+<Tab>
+
+</Tab>
+
+<Toggle title="Sepolia – 11155111">
+
+| Contract               | Address                                                                                                                              |
+| :--------------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| Default Deployment     | [`0x38E9aC0d9e00f3374e77B0e88fFAb7A750045e2d`](https://sepolia.etherscan.io/address/0x38E9aC0d9e00f3374e77B0e88fFAb7A750045e2d#code) |
+| ChainlinkOracleImpl    | [`0x00f317A2A57B255cA81f9bD56D2521c81850e2Eb`](https://sepolia.etherscan.io/address/0x00f317A2A57B255cA81f9bD56D2521c81850e2Eb#code) |
+| ChainlinkOracleFactory | [`0xD28182C2E11519ad081E7fa9da711274b7096098`](https://sepolia.etherscan.io/address/0xD28182C2E11519ad081E7fa9da711274b7096098#code) |
 
 </Toggle>
 
