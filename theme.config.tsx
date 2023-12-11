@@ -82,6 +82,7 @@ const config: DocsThemeConfig = {
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="docs.splits.org" />
+        <meta property="og:site_name" content="docs.splits.org" />
         <meta name="apple-mobile-web-app-title" content="Splits" />
         <link rel="icon" href="/logo_compressed.svg" type="image/svg+xml" />
       </>
