@@ -13,9 +13,9 @@
   "dependencies": {
     "eslint-config-next": "^13.2.4",
     "eslint-plugin-react": "^7.32.2",
-    "next": "^13.2.4",
-    "nextra": "^2.2.19",
-    "nextra-theme-docs": "^2.2.19",
+    "next": "13.5.3",
+    "nextra": "^2.13.2",
+    "nextra-theme-docs": "^2.13.2",
     "prism-react-renderer": "^1.2.1",
     "prismjs": "^1.27.0",
     "react": "^18.2.0",
