@@ -6,4 +6,6 @@ module.exports = {
     'https://docs.splits.org',
   generateRobotsTxt: true,
   generateIndexSitemap: false,
+  changefreq: 'monthly',
+  priority: 0.5,
 }
