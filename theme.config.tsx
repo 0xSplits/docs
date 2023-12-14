@@ -3,6 +3,7 @@ import type { DocsThemeConfig } from 'nextra-theme-docs'
 import { useConfig } from 'nextra-theme-docs'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import { CLIENT_ORIGIN } from './util/requests'
 
 const logo = (
   <>
@@ -34,7 +35,7 @@ const config: DocsThemeConfig = {
   logo,
   head: function useHead() {
     const { title } = useConfig()
-    const socialCard = 'https://docs.splits.org/cover_docs.png'
+    const ogImage = `${CLIENT_ORIGIN}/api/og?title=${encodeURIComponent(title)}`
 
     return (
       <>
@@ -50,15 +51,15 @@ const config: DocsThemeConfig = {
         {/* Page description */}
         <meta
           name="description"
-          content="Learn how Splits powers onchain payments"
+          content="Payments infrastructure for the onchain economy"
         />
         <meta
           name="og:description"
-          content="Learn how Splits powers onchain payments"
+          content="Payments infrastructure for the onchain economy"
         />
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={socialCard} />
+        <meta name="twitter:image" content={ogImage} />
         <meta name="twitter:site" content="@0xsplits" />
         <meta name="twitter:site:domain" content="splits.org" />
         <meta name="twitter:url" content="https://www.splits.org/" />
@@ -68,19 +69,20 @@ const config: DocsThemeConfig = {
         />
         <meta
           name="twitter:description"
-          content="Learn how Splits powers onchain payments"
+          content="Payments infrastructure for the onchain economy"
         />
         {/* Title */}
         <meta
           name="og:title"
           content={title ? title + ' | Splits' : 'Splits'}
         />
-        <meta name="og:image" content={socialCard} />
+        <meta name="og:image" content={ogImage} />
         {/* Open Graph */}
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="docs.splits.org" />
+        <meta property="og:site_name" content="docs.splits.org" />
         <meta name="apple-mobile-web-app-title" content="Splits" />
         <link rel="icon" href="/logo_compressed.svg" type="image/svg+xml" />
       </>

@@ -1,0 +1,165 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs'
+
+# SplitsKit
+
+This page explains how to use **SplitsKit**, a React component library around
+the [React SDK](/react). SplitsKit provides convenient hooks for easily
+fetching contract data and sending transactions. You can find the React SDK
+source code on
+[Github](https://github.com/0xSplits/splits-sdk/tree/main/packages/splits-kit).
+
+Get an interactive demo of the components by visiting
+[the Storybook](https://splits-kit.vercel.app/?path=/story/introduction--introduction).
+
+To get started, install the package using `yarn` or `npm`.
+
+<Tabs items={['yarn', 'npm']}>
+
+  <Tab>
+
+```bash
+yarn add @0xsplits/splits-kit
+```
+
+  </Tab>
+  <Tab>
+
+```bash
+npm install @0xsplits/splits-kit
+```
+
+  </Tab>
+</Tabs>
+
+## Usage
+
+Like the [React SDK](/react), a `SplitsProvider` component is needed to manage
+context for all components. SplitsKit also uses wagmi, so you will need to wrap
+your app in a `WagmiConfig` as well.
+
+This sample code loads and displays a DisplaySplit component.
+
+```js
+import { WagmiConfig, createConfig, configureChains, mainnet } from 'wagmi'
+import { SplitsProvider } from '@0xsplits/splits-sdk-react'
+import { publicProvider } from 'wagmi/providers/public'
+import { DisplaySplit } from '@0xsplits/splits-kit'
+
+const SPLIT_ADDRESS = '0xF8843981e7846945960f53243cA2Fd42a579f719'
+
+const { publicClient, webSocketPublicClient } = configureChains(
+  [mainnet],
+  [publicProvider()],
+)
+
+const splitsConfig = {
+  chainId: 1,
+  publicClient,
+}
+
+const wagmiConfig = createConfig({
+  publicClient,
+  webSocketPublicClient,
+})
+
+export default function App() {
+  return (
+    <WagmiConfig config={wagmiConfig}>
+      <SplitsProvider config={splitsConfig}>
+        <YourComponents />
+      </SplitsProvider>
+    </WagmiConfig>
+  )
+}
+
+function YourComponents() {
+  return (
+    <div>
+      <DisplaySplit chainId={1} address={SPLIT_ADDRESS} />
+    </div>
+  )
+}
+```
+
+## Initialization
+
+### SplitsProvider
+
+Provider component that is needed to manage context for all SplitsKit
+components. See documentation in the [React SDK](/react#splitsprovider).
+
+### WagmiConfig
+
+Config component for Wagmi. See documentation in the
+[Wagmi docs](https://wagmi.sh/react/WagmiConfig).
+
+## Components
+
+### CreateSplit
+
+A form for creating a new split.
+
+Usage
+
+```js
+<CreateSplit
+  chainId={1}
+  defaultDistributorFee={0.1} // defaults to 0.1
+  defaultController="0x0000000000000000000000000000000000000000" // defaults to 0x0000000000000000000000000000000000000000
+  defaultRecipients={[
+    {
+      address: '',
+      percentAllocation: 0,
+    },
+  ]} // defaults to [[{address: "",percentAllocation: 0,},]]
+  displayChain={false} // defaults to true
+  width="sm" // defaults to "md"
+  theme="dark" // defaults to "system"
+  onSuccess={() => {}} // called when the split is successfully created
+/>
+```
+
+### DisplaySplit
+
+Display a split with its recipients and balances, with ability to distribute
+balances.
+
+<Callout
+  type="info"
+  emoji={
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      width="20"
+      height="20"
+      class="nx-mt-1"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+      ></path>
+    </svg>
+  }
+>
+  In order to display/distribute balances,
+  [SplitsProvider](/splits-kit#splitsprovider) must be passed an
+  [Alchemy](https://wagmi.sh/react/providers/alchemy) or
+  [Infura](https://wagmi.sh/react/providers/infura) `publicClient`.
+</Callout>
+
+Usage
+
+```js
+<DisplaySplit
+  chainId={1}
+  address={SPLIT_ADDRESS}
+  displayBalances={false} // defaults to true
+  displayChain={false} // defaults to true
+  width="sm" // defaults to "md"
+  theme="dark" // defaults to "system"
+  onSuccess={() => {}} // called when the split is successfully distributed
+  onError={() => {}} // called when the split fails to distribute
+/>
+```

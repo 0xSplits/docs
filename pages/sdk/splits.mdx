@@ -941,7 +941,8 @@ Response
 
 Returns the determinisic address (using
 [CREATE2](https://eips.ethereum.org/EIPS/eip-1014)) at which an immutable Split
-will be deployed for given `recipients` and `distributorFeePercent`.
+will be deployed for given `recipients` and `distributorFeePercent`. Also returns
+whether or not this split has already been created.
 
 Usage
 
@@ -980,6 +981,7 @@ Response
 ```graphql
 {
   splitAddress: string
+  splitExists: boolean
 }
 ```
 
