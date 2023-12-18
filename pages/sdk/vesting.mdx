@@ -211,6 +211,21 @@ const args = {
 const gasEstimate = await vestingClient.estimateGas.createVestingModule(args)
 ```
 
+## CallData
+
+The client has a call data feature that can be used with any of the above
+write functions. Just call the function off of the `callData` property.
+Generating call data for the create vesting module function would look like:
+
+```js
+const args = {
+  beneficiary: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+  vestingPeriodSeconds: 31536000,
+}
+
+const callData = await vestingClient.callData.createVestingModule(args)
+```
+
 ## Vesting Reads
 
 These functions make it easier to query the [Vesting contracts](/core/vesting).

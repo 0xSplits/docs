@@ -902,6 +902,31 @@ const args = {
 const gasEstimate = await splitsClient.estimateGas.createSplit(args)
 ```
 
+## CallData
+
+The client has a call data feature that can be used with any of the above
+write functions. Just call the function off of the `callData` property.
+Generating call data for the create split function would look like:
+
+```js
+const args = {
+  recipients: [
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    }
+  ]
+  distributorFeePercent: 1.0000
+  controller: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+}
+
+const callData = await splitsClient.callData.createSplit(args)
+```
+
 ## SplitMain Reads
 
 ### getSplitBalance
