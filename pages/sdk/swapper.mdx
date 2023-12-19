@@ -491,6 +491,33 @@ const args = {
 const gasEstimate = await swapperClient.estimateGas.createSwapper(args)
 ```
 
+## CallData
+
+The client has a call data feature that can be used with any of the above
+write functions. Just call the function off of the `callData` property.
+Generating call data for the create swapper function would look like:
+
+```js
+const args = {
+  beneficiary: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+  defaultScaledOfferFactorPercent: 1,
+  scaledOfferFactorOverrides: [
+    {
+      baseToken: "0x0000000000000000000000000000000000000000",
+      quoteToken: "0x0000000000000000000000000000000000000000",
+      scaledOfferFactorPercent: 0.1,
+    }
+  ],
+  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  oracleParams: {
+    address: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
+  },
+}
+
+const callData = await swapperClient.callData.createSwapper(args)
+```
+
 ## Swapper Reads
 
 These functions make it easier to query the

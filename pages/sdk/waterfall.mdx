@@ -280,6 +280,33 @@ const args = {
 const gasEstimate = await waterfallClient.estimateGas.createWaterfallModule(args)
 ```
 
+## CallData
+
+The client has a call data feature that can be used with any of the above
+write functions. Just call the function off of the `callData` property.
+Generating call data for the create waterfall module function would look like:
+
+```js
+const args = {
+  token: "0x0000000000000000000000000000000000000000"
+  tranches: [
+    {
+      recipient: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+      size: 5.2 # Receives the first 5.2 eth
+    },
+    {
+      recipient: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
+      size: 3 # Receives the next 3 eth
+    },
+    {
+      recipient: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+    }
+  ]
+}
+
+const callData = await waterfallClient.callData.createWaterfallModule(args)
+```
+
 ## Waterfall Reads
 
 These functions make it easier to query the
