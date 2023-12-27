@@ -1,0 +1,28 @@
+# This is a basic workflow that is manually triggered
+
+name: Manual workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+
+
+jobs:
+  merge-to-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out repository
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Merging main into prod
+        run: |
+          git fetch origin
+          git checkout prod
+          git merge --ff-only main
+          
+      - name: Pushing to prod
+        run: |
+          git push origin prod
