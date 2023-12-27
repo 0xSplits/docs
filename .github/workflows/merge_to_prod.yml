@@ -18,10 +18,12 @@ jobs:
           ref: main
 
       - name: Fetching upstream
-        run: git fetch --all
+        run: git fetch --all --unshallow
 
       - name: Checkout prod
-        run: git checkout prod
+        run: |
+          git checkout prod
+          git pull origin prod
 
       - name: Merge main into prod
         run: git merge --ff-only origin/main
