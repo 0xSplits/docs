@@ -17,12 +17,14 @@ jobs:
         with:
           ref: main
 
-      - name: Merging main into prod
-        run: |
-          git fetch origin
-          git checkout prod
-          git merge --ff-only main
+      - name: Fetching upstream
+        run: git fetch --all
+
+      - name: Checkout prod
+        run: git checkout prod
+
+      - name: Merge main into prod
+        run: git merge --ff-only origin/main
           
       - name: Pushing to prod
-        run: |
-          git push origin prod
+        run: git push origin prod
