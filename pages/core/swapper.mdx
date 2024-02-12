@@ -23,7 +23,7 @@ owner can withdraw those tokens at any time.
   or any ERC20), oracle, discount, and owner. The oracle is modular so be
   careful to **use a secure oracle** with sensible settings for your desired
   behavior. You can use whatever oracle contract you'd like. Splits currently
-  offers one [oracle](/core/oracle), which uses Uniswap v3 TWAP to price assets.
+  offers two [oracles](/core/oracle): Uniswap v3 TWAP and Chainlink.
 - Tokens received by Swapper are held in the contract's balance until `flash` is
   called. When `flash` is called, the caller sends the expected amount (as
   determined by the oracle and discount) to the beneficiary in exchange for the
