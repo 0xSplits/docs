@@ -1,7 +1,7 @@
 import { Toggle } from '../../components/toggle'
 import { Tab, Tabs } from 'nextra-theme-docs'
 
-# Split V2
+# Split v2
 
 Version 2 of splits keeps the original idea of splits mentioned
 [here](./split.mdx) while decoupling the underlying implementation of split and
@@ -11,9 +11,7 @@ splits for different use cases.
 - Create at [split.new](https://app.splits.org/new/split/)
 - [Github](https://github.com/0xSplits/splits-contracts-monorepo/tree/main/packages/splits-v2)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-contracts-monorepo/tree/main/packages/splits-v2/src/splitters)
-- [SDK](/sdk/splits) //TODO
-- [Example](https://app.splits.org/accounts/0xF8843981e7846945960f53243cA2Fd42a579f719/)
-  //TODO
+- [SDK](../sdk/splits-v2)
 - [Audit](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/audits/splits-v2.md)
 
 ## How it works
@@ -40,6 +38,30 @@ splits for different use cases.
   distributions, make arbitrary transactions and also sign data using
   [`ERC1271`](https://eips.ethereum.org/EIPS/eip-1271).
 - We recommend reviewing the [contracts flow of funds](/core#flow-of-funds).
+
+## Notes
+
+- For enhanced security, it's advised against enabling a withdrawal incentive
+  for a pull split within the warehouse, as it exposes the warehouse's split
+  balance to potential draining. If an incentive is still desired, consider
+  temporarily halting withdrawals to mitigate this risk. For comprehensive
+  insights, please consult this
+  [`analysis`](https://github.com/zobront/audits/blob/main/reports/splits-v2.md#review).
+
+- The contracts do not impose a maximum limit on the number of recipients for a
+  split. Consequently, the practical limit is governed by the gas limit of the
+  blockchain's blocks. Be cautious of this constraint when establishing
+  extensive splits, as it may result in funds being irretrievably locked due to
+  the gas limit restrictions of the blockchain.
+
+- In terms of recipient allocations, the split initiator now enjoys complete
+  flexibility without a predefined unit, allowing for tailored distribution
+  strategies. However, employing excessively small allocation units might
+  disadvantage recipients holding minor shares, potentially leading to financial
+  losses. For further information on this topic, please refer to
+  [`this discussion on rounding issues`](https://github.com/zobront/audits/blob/main/reports/splits-v2.md#m-02-rounding-issues-could-allow-majority-shareholders-to-steal-funds)
+  and
+  [`this note on allocation size limitations`](https://github.com/zobront/audits/blob/main/reports/splits-v2.md#l-01-allocation-size-is-unbounded-which-can-cause-overflow-revert-in-getdistributions).
 
 ## Addresses
 
