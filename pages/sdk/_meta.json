@@ -1,4 +1,6 @@
 {
+  "warehouse": "Warehouse",
+  "splits-v2": "Splits-v2",
   "splits": "Splits",
   "waterfall": "Waterfall",
   "swapper": "Swapper",
