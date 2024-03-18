@@ -1,0 +1,667 @@
+# Splits
+
+Begin by importing `SplitV2Client` into your app.
+
+```js
+import { SplitV2Client } from '@0xsplits/splits-sdk'
+
+const splitsClient = new SplitV2Client({
+  chainId,
+  publicClient, // viem public client (optional, required if using any of the contract functions)
+  walletClient, // viem wallet client (optional, required if using any contract write functions. must have an account already attached)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for any split recipient or controller (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet public client
+  // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
+  // other chain for non EOAs (e.g. Gnosis Safe's)
+  ensPublicClient, // viem public client (optional)
+})
+```
+
+Now you're ready to use any of the functions. All Arguments and Responses for
+these functions are `objects`. This will make it easier for us to release
+updates to the SDK without breaking existing implementations.
+
+The SDK comprises 3 different types of functions: Subgraph Reads, Split Factory
+and Split Writes, and Split Factory and Split Reads.
+
+## Writes
+
+### createSplit
+
+Creates a new Split contract. By default it creates a pull split. It also
+accepts a salt which can be used to deploy a split deterministically.
+
+Usage
+
+```js
+const args = {
+  recipients: [
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    }
+  ]
+  distributorFeePercent: 1.0000
+  totalAllocationPercent: 100.0000
+  splitType: SplitV2Type.Push
+  controller: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+  creator: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+  salt: "0x0000000000000000000000000000000000000000000000000000000000000000"
+}
+
+const response = await splitsClient.createSplit(args)
+```
+
+Arguments
+
+```graphql
+{
+  recipients: {
+      address: Address;
+      percentAllocation: number # >0 and <100 and up to 4 decimals
+    }[]
+  distributorFeePercent: number # <10 and up to 4 decimals
+  totalAllocationPercent: number
+  controllerAddress?: Address # defaults to AddressZero for an immutable split
+  splitType?: SplitV2Type # defaults to PullSplit
+  creatorAddress?: Address # defaults to AddressZero
+  salt?: bytes32 string # when not paused a non deterministic split will be deployed
+}
+```
+
+Response
+
+```graphql
+{
+  splitAddress: Address
+  event: Log # SplitCreated emitted on PullSplitFactory and PushSplitFactory
+}
+```
+
+### updateSplit
+
+Updates an existing mutable Split contract. Only callable by the controller of
+`splitAddress`.
+
+Usage
+
+```js
+const args = {
+  splitAddress: "0x047ED5b8E8a7eDBd92FAF61f3117cAFE8c529ABb"
+  recipients: {
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    },
+  }
+  distributorFeePercent: 1.0000
+  totalAllocationPercent: 100.0000
+}
+
+const response = await splitsClient.updateSplit(args)
+```
+
+```graphql
+{
+  recipients: {
+      address: Address;
+      percentAllocation: number # >0 and <100 and up to 4 decimals
+    }[]
+  distributorFeePercent: number # <10 and up to 4 decimals
+  totalAllocationPercent: number
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # SplitUpdated emitted on PushSplit and PullSplit
+}
+```
+
+### distribute
+
+Distributes the balance of `tokenAddress` for `splitAddress`, and sends the
+distributor fee to `distributorAddress`.
+
+Usage
+
+```js
+const args = {
+  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  tokenAddress: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
+}
+
+const response = await splitsClient.distribute(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: Address
+  tokenAddress: Address
+  distributorAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # SplitDistributed emitted on PullSplit or PushSplit
+}
+```
+
+### transferOwnership
+
+Transfers control of `splitAddress` to `newController`. Only callable by the
+controller of `splitAddress`.
+
+Usage
+
+```js
+const args = {
+  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  newController: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
+}
+
+const response = await splitsClient.initiateControlTransfer(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: Address
+  newController: Address
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # OwnershipTransferred emitted on PullSplit or PushSplit
+}
+```
+
+### setPause
+
+Pauses distribution of the split. Can only be called by the controller of the
+split.
+
+Usage
+
+```js
+const args = {
+  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  paused: true
+}
+
+const response = await splitsClient.setPaused(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: Address
+  paused: boolean
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # SetPaused emitted on PullSplit or PushSplit
+}
+```
+
+### execCalls
+
+Allows the controller of the split to execute arbitrary calls.
+
+Usage
+
+```js
+const args = {
+  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  calls: {
+    to: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    value: 1 ether,
+    data: "0xd0e30db0" # deposit()
+  }
+}
+
+const response = await splitsClient.execCalls(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: string
+  calls: {
+    to: Address,
+    value: bigint,
+    data: Hex
+  }
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # ExecCalls emitted on PullSplit or PushSplit
+}
+```
+
+## Gas Estimation
+
+The client has a gas estimation feature that can be used with any of the above
+write functions. Just call the function off of the `estimateGas` property.
+Estimating the gas for the create split function would look like:
+
+```js
+const args = {
+  recipients: [
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    }
+  ]
+  distributorFeePercent: 1.0000
+  controllerAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+}
+
+const gasEstimate = await splitsClient.estimateGas.createSplit(args)
+```
+
+## CallData
+
+The client has a call data feature that can be used with any of the above write
+functions. Just call the function off of the `callData` property. Generating
+call data for the create split function would look like:
+
+```js
+const args = {
+  recipients: [
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    }
+  ]
+  distributorFeePercent: 1.0000
+  controllerAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+}
+
+const callData = await splitsClient.callData.createSplit(args)
+```
+
+## Reads
+
+### getSplitBalance
+
+Returns the balance for a given `splitAddress` and `tokenAddress` in the split
+and the warehouse.
+
+Usage
+
+```js
+const args = {
+  splitAddress: '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE',
+  tokenAddress: '0x64d91f12ece7362f91a6f8e7940cd55f05060b92',
+}
+
+const response = await splitsClient.getSplitBalance(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: Address
+  tokenAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  splitBalance: bigint
+  warehouseBalance: bigint
+}
+```
+
+### predictDeterministicAddress
+
+Returns the deterministic address at which a Split will be deployed for given
+`recipients` and `distributorFeePercent`.
+
+Usage
+
+```js
+const args = {
+  recipients: [
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    }
+  ]
+  distributorFeePercent: 1.0000
+  totalAllocationPercent: 100.0000
+  splitType: SplitV2Type.Push
+  controller: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+  creator: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+  salt: "0x0000000000000000000000000000000000000000000000000000000000000000"
+}
+
+const response = await splitsClient.predictDeterministicAddress(args)
+```
+
+Arguments
+
+```graphql
+{
+  recipients: {
+      address: Address;
+      percentAllocation: number # >0 and <100 and up to 4 decimals
+    }[]
+  distributorFeePercent: number # <10 and up to 4 decimals
+  totalAllocationPercent: number
+  controllerAddress?: Address # defaults to AddressZero for an immutable split
+  splitType?: SplitV2Type # defaults to PullSplit
+  creatorAddress?: Address # defaults to AddressZero
+  salt?: bytes32 string # when not paused a non deterministic split will be deployed
+}
+```
+
+Response
+
+```graphql
+{
+  splitAddress: Address
+}
+```
+
+### isDeployed
+
+Returns the deterministic address at which a Split will be deployed for given
+`recipients` and `distributorFeePercent`. Also returns if the split is deployed.
+
+Usage
+
+```js
+const args = {
+  recipients: [
+    {
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      percentAllocation: 50.0000
+    },
+    {
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      percentAllocation: 50.0000
+    }
+  ]
+  distributorFeePercent: 1.0000
+  totalAllocationPercent: 100.0000
+  splitType: SplitV2Type.Push
+  controller: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+  creator: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+  salt: "0x0000000000000000000000000000000000000000000000000000000000000000"
+}
+
+const response = await splitsClient.isDeployed(args)
+```
+
+Arguments
+
+```graphql
+{
+  recipients: {
+      address: Address;
+      percentAllocation: number # >0 and <100 and up to 4 decimals
+    }[]
+  distributorFeePercent: number # <10 and up to 4 decimals
+  totalAllocationPercent: number
+  controllerAddress?: Address # defaults to AddressZero for an immutable split
+  splitType?: SplitV2Type # defaults to PullSplit
+  creatorAddress?: Address # defaults to AddressZero
+  salt?: bytes32 string # when not paused a non deterministic split will be deployed
+}
+```
+
+Response
+
+```graphql
+{
+  splitAddress: Address
+  deployed: boolean
+}
+```
+
+### controller
+
+Returns the controller for a given `splitAddress`.
+
+Usage
+
+```js
+const args = {
+  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.controller(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  controllerAddress: Address
+}
+```
+
+### paused
+
+Returns the paused state for a given `splitAddress`.
+
+Usage
+
+```js
+const args = {
+  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.paused(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: string
+}
+```
+
+Response
+
+```graphql
+{
+  paused: boolean
+}
+```
+
+### getReplaySafeHash
+
+Returns the wrapped hash for a given `splitAddress` and message or structured
+`hash`.
+
+Usage
+
+```js
+const args = {
+  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  hash: '0x0',
+}
+
+const response = await splitsClient.getReplaySafeHash(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: Address
+  hash: Hex
+}
+```
+
+Response
+
+```graphql
+{
+  hash: Hex
+}
+```
+
+### isValidSignature
+
+Given a message `hash` and a `signature`. It returns whether or not the
+`splitAddress` is the signer.
+
+Usage
+
+```js
+const args = {
+  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  hash: '0x0',
+  signature: '0x0',
+}
+
+const response = await splitsClient.isValidSignature(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: Address
+  hash: Hex
+  signature: Hex
+}
+```
+
+Response
+
+```graphql
+{
+  isValid: boolean
+}
+```
+
+### eip712Domain
+
+Returns EIP-712 domain of the `splitAddress`
+
+Usage
+
+```js
+const args = {
+  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.eip712Domain(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  chainId: number
+  name: string
+  salt: Hex
+  verifyingContract: Address
+  version: string
+}
+```
+
+### getSplitMetadata
+
+Returns the configuration of the `splitAddress`.
+
+Usage
+
+```js
+const args = {
+  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await splitsClient.getSplitMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  address: Address
+  recipients: Address[]
+  allocations: bigint[]
+  distributionIncentive: number
+  totalAllocation: bigint
+  paused: boolean
+  type: SplitV2Type
+  controllerAddress: Address
+  creatorAddress: Address
+}
+```

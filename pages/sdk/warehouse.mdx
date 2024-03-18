@@ -1,0 +1,749 @@
+# Warehouse
+
+Begin by importing `WarehouseClient` into your app.
+
+```js
+import { WarehouseClient } from '@0xsplits/splits-sdk'
+
+const warehouseClient = new WarehouseClient({
+  chainId,
+  publicClient, // viem public client (optional, required if using any of the contract functions)
+  walletClient, // viem wallet client (optional, required if using any contract write functions. must have an account already attached)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for any split recipient or controller (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet public client
+  // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
+  // other chain for non EOAs (e.g. Gnosis Safe's)
+  ensPublicClient, // viem public client (optional)
+})
+```
+
+Now you're ready to use any of the functions. All Arguments and Responses for
+these functions are `objects`. This will make it easier for us to release
+updates to the SDK without breaking existing implementations.
+
+The SDK comprises 2 different types of functions: Warehouse Writes, and
+Warehouse Reads.
+
+## Writes
+
+### transfer
+
+Transfers the given amount of `tokenAddress` to `receiverAddress`.
+
+Usage
+
+```js
+const args = {
+  receiverAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+  tokenAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
+  amount: 1 ether
+}
+
+const response = await warehouseClient.transfer(args)
+```
+
+Arguments
+
+```graphql
+{
+  receiverAddress: Address
+  tokenAddress: Address
+  amount: bigint
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # Transfer emitted on Warehouse
+}
+```
+
+### transferFrom
+
+Transfers the given amount of `tokenAddress` from `senderAddress` to
+`receiverAddress`.
+
+Usage
+
+```js
+const args = {
+  senderAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+  receiverAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+  tokenAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+  amount: 1 ether
+}
+
+const response = await warehouseClient.transferFrom(args)
+```
+
+Arguments
+
+```graphql
+{
+  senderAddress: Address
+  receiverAddress: Address
+  tokenAddress: Address
+  amount: bigint
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # Transfer emitted on Warehouse
+}
+```
+
+### approve
+
+Approves the given amount of `tokenAddress` to be spent by `spenderAddress`.
+
+Usage
+
+```js
+const args = {
+  spenderAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+  tokenAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+  amount: 1 ether
+}
+
+const response = await warehouseClient.approve(args)
+```
+
+Arguments
+
+```graphql
+{
+  spenderAddress: Address
+  tokenAddress: Address
+  amount: bigint
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # Approve emitted on Warehouse
+}
+```
+
+### setOperator
+
+Sets `operatorAddress` as operator.
+
+Usage
+
+```js
+const args = {
+  operatorAddress: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+  approved: true,
+}
+
+const response = await warehouseClient.setOperator(args)
+```
+
+Arguments
+
+```graphql
+{
+  operatorAddress: Address
+  approved: boolean
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # OperatorSet emitted on Warehouse
+}
+```
+
+### invalidateNonce
+
+Invalidates nonce for the caller.
+
+Usage
+
+```js
+const args = {
+  nonce: 0,
+}
+
+const response = await warehouseClient.invalidateNonce(args)
+```
+
+Arguments
+
+```graphql
+{
+  nonce: bigint
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # NonceInvalidated emitted on Warehouse
+}
+```
+
+### temporaryApproveAndCall
+
+Grants temporary approval to `spenderAddress` for `tokenAddress` and makes a
+call to the given `targetAddress` with arbitrary passed data.
+
+Usage
+
+```js
+const args = {
+  spenderAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+  operator: false, # if this is true, tokenAddress and amount should be 0.
+  tokenAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+  amount: 1 ether,
+  targetAddress: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342",
+  data: "0x0"
+}
+
+const response = await warehouseClient.temporaryApproveAndCall(args)
+```
+
+Arguments
+
+```graphql
+{
+  spenderAddress: Address
+  operator: boolean
+  tokenAddress: Address
+  amount: bigint
+  targetAddress: Address
+  data: Hex
+}
+```
+
+Response
+
+```graphql
+{
+  txHash: Hex
+}
+```
+
+### deposit
+
+Deposits a given amount of `tokenAddress` to the warehouse for the caller giving
+ownership of the receipt to `receiverAddress`.
+
+Usage
+
+```js
+const args = {
+  receiverAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  tokenAddress: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  amount: 1 ether
+}
+
+const response = await warehouseClient.deposit(args)
+```
+
+Arguments
+
+```graphql
+{
+  receiverAddress: Address
+  tokenAddress: Address
+  amount: bigint
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # Transfer emitted on Warehouse
+}
+```
+
+### batchDeposit
+
+Batch deposits given amounts of `tokenAddress` to the warehouse for the caller
+giving ownership of the receipt to `receiverAddresses`.
+
+Usage
+
+```js
+const args = {
+  receiversAddresses: ["0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"]
+  tokenAddress: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  amounts: [1 ether]
+}
+
+const response = await warehouseClient.batchDeposit(args)
+```
+
+Arguments
+
+```graphql
+{
+  receiversAddresses: Address
+  tokenAddress: Address
+  amounts: bigint[]
+}
+```
+
+Response
+
+```graphql
+{
+  events: Log[] # Transfer events emitted on Warehouse
+}
+```
+
+### withdraw
+
+Withdraws the entire balance of `ownerAddress` for a given `tokenAddress`.
+
+Usage
+
+```js
+const args = {
+  ownerAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  tokenAddress: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+}
+
+const response = await warehouseClient.withdraw(args)
+```
+
+Arguments
+
+```graphql
+{
+  ownerAddress: Address
+  tokenAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # Withdraw emitted on Warehouse
+}
+```
+
+### batchWithdraw
+
+Withdraws a given amount of each `tokenAddress` for the `ownerAddress`. Also
+sends the withdraw incentive to the `withdrawerAddress`.
+
+Usage
+
+```js
+const args = {
+  ownerAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  tokensAddresses: ["0x64d91f12ece7362f91a6f8e7940cd55f05060b92"]
+  amounts: [1 ether]
+  withdrawerAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+}
+
+const response = await warehouseClient.batchWithdraw(args)
+```
+
+Arguments
+
+```graphql
+{
+  ownerAddress: Address
+  tokensAddresses: Address[]
+  amounts: bigint[]
+  withdrawerAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  events: Log[] # Withdraw events emitted on Warehouse
+}
+```
+
+### batchTransfer
+
+Transfers given amounts of `tokenAddress` from the caller to the
+`receiversAddresses`.
+
+Usage
+
+```js
+const args = {
+  receiversAddresses: ["0x64d91f12ece7362f91a6f8e7940cd55f05060b92"]
+  amounts: [1 ether]
+  tokenAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+}
+
+const response = await warehouseClient.batchTransfer(args)
+```
+
+Arguments
+
+```graphql
+{
+  receiversAddresses: Address[]
+  amounts: bigint[]
+  tokenAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  events: Log[] # Transfer events emitted on Warehouse
+}
+```
+
+### setWithdrawConfig
+
+Sets the withdraw config on the warehouse for the caller.
+
+Usage
+
+```js
+const args = {
+    incentivePercent: 1 # max 6.5%
+    paused: false
+}
+
+const response = await warehouseClient.setWithdrawConfig(args)
+```
+
+Arguments
+
+```graphql
+{
+  incentivePercent: number
+  paused: boolean
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # withdrawConfigUpdated event emitted on Warehouse
+}
+```
+
+## Gas Estimation
+
+The client has a gas estimation feature that can be used with any of the above
+write functions. Just call the function off of the `estimateGas` property.
+Estimating the gas for the create split function would look like:
+
+```js
+const args = {
+  receiverAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  tokenAddress: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  amount: 1 ether
+}
+
+const response = await warehouseClient.estimateGas.deposit(args)
+```
+
+## CallData
+
+The client has a call data feature that can be used with any of the above write
+functions. Just call the function off of the `callData` property. Generating
+call data for the create split function would look like:
+
+```js
+const args = {
+  receiverAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  tokenAddress: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  amount: 1 ether
+}
+
+const response = await warehouseClient.calldata.deposit(args)
+```
+
+## Reads
+
+### getName
+
+Returns the name of the wrapped `tokenAddress`.
+
+Usage
+
+```js
+const args = {
+  tokenAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await warehouseClient.getName(args)
+```
+
+Arguments
+
+```graphql
+{
+  tokenAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  name: string
+}
+```
+
+### getSymbol
+
+Returns the symbol of the wrapped `tokenAddress`.
+
+Usage
+
+```js
+const args = {
+  tokenAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await warehouseClient.getSymbol(args)
+```
+
+Arguments
+
+```graphql
+{
+  tokenAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  symbol: string
+}
+```
+
+### getDecimals
+
+Returns the decimals of the wrapped `tokenAddress`.
+
+Usage
+
+```js
+const args = {
+  tokenAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await warehouseClient.getDecimals(args)
+```
+
+Arguments
+
+```graphql
+{
+  tokenAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  decimals: number
+}
+```
+
+### getWithdrawConfig
+
+Returns the withdraw config set by the `userAddress`.
+
+Usage
+
+```js
+const args = {
+  userAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await warehouseClient.getWithdrawConfig(args)
+```
+
+Arguments
+
+```graphql
+{
+  userAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  incentive: number
+  paused: boolean
+}
+```
+
+### isValidNonce
+
+Returns the validity of the `userNonce` for the `userAddress`.
+
+Usage
+
+```js
+const args = {
+  userAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  userNonce: 0,
+}
+
+const response = await warehouseClient.isValidNonce(args)
+```
+
+Arguments
+
+```graphql
+{
+  userNonce: bigint
+  userAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  isValidNonce: boolean
+}
+```
+
+### eip712Domain
+
+Returns EIP-712 domain of the warehouse.
+
+Usage
+
+```js
+const response = await warehouseClient.eip712Domain()
+```
+
+Response
+
+```graphql
+{
+  chainId: number
+  name: string
+  salt: Hex
+  verifyingContract: Address
+  version: string
+}
+```
+
+### isOperator
+
+Returns whether or not the `operatorAddress` is the operator for `ownerAddress`.
+
+Usage
+
+```js
+const args = {
+  ownerAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  operatorAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await warehouseClient.isOperator(args)
+```
+
+Arguments
+
+```graphql
+{
+  ownerAddress: Address
+  operatorAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  isOperator: boolean
+}
+```
+
+### balanceOf
+
+Returns the the amount of `tokenAddress` owned by `ownerAddress`.
+
+Usage
+
+```js
+const args = {
+  ownerAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  tokenAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await warehouseClient.balanceOf(args)
+```
+
+Arguments
+
+```graphql
+{
+  ownerAddress: Address
+  tokenAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  balance: bigint
+}
+```
+
+### allowance
+
+Returns the amount of allowance granted from `ownerAddress` to `spenderAddress`
+for a given `tokenAddress`.
+
+Usage
+
+```js
+const args = {
+  ownerAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  tokenAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  spenderAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+}
+
+const response = await warehouseClient.allowance(args)
+```
+
+Arguments
+
+```graphql
+{
+  ownerAddress: Address
+  tokenAddress: Address
+  spenderAddress: Address
+}
+```
+
+Response
+
+```graphql
+{
+  allowance: bigint
+}
+```
