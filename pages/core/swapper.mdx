@@ -10,7 +10,13 @@ single output token. When ETH and ERC20s are received by a Swapper, they're
 automatically swapped into the output token according to the oracle's clearing
 price and the swapper's discount. If the oracle is unable to determine a
 clearing price (i.e., it doesn't support tokens it has received), the Swapper's
-owner can withdraw those tokens at any time.
+owner **must** handle those tokens manually (e.g. swap or withdraw via execCalls;
+the former is enabled for some token-pairs by our UI).
+
+<Callout type="warning">
+  Swappers without owners will **not** be able to recover tokens received that 
+  aren't supported by their oracle. Be very careful when using immutable Swappers!
+</Callout>
 
 - Create at [swapper.new](https://app.splits.org/new/swapper/)
 - [Github](https://github.com/0xSplits/splits-swapper)
