@@ -13,8 +13,10 @@ are the same.
 ![Flow of funds](./core/img/flow_of_funds.png)
 
 1. **Receive**: ETH and ERC20 tokens flow into the contract via `send`,
-   `transfer`, or `call` and the contract's balance increases
+   `transfer`, or `call` and the contract's balance increases.
 2. **Distribute**: Once a contract has a positive balance, anyone can call
-   `distributeETH` or `distributeERC20` and earn the distributor fee
+   `distribute`, `distributeETH` or `distributeERC20` depending on the version
+   of the split and earn the distributor fee.
 3. **Withdraw**: Anyone can call `withdraw` at any time for any account, thereby
-   pushing that account's balance out of SplitMain to the account
+   pushing that account's balance out of SplitWarehouse or SplitMain to the
+   account.
