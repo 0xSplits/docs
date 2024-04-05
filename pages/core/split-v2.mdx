@@ -11,7 +11,6 @@ splits for different use cases.
 - Create at [split.new](https://app.splits.org/new/split/)
 - [Github](https://github.com/0xSplits/splits-contracts-monorepo/tree/main/packages/splits-v2)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-contracts-monorepo/tree/main/packages/splits-v2/src/splitters)
-- [SDK](../sdk/splits-v2)
 - [Audit](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/audits/splits-v2.md)
 
 ## How it works
@@ -40,6 +39,13 @@ splits for different use cases.
 - We recommend reviewing the [contracts flow of funds](/core#flow-of-funds).
 
 ## Notes
+
+- When using the create deterministic flow it is recommended to use a random
+  salt to avoid frontrunning. In the case that it does get frontrun you should
+  add necessary measure to handle such a case. The final split configuration
+  will still be as intended even with the frontrun. If you are not using a
+  random salt it is recommended to just use the simple create flow that does
+  handle the salt generation for you using your nonce and the split params.
 
 - For enhanced security, it's advised against enabling a withdrawal incentive
   for a pull split within the warehouse, as it exposes the warehouse's split
@@ -132,6 +138,28 @@ splits for different use cases.
 | PushSplit        | [`0x0285B37453F73f8dE94De0cAEf8108bC8431BE34`](https://explorer.zora.energy/address/0x0285B37453F73f8dE94De0cAEf8108bC8431BE34?tab=contract) |
 | PullSplitFactory | [`0x80f1B766817D04870f115fEBbcCADF8DBF75E017`](https://explorer.zora.energy/address/0x80f1B766817D04870f115fEBbcCADF8DBF75E017?tab=contract) |
 | PullSplit        | [`0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99`](https://explorer.zora.energy/address/0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99?tab=contract) |
+
+</Toggle>
+
+<Toggle title="BSC – 56">
+
+| Contract         | Address                                                                                                                     |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xaDC87646f736d6A82e9a6539cddC488b2aA07f38`](https://bscscan.com/address/0xaDC87646f736d6A82e9a6539cddC488b2aA07f38#code) |
+| PushSplit        | [`0x0285B37453F73f8dE94De0cAEf8108bC8431BE34`](https://bscscan.com/address/0x0285B37453F73f8dE94De0cAEf8108bC8431BE34#code) |
+| PullSplitFactory | [`0x80f1B766817D04870f115fEBbcCADF8DBF75E017`](https://bscscan.com/address/0x80f1B766817D04870f115fEBbcCADF8DBF75E017#code) |
+| PullSplit        | [`0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99`](https://bscscan.com/address/0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99#code) |
+
+</Toggle>
+
+<Toggle title="Gnosis – 100">
+
+| Contract         | Address                                                                                                                                       |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xaDC87646f736d6A82e9a6539cddC488b2aA07f38`](https://gnosis.blockscout.com/address/0xaDC87646f736d6A82e9a6539cddC488b2aA07f38?tab=contract) |
+| PushSplit        | [`0x0285B37453F73f8dE94De0cAEf8108bC8431BE34`](https://gnosis.blockscout.com/address/0x0285B37453F73f8dE94De0cAEf8108bC8431BE34?tab=contract) |
+| PullSplitFactory | [`0x80f1B766817D04870f115fEBbcCADF8DBF75E017`](https://gnosis.blockscout.com/address/0x80f1B766817D04870f115fEBbcCADF8DBF75E017?tab=contract) |
+| PullSplit        | [`0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99`](https://gnosis.blockscout.com/address/0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99?tab=contract) |
 
 </Toggle>
 
