@@ -99,15 +99,15 @@ Usage
 const args = {
   holders: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
       percentAllocation: 50.0
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
       percentAllocation: 50.0
     }
-  ]
-  distributorFeePercent: 1.0000
+  ],
+  distributorFeePercent: 1.0000,
   owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
 }
 
@@ -119,7 +119,7 @@ Arguments
 ```graphql
 {
   holders: {
-    address: string;
+    address: string
     percentAllocation: number # >0 and <100 and up to 1 decimal
   }[]
   distributorFeePercent: number # <10 and up to 4 decimals
@@ -145,8 +145,8 @@ Usage
 
 ```js
 const args = {
-  liquidSplitId: "0xb5Ce41320F3d486671918733BB3226E3981Db62b"
-  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  liquidSplitId: "0xb5Ce41320F3d486671918733BB3226E3981Db62b",
+  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92",
   distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
 }
 
@@ -180,7 +180,7 @@ Usage
 
 ```js
 const args = {
-  liquidSplitId: "0xb5Ce41320F3d486671918733BB3226E3981Db62b"
+  liquidSplitId: "0xb5Ce41320F3d486671918733BB3226E3981Db62b",
   newOwner: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
 }
 
@@ -214,15 +214,15 @@ Estimating the gas for the create liquid split function would look like:
 const args = {
   holders: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
       percentAllocation: 50.0
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
       percentAllocation: 50.0
     }
-  ]
-  distributorFeePercent: 1.0000
+  ],
+  distributorFeePercent: 1.0000,
   owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
 }
 

@@ -465,15 +465,15 @@ Usage
 const args = {
   recipients: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
       percentAllocation: 50.0000
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
       percentAllocation: 50.0000
     }
-  ]
-  distributorFeePercent: 1.0000
+  ],
+  distributorFeePercent: 1.0000,
   controller: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
 }
 
@@ -485,9 +485,9 @@ Arguments
 ```graphql
 {
   recipients: {
-      address: string;
-      percentAllocation: number # >0 and <100 and up to 4 decimals
-    }[]
+    address: string
+    percentAllocation: number # >0 and <100 and up to 4 decimals
+  }[]
   distributorFeePercent: number # <10 and up to 4 decimals
   controller?: string # defaults to AddressZero for an immutable split
 }
@@ -511,17 +511,17 @@ Usage
 
 ```js
 const args = {
-  splitAddress: "0x047ED5b8E8a7eDBd92FAF61f3117cAFE8c529ABb"
-  recipients: {
+  splitAddress: "0x047ED5b8E8a7eDBd92FAF61f3117cAFE8c529ABb",
+  recipients: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
       percentAllocation: 50.0000
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
       percentAllocation: 50.0000
     },
-  }
+  ],
   distributorFeePercent: 1.0000
 }
 
@@ -534,7 +534,7 @@ Arguments
 {
   splitAddress: string
   recipients: {
-    address: string;
+    address: string
     percentAllocation: number
   }[]
   distributorFeePercent: number
@@ -558,8 +558,8 @@ Usage
 
 ```js
 const args = {
-  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
-  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
+  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
+  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92",
   distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
 }
 
@@ -594,19 +594,19 @@ Usage
 
 ```js
 const args = {
-  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
-  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92"
-  recipients: {
+  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
+  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92",
+  recipients: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
       percentAllocation: 50.0000
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
       percentAllocation: 50.0000
     },
-  }
-  distributorFeePercent: 1.0000
+  ],
+  distributorFeePercent: 1.0000,
   distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
 }
 
@@ -620,7 +620,7 @@ Arguments
   splitAddress: string
   token: string
   recipients: {
-    address: string;
+    address: string
     percentAllocation: number
   }[]
   distributorFeePercent: number
@@ -644,7 +644,7 @@ Usage
 
 ```js
 const args = {
-  address: "0x357138F2690B82f29dF32bf2a3d0e6d4CC4D63C1"
+  address: "0x357138F2690B82f29dF32bf2a3d0e6d4CC4D63C1",
   tokens: [
     "0x64d91f12ece7362f91a6f8e7940cd55f05060b92",
     "0x0000000000000000000000000000000000000000"
@@ -680,7 +680,7 @@ Usage
 
 ```js
 const args = {
-  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9"
+  splitAddress: "0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9",
   newController: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
 }
 
@@ -887,15 +887,15 @@ Estimating the gas for the create split function would look like:
 const args = {
   recipients: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
       percentAllocation: 50.0000
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
       percentAllocation: 50.0000
     }
-  ]
-  distributorFeePercent: 1.0000
+  ],
+  distributorFeePercent: 1.0000,
   controller: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
 }
 
@@ -912,15 +912,15 @@ Generating call data for the create split function would look like:
 const args = {
   recipients: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
       percentAllocation: 50.0000
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
       percentAllocation: 50.0000
     }
-  ]
-  distributorFeePercent: 1.0000
+  ],
+  distributorFeePercent: 1.0000,
   controller: "0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342"
 }
 
@@ -973,16 +973,16 @@ Usage
 
 ```js
 const args = {
-  recipients: {
+  recipients: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f";
+      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
       percentAllocation: 50.0000
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675";
+      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
       percentAllocation: 50.0000
     },
-  }
+  ],
   distributorFeePercent: 1.0000
 }
 
@@ -994,7 +994,7 @@ Arguments
 ```graphql
 {
   recipients: {
-    address: string;
+    address: string
     percentAllocation: number
   }[]
   distributorFeePercent: number
