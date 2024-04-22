@@ -13,40 +13,6 @@
       "toc": true
     }
   },
-  "users": {
-    "type": "separator",
-    "title": "App"
-  },
-  "start": {
-    "title": "Getting started",
-    "theme": {
-      "breadcrumb": false
-    }
-  },
-  "create": {
-    "title": "Creating contracts",
-    "theme": {
-      "breadcrumb": false
-    }
-  },
-  "use": {
-    "title": "Sending funds",
-    "theme": {
-      "breadcrumb": false
-    }
-  },
-  "distribute": {
-    "title": "Distributing balances",
-    "theme": {
-      "breadcrumb": false
-    }
-  },
-  "withdraw": {
-    "title": "Withdrawing balances",
-    "theme": {
-      "breadcrumb": false
-    }
-  },
   "developers": {
     "type": "separator",
     "title": "Dev tools"
