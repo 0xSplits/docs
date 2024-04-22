@@ -38,15 +38,15 @@
   },
   "core": "Core contracts",
   "templates": "Templates",
-  "launch_app": {
+  "app_support": {
     "type": "page",
-    "title": "Launch App",
-    "href": "https://app.splits.org/",
+    "title": "App Support",
+    "href": "https://splits.org/help/",
     "newWindow": true
   },
   "about": {
     "type": "page",
-    "title": "About",
+    "title": "Home",
     "href": "https://splits.org/",
     "newWindow": true
   }
