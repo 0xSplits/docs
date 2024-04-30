@@ -341,7 +341,7 @@ Response
 
 ### getUserEarningsByContract
 
-Returns token balances for a given `userAddress`, separated out by each 0xSplits contract the user has received from.
+Returns token balances for a given `userAddress`, separated out by each Splits contract the user has received from.
 Can optionally pass in a list of `contractAddresses` to filter results to just a set of contracts.
 
 Usage
@@ -373,7 +373,7 @@ Response
   activeBalances: { # tokens that have been distributed but not yet withdrawn
     [token: string]: bigint
   }
-  earningsByContract: { # Earnings broken out by each 0xSplits contract the user has received from
+  earningsByContract: { # Earnings broken out by each Splits contract the user has received from
     [contractAddress: string]: {
       withdrawn: {
         [token: string]: bigint
@@ -430,7 +430,7 @@ Response
       formattedAmount: string
     }
   }
-  earningsByContract: { # Earnings broken out by each 0xSplits contract the user has received from
+  earningsByContract: { # Earnings broken out by each Splits contract the user has received from
     [contractAddress: string]: {
       withdrawn: {
         [token: string]: {

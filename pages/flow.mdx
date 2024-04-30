@@ -32,8 +32,7 @@ a bounty will eventually be distributed automatically by a bot or arbitrageur.
   being received by the contract, is expensive, unreliable, and insecure.
   Industry best practices recommend following a pull model, particularly when it
   comes to payments.[^1] [^2] This added step is mitigated by adding a bounty on
-  the contract, which creates an arbitrage opportunity and incentivizes third
-  parties to execute distributions automatically.
+  the contract to incentivize third parties to execute distributions automatically.
 </Toggle>
 
 ## Withdrawing
@@ -42,9 +41,8 @@ Once a contract's balance has been distributed, funds are ready to be withdrawn
 to any of the recipients' wallets. Since funds pile up in one place, withdrawing
 transfers _all the funds_ across _all the contracts_ for a given recipient. This
 saves people from having to initiate separate withdrawals for each contract they
-earn from. Since anyone can withdraw on behalf of any recipient (instructions
-in help center), recipients can be any account, smart contract, or exchange
-address.
+earn from. Since anyone can withdraw on behalf of any recipient ([instructions](https://splits.org/help/withdraw-balances/)
+), recipients can be any account, smart contract, or exchange address.
 
 <Toggle title="Why is this step necessary?">
   In addition to being more secure (discussed above), this step maximizes **gas
