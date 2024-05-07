@@ -15,6 +15,7 @@ const swapperClient = new SwapperClient({
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
   ensPublicClient, // viem public client (optional)
+  apiConfig, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API
 })
 ```
 
@@ -34,70 +35,6 @@ const splitsClient = new SplitsClient({
 const swapperClient = splitsClient.swapper
 ```
 
-Now you're ready to use any of the functions. All Arguments and Responses for
-these functions are `objects`. This will make it easier for us to release
-updates to the SDK without breaking existing implementations.
-
-The SDK comprises 3 different types of functions: Subgraph Reads, Swapper
-Writes, and Swapper Reads.
-
-## Subgraph Reads
-
-These functions make it easier to query the [subgraph](/subgraph).
-
-### getSwapperMetadata
-
-Returns all metadata for a given `swapperAddress`.
-
-Usage
-
-```js
-const args = {
-  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
-}
-
-const response = await swapperClient.getSwapperMetadata(args)
-```
-
-Arguments
-
-```graphql
-{
-  swapperAddress: string
-}
-```
-
-Response
-
-```graphql
-{
-  type: 'Swapper'
-  address: string
-  beneficiary: {
-    address: string
-    ens?: string
-  }
-  tokenToBeneficiary: {
-    address: string
-  }
-  owner: {
-    address: string
-    ens?: string
-  }
-  paused: boolean
-  defaultScaledOfferFactorPercent: number
-  scaledOfferFactorOverrides: {
-    baseToken: {
-      address: string
-    }
-    quoteToken: {
-      address: string
-    }
-    scaledOfferFactorPercent: number
-  }[]
-}
-```
-
 ## Swapper Writes
 
 These functions make it easier to call [Swapper functions](/core/swapper).
@@ -110,19 +47,19 @@ Usage
 
 ```js
 const args = {
-  beneficiary: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
-  tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+  beneficiary: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
+  tokenToBeneficiary: '0x0000000000000000000000000000000000000000',
   defaultScaledOfferFactorPercent: 1,
   scaledOfferFactorOverrides: [
     {
-      baseToken: "0x0000000000000000000000000000000000000000",
-      quoteToken: "0x0000000000000000000000000000000000000000",
+      baseToken: '0x0000000000000000000000000000000000000000',
+      quoteToken: '0x0000000000000000000000000000000000000000',
       scaledOfferFactorPercent: 0.1,
-    }
+    },
   ],
-  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  owner: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
   oracleParams: {
-    address: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
+    address: '0x8E0E20Ea43A88214A0908F32Cd14395022e823A6',
   },
 }
 
@@ -164,8 +101,8 @@ Response
 
 ### uniV3FlashSwap
 
-Swaps the given tokens for the Swapper's output token. Uses Splits' integration trader contract to trade with
-UniswapV3.
+Swaps the given tokens for the Swapper's output token. Uses Splits' integration
+trader contract to trade with UniswapV3.
 
 Usage
 
@@ -174,12 +111,13 @@ const args = {
   swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
   inputAssets: [
     {
-      encodedPath: '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d60001f41f9840a85d5af5bf1d1762f925bdaddc4201f984',
+      encodedPath:
+        '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d60001f41f9840a85d5af5bf1d1762f925bdaddc4201f984',
       token: 0x0000000000000000000000000000000000000000,
       amountIn: BigInt('100000000000000000'),
       amountOutMin: BigInt('1000000000'),
-    }
-  ]
+    },
+  ],
 }
 
 const response = await swapperClient.uniV3FlashSwap(args)
@@ -214,20 +152,21 @@ Response
 
 ### execCalls
 
-Execute the given list of calls from the Swapper. Only callable by the Swapper owner.
+Execute the given list of calls from the Swapper. Only callable by the Swapper
+owner.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
   calls: [
     {
-      to: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
+      to: '0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72',
       value: BigInt(1),
-      data: "0x0",
-    }
-  ]
+      data: '0x0',
+    },
+  ],
 }
 
 const response = await swapperClient.execCalls(args)
@@ -256,14 +195,14 @@ Response
 
 ### setPaused
 
-Updates the pause state of the contract, which blocks executing swaps (except for the contract owner).
-Only callable by the Swapper owner.
+Updates the pause state of the contract, which blocks executing swaps (except
+for the contract owner). Only callable by the Swapper owner.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
   paused: true,
 }
 
@@ -295,8 +234,8 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
-  beneficiary: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72",
+  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  beneficiary: '0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72',
 }
 
 const response = await swapperClient.setBeneficiary(args)
@@ -321,14 +260,15 @@ Response
 
 ### setTokenToBeneficiary
 
-Updates the token to the beneficiary of the swapper. Only callable by the Swapper owner.
+Updates the token to the beneficiary of the swapper. Only callable by the
+Swapper owner.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
-  tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  tokenToBeneficiary: '0x0000000000000000000000000000000000000000',
 }
 
 const response = await swapperClient.setTokenToBeneficiary(args)
@@ -359,8 +299,8 @@ Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
-  oracle: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
+  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  oracle: '0x8E0E20Ea43A88214A0908F32Cd14395022e823A6',
 }
 
 const response = await swapperClient.setOracle(args)
@@ -385,13 +325,14 @@ Response
 
 ### setDefaultScaledOfferFactor
 
-Updates the default scaled offer factor of the swapper. Only callable by the Swapper owner.
+Updates the default scaled offer factor of the swapper. Only callable by the
+Swapper owner.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
   defaultScaledOfferFactorPercent: 1,
 }
 
@@ -417,27 +358,28 @@ Response
 
 ### setScaledOfferFactorOverrides
 
-Updates the scaled offer factor overrides of the swapper. Only callable by the Swapper owner.
-NOTE: To remove an existing override you need to pass in a scaled offer factor percent of 100
-which tells the contract to fallback to the default scaled offer factor.
+Updates the scaled offer factor overrides of the swapper. Only callable by the
+Swapper owner. NOTE: To remove an existing override you need to pass in a scaled
+offer factor percent of 100 which tells the contract to fallback to the default
+scaled offer factor.
 
 Usage
 
 ```js
 const args = {
-  swapperAddress: "0x693C49a6296d90e8A8936Ad4836a680F551bb97d",
+  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
   scaledOfferFactorOverrides: [
     {
-      baseToken: "0x0000000000000000000000000000000000000000",
-      quoteToken: "0x0000000000000000000000000000000000000000",
+      baseToken: '0x0000000000000000000000000000000000000000',
+      quoteToken: '0x0000000000000000000000000000000000000000',
       scaledOfferFactorPercent: 0.1,
     },
     {
-      baseToken: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-      quoteToken: "0x0000000000000000000000000000000000000000",
+      baseToken: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      quoteToken: '0x0000000000000000000000000000000000000000',
       scaledOfferFactorPercent: 100,
-    }
-  ]
+    },
+  ],
 }
 
 const response = await swapperClient.setDefaultScaledOfferFactor(args)
@@ -472,19 +414,19 @@ Estimating the gas for the create swapper function would look like:
 
 ```js
 const args = {
-  beneficiary: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
-  tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+  beneficiary: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
+  tokenToBeneficiary: '0x0000000000000000000000000000000000000000',
   defaultScaledOfferFactorPercent: 1,
   scaledOfferFactorOverrides: [
     {
-      baseToken: "0x0000000000000000000000000000000000000000",
-      quoteToken: "0x0000000000000000000000000000000000000000",
+      baseToken: '0x0000000000000000000000000000000000000000',
+      quoteToken: '0x0000000000000000000000000000000000000000',
       scaledOfferFactorPercent: 0.1,
-    }
+    },
   ],
-  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  owner: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
   oracleParams: {
-    address: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
+    address: '0x8E0E20Ea43A88214A0908F32Cd14395022e823A6',
   },
 }
 
@@ -493,25 +435,25 @@ const gasEstimate = await swapperClient.estimateGas.createSwapper(args)
 
 ## CallData
 
-The client has a call data feature that can be used with any of the above
-write functions. Just call the function off of the `callData` property.
-Generating call data for the create swapper function would look like:
+The client has a call data feature that can be used with any of the above write
+functions. Just call the function off of the `callData` property. Generating
+call data for the create swapper function would look like:
 
 ```js
 const args = {
-  beneficiary: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
-  tokenToBeneficiary: "0x0000000000000000000000000000000000000000",
+  beneficiary: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
+  tokenToBeneficiary: '0x0000000000000000000000000000000000000000',
   defaultScaledOfferFactorPercent: 1,
   scaledOfferFactorOverrides: [
     {
-      baseToken: "0x0000000000000000000000000000000000000000",
-      quoteToken: "0x0000000000000000000000000000000000000000",
+      baseToken: '0x0000000000000000000000000000000000000000',
+      quoteToken: '0x0000000000000000000000000000000000000000',
       scaledOfferFactorPercent: 0.1,
-    }
+    },
   ],
-  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  owner: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
   oracleParams: {
-    address: "0x8E0E20Ea43A88214A0908F32Cd14395022e823A6",
+    address: '0x8E0E20Ea43A88214A0908F32Cd14395022e823A6',
   },
 }
 
@@ -520,8 +462,7 @@ const callData = await swapperClient.callData.createSwapper(args)
 
 ## Swapper Reads
 
-These functions make it easier to query the
-[Swapper contracts](/core/swapper).
+These functions make it easier to query the [Swapper contracts](/core/swapper).
 
 ### getBeneficiary
 

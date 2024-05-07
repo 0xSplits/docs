@@ -1,4 +1,4 @@
-# Splits
+# Splits V2
 
 Begin by importing `SplitV2Client` into your app.
 
@@ -14,15 +14,9 @@ const splitsClient = new SplitV2Client({
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
   ensPublicClient, // viem public client (optional)
+  apiConfig, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API
 })
 ```
-
-Now you're ready to use any of the functions. All Arguments and Responses for
-these functions are `objects`. This will make it easier for us to release
-updates to the SDK without breaking existing implementations.
-
-The SDK comprises 3 different types of functions: Subgraph Reads, Split Factory
-and Split Writes, and Split Factory and Split Reads.
 
 ## Writes
 
