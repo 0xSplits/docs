@@ -14,7 +14,9 @@ const splitsClient = new SplitV2Client({
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
   ensPublicClient, // viem public client (optional)
-  apiConfig, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API
+  apiConfig: {
+    apiKey: string // You can create your own API key by signing up on our app.
+  }, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API.
 })
 ```
 
