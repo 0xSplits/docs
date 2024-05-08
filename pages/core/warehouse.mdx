@@ -3,12 +3,12 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 
 # Warehouse
 
-Warehouse as the name suggests is the place where all the funds in the split
+Warehouse is the place where all the pull-flow payments in the Splits
 ecosystem pile up. It is built on top of
 [`ERC6909`](https://eips.ethereum.org/EIPS/eip-6909) and
-[`ERC6909X`](https://github.com/frangio/ERCs/blob/4d765d71940db25a901a592a17aa8e2a16b6efd6/ERCS/eip-xxxx.md).
-Any user earning from the splits ecosystem of contracts that deposit to the
-warehouse can access their assets directly from the warehouse.
+[`ERC6909X`](https://github.com/frangio/ERCs/blob/4d765d71940db25a901a592a17aa8e2a16b6efd6/ERCS/eip-xxxx.md), so all
+funds held here on behalf of users will appear in compliant wallets.
+Any user earning from the Splits ecosystem can access their assets directly from the warehouse.
 
 - [Github](https://github.com/0xSplits/splits-contracts-monorepo/tree/main/packages/splits-v2)
 - [Contracts & Natspec](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/packages/splits-v2/src/SplitsWarehouse.sol)
@@ -18,16 +18,17 @@ warehouse can access their assets directly from the warehouse.
 ## How it works
 
 - The warehouse has a unique id for each token. This id is the `uint256`
-  representation of the token `address`.
-- For each deposited token into the warehouse the contract returns a receipt
-  which can be burnt to regain the original deposit. All deposits will always be
-  1:1 with the receipt.
-- Users can transfer these tokens just like ERC20 tokens by calling the
+  representation of the token `address`. ETH is represented by token 0xeeee..eeee.
+- Deposits to the warehouse are made for a given token and user and held on their behalf
+  until claimed.
+- Users can transfer their claims to these underlying tokens just like ERC20 tokens by calling the
   warehouse `transfer` and `transferFrom` functions.
-- Users who want to automate withdrawals from the warehouse can do so by setting
+- Users who want to automate withdrawals from the warehouse may do so by setting
   a withdraw incentive. This will incentives bots to withdraw funds for the user
   directly into their account.
-- Warehouse is an immutable contract that is not owned by the team.
+- Users who want to prevent third parties from withdrawing on their behalf may do
+  so by pausing their withdraws for external parties on the warehouse.
+- Warehouse is an immutable, non-upgradeable contract that is not owned or governed by the team.
 - We recommend reviewing the [contracts flow of funds](/core#flow-of-funds).
 
 ## Addresses
