@@ -1,12 +1,11 @@
 import { Toggle } from '../../components/toggle'
 import { Tab, Tabs } from 'nextra-theme-docs'
 
-# Split v2
+# SplitV2
 
-Version 2 of splits keeps the original idea of splits mentioned
-[here](./split.mdx) while decoupling the underlying implementation of split and
-where the distributed funds are held. V2 allows us to build different types of
-splits for different use cases.
+SplitV2 keeps the original vision of [SplitV1](./split.mdx) while decoupling the 
+underlying splitter implementation from where the distributed funds are held (previously `SplitMain`, now [Warehouse](./warehouse)). This decoupling allows us to build different types of splitters with different trade-offs for different use cases.
+At launch, we are offering "Push" and "Pull" splitters.
 
 - Create at [split.new](https://app.splits.org/new/split/)
 - [Github](https://github.com/0xSplits/splits-contracts-monorepo/tree/main/packages/splits-v2)
@@ -27,48 +26,46 @@ splits for different use cases.
   avoid `DELEGATECALL` inside `receive()`, allowing for Splits to accept hard
   gas-capped `sends` & `transfers`.
 - [`PullSplit`](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/packages/splits-v2/src/splitters/pull/PullSplit.sol)
-  acts very similar to the original split the key difference being where funds
+  acts very similar to the original Split the key difference being where funds
   pile up after distribution. All funds are held in the
-  [Warehouse](./warehouse.mdx) after distribution.
+  [Warehouse](./warehouse) after distribution.
 - [`PushSplit`](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/packages/splits-v2/src/splitters/push/PushSplit.sol)
-  sends funds directly to the recipients on distribution. This split is useful
-  for users who want to send funds directly to their recipients on distribute.
-- Each split can now also act as a smart contract wallet with the split owner
-  having full access to the funds in the split. This allows the owner to pause
+  sends funds directly to the recipients on distribution. These sends are hard
+  gas-capped to limit the costs adversarial recipients may impose; failed sends
+  are deposited into the [Warehouse](./warehouse).
+- Each Split can now also act as a smart contract wallet with the owner
+  having full execution access from the Split's address. This allows the owner to pause
   distributions, make arbitrary transactions and also sign data using
   [`ERC1271`](https://eips.ethereum.org/EIPS/eip-1271).
 - We recommend reviewing the [contracts flow of funds](/core#flow-of-funds).
 
 ## Notes
 
-- When using the create deterministic flow it is recommended to use a random
-  salt to avoid frontrunning. In the case that it does get frontrun you should
-  add necessary measure to handle such a case. The final split configuration
-  will still be as intended even with the frontrun. If you are not using a
-  random salt it is recommended to just use the simple create flow that does
-  handle the salt generation for you using your nonce and the split params.
-
-- For enhanced security, it's advised against enabling a withdrawal incentive
-  for a pull split within the warehouse, as it exposes the warehouse's split
-  balance to potential draining. If an incentive is still desired, consider
-  temporarily halting withdrawals to mitigate this risk. For comprehensive
-  insights, please consult this
-  [`analysis`](https://github.com/zobront/audits/blob/main/reports/splits-v2.md#review).
+- When using the deterministic creation flow it is recommended to use a random
+  salt to avoid collisions. Since these txns may technically be frontrun from the mempool,
+  integrators should add necessary measures to handle such cases. Since the creation
+  is deterministic, the deployed Split configuration is unaffected.
+  Integrators can avoid this issue entirely by using `factory.createSplit` which handles salt generation
+  onchain and cannot be frontrun.
 
 - The contracts do not impose a maximum limit on the number of recipients for a
-  split. Consequently, the practical limit is governed by the gas limit of the
-  blockchain's blocks. Be cautious of this constraint when establishing
-  extensive splits, as it may result in funds being irretrievably locked due to
-  the gas limit restrictions of the blockchain.
+  Split. Consequently, the practical limit is governed by the gas limit of the
+  network's blocks. Be cautious of this constraint when creating large
+  Splits, as it may result in funds being irretrievably locked due to
+  the gas limit restrictions of the network.
 
-- In terms of recipient allocations, the split initiator now enjoys complete
-  flexibility without a predefined unit, allowing for tailored distribution
-  strategies. However, employing excessively small allocation units might
-  disadvantage recipients holding minor shares, potentially leading to financial
-  losses. For further information on this topic, please refer to
+- In terms of recipient allocations, the Split creator now sets the total number of shares.
+  As such, recipients holding small shares may be negatively impacted by rounding on small distributions,
+  potentially leading to financial losses. For further information on this topic, please refer to
   [`this discussion on rounding issues`](https://github.com/zobront/audits/blob/main/reports/splits-v2.md#m-02-rounding-issues-could-allow-majority-shareholders-to-steal-funds)
   and
   [`this note on allocation size limitations`](https://github.com/zobront/audits/blob/main/reports/splits-v2.md#l-01-allocation-size-is-unbounded-which-can-cause-overflow-revert-in-getdistributions).
+
+- We do not recommend setting a Warehouse withdrawal incentive for pull Splits. Such an incentive
+  exposes the Split to draining from a malicious actor looping withdraws & deposits. An incentive on
+  distribution is sufficient to encourage bots to pull funds out of the Warehouse, when sufficient.
+  or comprehensive insights, please consult this
+  [`analysis`](https://github.com/zobront/audits/blob/main/reports/splits-v2.md#review).
 
 ## Addresses
 
