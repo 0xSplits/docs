@@ -130,17 +130,20 @@ const args = {
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
   ensPublicClient, // viem public client (optional)
+  apiConfig: {
+    apiKey: string // You can create an API key by signing up on our app, and accessing your account settings at app.splits.org/settings.
+  }, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API.
 }
 
 const splitsClient = useSplitsClient(args)
 ```
 
-## Read Hooks
+## Data Hooks
 
 ### useSplitEarnings
 
 Fetches the given split's earnings from the subgraph. Will also optionally fetch
-active balances. See [getSplitEarnings](/sdk/splits#getsplitearnings) for more information on the input options.
+active balances. See [getSplitEarnings](/sdk/data#getsplitearnings) for more information on the input options.
 
 Usage
 
@@ -157,7 +160,7 @@ const { splitEarnings, formattedSplitEarnings, isLoading, status, error } = useS
 
 Fetches the given user's earnings from the subgraph. Includes withdrawn amount and active balance (i.e. waiting
 to be withdrawn).
-See [getUserEarnings](/sdk/splits#getuserearnings) for details on the metadata returned.
+See [getUserEarnings](/sdk/data#getuserearnings) for details on the metadata returned.
 
 Usage
 
@@ -167,25 +170,12 @@ const { userEarnings, isLoading, status, error } = useUserEarnings(
 )
 ```
 
-### useFormattedUserEarnings
-
-Wrapper around `useUserEarnings` to include token data and formatted amounts.
-See [getFormattedUserEarnings](/sdk/splits#getformatteduserearnings) for details on the metadata returned.
-
-Usage
-
-```js
-const { formattedUserEarnings, isLoading, status, error } = useFormattedUserEarnings(
-  userAddress,
-)
-```
-
 ### useUserEarningsByContract
 
 Fetches the given user's earnings from the subgraph. Includes withdrawn amount and active balance (i.e. waiting
 to be withdrawn), as well as earnings broken down by each Splits contract the user receives from. Optionally
 takes a list of contractAddresses to filter down results to.
-See [getUserEarningsByContract](/sdk/splits#getuserearningsbycontract) for details on the metadata returned.
+See [getUserEarningsByContract](/sdk/data#getuserearningsbycontract) for details on the metadata returned.
 
 Usage
 
@@ -198,26 +188,10 @@ const { userEarningsByContract, isLoading, status, error } = useUserEarningsByCo
 )
 ```
 
-### useFormattedUserEarningsByContract
-
-Wrapper around `useUserEarningsByContract` to include token data and formatted amounts.
-See [getFormattedUserEarningsByContract](/sdk/splits#getformatteduserearningsbycontract) for details on the metadata returned.
-
-Usage
-
-```js
-const { formattedUserEarningsByContract, isLoading, status, error } = useFormattedUserEarningsByContract(
-  userAddress,
-  {
-    contractAddresses, // defaults to undefined, returning all contracts the user receives from
-  }
-)
-```
-
 ### useSplitMetadata
 
 Fetches the given split from the subgraph.
-See [getSplitMetadata](/sdk/splits#getsplitmetadata) for details on the metadata returned.
+See [getSplitMetadata](/sdk/data#getsplitmetadata) for details on the metadata returned.
 
 Usage
 
@@ -228,7 +202,7 @@ const { splitMetadata, isLoading, status, error } = useSplitMetadata(splitAddres
 ### useLiquidSplitMetadata
 
 Fetches the given liquid split from the subgraph.
-See [getLiquidSplitMetadata](/sdk/liquid#getliquidsplitmetadata) for details on the metadata returned.
+See [getLiquidSplitMetadata](/sdk/data#getliquidsplitmetadata) for details on the metadata returned.
 
 Usage
 
@@ -239,7 +213,7 @@ const { liquidSplitMetadata, isLoading, status, error } = useLiquidSplitMetadata
 ### useWaterfallMetadata
 
 Fetches the given waterfall module from the subgraph.
-See [getWaterfallMetadata](/sdk/waterfall#getwaterfallmetadata) for details on the metadata returned.
+See [getWaterfallMetadata](/sdk/data#getwaterfallmetadata) for details on the metadata returned.
 
 Usage
 
@@ -250,7 +224,7 @@ const { waterfallMetadata, isLoading, status, error } = useWaterfallMetadata(wat
 ### useVestingMetadata
 
 Fetches the given vesting module from the subgraph.
-See [getVestingMetadata](/sdk/vesting#getvestingmetadata) for details on the metadata returned.
+See [getVestingMetadata](/sdk/data#getvestingmetadata) for details on the metadata returned.
 
 Usage
 
@@ -261,7 +235,7 @@ const { vestingMetadata, isLoading, status, error } = useVestingMetadata(vesting
 ### useSwapperMetadata
 
 Fetches the given swapper from the subgraph.
-See [getSwapperMetadata](/sdk/swapper#getswappermetadata) for details on the metadata returned.
+See [getSwapperMetadata](/sdk/data#getswappermetadata) for details on the metadata returned.
 
 Usage
 
@@ -269,14 +243,140 @@ Usage
 const { swapperMetadata, isLoading, status, error } = useSwapperMetadata(swapperAddress)
 ```
 
-## Split Transaction Hooks
+## Splits V2 Transaction Hooks
 
 Each of the transaction functions from the core sdk has a react hook wrapper. It
 returns the core sdk function and some state properties for monitoring the
 transaction progress.
 
 ### useCreateSplit
-See [createSplit](/sdk/splits#createsplit) for more details.
+See [createSplit](/sdk/splits-v2#createsplit) for more details.
+
+Usage
+
+```js
+const { createSplit, status, txHash, error } = useCreateSplitV2()
+```
+
+Response
+
+```graphql
+{
+  createSplit: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useUpdateSplit
+See [updateSplit](/sdk/splits-v2#updatesplit) for more details.
+
+Usage
+
+```js
+const { updateSplit, status, txHash, error } = useUpdateSplitV2()
+```
+
+Response
+
+```graphql
+{
+  updateSplit: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useDistributeToken
+See [distributeToken](/sdk/splits-v2#distribute) for more details.
+
+Usage
+
+```js
+const { distributeToken, status, txHash, error } = useDistributeTokenV2()
+```
+
+Response
+
+```graphql
+{
+  distributeToken: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useTransferOwnership
+See [transferOwnership](/sdk/splits-v2#transferownership) for more details.
+
+Usage
+
+```js
+const { transferOwnership, status, txHash, error } = useTransferOwnership()
+```
+
+Response
+
+```graphql
+{
+  transferOwnership: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useSetPause
+See [setPause](/sdk/splits-v2#setpause) for more details.
+
+Usage
+
+```js
+const { setPause, status, txHash, error } = useSetPause()
+```
+
+Response
+
+```graphql
+{
+  setPause: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+### useExecCalls
+See [execCalls](/sdk/splits-v2#execcalls) for more details.
+
+Usage
+
+```js
+const { execCalls, status, txHash, error } = useExecCalls()
+```
+
+Response
+
+```graphql
+{
+  execCalls: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
+## Splits V1 Transaction Hooks
+
+Each of the transaction functions from the core sdk has a react hook wrapper. It
+returns the core sdk function and some state properties for monitoring the
+transaction progress.
+
+### useCreateSplit
+See [createSplit](/sdk/splits-v1#createsplit) for more details.
 
 Usage
 
@@ -296,7 +396,7 @@ Response
 ```
 
 ### useUpdateSplit
-See [updateSplit](/sdk/splits#updatesplit) for more details.
+See [updateSplit](/sdk/splits-v1#updatesplit) for more details.
 
 Usage
 
@@ -316,7 +416,7 @@ Response
 ```
 
 ### useDistributeToken
-See [distributeToken](/sdk/splits#distributetoken) for more details.
+See [distributeToken](/sdk/splits-v1#distributetoken) for more details.
 
 Usage
 
@@ -336,7 +436,7 @@ Response
 ```
 
 ### useUpdateSplitAndDistributeToken
-See [updateSplitAndDistributeToken](/sdk/splits#updatesplitanddistributetoken) for more details.
+See [updateSplitAndDistributeToken](/sdk/splits-v1#updatesplitanddistributetoken) for more details.
 
 Usage
 
@@ -356,7 +456,7 @@ Response
 ```
 
 ### useWithdrawFunds
-See [withdrawFunds](/sdk/splits#withdrawfunds) for more details.
+See [withdrawFunds](/sdk/splits-v1#withdrawfunds) for more details.
 
 Usage
 
@@ -376,7 +476,7 @@ Response
 ```
 
 ### useInitiateControlTransfer
-See [initiateControlTransfer](/sdk/splits#initiatecontroltransfer) for more details.
+See [initiateControlTransfer](/sdk/splits-v1#initiatecontroltransfer) for more details.
 
 Usage
 
@@ -396,7 +496,7 @@ Response
 ```
 
 ### useCancelControlTransfer
-See [cancelControlTransfer](/sdk/splits#cancelcontroltransfer) for more details.
+See [cancelControlTransfer](/sdk/splits-v1#cancelcontroltransfer) for more details.
 
 Usage
 
@@ -416,7 +516,7 @@ Response
 ```
 
 ### useAcceptControlTransfer
-See [acceptControlTransfer](/sdk/splits#acceptcontroltransfer) for more details.
+See [acceptControlTransfer](/sdk/splits-v1#acceptcontroltransfer) for more details.
 
 Usage
 
@@ -436,7 +536,7 @@ Response
 ```
 
 ### useMakeSplitImmutable
-See [makeSplitImmutable](/sdk/splits#makesplitimmutable) for more details.
+See [makeSplitImmutable](/sdk/splits-v1#makesplitimmutable) for more details.
 
 Usage
 

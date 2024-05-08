@@ -15,7 +15,7 @@ const warehouseClient = new WarehouseClient({
   // other chain for non EOAs (e.g. Gnosis Safe's)
   ensPublicClient, // viem public client (optional)
   apiConfig: {
-    apiKey: string // You can create your own API key by signing up on our app.
+    apiKey: string // You can create an API key by signing up on our app, and accessing your account settings at app.splits.org/settings.
   }, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API.
 })
 ```
@@ -302,7 +302,7 @@ Response
 
 ### withdraw
 
-Withdraws the entire balance of `ownerAddress` for a given `tokenAddress`.
+Withdraws the entire balance of `ownerAddress` for a given `tokenAddress`. This ignores the withdraw incentive present for the `ownerAddress`. If you are looking for an incentive on withdraw please use [this](#batchwithdraw).
 
 Usage
 
@@ -412,8 +412,8 @@ Usage
 
 ```js
 const args = {
-    incentivePercent: 1 # max 6.5%
-    paused: false
+  incentivePercent: 1 # max 6.5%
+  paused: false
 }
 
 const response = await warehouseClient.setWithdrawConfig(args)
