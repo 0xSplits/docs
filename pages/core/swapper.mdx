@@ -42,7 +42,37 @@ the former is enabled for some token-pairs by our UI).
   removing the owner or making it a multisig if Swapper is being used in any
   trustless setting.
 
-[![Sequence diagram of successful example call to Swapper#flash](https://mermaid.ink/svg/pako:eNqNlMtu2zAQRX-FYGGoRW3UiB3b0CKApVpAFkGQJuim6mIsjRIiFKmSo7RG4H8vKcGxZalBN3pwztyZy9crz3SOPOSj0WuqGBNKUMiaT8YCesISg5AFW7AYjE9Hv4MRsJVogze8CRZaUQKlkDuf5yF5SGyT8Q_FWmrjwx8W0fJiNe0AlRElmN2RSWbJPFkMMZE2OZp31SxmWuUdvcVms4yWw9S54nS-XF12WchIvAAJrf4DJjQkOtXXl9E8iQehc735bLaK10FL7v3LPfajUapSZfFXjSrDrwIeDZSeaLkHA05kcnX1-f43VBWaa0XoENImbFY3kWCfWrZHnKSFrOiBPnxrIJMYskeku1oTrktdK7It1wYdNnlTgdP4QccRA939YGRA2QIN8_uNkX5G9dF-Yj97XQxk23aosReDlFvInv9l81jfV918iy-mzP0a_YLsC6tg55PPynZm6eivZyxChYXI_IJ2LDVuHvRJuO9rMuCLNIHs5L3TVrv6IeNjXqIpQeTuaDfHM-XNsU25a5n76U2520yOg5r0_U5lPCRT45jXVQ502Fc8LEBaN4q5cCVu2ruiuTL2fwHX4Vpz?type=png)](https://mermaid.live/edit#pako:eNqNlMtu2zAQRX-FYGGoRW3UiB3b0CKApVpAFkGQJuim6mIsjRIiFKmSo7RG4H8vKcGxZalBN3pwztyZy9crz3SOPOSj0WuqGBNKUMiaT8YCesISg5AFW7AYjE9Hv4MRsJVogze8CRZaUQKlkDuf5yF5SGyT8Q_FWmrjwx8W0fJiNe0AlRElmN2RSWbJPFkMMZE2OZp31SxmWuUdvcVms4yWw9S54nS-XF12WchIvAAJrf4DJjQkOtXXl9E8iQehc735bLaK10FL7v3LPfajUapSZfFXjSrDrwIeDZSeaLkHA05kcnX1-f43VBWaa0XoENImbFY3kWCfWrZHnKSFrOiBPnxrIJMYskeku1oTrktdK7It1wYdNnlTgdP4QccRA939YGRA2QIN8_uNkX5G9dF-Yj97XQxk23aosReDlFvInv9l81jfV918iy-mzP0a_YLsC6tg55PPynZm6eivZyxChYXI_IJ2LDVuHvRJuO9rMuCLNIHs5L3TVrv6IeNjXqIpQeTuaDfHM-XNsU25a5n76U2520yOg5r0_U5lPCRT45jXVQ502Fc8LEBaN4q5cCVu2ruiuTL2fwHX4Vpz)
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+        'fontFamily': 'arial',
+        'textColor': '#6B7280',
+        'primaryColor': '#F3F4F6',
+        'primaryBorderColor': '#6B7280',
+        'secondaryColor': '#6EE7B7',
+        'secondaryBorderColor': '#047857',
+        'activationBorderColor': '#047857',
+        'tertiaryColor': '#A5B4FC',
+        'tertiaryBorderColor': '#4338CA'
+    }
+  }
+}%%
+
+sequenceDiagram    
+    Trader->>+SwapperIntegrator: initFlash
+    SwapperIntegrator->>+Swapper: flash
+    Swapper->>+Oracle: getQuoteAmounts
+    Oracle->>-Swapper: amounts
+    Swapper-->>SwapperIntegrator: [ transfer base token(s) ]
+    Swapper->>+SwapperIntegrator: swapperFlashCallback
+    SwapperIntegrator-->>Swapper: [ ERC20 approve / payback ]
+    SwapperIntegrator->>-Swapper: 
+    Swapper-->>Beneficiary: [ transfer tokenToBeneficiary ]
+    Swapper->>-SwapperIntegrator: totalToBeneficiary
+    SwapperIntegrator->>-Trader: 
+```
 
 ## Addresses
 

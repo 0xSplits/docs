@@ -16,7 +16,29 @@ token forwarding.
   At any time the owner may pause `passThroughTokens`, update the pass-through
   address, or execute arbitrary calls from the Pass-Through Wallet.
 
-[![Sequence diagram of passThroughFunds](https://mermaid.ink/svg/pako:eNqNklFPwjAUhf9KU7PsQUiIDEb2sIQhezMx0eiD8-GyXaCxa7G9MxLCf3frgjBE40vb3Pud09707HiuC-QR97xdphgTSlDE3JExn9ZYoh8xfwEW_d5p9QmMgIVE63_jrrnUilIohdw2ugaSB2Erxk-aaalN074aJ-HNZNABNkaUYLZHJh2mQTq-xCTaFGj-dLOYa1V0_MbzeZiEl6lzx0EQTkZdFnISH0BCq3_AhIZE5_bpKAnS2UXo3C8YDiezqd-S-2arl73nZSpTFt8rVDneClgZKBui5aZS5NiP4-t7sPZxbXS1Wj-DlFh_6-ZYetRvqGwr-UH2a_1JMWIvjAwou0TDyAnZ62_SOO67J0QMSl0psrzHSzQliKJOmUtKxl2CMh7VxwKXUEnKeD1ajUJF-mGrch6RqbDHq00BdJjyUMRCkDZ3bXBdfvdfjQraHg)](https://mermaid.live/edit#pako:eNqNklFPwjAUhf9KU7PsQUiIDEb2sIQhezMx0eiD8-GyXaCxa7G9MxLCf3frgjBE40vb3Pud09707HiuC-QR97xdphgTSlDE3JExn9ZYoh8xfwEW_d5p9QmMgIVE63_jrrnUilIohdw2ugaSB2Erxk-aaalN074aJ-HNZNABNkaUYLZHJh2mQTq-xCTaFGj-dLOYa1V0_MbzeZiEl6lzx0EQTkZdFnISH0BCq3_AhIZE5_bpKAnS2UXo3C8YDiezqd-S-2arl73nZSpTFt8rVDneClgZKBui5aZS5NiP4-t7sPZxbXS1Wj-DlFh_6-ZYetRvqGwr-UH2a_1JMWIvjAwou0TDyAnZ62_SOO67J0QMSl0psrzHSzQliKJOmUtKxl2CMh7VxwKXUEnKeD1ajUJF-mGrch6RqbDHq00BdJjyUMRCkDZ3bXBdfvdfjQraHg)
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+        'fontFamily': 'arial',
+        'textColor': '#6B7280',
+        'primaryColor': '#F3F4F6',
+        'primaryBorderColor': '#6B7280',
+        'secondaryColor': '#6EE7B7',
+        'secondaryBorderColor': '#047857',
+        'activationBorderColor': '#047857',
+        'tertiaryColor': '#A5B4FC',
+        'tertiaryBorderColor': '#4338CA'
+    }
+  }
+}%%
+
+sequenceDiagram    
+    Alice->>+PassThroughWallet: passThroughTokens
+    PassThroughWallet-->>PassThrough: [ transfer tokens ]
+    PassThroughWallet->>-Alice: amounts
+```
 
 ## Addresses
 
