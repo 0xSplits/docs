@@ -15,6 +15,9 @@ const vestingClient = new VestingClient({
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
   ensPublicClient, // viem public client (optional)
+  apiConfig: {
+    apiKey: string // You can create an API key by signing up on our app, and accessing your account settings at app.splits.org/settings.
+  }, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API.
 })
 ```
 
@@ -32,64 +35,6 @@ const splitsClient = new SplitsClient({
 })
 
 const vestingClient = splitsClient.vesting
-```
-
-Now you're ready to use any of the functions. All Arguments and Responses for
-these functions are `objects`. This will make it easier for us to release
-updates to the SDK without breaking existing implementations.
-
-The SDK comprises 3 different types of functions: Subgraph Reads, Vesting
-Writes, and Vesting Reads.
-
-## Subgraph Reads
-
-These functions make it easier to query the [subgraph](/subgraph).
-
-### getVestingMetadata
-
-Returns all metadata for a given `vestingModuleAddress`.
-
-Usage
-
-```js
-const args = {
-  vestingModuleAddress: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
-}
-
-const response = await vestingClient.getVestingMetadata(args)
-```
-
-Arguments
-
-```graphql
-{
-  vestingModuleAddress: string
-}
-```
-
-Response
-
-```graphql
-{
-  type: 'VestingModule'
-  address: string
-  beneficiary: {
-    address: string
-    ensName?: string
-  }
-  vestingPeriod: number
-  streams?: {
-    streamId: number
-    startTime: number
-    totalAmount: number
-    releasedAmount: number
-    token: {
-      address: string
-      symbol?: string
-      decimals?: number
-    }
-  }[]
-}
 ```
 
 ## Vesting Writes
@@ -213,9 +158,9 @@ const gasEstimate = await vestingClient.estimateGas.createVestingModule(args)
 
 ## CallData
 
-The client has a call data feature that can be used with any of the above
-write functions. Just call the function off of the `callData` property.
-Generating call data for the create vesting module function would look like:
+The client has a call data feature that can be used with any of the above write
+functions. Just call the function off of the `callData` property. Generating
+call data for the create vesting module function would look like:
 
 ```js
 const args = {

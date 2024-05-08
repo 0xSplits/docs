@@ -15,6 +15,9 @@ const waterfallClient = new WaterfallClient({
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
   ensPublicClient, // viem public client (optional)
+  apiConfig: {
+    apiKey: string // You can create an API key by signing up on our app, and accessing your account settings at app.splits.org/settings.
+  }, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API.
 })
 ```
 
@@ -32,65 +35,6 @@ const splitsClient = new SplitsClient({
 })
 
 const waterfallClient = splitsClient.waterfall
-```
-
-Now you're ready to use any of the functions. All Arguments and Responses for
-these functions are `objects`. This will make it easier for us to release
-updates to the SDK without breaking existing implementations.
-
-The SDK comprises 3 different types of functions: Subgraph Reads, Waterfall
-Writes, and Waterfall Reads.
-
-## Subgraph Reads
-
-These functions make it easier to query the [subgraph](/subgraph).
-
-### getWaterfallMetadata
-
-Returns all metadata for a given `waterfallModuleAddress`.
-
-Usage
-
-```js
-const args = {
-  waterfallModuleAddress: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
-}
-
-const response = await waterfallClient.getWaterfallMetadata(args)
-```
-
-Arguments
-
-```graphql
-{
-  waterfallModuleAddress: string
-}
-```
-
-Response
-
-```graphql
-{
-  type: 'WaterfallModule'
-  address: string
-  token: {
-    address: string
-    symbol?: string
-    decimals?: number
-  }
-  nonWaterfallRecipient: {
-    address: string
-    ensName?: string
-  } | null
-  tranches: {
-    recipient: {
-      address: string
-      ensName?: string
-    }
-    startAmount: number
-    size?: number
-  }[]
-}
 ```
 
 ## Waterfall Writes
@@ -282,9 +226,9 @@ const gasEstimate = await waterfallClient.estimateGas.createWaterfallModule(args
 
 ## CallData
 
-The client has a call data feature that can be used with any of the above
-write functions. Just call the function off of the `callData` property.
-Generating call data for the create waterfall module function would look like:
+The client has a call data feature that can be used with any of the above write
+functions. Just call the function off of the `callData` property. Generating
+call data for the create waterfall module function would look like:
 
 ```js
 const args = {
@@ -344,7 +288,8 @@ Response
 
 ### getFundsPendingWithdrawal
 
-Returns the pending balance for pull withdrawal for a given `waterfallModuleAddress`.
+Returns the pending balance for pull withdrawal for a given
+`waterfallModuleAddress`.
 
 Usage
 
@@ -406,8 +351,8 @@ Response
 
 ### getNonWaterfallRecipient
 
-Returns the non-waterfall recipient for a given `waterfallModuleAddress`. If none was
-set, returns the zero address.
+Returns the non-waterfall recipient for a given `waterfallModuleAddress`. If
+none was set, returns the zero address.
 
 Usage
 
@@ -467,8 +412,8 @@ Response
 
 ### getPullBalance
 
-Returns the balance set aside for withdrawal for a given `waterfallModuleAddress` and
-recipient address.
+Returns the balance set aside for withdrawal for a given
+`waterfallModuleAddress` and recipient address.
 
 Usage
 

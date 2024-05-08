@@ -1,0 +1,576 @@
+# Splits Data Client
+
+The Splits Data client offers a comprehensive suite of functionalities for
+interfacing with the splits ecosystem. It provides detailed access to metadata
+related to various splits contracts, allowing for in-depth analysis and
+understanding of contract specifics. Additionally, the SDK enables connection to
+a GraphQL server that hosts a broad spectrum of data points and analyses, such
+as user earnings and contract earnings. This SDK is essential for developers
+looking to extract and leverage complex data within the splits ecosystem.
+
+Begin by importing `SplitsClient` into your app.
+
+```js
+import { SplitsClient } from '@0xsplits/splits-sdk'
+
+const dataClient = new SplitsClient({
+  chainId,
+  publicClient, // viem public client (optional, required if using any of the contract functions)
+  walletClient, // viem wallet client (optional, required if using any contract write functions. must have an account already attached)
+  includeEnsNames, // boolean, defaults to false. If true, will return ens names for any split recipient or controller (only for mainnet)
+  // If you want to return ens names on chains other than mainnet, you can pass in a mainnet public client
+  // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
+  // other chain for non EOAs (e.g. Gnosis Safe's)
+  ensPublicClient, // viem public client (optional)
+  apiConfig: {
+    apiKey: string // You can create an API key by signing up on our app, and accessing your account settings at app.splits.org/settings.
+  }, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API.
+}).dataClient
+```
+
+OR
+
+```js import { DataClient } from '@0xsplits/splits-sdk'
+const dataClient = new DataClient({
+  chainId,
+  publicClient,
+  walletClient,
+  includeEnsNames,
+  ensPublicClient,
+  apiConfig,
+})
+```
+
+### getAccountMetadata
+
+Returns all metadata for a given `account`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  accountAddress: '0xF8843981e7846945960f53243cA2Fd42a579f719',
+}
+
+const response = await dataClient.getAccountMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  accountAddress: string
+}
+```
+
+Response
+
+[Split](#split) | [WaterfallModule](#waterfallmodule) | [LiquidSplit](#liquidsplit) | [Swapper](#swapper) | undefined
+
+### getSplitMetadata
+
+Returns all metadata for a given `splitAddress`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  splitAddress: '0xF8843981e7846945960f53243cA2Fd42a579f719',
+}
+
+const response = await dataClient.getSplitMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  splitAddress: string
+}
+```
+
+Response
+
+[Split](#split)
+
+### getLiquidSplitMetadata
+
+Returns all metadata for a given `liquidSplitAddress`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
+}
+
+const response = await dataClient.getLiquidSplitMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  liquidSplitAddress: string
+}
+```
+
+Response
+
+[Liquid Split](#liquidsplit)
+
+### getVestingMetadata
+
+Returns all metadata for a given `vestingModuleAddress`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  vestingModuleAddress: '0x0aab2E1E7D7bb0CAb1c0A49A59DCEfe241aA2ba1',
+}
+
+const response = await dataClient.getVestingMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  vestingModuleAddress: string
+}
+```
+
+Response
+
+[Vesting Module](#vestingmodule)
+
+### getWaterfallMetadata
+
+Returns all metadata for a given `waterfallModuleAddress`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  waterfallModuleAddress: '0x8904D1fBfc9c88792aaaE8f452ac57E1Ba2130fC',
+}
+
+const response = await dataClient.getWaterfallMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  waterfallModuleAddress: string
+}
+```
+
+Response
+
+[Waterfall Module](#waterfallmodule)
+
+### getSwapperMetadata
+
+Returns all metadata for a given `swapperAddress`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+}
+
+const response = await dataClient.getSwapperMetadata(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  swapperAddress: string
+}
+```
+
+Response
+
+[Swapper](#swapper)
+
+### getRelatedSplits
+
+Returns all Splits related to a given `address`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  address: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+}
+
+const response = await dataClient.getRelatedSplits(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  address: string
+}
+```
+
+Response
+
+```graphql
+{
+  receivingFrom: Split[]
+  controlling: Split[]
+  pendingControl: Split[]
+}
+```
+
+Ref:
+[Split](#split)
+
+### getContractEarnings
+
+Returns token balances for a given `contractAddress`.
+
+NOTE: Fetching active balances optionally takes an `erc20TokenList` argument. If
+the rpc url is not Alchemy or Infura, that token list is required. If the token
+list is passed in, balances will only be fetched for tokens in that list (as
+well as the native token and any previously distributed tokens). Otherwise, all
+erc20 transfers to the contract address will be reviewed with a `getLogs`
+request, but only Alchemy and Infura support a large enough `getLogs` request.
+You can disable fetching active balances by passing in
+`includeActiveBalances: false`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  contractAddress: '0xF8843981e7846945960f53243cA2Fd42a579f719',
+}
+
+const response = await dataClient.getContractEarnings(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  contractAddress: string
+  includeActiveBalances?: boolean # defaults to true
+  erc20TokenList?: string[]
+}
+```
+
+Response
+
+```graphql
+{
+  activeBalances?: { # tokens that are waiting to be distributed
+    [token: string]: FormattedTokenBalances
+  }
+  distributed: { # tokens that have already been distributed
+    [token: string]: FormattedTokenBalances
+  }
+}
+```
+Ref: [FormattedTokenBalances](#formattedtokenbalances)
+
+### getSplitEarnings
+
+Returns token balances for a given `splitAddress`.
+
+NOTE: Fetching active balances optionally takes an `erc20TokenList` argument. If
+the rpc url is not Alchemy or Infura, that token list is required. If the token
+list is passed in, balances will only be fetched for tokens in that list (as
+well as the native token and any previously distributed tokens). Otherwise, all
+erc20 transfers to the split address will be reviewed with a `getLogs` request,
+but only Alchemy and Infura support a large enough `getLogs` request. You can
+disable fetching active balances by passing in `includeActiveBalances: false`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  splitAddress: '0xF8843981e7846945960f53243cA2Fd42a579f719',
+}
+
+const response = await dataClient.getSplitEarnings(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  splitAddress: string
+  includeActiveBalances?: boolean # defaults to true
+  erc20TokenList?: string[]
+}
+```
+
+Response
+
+```graphql
+{
+  activeBalances?: { # tokens that are waiting to be distributed
+    [token: string]: FormattedTokenBalances
+  }
+  distributed: { # tokens that have already been distributed
+    [token: string]: FormattedTokenBalances
+  }
+}
+```
+Ref: [FormattedTokenBalances](#formattedtokenbalances)
+
+### getUserEarnings
+
+Returns token balances for a given `userAddress`.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  userAddress: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+}
+
+const response = await dataClient.getUserEarnings(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  userAddress: string
+}
+```
+
+Response
+
+```graphql
+{
+  withdrawn: { # tokens the user has already withdrawn from the protocol
+    [token: string]: FormattedTokenBalances
+  }
+  activeBalances: { # tokens that have been distributed but not yet withdrawn
+    [token: string]: FormattedTokenBalances
+  }
+}
+```
+Ref: [FormattedTokenBalances](#formattedtokenbalances)
+
+### getUserEarningsByContract
+
+Returns token balances for a given `userAddress`, separated out by each Splits
+contract the user has received from. Can optionally pass in a list of
+`contractAddresses` to filter results to just a set of contracts.
+
+Usage
+
+```js
+const args = {
+  chainId: 1,
+  userAddress: '0xEc8Bfc8637247cEe680444BA1E25fA5e151Ba342',
+}
+
+const response = await dataClient.getUserEarningsByContract(args)
+```
+
+Arguments
+
+```graphql
+{
+  chainId: number
+  userAddress: string
+  contractAddresses?: string[]
+}
+```
+
+Response
+
+```graphql
+{
+  withdrawn: { # tokens the user has already withdrawn from the protocol
+    [token: string]: FormattedTokenBalances
+  }
+  activeBalances: { # tokens that have been distributed but not yet withdrawn
+    [token: string]: FormattedTokenBalances
+  }
+  earningsByContract: { # Earnings broken out by each Splits contract the user has received from
+    [contractAddress: string]: {
+      withdrawn: {
+        [token: string]: FormattedTokenBalances
+      }
+      activeBalances: {
+        [token: string]: FormattedTokenBalances
+      }
+    }
+  }
+}
+```
+
+Ref: [FormattedTokenBalances](#formattedtokenbalances)
+
+## Types
+
+### Split
+
+```graphql
+{
+  type: 'Split' | 'SplitV2'
+  address: string
+  controller: {
+    address: string
+    ens?: string
+  } | null
+  newPotentialController: {
+    address: string
+    ens?: string
+  } | null
+  distributorFeePercent: number
+  distributionsPaused: boolean
+  distributeDirection: 'pull' | 'push'
+  recipients: {
+    percentAllocation: number
+    recipient: {
+      address: string
+      ens?: string
+    }
+  }[]
+  createdBlock: number
+}
+```
+
+### Swapper
+
+```graphql
+{
+  type: 'Swapper'
+  address: string
+  beneficiary: {
+    address: string
+    ens?: string
+  }
+  tokenToBeneficiary: {
+    address: string
+  }
+  owner: {
+    address: string
+    ens?: string
+  }
+  paused: boolean
+  defaultScaledOfferFactorPercent: number
+  scaledOfferFactorOverrides: {
+    baseToken: {
+      address: string
+    }
+    quoteToken: {
+      address: string
+    }
+    scaledOfferFactorPercent: number
+  }[]
+}
+```
+
+### WaterfallModule
+
+```graphql
+{
+  type: 'WaterfallModule'
+  address: string
+  token: {
+    address: string
+    symbol?: string
+    decimals?: number
+  }
+  nonWaterfallRecipient: {
+    address: string
+    ens?: string
+  } | null
+  tranches: {
+    recipient: {
+      address: string
+      ens?: string
+    }
+    startAmount: number
+    size?: number
+  }[]
+}
+```
+
+### LiquidSplit
+
+```graphql
+{
+  type: 'LiquidSplit'
+  address: string
+  distributorFeePercent: number
+  payoutSplitAddress: string
+  isFactoryGenerated: boolean
+  holders: {
+    percentAllocation: number
+    recipient: {
+      address: string
+      ens?: string
+    }
+  }[]
+}
+```
+
+### VestingModule
+
+```graphql
+{
+  type: 'VestingModule'
+  address: string
+  beneficiary: {
+    address: string
+    ens?: string
+  }
+  vestingPeriod: number
+  streams?: {
+    streamId: number
+    startTime: number
+    totalAmount: number
+    releasedAmount: number
+    token: {
+      address: string
+      symbol?: string
+      decimals?: number
+    }
+  }[]
+}
+```
+
+### FormattedTokenBalances
+
+```graphql
+{
+  symbol: string
+  decimals: number
+  rawAmount: bigint
+  formattedAmount: string
+}
+```

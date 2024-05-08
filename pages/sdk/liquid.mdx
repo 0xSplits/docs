@@ -15,6 +15,9 @@ const liquidSplitClient = new LiquidSplitClient({
   // here. Be aware though that the ens name may not necessarily resolve to the proper address on the
   // other chain for non EOAs (e.g. Gnosis Safe's)
   ensPublicClient, // viem public client (optional)
+  apiConfig: {
+    apiKey: string // You can create an API key by signing up on our app, and accessing your account settings at app.splits.org/settings.
+  }, // Splits GraphQL API key config, this is required for the data client to access the splits graphQL API.
 })
 ```
 
@@ -34,58 +37,6 @@ const splitsClient = new SplitsClient({
 const liquidSplitClient = splitsClient.liquidSplits
 ```
 
-Now you're ready to use any of the functions. All Arguments and Responses for
-these functions are `objects`. This will make it easier for us to release
-updates to the SDK without breaking existing implementations.
-
-The SDK comprises 3 different types of functions: Subgraph Reads, Liquid Split
-Writes, and Liquid Split Reads.
-
-## Subgraph Reads
-
-These functions make it easier to query the [subgraph](/subgraph).
-
-### getLiquidSplitMetadata
-
-Returns all metadata for a given `liquidSplitAddress`.
-
-Usage
-
-```js
-const args = {
-  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
-}
-
-const response = await liquidSplitClient.getLiquidSplitMetadata(args)
-```
-
-Arguments
-
-```graphql
-{
-  liquidSplitAddress: string
-}
-```
-
-Response
-
-```graphql
-{
-  type: 'LiquidSplit'
-  address: string
-  distributorFeePercent: number
-  payoutSplitAddress: string
-  isFactoryGenerated: boolean
-  holders: {
-    percentAllocation: number
-    recipient: {
-      address: string
-      ensName?: string
-    }
-  }[]
-}
-```
-
 ## Liquid Split Writes
 
 These functions make it easier to call
@@ -101,16 +52,16 @@ Usage
 const args = {
   holders: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
-      percentAllocation: 50.0
+      address: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
+      percentAllocation: 50.0,
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
-      percentAllocation: 50.0
-    }
+      address: '0xc3313847E2c4A506893999f9d53d07cDa961a675',
+      percentAllocation: 50.0,
+    },
   ],
-  distributorFeePercent: 1.0000,
-  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
+  distributorFeePercent: 1.0,
+  owner: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
 }
 
 const response = await liquidSplitClient.createLiquidSplit(args)
@@ -147,9 +98,9 @@ Usage
 
 ```js
 const args = {
-  liquidSplitAddress: "0xb5Ce41320F3d486671918733BB3226E3981Db62b",
-  token: "0x64d91f12ece7362f91a6f8e7940cd55f05060b92",
-  distributorAddress: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
+  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
+  token: '0x64d91f12ece7362f91a6f8e7940cd55f05060b92',
+  distributorAddress: '0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72',
 }
 
 const response = await liquidSplitClient.distributeToken(args)
@@ -182,8 +133,8 @@ Usage
 
 ```js
 const args = {
-  liquidSplitAddress: "0xb5Ce41320F3d486671918733BB3226E3981Db62b",
-  newOwner: "0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72"
+  liquidSplitAddress: '0xb5Ce41320F3d486671918733BB3226E3981Db62b',
+  newOwner: '0x2fa128274cfcf47afd4dc03cd3f2a59af09b6a72',
 }
 
 const response = await liquidSplitClient.transferOwnership(args)
@@ -216,16 +167,16 @@ Estimating the gas for the create liquid split function would look like:
 const args = {
   holders: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
-      percentAllocation: 50.0
+      address: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
+      percentAllocation: 50.0,
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
-      percentAllocation: 50.0
-    }
+      address: '0xc3313847E2c4A506893999f9d53d07cDa961a675',
+      percentAllocation: 50.0,
+    },
   ],
-  distributorFeePercent: 1.0000,
-  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f"
+  distributorFeePercent: 1.0,
+  owner: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
 }
 
 const gasEstimate = await liquidSplitClient.estimateGas.createLiquidSplit(args)
@@ -233,24 +184,24 @@ const gasEstimate = await liquidSplitClient.estimateGas.createLiquidSplit(args)
 
 ## CallData
 
-The client has a call data feature that can be used with any of the above
-write functions. Just call the function off of the `callData` property.
-Generating call data for the create liquid split function would look like:
+The client has a call data feature that can be used with any of the above write
+functions. Just call the function off of the `callData` property. Generating
+call data for the create liquid split function would look like:
 
 ```js
 const args = {
   holders: [
     {
-      address: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f",
-      percentAllocation: 50.0
+      address: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
+      percentAllocation: 50.0,
     },
     {
-      address: "0xc3313847E2c4A506893999f9d53d07cDa961a675",
-      percentAllocation: 50.0
-    }
+      address: '0xc3313847E2c4A506893999f9d53d07cDa961a675',
+      percentAllocation: 50.0,
+    },
   ],
-  distributorFeePercent: 1.0000,
-  owner: "0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f"
+  distributorFeePercent: 1.0,
+  owner: '0x442C01498ED8205bFD9aaB6B8cc5C810Ed070C8f',
 }
 
 const callData = await liquidSplitClient.callData.createLiquidSplit(args)

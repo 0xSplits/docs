@@ -1,13 +1,13 @@
 # Multicall
 
-Batch transactions together into a single multicall transaction. This multicall function can be accessed 
+Batch transactions together into a single multicall transaction. This multicall function can be accessed
 through any of the sdk clients (Splits, Waterfall, Liquid Splits, Vesting).
 
 ### multicall
 
 Any write function from the SDK has a corresponding call data version that generates call data instead
-of submitting a transaction. That call data can be passed into a multicall transaction. Here is an 
-example where a liquid split is a recipient of a split. First we distribute a token on the split, then 
+of submitting a transaction. That call data can be passed into a multicall transaction. Here is an
+example where a liquid split is a recipient of a split. First we distribute a token on the split, then
 we withdraw that token for the liquid split from SplitMain, then we distribute the liquid split.
 
 ```

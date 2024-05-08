@@ -1,5 +1,8 @@
 {
-  "splits": "Splits",
+  "warehouse": "Warehouse",
+  "splits-v2": "Splits-v2",
+  "splits-v1": "Splits-v1",
+  "data": "Data",
   "waterfall": "Waterfall",
   "swapper": "Swapper",
   "liquid": "Liquid Splits",
