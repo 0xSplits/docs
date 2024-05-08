@@ -43,7 +43,7 @@ import { SplitsProvider, useSplitMetadata } from '@0xsplits/splits-sdk-react'
 
 const SPLIT_ADDRESS = '0xF8843981e7846945960f53243cA2Fd42a579f719'
 
-const publicClient = createPublicClient({ 
+const publicClient = createPublicClient({
   chain: mainnet,
   transport: http()
 })
@@ -61,7 +61,7 @@ function App() {
 }
 
 function YourComponents() {
-  const { splitMetadata, isLoading } = useSplitMetadata(SPLIT_ADDRESS)
+  const { splitMetadata, isLoading } = useSplitMetadata(1, SPLIT_ADDRESS)
 
   if (isLoading) return <div>Loading Split...</div>
   if (!splitMetadata) return <div>No Split found at address {SPLIT_ADDRESS}</div>
@@ -148,11 +148,11 @@ active balances. See [getSplitEarnings](/sdk/data#getsplitearnings) for more inf
 Usage
 
 ```js
-const { splitEarnings, formattedSplitEarnings, isLoading, status, error } = useSplitEarnings(
+const { splitEarnings, isLoading, status, error } = useSplitEarnings(
+  chainId,
   splitAddress,
   includeActiveBalances, // defaults to true
   erc20TokenList, // defaults to undefined
-  formatted // defaults to true
 )
 ```
 
@@ -166,6 +166,7 @@ Usage
 
 ```js
 const { userEarnings, isLoading, status, error } = useUserEarnings(
+  chainId,
   userAddress,
 )
 ```
@@ -181,6 +182,7 @@ Usage
 
 ```js
 const { userEarningsByContract, isLoading, status, error } = useUserEarningsByContract(
+  chainId,
   userAddress,
   {
     contractAddresses, // defaults to undefined, returning all contracts the user receives from
@@ -196,7 +198,7 @@ See [getSplitMetadata](/sdk/data#getsplitmetadata) for details on the metadata r
 Usage
 
 ```js
-const { splitMetadata, isLoading, status, error } = useSplitMetadata(splitAddress)
+const { splitMetadata, isLoading, status, error } = useSplitMetadata(chainId, splitAddress)
 ```
 
 ### useLiquidSplitMetadata
@@ -207,7 +209,7 @@ See [getLiquidSplitMetadata](/sdk/data#getliquidsplitmetadata) for details on th
 Usage
 
 ```js
-const { liquidSplitMetadata, isLoading, status, error } = useLiquidSplitMetadata(liquidsplitAddress)
+const { liquidSplitMetadata, isLoading, status, error } = useLiquidSplitMetadata(chainId, liquidsplitAddress)
 ```
 
 ### useWaterfallMetadata
@@ -218,7 +220,7 @@ See [getWaterfallMetadata](/sdk/data#getwaterfallmetadata) for details on the me
 Usage
 
 ```js
-const { waterfallMetadata, isLoading, status, error } = useWaterfallMetadata(waterfallModuleAddress)
+const { waterfallMetadata, isLoading, status, error } = useWaterfallMetadata(chainId, waterfallModuleAddress)
 ```
 
 ### useVestingMetadata
@@ -229,7 +231,7 @@ See [getVestingMetadata](/sdk/data#getvestingmetadata) for details on the metada
 Usage
 
 ```js
-const { vestingMetadata, isLoading, status, error } = useVestingMetadata(vestingModuleAddress)
+const { vestingMetadata, isLoading, status, error } = useVestingMetadata(chainId, vestingModuleAddress)
 ```
 
 ### useSwapperMetadata
@@ -240,7 +242,7 @@ See [getSwapperMetadata](/sdk/data#getswappermetadata) for details on the metada
 Usage
 
 ```js
-const { swapperMetadata, isLoading, status, error } = useSwapperMetadata(swapperAddress)
+const { swapperMetadata, isLoading, status, error } = useSwapperMetadata(chainId, swapperAddress)
 ```
 
 ## Splits V2 Transaction Hooks
