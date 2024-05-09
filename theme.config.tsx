@@ -51,11 +51,11 @@ const config: DocsThemeConfig = {
         {/* Page description */}
         <meta
           name="description"
-          content="Payments infrastructure for the onchain economy"
+          content="Software to manage onchain earnings"
         />
         <meta
           name="og:description"
-          content="Payments infrastructure for the onchain economy"
+          content="Software to manage onchain earnings"
         />
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -69,7 +69,7 @@ const config: DocsThemeConfig = {
         />
         <meta
           name="twitter:description"
-          content="Payments infrastructure for the onchain economy"
+          content="Software to manage onchain earnings"
         />
         {/* Title */}
         <meta
