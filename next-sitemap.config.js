@@ -1,9 +1,9 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl:
-    process.env.SITE_URL ||
-    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` ||
-    'https://docs.splits.org',
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ?
+      `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}` :
+      `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`,
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   changefreq: 'monthly',
