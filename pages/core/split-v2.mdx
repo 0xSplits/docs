@@ -53,6 +53,24 @@ At launch, we are offering "Push" and "Pull" splitters.
   network's blocks. Be cautious of this constraint when creating large
   Splits, as it may result in funds being irretrievably locked due to
   the gas limit restrictions of the network.
+  
+  <Toggle title="Breakdown of gas usage when distributing a split with 500 recipients." >
+
+    * When recipients have zero balance of the token.
+
+    | Split | ETH     | ERC20     |
+    |-------|---------|-----------|
+    | Push  |  ~17 M  |   ~14 M   |
+    | Pull  |  ~13 M  |   ~13 M   |
+
+    * When recipients have a non zero balance of the token.
+
+    | Split | ETH     | ERC20     |
+    |-------|---------|-----------|
+    | Push  |  ~4 M   |   ~3 M    |
+    | Pull  |  ~2 M   |   ~2 M    |
+
+  </Toggle>
 
 - In terms of recipient allocations, the Split creator now sets the total number of shares.
   As such, recipients holding small shares may be negatively impacted by rounding on small distributions,
