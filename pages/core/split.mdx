@@ -1,5 +1,5 @@
 import { Toggle } from '../../components/toggle'
-import { Tab, Tabs } from 'nextra-theme-docs'
+import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 # Split
 
@@ -37,6 +37,13 @@ ownership percentages.
   [`SplitMain`](https://github.com/0xSplits/splits-contracts/blob/main/contracts/SplitMain.sol)
   until `withdraw` is called for a recipient.
 - We recommend reviewing the [contracts flow of funds](/core#flow-of-funds).
+
+<Callout type="warning">
+Splits do **not** work with non-transferable, fee-on-transfer, and rebasing tokens.
+* Non-transferable tokens will be stuck in the Split forever.
+* Fee-on-transfer tokens will distribute, but not all recipients will be able to withdraw their share.
+* If a rebasing tokens supply decreases, not all recipients will be able to withdraw their share. If the supply increases, the incremental yield will be lost and stuck in Split Main.
+</Callout>
 
 ## Addresses
 

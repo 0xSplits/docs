@@ -1,5 +1,5 @@
 import { Toggle } from '../../components/toggle'
-import { Tab, Tabs } from 'nextra-theme-docs'
+import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 # SplitV2
 
@@ -39,6 +39,16 @@ At launch, we are offering "Push" and "Pull" splitters.
   [`ERC1271`](https://eips.ethereum.org/EIPS/eip-1271).
 - We recommend reviewing the [contracts flow of funds](/core#flow-of-funds).
 
+<Callout type="warning">
+Pull Splits do **not** work with non-transferable, fee-on-transfer, and rebasing tokens.
+* Non-transferable tokens will be stuck in the Split forever, unless the Split has an Owner which can issue a transaction to somehow make the tokens transferable (e.g. unwrapping BLUR.)
+* Fee-on-transfer tokens will distribute, but not all recipients will be able to withdraw their share.
+* If a rebasing tokens supply decreases, not all recipients will be able to withdraw their share. If the supply increases, the incremental yield will be lost and stuck in Split Main.
+
+Push Splits do **not** work with non-transferable tokens.
+* Non-transferable tokens will be stuck in the Split forever, unless the Split has an Owner which can issue a transaction to somehow make the tokens transferable (e.g. unwrapping BLUR.)
+</Callout>
+
 ## Notes
 
 - When using the deterministic creation flow it is recommended to use a random
@@ -54,7 +64,7 @@ At launch, we are offering "Push" and "Pull" splitters.
   Splits, as it may result in funds being irretrievably locked due to
   the gas limit restrictions of the network.
   
-  <Toggle title="Breakdown of gas usage when distributing a split with 500 recipients." >
+  <Toggle title="Breakdown of gas usage when distributing a Split with 500 recipients." >
 
     * When recipients have zero balance of the token.
 
