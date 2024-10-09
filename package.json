@@ -14,7 +14,7 @@
   "dependencies": {
     "eslint-config-next": "^13.2.4",
     "eslint-plugin-react": "^7.32.2",
-    "next": "13.5.3",
+    "next": "14.2.10",
     "next-sitemap": "^4.2.3",
     "nextra": "^2.13.2",
     "nextra-theme-docs": "^2.13.2",
