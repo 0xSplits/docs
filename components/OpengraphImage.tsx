@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
-import { ImageResponse } from 'next/server'
+import { ImageResponse } from 'next/og'
 import { CLIENT_ORIGIN } from '../util/requests'
 
 export const OG_IMAGE_SIZE = {
@@ -10,7 +10,7 @@ export const OG_IMAGE_SIZE = {
 
 export async function generateImage(
   children: React.ReactElement,
-): Promise<ImageResponse> {
+): Promise<void | Response> {
   return new ImageResponse(children, {
     ...OG_IMAGE_SIZE,
     fonts: [
