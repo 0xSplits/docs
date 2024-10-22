@@ -9,6 +9,17 @@ const withNextra = require('nextra')({
   defaultShowCopyCode: true,
 })
 module.exports = withNextra({
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          // Prevents the page from being loaded in an iframe (clickjacking prevention)
+          { key: 'Content-Security-Policy', value: `frame-ancestors 'none';`}
+        ],
+      },
+    ]
+  },
   async redirects() {
     return [
       {
