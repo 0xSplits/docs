@@ -3,7 +3,7 @@ import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 # SplitV2
 
-SplitV2 keeps the original vision of [SplitV1](./split.mdx) while decoupling the 
+SplitV2 keeps the original vision of [SplitV1](./split.mdx) while decoupling the
 underlying splitter implementation from where the distributed funds are held (previously `SplitMain`, now [Warehouse](./warehouse)). This decoupling allows us to build different types of splitters with different trade-offs for different use cases.
 At launch, we are offering "Push" and "Pull" splitters.
 
@@ -63,7 +63,7 @@ Push Splits do **not** work with non-transferable tokens.
   network's blocks. Be cautious of this constraint when creating large
   Splits, as it may result in funds being irretrievably locked due to
   the gas limit restrictions of the network.
-  
+
   <Toggle title="Breakdown of gas usage when distributing a Split with 500 recipients." >
 
     * When recipients have zero balance of the token.
@@ -164,6 +164,17 @@ Push Splits do **not** work with non-transferable tokens.
 | PushSplit        | [`0x0285B37453F73f8dE94De0cAEf8108bC8431BE34`](https://explorer.zora.energy/address/0x0285B37453F73f8dE94De0cAEf8108bC8431BE34?tab=contract) |
 | PullSplitFactory | [`0x80f1B766817D04870f115fEBbcCADF8DBF75E017`](https://explorer.zora.energy/address/0x80f1B766817D04870f115fEBbcCADF8DBF75E017?tab=contract) |
 | PullSplit        | [`0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99`](https://explorer.zora.energy/address/0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99?tab=contract) |
+
+</Toggle>
+
+<Toggle title="Shape – 360">
+
+| Contract         | Address                                                                                                                                      |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xaDC87646f736d6A82e9a6539cddC488b2aA07f38`](https://shapescan.xyz/address/0xaDC87646f736d6A82e9a6539cddC488b2aA07f38?tab=contract) |
+| PushSplit        | [`0x0285B37453F73f8dE94De0cAEf8108bC8431BE34`](https://shapescan.xyz/address/0x0285B37453F73f8dE94De0cAEf8108bC8431BE34?tab=contract) |
+| PullSplitFactory | [`0x80f1B766817D04870f115fEBbcCADF8DBF75E017`](https://shapescan.xyz/address/0x80f1B766817D04870f115fEBbcCADF8DBF75E017?tab=contract) |
+| PullSplit        | [`0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99`](https://shapescan.xyz/address/0x6291497D1206618fC810900d2e7e9AF6Aa1F1b99?tab=contract) |
 
 </Toggle>
 
