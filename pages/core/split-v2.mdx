@@ -13,6 +13,18 @@ At launch, we are offering "Push" and "Pull" splitters.
 - [SDK](/sdk/splits-v2)
 - [Audit](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/audits/splits-v2.md)
 
+## Versions
+
+<Callout>
+ - Splits [Explorer](app.splits.org) and [Lite](lite.splits.org) will continue to support distributing and withdrawing from existing v2.0 splits.
+ - New splits created on either application going forward will be v2.1.
+</Callout>
+
+<Toggle title="2.1">
+ - Pull splits now handle non-compliant ERC20 tokens (like USDT) that don't return a boolean on approval calls, fixing a limitation in v2.
+ - Split factories now emit the salt passed in by the user making it easier to clone the same split on other chains.
+</Toggle>
+
 ## How it works
 
 - Each Split is a payable smart contract wallet. Each recipient has an address
@@ -96,6 +108,211 @@ Push Splits do **not** work with non-transferable tokens.
   [`analysis`](https://github.com/zobront/audits/blob/main/reports/splits-v2.md#review).
 
 ## Addresses
+
+<Toggle title="V2.1">
+
+<Tabs items={['Mainnets', 'Testnets']}>
+
+<Tab>
+
+<Toggle title="Ethereum – 1">
+
+| Contract         | Address                                                                                                                      |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://etherscan.io/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://etherscan.io/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://etherscan.io/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://etherscan.io/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Optimism – 10">
+
+| Contract         | Address                                                                                                                                 |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://optimistic.etherscan.io/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://optimistic.etherscan.io/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://optimistic.etherscan.io/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://optimistic.etherscan.io/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Polygon – 137">
+
+| Contract         | Address                                                                                                                         |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://polygonscan.com/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://polygonscan.com/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://polygonscan.com/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://polygonscan.com/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Base – 8453">
+
+| Contract         | Address                                                                                                                      |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://basescan.org/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://basescan.org/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://basescan.org/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://basescan.org/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Arbitrum – 42161">
+
+| Contract         | Address                                                                                                                     |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://arbiscan.io/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://arbiscan.io/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://arbiscan.io/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://arbiscan.io/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Zora – 7777777">
+
+| Contract         | Address                                                                                                                                      |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://explorer.zora.energy/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed?tab=contract) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://explorer.zora.energy/address/0x3f81D81e0884abD8Cc4583a704a9397972623214?tab=contract) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://explorer.zora.energy/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1?tab=contract) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://explorer.zora.energy/address/0xF9C25250523Df26343222fC46de932355B850c97?tab=contract) |
+
+</Toggle>
+
+<Toggle title="Shape – 360">
+
+| Contract         | Address                                                                                                                                      |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://shapescan.xyz/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed?tab=contract) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://shapescan.xyz/address/0x3f81D81e0884abD8Cc4583a704a9397972623214?tab=contract) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://shapescan.xyz/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1?tab=contract) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://shapescan.xyz/address/0xF9C25250523Df26343222fC46de932355B850c97?tab=contract) |
+
+</Toggle>
+
+<Toggle title="BSC – 56">
+
+| Contract         | Address                                                                                                                     |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://bscscan.com/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://bscscan.com/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://bscscan.com/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://bscscan.com/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Gnosis – 100">
+
+| Contract         | Address                                                                                                                                       |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://gnosis.blockscout.com/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed?tab=contract) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://gnosis.blockscout.com/address/0x3f81D81e0884abD8Cc4583a704a9397972623214?tab=contract) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://gnosis.blockscout.com/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1?tab=contract) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://gnosis.blockscout.com/address/0xF9C25250523Df26343222fC46de932355B850c97?tab=contract) |
+
+</Toggle>
+
+<Toggle title="World Chain – 480">
+
+| Contract         | Address                                                                                                                                       |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://worldscan.org/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://worldscan.org/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://worldscan.org/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://worldscan.org/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+</Tab>
+
+<Tab>
+
+<Toggle title="Holesky – 17000">
+
+| Contract         | Address                                                                                                                              |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://holesky.etherscan.io/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://holesky.etherscan.io/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://holesky.etherscan.io/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://holesky.etherscan.io/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Sepolia – 11155111">
+
+| Contract         | Address                                                                                                                              |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://sepolia.etherscan.io/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://sepolia.etherscan.io/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://sepolia.etherscan.io/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://sepolia.etherscan.io/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Optimism Sepolia – 11155420">
+
+| Contract         | Address                                                                                                                                       |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://sepolia-optimism.etherscan.io/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://sepolia-optimism.etherscan.io/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://sepolia-optimism.etherscan.io/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://sepolia-optimism.etherscan.io/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Base Sepolia – 84532">
+
+| Contract         | Address                                                                                                                              |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://sepolia.basescan.org/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://sepolia.basescan.org/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://sepolia.basescan.org/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://sepolia.basescan.org/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Zora Sepolia – 999999999">
+
+| Contract         | Address                                                                                                                                              |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://sepolia.explorer.zora.energy/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed?tab=contract) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://sepolia.explorer.zora.energy/address/0x3f81D81e0884abD8Cc4583a704a9397972623214?tab=contract) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://sepolia.explorer.zora.energy/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1?tab=contract) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://sepolia.explorer.zora.energy/address/0xF9C25250523Df26343222fC46de932355B850c97?tab=contract) |
+
+</Toggle>
+
+<Toggle title="Arbitrum Sepolia – 421614">
+
+| Contract         | Address                                                                                                                              |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://sepolia.arbiscan.io/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed#code) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://sepolia.arbiscan.io/address/0x3f81D81e0884abD8Cc4583a704a9397972623214#code) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://sepolia.arbiscan.io/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1#code) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://sepolia.arbiscan.io/address/0xF9C25250523Df26343222fC46de932355B850c97#code) |
+
+</Toggle>
+
+<Toggle title="Plume Sepolia – 98864">
+
+| Contract         | Address                                                                                                                              |
+| :--------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| PushSplitFactory | [`0xDc6259E13ec0621e6F19026b2e49D846525548Ed`](https://www.okx.com/web3/explorer/plumenetwork-dev/address/0xDc6259E13ec0621e6F19026b2e49D846525548Ed/contract) |
+| PushSplit        | [`0x3f81D81e0884abD8Cc4583a704a9397972623214`](https://www.okx.com/web3/explorer/plumenetwork-dev/address/0x3f81D81e0884abD8Cc4583a704a9397972623214/contract) |
+| PullSplitFactory | [`0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1`](https://www.okx.com/web3/explorer/plumenetwork-dev/address/0x5cbA88D55Cec83caD5A105Ad40C8c9aF20bE21d1/contract) |
+| PullSplit        | [`0xF9C25250523Df26343222fC46de932355B850c97`](https://www.okx.com/web3/explorer/plumenetwork-dev/address/0xF9C25250523Df26343222fC46de932355B850c97/contract) |
+
+</Toggle>
+
+</Tab>
+
+</Tabs>
+
+</Toggle>
+
+<Toggle title="V2.0">
 
 <Tabs items={['Mainnets', 'Testnets']}>
 
@@ -273,3 +490,5 @@ Push Splits do **not** work with non-transferable tokens.
 </Tab>
 
 </Tabs>
+
+</Toggle>
