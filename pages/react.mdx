@@ -145,11 +145,13 @@ active balances. See [getSplitEarnings](/sdk/data#getsplitearnings) for more inf
 Usage
 
 ```js
-const { splitEarnings, isLoading, status, error } = useSplitEarnings(
+const { data: splitEarnings, isLoading, status, error } = useSplitEarnings(
   chainId,
   splitAddress,
-  includeActiveBalances, // defaults to true
-  erc20TokenList, // defaults to undefined
+  {
+    includeActiveBalances, // defaults to true
+    erc20TokenList, // defaults to undefined
+  }
 )
 ```
 
@@ -162,7 +164,7 @@ See [getUserEarnings](/sdk/data#getuserearnings) for details on the metadata ret
 Usage
 
 ```js
-const { userEarnings, isLoading, status, error } = useUserEarnings(
+const { data: userEarnings, isLoading, status, error } = useUserEarnings(
   chainId,
   userAddress,
 )
@@ -178,7 +180,7 @@ See [getUserEarningsByContract](/sdk/data#getuserearningsbycontract) for details
 Usage
 
 ```js
-const { userEarningsByContract, isLoading, status, error } = useUserEarningsByContract(
+const { data: userEarningsByContract, isLoading, status, error } = useUserEarningsByContract(
   chainId,
   userAddress,
   {
@@ -195,7 +197,7 @@ See [getSplitMetadata](/sdk/data#getsplitmetadata) for details on the metadata r
 Usage
 
 ```js
-const { splitMetadata, isLoading, status, error } = useSplitMetadata(chainId, splitAddress)
+const { data: splitMetadata, isLoading, status, error } = useSplitMetadata(chainId, splitAddress)
 ```
 
 ### useLiquidSplitMetadata
@@ -206,7 +208,7 @@ See [getLiquidSplitMetadata](/sdk/data#getliquidsplitmetadata) for details on th
 Usage
 
 ```js
-const { liquidSplitMetadata, isLoading, status, error } = useLiquidSplitMetadata(chainId, liquidsplitAddress)
+const { data: liquidSplitMetadata, isLoading, status, error } = useLiquidSplitMetadata(chainId, liquidsplitAddress)
 ```
 
 ### useWaterfallMetadata
@@ -217,7 +219,7 @@ See [getWaterfallMetadata](/sdk/data#getwaterfallmetadata) for details on the me
 Usage
 
 ```js
-const { waterfallMetadata, isLoading, status, error } = useWaterfallMetadata(chainId, waterfallModuleAddress)
+const { data: waterfallMetadata, isLoading, status, error } = useWaterfallMetadata(chainId, waterfallModuleAddress)
 ```
 
 ### useVestingMetadata
@@ -228,7 +230,7 @@ See [getVestingMetadata](/sdk/data#getvestingmetadata) for details on the metada
 Usage
 
 ```js
-const { vestingMetadata, isLoading, status, error } = useVestingMetadata(chainId, vestingModuleAddress)
+const { data: vestingMetadata, isLoading, status, error } = useVestingMetadata(chainId, vestingModuleAddress)
 ```
 
 ### useSwapperMetadata
@@ -239,7 +241,7 @@ See [getSwapperMetadata](/sdk/data#getswappermetadata) for details on the metada
 Usage
 
 ```js
-const { swapperMetadata, isLoading, status, error } = useSwapperMetadata(chainId, swapperAddress)
+const { data: swapperMetadata, isLoading, status, error } = useSwapperMetadata(chainId, swapperAddress)
 ```
 
 ## Warehouse Hooks
