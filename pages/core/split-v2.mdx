@@ -3,6 +3,10 @@ import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 # SplitV2
 
+<Callout>
+USDT on Mainnet is not an ERC20 token, which means it's not compatible with Splits V2.0. Splits V2.1 fixes this, learn more [here](https://splits.org/blog/warning-mainnet-usdt-cannot-be-distributed-from-immutable-v2-splits/).
+</Callout>
+
 SplitV2 keeps the original vision of [SplitV1](./split.mdx) while decoupling the
 underlying splitter implementation from where the distributed funds are held (previously `SplitMain`, now [Warehouse](./warehouse)). This decoupling allows us to build different types of splitters with different trade-offs for different use cases.
 At launch, we are offering "Push" and "Pull" splitters.
@@ -12,18 +16,6 @@ At launch, we are offering "Push" and "Pull" splitters.
 - [Contracts & Natspec](https://github.com/0xSplits/splits-contracts-monorepo/tree/main/packages/splits-v2/src/splitters)
 - [SDK](/sdk/splits-v2)
 - [Audit](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/audits/splits-v2.md)
-
-## Versions
-
-<Callout>
- - Splits [Explorer](app.splits.org) and [Lite](lite.splits.org) will continue to support distributing and withdrawing from existing v2.0 splits.
- - New splits created on either application going forward will be v2.1.
-</Callout>
-
-<Toggle title="2.1">
- - Pull splits now handle non-compliant ERC20 tokens (like USDT) that don't return a boolean on approval calls, fixing a limitation in v2.
- - Split factories now emit the salt passed in by the user making it easier to clone the same split on other chains.
-</Toggle>
 
 ## How it works
 
@@ -110,6 +102,9 @@ Push Splits do **not** work with non-transferable tokens.
 ## Addresses
 
 <Toggle title="V2.1">
+
+- `PullSplits` handle non-compliant ERC20 tokens (like Mainnet USDT) that don't return a boolean on approval calls, fixing a limitation in V2.0.
+- Split factories now emit the salt passed in by the user making it easier to clone the same split on other chains.
 
 <Tabs items={['Mainnets', 'Testnets']}>
 
@@ -313,6 +308,10 @@ Push Splits do **not** work with non-transferable tokens.
 </Toggle>
 
 <Toggle title="V2.0">
+
+<Callout>
+USDT on Mainnet is not an ERC20 token, which means it's not compatible with Splits V2.0. Splits V2.1 fixes this, learn more [here](https://splits.org/blog/warning-mainnet-usdt-cannot-be-distributed-from-immutable-v2-splits/).
+</Callout>
 
 <Tabs items={['Mainnets', 'Testnets']}>
 

@@ -1,8 +1,8 @@
 # Getting Started
 
 ```
-yarn install
-yarn dev
+pnpm install
+pnpm dev
 ```
 
 Open [http://localhost:3002](http://localhost:3002/).
