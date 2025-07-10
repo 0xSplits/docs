@@ -103,8 +103,7 @@ Push Splits do **not** work with non-transferable tokens.
 
 <Toggle title="V2.2">
 
-- `PullSplits` are designed to handle non-compliant ERC20 tokens—such as Mainnet USDT—that do not return a boolean value on `approve` calls. In previous versions, this could cause transactions to fail or unexpectedly consume all available gas if an approval was missing, as described in [this issue](https://github.com/foundry-rs/foundry/issues/10884). 
-V2.2 addresses this limitation, making PullSplits more robust and compatible with a wider range of tokens.
+- V2.2 `PullSplits` are designed to handle non-compliant ERC20 tokens (such as Mainnet USDT) that do not return a boolean value on `approve` calls. In previous versions, this could cause transactions to fail or unexpectedly consume all available gas if an approval was missing, as described in [this issue](https://github.com/foundry-rs/foundry/issues/10884).
 
 <Tabs items={['Mainnets', 'Testnets']}>
 
