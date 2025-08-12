@@ -9,7 +9,10 @@
     "build": "next build && yarn post-build",
     "post-build": "next-sitemap"
   },
-  "author": "Shu Ding",
+  "engines": {
+    "node": "22.x"
+  },
+  "author": "0xSplits",
   "license": "MIT",
   "dependencies": {
     "eslint-config-next": "^13.5.6",
