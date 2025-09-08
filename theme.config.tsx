@@ -110,13 +110,13 @@ const config: DocsThemeConfig = {
     text: (
       <div className="flex w-full items-center justify-between sm:items-start text-sm">
         <div>
-          Questions? Join us in{' '}
+          Questions? Contact us at{' '}
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://chat.splits.org/"
+            href="mailto:support@splits.org"
           >
-            Discord
+            support@splits.org
           </a>
         </div>
         <div>© {new Date().getFullYear()} Splits Protocols, Inc.</div>
