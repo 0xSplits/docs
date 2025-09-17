@@ -64,18 +64,20 @@ Push Splits do **not** work with non-transferable tokens.
 
 - The contracts do not impose a maximum limit on the number of recipients for a
   Split. Consequently, the practical limit is governed by the gas limit of the
-  network's blocks. Be cautious of this constraint when creating large
+  network's transactions. With the Fusaka upgrade, the transaction gas limit will be capped at [16,777,216](https://eips.ethereum.org/EIPS/eip-7825) gas units.
+  For the above mentioned gas limit, we recommend not creating Splits with more than **400 recipients**.
+  Be cautious of this constraint when creating large
   Splits, as it may result in funds being irretrievably locked due to
   the gas limit restrictions of the network.
 
-  <Toggle title="Breakdown of gas usage when distributing a Split with 500 recipients." >
+  <Toggle title="Breakdown of gas usage when distributing a Split with 450 recipients." >
 
     * When recipients have zero balance of the token.
 
     | Split | ETH     | ERC20     |
     |-------|---------|-----------|
-    | Push  |  ~17 M  |   ~14 M   |
-    | Pull  |  ~13 M  |   ~13 M   |
+    | Push  |  ~16 M  |   ~13 M   |
+    | Pull  |  ~12 M  |   ~12 M   |
 
     * When recipients have a non zero balance of the token.
 
