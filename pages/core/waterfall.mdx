@@ -32,8 +32,7 @@ payable smart contract that is composable on both inflow and outflow.
   only way to "restart" the sequence is to create a new Waterfall.
 - Any non-permitted tokens sent to the Waterfall may be recovered to any of the
   tranche recipients.
-- This contract was not designed for a large number of tranches and shouldn't be
-  used with more than 1,000.
+- This contract was not designed for a large number of tranches, please make sure that the total number of tranches don't exceed the transaction gas limit of the network.
 
 ## Addresses
 
