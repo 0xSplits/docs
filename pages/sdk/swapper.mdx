@@ -101,6 +101,61 @@ Response
 }
 ```
 
+### universalSwap
+
+Swaps the given tokens for the Swapper's output token. Uses Splits' integration
+trader contract to trade with any router of your choice.
+
+Usage
+
+```js
+const args = {
+  swapperAddress: '0x693C49a6296d90e8A8936Ad4836a680F551bb97d',
+  inputAssets: [
+    {
+      token: 0x0000000000000000000000000000000000000000,
+      amountIn: BigInt('100000000000000000'),
+    },
+  ],
+  calls: [
+    {
+      to: '0x123router', // router address
+      value: BigInt('0'),
+      data: '0x1234567890', // swap function data for the router
+    }
+  ]
+}
+
+const response = await swapperClient.universalSwap(args)
+```
+
+Arguments
+
+```graphql
+{
+  swapperAddress: string # swapper address
+  inputAssets: {
+    token: string # token address being swapped
+    amountIn: bigint # amount of the token being swapped
+  }[]
+  # Calls to the router to swap the input assets for the output token,
+  # you can use any router you want, generate the calls as you would for a smart account wallet.
+  calls: {
+    to: string # router address
+    value: bigint # value to send to the router
+    data: string # swap function data for the router
+  }[]
+}
+```
+
+Response
+
+```graphql
+{
+  event: Log # Flash emitted on the Swapper contract
+}
+```
+
 ### uniV3FlashSwap
 
 Swaps the given tokens for the Swapper's output token. Uses Splits' integration

@@ -830,6 +830,26 @@ Response
 }
 ```
 
+### useUniversalSwap
+See [universalSwap](/sdk/swapper#universalswap) for more details.
+
+Usage
+
+```js
+const { universalSwap, status, txHash, error } = useUniversalSwap()
+```
+
+Response
+
+```graphql
+{
+  universalSwap: function
+  status?: 'pendingApproval' | 'txInProgress' | 'complete' | 'error'
+  txHash?: string
+  error?: any
+}
+```
+
 ### useUniV3FlashSwap
 See [uniV3FlashSwap](/sdk/swapper#univ3flashswap) for more details.
 
