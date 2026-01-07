@@ -47,3 +47,6 @@ yarn-error.log*
 /cache
 /artifacts
 /typechain
+
+# claude local config
+.claude/settings.local.json
