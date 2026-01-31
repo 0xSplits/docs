@@ -645,7 +645,9 @@ Response
 
 Returns all metadata for a given `splitAddress` by reading directly from the
 blockchain via RPC provider. This is useful for chains that are not yet
-indexed by the Splits subgraph. Not supported for V1 splits on Mainnet.
+indexed by the Splits subgraph. Works best with a provider that supports
+large log range searches (e.g. Alchemy). Not supported for V1 splits on
+Mainnet.
 
 Usage
 
@@ -664,14 +666,6 @@ Arguments
 {
   splitAddress: string
   chainId?: number
-  cachedData?: {
-    blocks?: {
-      createBlock?: bigint
-      updateBlock?: bigint
-      latestScannedBlock: bigint
-    }
-    blockRange?: bigint
-  }
 }
 ```
 
@@ -680,7 +674,6 @@ Response
 ```graphql
 {
   split: Split # see the data client for the full Split type
-  blockRange: bigint
 }
 ```
 
