@@ -420,10 +420,7 @@ Response
   }
   earningsByContract: { # Earnings broken out by each Splits contract the user has received from
     [contractAddress: string]: {
-      withdrawn: {
-        [token: string]: FormattedTokenBalances
-      }
-      activeBalances: {
+      balance: {
         [token: string]: FormattedTokenBalances
       }
     }
