@@ -641,6 +641,49 @@ Response
 }
 ```
 
+### getSplitMetadataViaProvider
+
+Returns all metadata for a given `splitAddress` by reading directly from the
+blockchain via RPC provider. This is useful for chains that are not yet
+indexed by the Splits subgraph. Not supported for V1 splits on Mainnet.
+
+Usage
+
+```js
+const args = {
+  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  chainId: 10,
+}
+
+const response = await splitsClient.getSplitMetadataViaProvider(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: string
+  chainId?: number
+  cachedData?: {
+    blocks?: {
+      createBlock?: bigint
+      updateBlock?: bigint
+      latestScannedBlock: bigint
+    }
+    blockRange?: bigint
+  }
+}
+```
+
+Response
+
+```graphql
+{
+  split: Split # see the data client for the full Split type
+  blockRange: bigint
+}
+```
+
 ### getHash
 
 Returns the current hash for a given `splitAddress`.

@@ -592,6 +592,49 @@ Response
 }
 ```
 
+### getSplitMetadataViaProvider
+
+Returns all metadata for a given `splitAddress` by reading directly from the
+blockchain via RPC provider. This is useful for chains that are not yet
+indexed by the Splits subgraph.
+
+Usage
+
+```js
+const args = {
+  splitAddress: '0xd9137B84f56D61Bb961082DD9Eb21bE3D7B14cB9',
+  chainId: 1,
+}
+
+const response = await splitsClient.getSplitMetadataViaProvider(args)
+```
+
+Arguments
+
+```graphql
+{
+  splitAddress: string
+  chainId?: number
+  cachedData?: {
+    blocks?: {
+      createBlock?: bigint
+      updateBlock?: bigint
+      latestScannedBlock: bigint
+    }
+    blockRange?: bigint
+  }
+}
+```
+
+Response
+
+```graphql
+{
+  split: Split # see the data client for the full Split type
+  blockRange: bigint
+}
+```
+
 ### eip712Domain
 
 Returns EIP-712 domain of the `splitAddress`
