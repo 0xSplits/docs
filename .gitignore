@@ -48,5 +48,8 @@ yarn-error.log*
 /artifacts
 /typechain
 
+# generated at build time
+public/llms-full.txt
+
 # claude local config
 .claude/settings.local.json

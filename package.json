@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "build": "next build && yarn post-build",
+    "build": "node scripts/generate-llms-full.js && next build && yarn post-build",
     "post-build": "next-sitemap"
   },
   "engines": {
