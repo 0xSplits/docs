@@ -52,4 +52,4 @@ Splits makes it easy to split onchain payments among multiple recipients. Contra
 
 - [GitHub](https://github.com/0xSplits): Source code for all contracts and SDKs
 - [Help Center](https://splits.org/help/): Non-technical user support
-- [App](https://app.splits.org): Web interface for creating and managing splits
+- [App](https://explorer.splits.org): Web interface for creating and managing splits
