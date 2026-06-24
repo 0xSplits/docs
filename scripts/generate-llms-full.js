@@ -48,11 +48,14 @@ function collectPages(dir, prefix) {
   return pages;
 }
 
+// Public canonical base. Docs are served from splits.org/protocol/docs (PE-7785).
+const DOCS_BASE_URL = "https://splits.org/protocol/docs";
+
 // Map file paths to URL paths
 function fileToUrl(relPath) {
   const slug = relPath.replace(/\.mdx$/, "").replace(/\/index$/, "");
-  if (slug === "index") return "https://docs.splits.org";
-  return `https://docs.splits.org/${slug}`;
+  if (slug === "index") return DOCS_BASE_URL;
+  return `${DOCS_BASE_URL}/${slug}`;
 }
 
 // Strip JSX/MDX artifacts and convert to clean markdown
@@ -88,7 +91,7 @@ function main() {
 > Composable, open-source, audited smart contracts for managing onchain revenue. No protocol fees. Runs forever as a hyperstructure.
 
 This file contains the complete protocol documentation concatenated into a single document.
-For a curated index, see https://docs.splits.org/llms.txt
+For a curated index, see ${DOCS_BASE_URL}/llms.txt
 
 ---
 

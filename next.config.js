@@ -9,6 +9,10 @@ const withNextra = require('nextra')({
   defaultShowCopyCode: true,
 })
 module.exports = withNextra({
+  // Docs are served from splits.org/protocol/docs via a reverse-proxy rewrite
+  // in the website repo. basePath prefixes every route and asset (incl.
+  // /_next and /api) so they resolve correctly behind that path. See PE-7785.
+  basePath: '/protocol/docs',
   async headers() {
     return [
       {
