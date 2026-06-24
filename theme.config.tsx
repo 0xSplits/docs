@@ -14,7 +14,7 @@ const logo = (
       width={20}
       height={20}
     />
-    <span className="mr-2 font-semibold hidden md:inline">Splits</span>
+    <span className="mr-2 font-semibold hidden md:inline">Protocol</span>
     <span className="text-gray-600 font-medium hidden md:inline">Docs</span>
   </>
 )
@@ -28,7 +28,7 @@ const config: DocsThemeConfig = {
     const { asPath } = useRouter()
     if (asPath !== '/') {
       return {
-        titleTemplate: '%s | Splits',
+        titleTemplate: '%s | Protocol',
       }
     }
   },
@@ -65,7 +65,7 @@ const config: DocsThemeConfig = {
         <meta name="twitter:url" content="https://www.splits.org/" />
         <meta
           name="twitter:title"
-          content={title ? title + ' | Splits' : 'Splits'}
+          content={title ? title + ' | Protocol' : 'Protocol'}
         />
         <meta
           name="twitter:description"
@@ -74,7 +74,7 @@ const config: DocsThemeConfig = {
         {/* Title */}
         <meta
           name="og:title"
-          content={title ? title + ' | Splits' : 'Splits'}
+          content={title ? title + ' | Protocol' : 'Protocol'}
         />
         <meta name="og:image" content={ogImage} />
         {/* Open Graph */}
@@ -83,7 +83,7 @@ const config: DocsThemeConfig = {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="docs.splits.org" />
         <meta property="og:site_name" content="docs.splits.org" />
-        <meta name="apple-mobile-web-app-title" content="Splits" />
+        <meta name="apple-mobile-web-app-title" content="Protocol" />
         <link rel="icon" href="/logo_compressed.svg" type="image/svg+xml" />
       </>
     )

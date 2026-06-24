@@ -43,7 +43,7 @@ core contracts together.
 Calls a helper contract that creates a new Waterfall and potentially multiple
 Splits (a Waterfall tranche with multiple recipients will be a Split). A CreateRecoup
 event with the waterfall contract address is emitted by the helper contract and the
-Splits Subgraph will pick this up so that these Recoup Waterfalls can be displayed
+protocol subgraph will pick this up so that these Recoup Waterfalls can be displayed
 differently.
 
 Usage
@@ -134,8 +134,8 @@ split since it already exists.
 
 Calls a helper contract that creates a new PassThroughWallet, a new Split, and potentially multiple
 Swappers. A CreateDiversifier event with the pass through wallet contract address is emitted by the
-helper contract and the Splits Subgraph will pick this up so that these Diversifiers can be displayed
-properly in the Splits app.
+helper contract and the protocol subgraph will pick this up so that these Diversifiers can be displayed
+properly in the protocol explorer.
 
 Usage
 

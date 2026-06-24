@@ -83,11 +83,11 @@ function cleanMdx(content) {
 }
 
 function main() {
-  const header = `# Splits — Full Documentation
+  const header = `# Protocol — Full Documentation
 
 > Composable, open-source, audited smart contracts for managing onchain revenue. No protocol fees. Runs forever as a hyperstructure.
 
-This file contains the complete Splits documentation concatenated into a single document.
+This file contains the complete protocol documentation concatenated into a single document.
 For a curated index, see https://docs.splits.org/llms.txt
 
 ---

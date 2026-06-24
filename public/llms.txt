@@ -1,12 +1,12 @@
-# Splits
+# Protocol
 
 > Composable, open-source, audited smart contracts for managing onchain revenue. No protocol fees. Runs forever as a hyperstructure.
 
-Splits makes it easy to split onchain payments among multiple recipients. Contracts are deployed on Ethereum, Optimism, Base, Zora, Polygon, Arbitrum, and more. All contracts use deterministic deployment (same addresses across chains).
+The protocol makes it easy to split onchain payments among multiple recipients. Contracts are deployed on Ethereum, Optimism, Base, Zora, Polygon, Arbitrum, and more. All contracts use deterministic deployment (same addresses across chains).
 
 ## Docs
 
-- [Introduction](https://docs.splits.org): Overview of Splits protocol, features, and values
+- [Introduction](https://docs.splits.org): Overview of the protocol, features, and values
 - [Flow of funds](https://docs.splits.org/flow): How funds move through the system — receiving, distributing, withdrawing
 
 ## SDK
