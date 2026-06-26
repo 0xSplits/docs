@@ -7,8 +7,9 @@ import { CLIENT_ORIGIN } from './util/requests'
 
 const logo = (
   <>
+    {/* next/image does not prefix basePath here, so include it explicitly. */}
     <Image
-      src="/logo.svg"
+      src="/protocol/docs/logo.svg"
       className="mr-2 rounded-lg"
       alt="splits_logo"
       width={20}

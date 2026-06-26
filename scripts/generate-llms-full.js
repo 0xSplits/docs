@@ -48,7 +48,7 @@ function collectPages(dir, prefix) {
   return pages;
 }
 
-// Public canonical base. Docs are served from splits.org/protocol/docs (PE-7785).
+// Public canonical base. Docs are served from splits.org/protocol/docs.
 const DOCS_BASE_URL = "https://splits.org/protocol/docs";
 
 // Map file paths to URL paths
