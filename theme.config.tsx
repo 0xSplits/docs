@@ -7,8 +7,9 @@ import { CLIENT_ORIGIN } from './util/requests'
 
 const logo = (
   <>
+    {/* next/image does not prefix basePath here, so include it explicitly. */}
     <Image
-      src="/logo.svg"
+      src="/protocol/docs/logo.svg"
       className="mr-2 rounded-lg"
       alt="splits_logo"
       width={20}
@@ -35,7 +36,11 @@ const config: DocsThemeConfig = {
   logo,
   head: function useHead() {
     const { title } = useConfig()
-    const ogImage = `${CLIENT_ORIGIN}/api/og?title=${encodeURIComponent(title)}`
+    // basePath ('/protocol/docs') moves the OG route handler under that prefix,
+    // and OG scrapers need an absolute URL, so include it explicitly.
+    const ogImage = `${CLIENT_ORIGIN}/protocol/docs/api/og?title=${encodeURIComponent(
+      title,
+    )}`
 
     return (
       <>
@@ -81,10 +86,16 @@ const config: DocsThemeConfig = {
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="docs.splits.org" />
-        <meta property="og:site_name" content="docs.splits.org" />
+        <meta property="og:url" content="https://splits.org/protocol/docs" />
+        <meta property="og:site_name" content="splits.org/protocol/docs" />
         <meta name="apple-mobile-web-app-title" content="Protocol" />
-        <link rel="icon" href="/logo_compressed.svg" type="image/svg+xml" />
+        {/* Raw <link> tags are not basePath-prefixed automatically, so the
+            '/protocol/docs' prefix is included explicitly. */}
+        <link
+          rel="icon"
+          href="/protocol/docs/logo_compressed.svg"
+          type="image/svg+xml"
+        />
       </>
     )
   },
