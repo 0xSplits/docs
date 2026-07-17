@@ -51,5 +51,6 @@ When adding or moving content:
 ## Related Repositories
 
 - [splits-contracts-monorepo](https://github.com/0xSplits/splits-contracts-monorepo) for current Splits contracts
+- [splits-contracts](https://github.com/0xSplits/splits-contracts) for legacy protocol contracts
 - [splits-sdk](https://github.com/0xSplits/splits-sdk) for TypeScript SDK packages
 
