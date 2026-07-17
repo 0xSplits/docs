@@ -1,8 +1,8 @@
-# Splits Docs
+# Splits Protocol Docs
 
-Documentation for the [Splits](https://splits.org) protocol, SDKs, and developer tools.
+Documentation for the [Splits protocol](https://splits.org/protocol/) protocol, SDKs, and developer tools.
 
-The published site lives at [docs.splits.org](https://docs.splits.org). It explains how to use Splits' onchain revenue infrastructure, including payment splits, waterfalls, vesting, swappers, liquid splits, and the TypeScript SDK.
+The published site lives at [splits.org/protocol/docs](https://splits.org/protocol/docs). It explains how to use Splits' onchain revenue infrastructure, including payment splits, waterfalls, vesting, swappers, liquid splits, and the TypeScript SDK.
 
 ## Contents
 
@@ -52,5 +52,4 @@ When adding or moving content:
 
 - [splits-contracts-monorepo](https://github.com/0xSplits/splits-contracts-monorepo) for current Splits contracts
 - [splits-sdk](https://github.com/0xSplits/splits-sdk) for TypeScript SDK packages
-- [splits-cli](https://github.com/0xSplits/splits-cli) for the Splits CLI and MCP server
 
