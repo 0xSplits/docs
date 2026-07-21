@@ -1,6 +1,6 @@
 # Splits Protocol Docs
 
-Documentation for the [Splits protocol](https://splits.org/protocol/) protocol, SDKs, and developer tools.
+Documentation for the [Splits protocol](https://splits.org/protocol/), SDKs, and developer tools.
 
 The published site lives at [splits.org/protocol/docs](https://splits.org/protocol/docs). It explains how to use Splits' onchain revenue infrastructure, including payment splits, waterfalls, vesting, swappers, liquid splits, and the TypeScript SDK.
 
