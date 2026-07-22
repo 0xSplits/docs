@@ -6,47 +6,47 @@ The protocol makes it easy to split onchain payments among multiple recipients. 
 
 ## Docs
 
-- [Introduction](https://docs.splits.org): Overview of the protocol, features, and values
-- [Flow of funds](https://docs.splits.org/flow): How funds move through the system — receiving, distributing, withdrawing
+- [Introduction](https://splits.org/protocol/docs): Overview of the protocol, features, and values
+- [Flow of funds](https://splits.org/protocol/docs/flow): How funds move through the system — receiving, distributing, withdrawing
 
 ## SDK
 
-- [SDK Overview](https://docs.splits.org/sdk): Installation and setup for @0xsplits/splits-sdk (TypeScript)
-- [SplitsV2 Client](https://docs.splits.org/sdk/splits-v2): Create, update, distribute, and withdraw from V2 splits
-- [SplitsV1 Client](https://docs.splits.org/sdk/splits-v1): Legacy V1 split operations
-- [Warehouse Client](https://docs.splits.org/sdk/warehouse): Interact with the SplitWarehouse contract for balance management
-- [Data Client](https://docs.splits.org/sdk/data): Query split metadata, balances, and activity via GraphQL
-- [Waterfall Client](https://docs.splits.org/sdk/waterfall): Create and manage waterfall payment flows
-- [Swapper Client](https://docs.splits.org/sdk/swapper): Token swapping within payment flows
-- [Liquid Splits Client](https://docs.splits.org/sdk/liquid): NFT-governed mutable splits
-- [Vesting Client](https://docs.splits.org/sdk/vesting): Time-locked payment vesting
-- [Templates Client](https://docs.splits.org/sdk/templates): Create recoup, diversifier, and other composed flows
-- [Multicall](https://docs.splits.org/sdk/multicall): Batch multiple SDK calls in a single transaction
-- [Utilities](https://docs.splits.org/sdk/utils): Helper functions for formatting, validation, and calculations
+- [SDK Overview](https://splits.org/protocol/docs/sdk): Installation and setup for @0xsplits/splits-sdk (TypeScript)
+- [SplitsV2 Client](https://splits.org/protocol/docs/sdk/splits-v2): Create, update, distribute, and withdraw from V2 splits
+- [SplitsV1 Client](https://splits.org/protocol/docs/sdk/splits-v1): Legacy V1 split operations
+- [Warehouse Client](https://splits.org/protocol/docs/sdk/warehouse): Interact with the SplitWarehouse contract for balance management
+- [Data Client](https://splits.org/protocol/docs/sdk/data): Query split metadata, balances, and activity via GraphQL
+- [Waterfall Client](https://splits.org/protocol/docs/sdk/waterfall): Create and manage waterfall payment flows
+- [Swapper Client](https://splits.org/protocol/docs/sdk/swapper): Token swapping within payment flows
+- [Liquid Splits Client](https://splits.org/protocol/docs/sdk/liquid): NFT-governed mutable splits
+- [Vesting Client](https://splits.org/protocol/docs/sdk/vesting): Time-locked payment vesting
+- [Templates Client](https://splits.org/protocol/docs/sdk/templates): Create recoup, diversifier, and other composed flows
+- [Multicall](https://splits.org/protocol/docs/sdk/multicall): Batch multiple SDK calls in a single transaction
+- [Utilities](https://splits.org/protocol/docs/sdk/utils): Helper functions for formatting, validation, and calculations
 
 ## React
 
-- [React SDK](https://docs.splits.org/react): React hooks wrapping the core SDK (@0xsplits/splits-sdk-react)
-- [SplitsKit](https://docs.splits.org/splits-kit): Pre-built React component library with Storybook
+- [React SDK](https://splits.org/protocol/docs/react): React hooks wrapping the core SDK (@0xsplits/splits-sdk-react)
+- [SplitsKit](https://splits.org/protocol/docs/splits-kit): Pre-built React component library with Storybook
 
 ## Contracts
 
-- [Core Contracts Overview](https://docs.splits.org/core): Architecture and flow of funds through the contract system
-- [Warehouse](https://docs.splits.org/core/warehouse): Central balance storage contract (SplitWarehouse)
-- [SplitV2](https://docs.splits.org/core/split-v2): Latest split contract — push and pull variants with deterministic deployment
-- [Split (V1)](https://docs.splits.org/core/split): Original split contract via SplitMain
-- [Waterfall](https://docs.splits.org/core/waterfall): Sequential payment tranches — first recipient filled before next
-- [Swapper](https://docs.splits.org/core/swapper): Swap tokens on distribution using oracle-based pricing
-- [Oracle](https://docs.splits.org/core/oracle): Price oracle used by Swapper for token conversions
-- [Pass-Through Wallet](https://docs.splits.org/core/pass-through): Forward funds through an intermediary address
-- [Vesting](https://docs.splits.org/core/vesting): Time-locked release of funds to recipients
+- [Core Contracts Overview](https://splits.org/protocol/docs/core): Architecture and flow of funds through the contract system
+- [Warehouse](https://splits.org/protocol/docs/core/warehouse): Central balance storage contract (SplitWarehouse)
+- [SplitV2](https://splits.org/protocol/docs/core/split-v2): Latest split contract — push and pull variants with deterministic deployment
+- [Split (V1)](https://splits.org/protocol/docs/core/split): Original split contract via SplitMain
+- [Waterfall](https://splits.org/protocol/docs/core/waterfall): Sequential payment tranches — first recipient filled before next
+- [Swapper](https://splits.org/protocol/docs/core/swapper): Swap tokens on distribution using oracle-based pricing
+- [Oracle](https://splits.org/protocol/docs/core/oracle): Price oracle used by Swapper for token conversions
+- [Pass-Through Wallet](https://splits.org/protocol/docs/core/pass-through): Forward funds through an intermediary address
+- [Vesting](https://splits.org/protocol/docs/core/vesting): Time-locked release of funds to recipients
 
 ## Templates
 
-- [Templates Overview](https://docs.splits.org/templates): Composed payment flows built from core building blocks
-- [Recoup](https://docs.splits.org/templates/recoup): Reimburse an initial investment before splitting remaining funds
-- [Liquid Split](https://docs.splits.org/templates/liquid): Mutable split governed by NFT ownership
-- [Diversifier](https://docs.splits.org/templates/diversifier): Automatically swap and diversify incoming tokens
+- [Templates Overview](https://splits.org/protocol/docs/templates): Composed payment flows built from core building blocks
+- [Recoup](https://splits.org/protocol/docs/templates/recoup): Reimburse an initial investment before splitting remaining funds
+- [Liquid Split](https://splits.org/protocol/docs/templates/liquid): Mutable split governed by NFT ownership
+- [Diversifier](https://splits.org/protocol/docs/templates/diversifier): Automatically swap and diversify incoming tokens
 
 ## Optional
 
