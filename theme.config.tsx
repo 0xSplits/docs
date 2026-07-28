@@ -27,11 +27,22 @@ const config: DocsThemeConfig = {
   docsRepositoryBase: 'https://github.com/0xSplits/docs',
   useNextSeoProps() {
     const { asPath } = useRouter()
+    // The docs are reverse-proxied to splits.org/protocol/docs but the origin
+    // deployment is also directly reachable, so declare the splits.org URL as
+    // canonical. splits.org serves the trailing-slash form (308 otherwise), so
+    // the canonical points there. asPath excludes basePath and may carry a
+    // query/hash on client-side navigation.
+    const path = asPath.split(/[?#]/)[0]
+    const canonical = `https://splits.org/protocol/docs${
+      path === '/' ? '' : path
+    }/`
     if (asPath !== '/') {
       return {
         titleTemplate: '%s | Protocol',
+        canonical,
       }
     }
+    return { canonical }
   },
   logo,
   head: function useHead() {
