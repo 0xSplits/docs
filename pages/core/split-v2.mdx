@@ -36,9 +36,10 @@ At launch, we are offering "Push" and "Pull" splitters.
 - [`PushSplit`](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/packages/splits-v2/src/splitters/push/PushSplit.sol)
   sends funds directly to the recipients on distribution. These sends are hard
   gas-capped to limit the costs adversarial recipients may impose. For native tokens,
-  a failed send is deposited into the [Warehouse](./warehouse), though in rare cases
-  that fallback can itself fail. ERC20 transfers have no such fallback. Prefer
-  `PullSplit` unless you specifically need direct sends (see the warning below).
+  a failed send is deposited into the [Warehouse](./warehouse), but a recipient that
+  re-enters `distribute()` during its payout can still force the whole distribution to
+  revert. ERC20 transfers have no fallback at all. Prefer `PullSplit` unless you
+  specifically need direct sends (see the warning below).
 - Each Split can now also act as a smart contract wallet with the owner
   having full execution access from the Split's address. This allows the owner to pause
   distributions, make arbitrary transactions and also sign data using
@@ -53,7 +54,7 @@ Pull Splits do **not** work with non-transferable, fee-on-transfer, and rebasing
 
 Push Splits require every recipient to be able to receive each distributed token. Prefer `PullSplit` unless you specifically need direct sends.
 * Distribution is atomic: if a token transfer to any one recipient reverts, the whole distribution reverts and no recipient is paid. This covers non-transferable tokens and recipient-specific restrictions, e.g. a recipient later added to the USDC blacklist blocks that token for everyone in the Split.
-* Native-token sends are gas-capped and normally fall back to a Warehouse deposit when the direct send fails, but in rare cases the fallback itself fails, leaving the funds in the Split wallet undistributed.
+* Native-token sends are gas-capped and fall back to a Warehouse deposit when the direct send fails. A recipient contract can still block the entire distribution by re-entering `distribute()` while receiving its share: the outer distribution then works from a balance snapshot that is now stale, the fallback deposit reverts, and the funds stay in the Split wallet undistributed.
 * A mutable Split can recover by updating recipients or sweeping the balance. An immutable Split has no owner-based recovery; contact the team if funds are stuck.
 * For the contract-level behavior, see the [integration notes](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/packages/splits-v2/docs/integration-patterns.md).
 </Callout>
