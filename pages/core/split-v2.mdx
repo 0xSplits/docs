@@ -52,9 +52,9 @@ Pull Splits do **not** work with non-transferable, fee-on-transfer, and rebasing
 * If a rebasing tokens supply decreases, not all recipients will be able to withdraw their share. If the supply increases, the incremental yield will be lost and stuck in Split Main.
 
 Push Splits require every recipient to be able to receive each distributed token. Prefer `PullSplit` unless you specifically need direct sends.
-* Distribution is atomic: if a token transfer to any one recipient reverts, the whole distribution reverts and no recipient is paid. This covers non-transferable tokens and recipient-specific restrictions, e.g. a recipient later added to the USDC blacklist blocks that token for everyone in the Split. (USDT is not affected: its blacklist gates the sender, not the recipient.)
+* Distribution is atomic: if a token transfer to any one recipient reverts, the whole distribution reverts and no recipient is paid. This covers non-transferable tokens and recipient-specific restrictions, e.g. a recipient later added to the USDC blacklist blocks that token for everyone in the Split.
 * Native-token sends are gas-capped and normally fall back to a Warehouse deposit when the direct send fails, but in rare cases the fallback itself fails, leaving the funds in the Split wallet undistributed.
-* A Split with an owner can recover by updating recipients or sweeping the balance. An immutable Split (no owner) has no owner-based recovery; contact the team if funds are stuck.
+* A mutable Split can recover by updating recipients or sweeping the balance. An immutable Split has no owner-based recovery; contact the team if funds are stuck.
 * For the contract-level behavior, see the [integration notes](https://github.com/0xSplits/splits-contracts-monorepo/blob/main/packages/splits-v2/docs/integration-patterns.md).
 </Callout>
 
