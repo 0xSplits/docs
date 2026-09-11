@@ -1,0 +1,12 @@
+name: Re-run agent PR rules on review
+
+on:
+  pull_request_review:
+    types: [submitted, dismissed]
+
+permissions:
+  actions: write
+
+jobs:
+  rerun:
+    uses: 0xSplits/github-workflows/.github/workflows/rerun-agent-pr-rules.yml@main
