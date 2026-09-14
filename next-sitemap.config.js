@@ -4,10 +4,15 @@ module.exports = {
   // siteUrl to each route path (route paths do NOT include basePath), so the
   // '/protocol/docs' segment lives on siteUrl here.
   siteUrl:
-    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ?
-      'https://splits.org/protocol/docs' :
-      `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/protocol/docs`,
-  generateRobotsTxt: true,
+    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
+      ? 'https://splits.org/protocol/docs'
+      : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/protocol/docs`,
+  // Crawlers only read robots.txt at the host root, so one under basePath is
+  // inert; splits.org's own sitemap index already lists this sitemap.
+  generateRobotsTxt: false,
+  // The default lastmod is the build timestamp, which Google ignores as not
+  // verifiably accurate. Omit it rather than lie.
+  autoLastmod: false,
   generateIndexSitemap: false,
   // splits.org enforces trailing slashes (slash-less URLs 308 to the slashed
   // form), so list the final URLs directly.
