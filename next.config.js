@@ -19,24 +19,26 @@ module.exports = withNextra({
         source: '/(.*)',
         headers: [
           // Prevents the page from being loaded in an iframe (clickjacking prevention)
-          { key: 'Content-Security-Policy', value: `frame-ancestors 'none';`}
+          { key: 'Content-Security-Policy', value: `frame-ancestors 'none';` },
         ],
       },
     ]
   },
   async redirects() {
     return [
+      // Trailing slash on the destination avoids a second hop through the
+      // splits.org 308.
       {
         source: '/sdk-info',
-        destination: '/sdk',
-        permanent: false,
+        destination: '/sdk/',
+        permanent: true,
       },
       // Just redirect any slug to the main page for now, not sure if they map
       // the same
       {
         source: '/sdk-info/:slug*',
-        destination: '/sdk',
-        permanent: false,
+        destination: '/sdk/',
+        permanent: true,
       },
     ]
   },
