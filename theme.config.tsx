@@ -52,9 +52,15 @@ const config: DocsThemeConfig = {
     const canonical = `https://splits.org/protocol/docs${
       path === '/' ? '' : path
     }/`
-    // The OG route lives under basePath and scrapers need an absolute URL on
-    // the public host, not the per-deploy Vercel hostname (which is noindexed).
-    const ogImage = `https://splits.org/protocol/docs/api/og/?title=${encodeURIComponent(
+    // Scrapers need an absolute URL. Production points at the public host;
+    // previews point at their own deployment so cards can be checked in a
+    // Discord or X embed before merge (same rule as next-sitemap.config.js).
+    const ogOrigin =
+      process.env.NEXT_PUBLIC_VERCEL_ENV &&
+      process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production'
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+        : 'https://splits.org'
+    const ogImage = `${ogOrigin}/protocol/docs/api/og/?title=${encodeURIComponent(
       title,
     )}`
     const shared = {

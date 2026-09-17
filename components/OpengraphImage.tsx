@@ -1,12 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import { ImageResponse } from 'next/og'
-import { CLIENT_ORIGIN } from '../util/requests'
 
 export const OG_IMAGE_SIZE = {
   width: 1200,
   height: 630,
 }
+
+// Satori fetches <img> sources itself, and a failed fetch aborts the render
+// after the 200 header has streamed, leaving scrapers a cached empty body. The
+// wordmark is bundled as a data URI so the card never depends on a host.
+const wordmark = fetch(
+  new URL('../public/splits_wordmark_dark.svg', import.meta.url),
+)
+  .then((res) => res.text())
+  .then((svg) => `data:image/svg+xml,${encodeURIComponent(svg)}`)
 
 export async function generateImage(
   children: React.ReactElement,
@@ -58,7 +66,12 @@ export function Background({
   )
 }
 
-export function Docs({ title }: { title: string }): React.ReactElement {
+export async function Docs({
+  title,
+}: {
+  title: string
+}): Promise<React.ReactElement> {
+  const wordmarkSrc = await wordmark
   return (
     <Background>
       <div
@@ -76,9 +89,10 @@ export function Docs({ title }: { title: string }): React.ReactElement {
         <h1 style={{ fontSize: 104 }}>{title}</h1>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <img
-            src={`${CLIENT_ORIGIN}/splits_wordmark_dark.svg`}
+            src={wordmarkSrc}
             alt="splits wordmark"
             width={254}
+            height={68}
           />
           <div style={{ display: 'flex', marginTop: '6px' }}>
             <h1
