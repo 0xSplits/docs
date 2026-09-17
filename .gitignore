@@ -50,6 +50,7 @@ yarn-error.log*
 
 # generated at build time
 public/llms-full.txt
+public/**/*.md
 
 # claude local config
 .claude/settings.local.json
