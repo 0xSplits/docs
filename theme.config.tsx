@@ -3,6 +3,102 @@ import type { DocsThemeConfig } from 'nextra-theme-docs'
 import { useConfig } from 'nextra-theme-docs'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import rootMeta from './pages/_meta.json'
+
+const SITE = 'https://splits.org'
+const DOCS_URL = `${SITE}/protocol/docs/`
+// The index H1 is "Docs"; keep it short on the page and in the OG image but
+// give search results and structured data a descriptive title.
+const INDEX_TITLE =
+  'Splits Protocol docs: Split, Waterfall and Swapper contracts'
+
+// asPath excludes basePath and may carry a query/hash on client-side navigation.
+const routeOf = (asPath: string) => asPath.split(/[?#]/)[0]
+// The docs are reverse-proxied to splits.org/protocol/docs but the origin
+// deployment is also directly reachable, so declare the splits.org URL as
+// canonical. splits.org serves the trailing-slash form (308 otherwise), so
+// the canonical points there.
+const canonicalOf = (route: string) =>
+  `${SITE}/protocol/docs${route === '/' ? '' : route}/`
+
+const sectionTitle = (segment: string) => {
+  const entry = (rootMeta as Record<string, string | { title?: string }>)[
+    segment
+  ]
+  return typeof entry === 'string' ? entry : entry?.title
+}
+
+const ORGANIZATION = {
+  '@type': 'Organization',
+  '@id': `${SITE}/#organization`,
+  name: 'Splits',
+  url: `${SITE}/`,
+}
+
+// Entity signal for AI answer engines; no Google rich result is expected.
+// dateModified is omitted because the Vercel build has no truthful git date.
+const structuredData = ({
+  route,
+  title,
+  description,
+}: {
+  route: string
+  title: string
+  description?: string
+}) => {
+  const url = canonicalOf(route)
+  const [section] = route.split('/').filter(Boolean)
+  const crumbs = [
+    { name: 'Protocol docs', item: DOCS_URL },
+    ...(route.split('/').length > 2
+      ? [{ name: sectionTitle(section), item: canonicalOf(`/${section}`) }]
+      : []),
+    { name: title, item: url },
+  ]
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'TechArticle',
+        '@id': url,
+        headline: title,
+        description,
+        url,
+        publisher: ORGANIZATION,
+        isPartOf: {
+          '@type': 'WebSite',
+          '@id': `${DOCS_URL}#website`,
+          name: 'Splits Protocol docs',
+          url: DOCS_URL,
+          publisher: ORGANIZATION,
+        },
+      },
+      ...(route === '/'
+        ? []
+        : [
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: crumbs.map((crumb, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                ...crumb,
+              })),
+            },
+          ]),
+      ...(route.startsWith('/core/')
+        ? [
+            {
+              '@type': 'SoftwareSourceCode',
+              name: title,
+              url,
+              programmingLanguage: 'Solidity',
+              codeRepository: 'https://github.com/0xSplits/splits-contracts',
+            },
+          ]
+        : []),
+    ],
+  }
+}
 
 const logo = (
   <>
@@ -43,15 +139,8 @@ const config: DocsThemeConfig = {
   useNextSeoProps() {
     const { asPath } = useRouter()
     const { title } = useConfig()
-    // The docs are reverse-proxied to splits.org/protocol/docs but the origin
-    // deployment is also directly reachable, so declare the splits.org URL as
-    // canonical. splits.org serves the trailing-slash form (308 otherwise), so
-    // the canonical points there. asPath excludes basePath and may carry a
-    // query/hash on client-side navigation.
-    const path = asPath.split(/[?#]/)[0]
-    const canonical = `https://splits.org/protocol/docs${
-      path === '/' ? '' : path
-    }/`
+    const route = routeOf(asPath)
+    const canonical = canonicalOf(route)
     // Scrapers need an absolute URL. Production points at the public host;
     // previews point at their own deployment so cards can be checked in a
     // Discord or X embed before merge (same rule as next-sitemap.config.js).
@@ -59,7 +148,7 @@ const config: DocsThemeConfig = {
       process.env.NEXT_PUBLIC_VERCEL_ENV &&
       process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production'
         ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-        : 'https://splits.org'
+        : SITE
     const ogImage = `${ogOrigin}/protocol/docs/api/og/?title=${encodeURIComponent(
       title,
     )}`
@@ -73,34 +162,48 @@ const config: DocsThemeConfig = {
       },
       twitter: { site: '@0xsplits', cardType: 'summary_large_image' },
     }
-    if (path !== '/') {
+    if (route !== '/') {
       return { ...shared, titleTemplate: '%s | Protocol' }
     }
-    // The index H1 is "Docs"; keep it short on the page and in the OG image
-    // but give search results a descriptive title. next-seo remembers the last
-    // titleTemplate it saw across prerenders, so reset it explicitly.
-    return {
-      ...shared,
-      title: 'Splits Protocol docs: Split, Waterfall and Swapper contracts',
-      titleTemplate: '%s',
-    }
+    // next-seo remembers the last titleTemplate it saw across prerenders, so
+    // reset it explicitly.
+    return { ...shared, title: INDEX_TITLE, titleTemplate: '%s' }
   },
   logo,
-  head: (
-    <>
-      <meta charSet="utf-8" />
-      <meta name="msapplication-TileColor" content="#fff" />
-      <meta httpEquiv="Content-Language" content="en" />
-      <meta name="apple-mobile-web-app-title" content="Protocol" />
-      {/* Raw <link> tags are not basePath-prefixed automatically, so the
-          '/protocol/docs' prefix is included explicitly. */}
-      <link
-        rel="icon"
-        href="/protocol/docs/logo_compressed.svg"
-        type="image/svg+xml"
-      />
-    </>
-  ),
+  // Nextra calls this as a plain function while rendering its own <Head>, so
+  // hooks work here, but next/head drops nested components: emit raw tags.
+  head() {
+    const { asPath } = useRouter()
+    const { title, frontMatter } = useConfig()
+    const route = routeOf(asPath)
+    const data = structuredData({
+      route,
+      title: route === '/' ? INDEX_TITLE : title,
+      description: frontMatter.description,
+    })
+    return (
+      <>
+        <meta charSet="utf-8" />
+        <meta name="msapplication-TileColor" content="#fff" />
+        <meta httpEquiv="Content-Language" content="en" />
+        <meta name="apple-mobile-web-app-title" content="Protocol" />
+        {/* Raw <link> tags are not basePath-prefixed automatically, so the
+            '/protocol/docs' prefix is included explicitly. */}
+        <link
+          rel="icon"
+          href="/protocol/docs/logo_compressed.svg"
+          type="image/svg+xml"
+        />
+        <script
+          type="application/ld+json"
+          // `<` escaped so a title containing `</script>` cannot break out.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(data).replace(/</g, '\\u003c'),
+          }}
+        />
+      </>
+    )
+  },
   primaryHue: 215,
   editLink: {
     text: 'Edit this page on GitHub',
