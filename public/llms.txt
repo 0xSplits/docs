@@ -2,7 +2,7 @@
 
 > Composable, open-source, audited smart contracts for managing onchain revenue. No protocol fees. Runs forever as a hyperstructure.
 
-The protocol makes it easy to split onchain payments among multiple recipients. Contracts are deployed on Ethereum, Optimism, Base, Zora, Polygon, Arbitrum, and more. All contracts use deterministic deployment (same addresses across chains).
+The protocol makes it easy to split onchain payments among multiple recipients. Contracts are deployed on Ethereum, Optimism, Base, Zora, Polygon, Arbitrum, Arc, Robinhood Chain, and more. Not every contract is deployed on every network: only the Warehouse and SplitV2 (Push and Pull splits) contracts are on Arc and Robinhood Chain. Per-network contract addresses are listed on each contract page, starting with [Warehouse](https://splits.org/protocol/docs/core/warehouse.md) and [SplitV2](https://splits.org/protocol/docs/core/split-v2.md). Contracts use deterministic deployment, so addresses match across the networks where they are deployed.
 
 ## Docs
 
