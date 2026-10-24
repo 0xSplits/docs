@@ -94,10 +94,14 @@ Pull:
 | ERC-20 | `0x3600…0000` | 6 | `distribute` pays recipients directly. A blocklisted recipient or distributor makes the whole call revert, and nobody is paid. Contract recipients that revert on receive are fine. | `distribute` credits the Warehouse and succeeds. Only a blocklisted recipient's own `withdraw` reverts; other recipients are unaffected. A contract that reverts on receive can still withdraw. | On an immutable Push split, a blocklisted recipient blocks distribution permanently. |
 | Native | `0xeeee…eeee` | 18 | A recipient that cannot take native value (a blocklisted address, or a contract that reverts on receive) does not block the others. Its share is credited in the Warehouse under the native id. | `distribute` credits the Warehouse and succeeds. Only the affected recipient's own `withdraw` reverts; other recipients are unaffected. | A share credited to a recipient that cannot receive stays stuck until that recipient can receive again. A distributor that reverts on receiving its reward still reverts the whole call. |
 
-These results come from read-only simulations against Arc (`eth_call` with state
-overrides, nothing broadcast). The blocklist cases used an address that is
-blocked on Arc testnet. The ERC-20 id is served by an upgradeable contract
-controlled by Circle and Arc, so this behavior can change.
+Real transactions on Arc mainnet confirmed that funding by either route is
+visible under both ids, that `distribute` credits only the id you pass, and that
+`withdraw` pays out per id. They used four splits of 0.1 USDC each (Pull and
+Push, funded by ERC-20 transfer and by native send). The failure modes in the
+table come from read-only simulations (`eth_call` with state overrides, nothing
+broadcast), using an address that is blocked on Arc testnet. The ERC-20 id is
+served by an upgradeable contract controlled by Circle and Arc, so this behavior
+can change.
 
 ### Recommendation
 
@@ -152,10 +156,18 @@ history. In the SDK, you can skip recovery by passing `splitFields` (the
 The distribution incentive is paid to the distributor address passed to
 `distribute`, which the SDK defaults to the connected wallet.
 
-`distribute` leaves 1 unit of the token in the split. The Warehouse's
-`withdraw(owner, token)` pays the balance minus 1: it pays 0 at a balance of 1
-and reverts at a balance of 0. One unit is 0.000001 USDC under the ERC-20 id and
-1 wei under the native id.
+`distribute` does not pay out everything. It keeps 1 unit in the split, a Pull
+split also keeps 1 unit in its own Warehouse balance, and rounding remainders
+stay behind. The Warehouse's `withdraw(owner, token)` pays the balance minus 1:
+it pays 0 at a balance of 1 and reverts at a balance of 0. The unit that stays in
+a recipient's Warehouse balance is included in their next withdrawal. One unit
+is 0.000001 USDC under the ERC-20 id and 1 wei under the native id.
+
+For example, a Pull split with three recipients (50/30/20), funded with 0.1 USDC
+and distributed under the ERC-20 id, credited 49,999, 29,999 and 19,999 units.
+After their withdrawals the recipients had received 49,998, 29,998 and 19,998
+units, and 6 units of the 100,000 were left behind: 1 in the split, 2 in the
+split's Warehouse balance, and 1 in each recipient's Warehouse balance.
 
 ## Network notes
 
