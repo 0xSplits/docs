@@ -42,7 +42,7 @@ This snippet was dry-run against live Arc splits (read-only) and never broadcast
 - Owner: a zero owner means the config can never change. Show the user the recovered recipients and allocations and confirm before any send.
 - Paused: `distribute` reverts `Paused()` unless `msg.sender` or `tx.origin` is the owner. Only the owner can distribute or unpause (`SplitV2Client.setPause`). Stop and tell the user if you are not the owner.
 - Arc: read the split balance under BOTH token ids, `0x3600000000000000000000000000000000000000` and `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`. The split balance is one pool seen twice (6 versus 18 decimals); never add them. Warehouse balances are separate per id, so check recipients' Warehouse balances under both ids too.
-- Distribute under one id and stay with it. Remember the leave-1-unit rule: the split and each Warehouse bucket keep 1 unit.
+- Distribute under one id and stay with it. Remember the leave-1-unit rule: the split, the split's own Warehouse bucket (Pull), and each recipient's Warehouse bucket keep 1 unit.
 - The reward goes to the `distributorAddress` you pass (SDK default: the wallet account). If `distributorFeePercent` is above 0, confirm with the user who receives it.
 
 ## 4. Push versus pull consequences

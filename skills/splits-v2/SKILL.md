@@ -53,7 +53,7 @@ const warehouse = new WarehouseClient({ chainId, publicClient, walletClient })
 - `distribute` is permissionless, but the caller must pass the full config. Onchain only `splitHash` is stored; a mismatch reverts `InvalidSplit()`. For a split you did not create, follow [references/distribute-existing-split.md](references/distribute-existing-split.md).
 - SDK `distribute` args: `splitAddress`, `tokenAddress`, `distributorAddress` (defaults to the wallet account), `chainId`, optional `splitFields: { recipients, distributorFeePercent }` (works in 6.7.0, undocumented; skips config recovery). The reward goes to `distributorAddress`, not the caller.
 - Pull splits need a second step: each recipient calls `WarehouseClient.withdraw({ ownerAddress, tokenAddress })`. Withdraw is on `WarehouseClient`, not `SplitV2Client`.
-- Leave-1-unit rule: `distribute` leaves 1 unit in the split and in the Warehouse bucket. Withdraw pays balance minus 1, reverts at balance 0, and pays 0 at balance 1. Read the recipient's Warehouse balance first and skip when it is 1 or less.
+- Leave-1-unit rule: `distribute` keeps 1 unit in the split (a Pull split also keeps 1 in its own Warehouse bucket), plus rounding remainders. Withdraw pays balance minus 1, reverts at balance 0, and pays 0 at balance 1; the unit left in a recipient's bucket is carried into their next withdraw. Read the recipient's Warehouse balance first and skip when it is 1 or less.
 - Anyone can withdraw for a recipient unless that recipient paused withdrawals (`WithdrawalPaused`).
 - Simulate `distribute` and every withdraw (`estimateGas` or `eth_call`) before sending, and get user confirmation (see Safety rules).
 - A paused split reverts `distribute` with `Paused()` unless `msg.sender` or `tx.origin` is the owner.
