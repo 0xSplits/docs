@@ -1,0 +1,202 @@
+---
+description: "How Splits V2.2 and the Warehouse work on Arc, where USDC is the native gas token: what is deployed, SDK requirements, and how USDC token ids behave."
+---
+
+import { Callout } from 'nextra-theme-docs'
+
+# Arc
+
+Splits V2.2 (Push and Pull splits) and the Warehouse are deployed on Arc
+mainnet (chain id 5042) and Arc testnet (chain id 5042002).
+
+Arc-owned facts, such as how USDC works as the native token, fees, and RPC
+behavior, live in [Arc's docs](https://docs.arc.io/arc/references/evm-differences).
+This page only covers how Splits behaves there.
+
+## What is deployed
+
+| Contract family | Arc |
+| :-------------- | :-- |
+| Warehouse | Yes |
+| SplitV2 (PushSplit, PullSplit and their factories) | Yes |
+| Split V1, V2.0 and V2.1 splits | No |
+| Waterfall | No |
+| Swapper | No |
+| Oracle | No |
+| Pass-Through | No |
+| Vesting | No |
+| Liquid | No |
+| Recoup | No |
+| Diversifier | No |
+
+Addresses are listed in the "Arc – 5042" sections of the
+[Warehouse](/core/warehouse) and [SplitV2](/core/split-v2) pages. They are the
+same on testnet, listed under "Arc Testnet – 5042002".
+
+## SDK
+
+Arc requires `@0xsplits/splits-sdk` 6.7.0 or later, and
+`@0xsplits/splits-sdk-react` 4.6.0 or later if you use the React hooks.
+
+On Arc the SDK supports only the [SplitV2 client](/sdk/splits-v2) and the
+[Warehouse client](/sdk/warehouse). The data client, and the subgraph behind it,
+do not cover Arc, so you do not need an API key for Arc. When `distribute` needs
+a split's recipients and you have not passed them, the SDK recovers them from
+onchain logs through your provider.
+
+When you call `createSplit`, the defaults are:
+
+- The split type is Pull.
+- There is no owner (the zero address), which makes the split immutable.
+- The distributor fee has no default, so you must pass it.
+
+<Callout type="warning" emoji="⚠️">
+**A split with no owner is permanent.** It can never be updated or paused, and
+its recipients, allocations and distributor fee cannot change. Set
+`ownerAddress` deliberately when you create a split.
+</Callout>
+
+## USDC on Arc: two token ids
+
+On Arc, USDC is the native token. Arc exposes it two ways, and both views read
+the same balance (see [Arc's docs](https://docs.arc.io/arc/references/evm-differences)):
+
+- **Native**, with 18 decimals.
+- **ERC-20**, at `0x3600000000000000000000000000000000000000`, with 6 decimals.
+
+Splits treats these as two different token ids:
+
+- The native id is `0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`, the same id the
+  Warehouse uses for ETH on other networks.
+- The ERC-20 id is the `uint256` form of `0x3600000000000000000000000000000000000000`.
+
+Inside the Warehouse, each id has its own ledger. Some things to know:
+
+- **The funding route does not matter.** After you fund a split with USDC by
+  either route (an ERC-20 transfer or a native value send), the split's balance
+  is visible under both ids: 100 USDC reads as `100000000` under the ERC-20 id
+  and `100000000000000000000` under the native id. Never add the two together.
+- **`distribute` credits under the id you pass.** Recipients are credited under
+  that id, whichever route funded the split. `withdraw` is also per id, so
+  withdrawing under the wrong id reverts.
+- **Splitting one pool's distributions across both ids** leaves recipients with
+  two Warehouse entries and two withdrawals to make.
+- **The Warehouse labels both ids the same**: the name is "Splits Wrapped USDC"
+  and the symbol is "splitsUSDC". Only the decimals differ.
+- **Amounts below 0.000001 USDC** cannot move through the ERC-20 id. Only the
+  native id can move them.
+
+How a distribution behaves depends on the id and on whether the split is Push or
+Pull:
+
+| Route | Token id | Decimals | Push behavior | Pull behavior | Failure modes |
+| :---- | :------- | :------- | :------------ | :------------ | :------------ |
+| ERC-20 | `0x3600…0000` | 6 | `distribute` pays recipients directly. A blocklisted recipient or distributor makes the whole call revert, and nobody is paid. Contract recipients that revert on receive are fine. | `distribute` credits the Warehouse and succeeds. Only a blocklisted recipient's own `withdraw` reverts; other recipients are unaffected. A contract that reverts on receive can still withdraw. | On an immutable Push split, a blocklisted recipient blocks distribution permanently. |
+| Native | `0xeeee…eeee` | 18 | A recipient that cannot take native value (a blocklisted address, or a contract that reverts on receive) does not block the others. Its share is credited in the Warehouse under the native id. | `distribute` credits the Warehouse and succeeds. Only the affected recipient's own `withdraw` reverts; other recipients are unaffected. | A share credited to a recipient that cannot receive stays stuck until that recipient can receive again. A distributor that reverts on receiving its reward still reverts the whole call. |
+
+Real transactions on Arc mainnet confirmed that funding by either route is
+visible under both ids, that `distribute` credits only the id you pass, and that
+`withdraw` pays out per id. They used four splits of 0.1 USDC each (Pull and
+Push, funded by ERC-20 transfer and by native send). The failure modes in the
+table come from read-only simulations (`eth_call` with state overrides, nothing
+broadcast), using an address that is blocked on Arc testnet. The ERC-20 id is
+served by an upgradeable contract controlled by Circle and Arc, so this behavior
+can change.
+
+### Recommendation
+
+This is guidance derived from the behavior above, not a protocol rule.
+
+- Default to the ERC-20 id. It matches Arc's guidance of using the 6-decimal
+  interface for transfers and accounting, and it works for any contract
+  recipient.
+- On the ERC-20 id, use a Pull split when recipients are many, untrusted, or
+  could be blocklisted. Use Push only for a few known recipients, and ideally
+  with an owner who can remove one.
+- Never create an immutable Push split whose recipients could be blocklisted.
+- Pick one id per split and stay with it. When you work on a split you did not
+  create, check both ids.
+- Use the native id only if you specifically need Push distribution to keep
+  working when one recipient cannot receive, and you accept that the stuck
+  credit described above is possible.
+
+<Callout type="warning" emoji="⚠️">
+**The zero address is not USDC in the SDK.** `distribute` and
+`WarehouseClient.withdraw` treat a zero `tokenAddress` as the native id, but
+`getSplitBalance` does not: it passes the address through as given. Pass the
+ERC-20 address explicitly in all three.
+</Callout>
+
+## Push or Pull on Arc
+
+| Situation | Choice |
+| :-------- | :----- |
+| Many recipients, or recipients you do not control | Pull. A recipient that cannot receive only affects its own withdrawal. |
+| The split has no owner | Pull. On an immutable Push split, one blocklisted recipient on the ERC-20 id blocks distribution for everyone, permanently. |
+| A few known recipients, and an owner who can update the split | Push on the ERC-20 id works. The owner can remove a recipient that blocks distribution. |
+| Recipients are smart contracts | On the ERC-20 id, both Push and Pull work, including contracts that revert on receive. On the native id, a recipient that cannot receive native value has its share stuck in the Warehouse until it can. |
+
+## Distributing and withdrawing
+
+A Push split pays recipients directly when `distribute` is called.
+
+A Pull split takes two steps. `distribute` credits each recipient's Warehouse
+balance under the token id you pass. Then each recipient, or anyone on their
+behalf, calls Warehouse `withdraw` once per token id. A withdrawal is
+permissionless unless the recipient has paused withdrawals.
+
+`distribute` is permissionless, but the caller must pass the full recipient
+configuration. The split stores only a hash of it, and a mismatch reverts with
+`InvalidSplit()`. The configuration is emitted in the `SplitUpdated` event, at
+creation and on every update. The split's `updateBlockNumber()` returns the
+block of the latest one, so you can read that single block instead of scanning
+history. In the SDK, you can skip recovery by passing `splitFields` (the
+`recipients` and `distributorFeePercent`) to `distribute`.
+
+The distribution incentive is paid to the distributor address passed to
+`distribute`, which the SDK defaults to the connected wallet.
+
+`distribute` does not pay out everything. It keeps 1 unit in the split, a Pull
+split also keeps 1 unit in its own Warehouse balance, and rounding remainders
+stay behind. The Warehouse's `withdraw(owner, token)` pays the balance minus 1:
+it pays 0 at a balance of 1 and reverts at a balance of 0. The unit that stays in
+a recipient's Warehouse balance is included in their next withdrawal. One unit
+is 0.000001 USDC under the ERC-20 id and 1 wei under the native id.
+
+For example, a Pull split with three recipients (50/30/20), funded with 0.1 USDC
+and distributed under the ERC-20 id, credited 49,999, 29,999 and 19,999 units.
+After their withdrawals the recipients had received 49,998, 29,998 and 19,998
+units, and 6 units of the 100,000 were left behind: 1 in the split, 2 in the
+split's Warehouse balance, and 1 in each recipient's Warehouse balance.
+
+## Network notes
+
+| Network | Chain id | RPC |
+| :------ | :------- | :-- |
+| Arc – 5042 | 5042 | `https://rpc.mainnet.arc.io` |
+| Arc Testnet – 5042002 | 5042002 | `https://rpc.testnet.arc.io` |
+
+- **`eth_getLogs` range.** On the public RPCs for both networks, a range of
+  10,000 blocks works and 10,001 fails with error `-32012` ("requested range too
+  large"). The public RPCs also rate-limit requests (error `-32005`). Use
+  `updateBlockNumber()` to avoid wide log scans.
+- **Fees and logs.** Arc sets a minimum fee per gas, and USDC transfers can emit
+  two `Transfer` logs. Both are defined by Arc, not Splits. See
+  [Arc's docs](https://docs.arc.io/arc/references/evm-differences) for the
+  current fee requirements, and
+  [USDC system events](https://docs.arc.io/arc/references/usdc-system-events)
+  before you count `Transfer` logs.
+- **Testing.** The ERC-20 contract at `0x3600…0000` is upgradeable and
+  controlled by Circle and Arc. A local fork does not reproduce its behavior, so
+  test with `eth_call` against the Arc RPC.
+
+## Before you send a transaction
+
+- Simulate it first with `eth_call` or `estimateGas`.
+- Confirm contract addresses against the address tables on the
+  [Warehouse](/core/warehouse) and [SplitV2](/core/split-v2) pages.
+- Set the owner deliberately. A zero owner is permanent.
+- Confirm recipients and allocations with the person who owns the funds.
+- Never share or paste private keys.
+
+Verified against @0xsplits/splits-sdk 6.7.0 and Splits V2.2 on 2026-10-23.
