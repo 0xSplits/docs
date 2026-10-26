@@ -48,6 +48,11 @@ The protocol makes it easy to split onchain payments among multiple recipients. 
 - [Liquid Split](https://splits.org/protocol/docs/templates/liquid.md): Mutable split governed by NFT ownership
 - [Diversifier](https://splits.org/protocol/docs/templates/diversifier.md): Automatically swap and diversify incoming tokens
 
+## Networks
+
+- [Networks](https://splits.org/protocol/docs/networks.md): Network-specific notes for the protocol
+- [Arc](https://splits.org/protocol/docs/networks/arc.md): Splits V2.2 and the Warehouse on Arc, where USDC is the native gas token: deployed contracts, SDK requirements, and USDC token id behavior
+
 ## Optional
 
 - [GitHub](https://github.com/0xSplits): Source code for all contracts and SDKs
