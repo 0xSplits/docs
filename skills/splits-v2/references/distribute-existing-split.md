@@ -47,7 +47,7 @@ This snippet was dry-run against live Arc splits (read-only) and never broadcast
 
 ## 4. Push versus pull consequences
 
-- Push: `distribute` pays recipients directly. On Arc with `0x3600...`, one blocklisted recipient or distributor reverts the whole call and nobody is paid; on an immutable split that is permanent. Simulate first (`estimateGas` or `eth_call`) so the revert surfaces before you send.
+- Push: `distribute` pays recipients directly. On Arc with `0x3600...`, one blocklisted recipient (or a blocklisted distributor when the fee is above 0) reverts the whole call and nobody is paid; on an immutable split that is permanent. Simulate first (`estimateGas` or `eth_call`) so the revert surfaces before you send.
 - Pull: `distribute` only credits Warehouse balances under the token id you passed. Each recipient still needs a withdraw.
 
 ## 5. Pull withdrawals, per recipient

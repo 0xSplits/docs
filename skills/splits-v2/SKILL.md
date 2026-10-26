@@ -26,7 +26,7 @@ A Splits V2 split divides tokens sent to its address among recipients by fixed a
 | --- | --- | --- |
 | Recipients | Few, known, always able to receive | Many, unknown, or able to be blocklisted or revert |
 | Payout | `distribute` pays recipients directly | `distribute` credits the Warehouse; each recipient must withdraw |
-| Failing recipient | On Arc with `0x3600...`, one blocklisted recipient or distributor reverts the whole `distribute` | Affects only that recipient's own withdraw |
+| Failing recipient | On Arc with `0x3600...`, one blocklisted recipient (or a blocklisted distributor when the fee is above 0) reverts the whole `distribute` | Affects only that recipient's own withdraw |
 | Who pays gas | The distributor pays for all payouts | The distributor pays for crediting; each recipient (or anyone for them) pays for their withdraw |
 
 Owner mutability applies to both: a non-zero `ownerAddress` can update the split (for example to remove a failing recipient); a zero owner makes it immutable. On Arc, do not choose an immutable push split when any recipient could be blocklisted.
@@ -51,7 +51,7 @@ const warehouse = new WarehouseClient({ chainId, publicClient, walletClient })
 ## Distribute and withdraw
 
 - `distribute` is permissionless, but the caller must pass the full config. Onchain only `splitHash` is stored; a mismatch reverts `InvalidSplit()`. For a split you did not create, follow [references/distribute-existing-split.md](references/distribute-existing-split.md).
-- SDK `distribute` args: `splitAddress`, `tokenAddress`, `distributorAddress` (defaults to the wallet account), `chainId`, optional `splitFields: { recipients, distributorFeePercent }` (works in 6.7.0, undocumented; skips config recovery). The reward goes to `distributorAddress`, not the caller.
+- SDK `distribute` args: `splitAddress`, `tokenAddress`, `distributorAddress` (defaults to the wallet account), `chainId`, optional `splitFields: { recipients, distributorFeePercent }` (works in 6.7.0, undocumented; skips config recovery). The reward goes to `distributorAddress`, not the caller; on Pull it is credited to that address's Warehouse balance, so it needs a withdraw too.
 - Pull splits need a second step: each recipient calls `WarehouseClient.withdraw({ ownerAddress, tokenAddress })`. Withdraw is on `WarehouseClient`, not `SplitV2Client`.
 - Leave-1-unit rule: `distribute` keeps 1 unit in the split (a Pull split also keeps 1 in its own Warehouse bucket), plus rounding remainders. Withdraw pays balance minus 1, reverts at balance 0, and pays 0 at balance 1; the unit left in a recipient's bucket is carried into their next withdraw. Read the recipient's Warehouse balance first and skip when it is 1 or less.
 - Anyone can withdraw for a recipient unless that recipient paused withdrawals (`WithdrawalPaused`).
@@ -65,7 +65,7 @@ const warehouse = new WarehouseClient({ chainId, publicClient, walletClient })
 - In the Warehouse the two ids are separate ledgers. Recipients are credited under the id passed to `distribute`, and withdraw is per id; withdrawing under an id with no credit reverts.
 - Default to `0x3600...`. Use pull when recipients are many, untrusted, or blocklist-able. Use push on this id only for a few known recipients, ideally with a mutable owner who can remove one.
 - Pick one id per split and stay with it. On a split you did not create, check both ids.
-- Push with `0x3600...`: a blocklisted recipient or distributor makes the whole `distribute` revert and nobody is paid. On an immutable split this is permanent.
+- Push with `0x3600...`: a blocklisted recipient (or a blocklisted distributor when the fee is above 0) makes the whole `distribute` revert and nobody is paid. On an immutable split this is permanent.
 - Push with the native id: a recipient that cannot receive native value does not block the others, but its share is credited in the Warehouse under the native id and its withdraw reverts until it can receive. Use only if the user needs push fault tolerance and accepts that stuck credit.
 - SDK trap: `distribute` and `WarehouseClient.withdraw` map the zero address to the native id (`0xEeee...`), and `getSplitBalance` does not map it. Always pass `0x3600...` explicitly for USDC. The SDK hardcodes native decimals to 18 on every chain.
 - Treat `0x3600...` behavior as Circle/Arc-controlled. Test it only with `eth_call` against the live or testnet RPC; local forks do not reproduce it.
