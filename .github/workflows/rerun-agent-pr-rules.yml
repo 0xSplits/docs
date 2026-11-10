@@ -5,8 +5,10 @@ on:
     types: [submitted, dismissed]
 
 permissions:
-  actions: write
+  contents: read
 
 jobs:
   rerun:
-    uses: 0xSplits/github-workflows/.github/workflows/rerun-agent-pr-rules.yml@main
+    permissions:
+      actions: write
+    uses: 0xSplits/github-workflows/.github/workflows/rerun-agent-pr-rules.yml@387e3c9e8536384a97af8090d25e4ca1f19f8dcf # main
